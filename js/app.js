@@ -2,11 +2,27 @@ let globalData = { airports: [], factors: {} };
 let selectedRunwayData = null;
 
 async function init() {
-  globalData = await loadData();
-  populateAirportSelects();
-  setupEventListeners();
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
+  console.log("Startar PWA...");
+  try {
+    globalData = await loadData();
+    
+    // Dölj laddningsmeddelandet direkt när data är laddad
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    // Visa takeoff-kpi blocket
+    const kpiBlock = document.getElementById('to-kpi-block');
+    if (kpiBlock) kpiBlock.style.display = 'grid';
+
+    const chartBlock = document.getElementById('card-chart-block');
+    if (chartBlock) chartBlock.style.display = 'block';
+
+    populateAirportSelects();
+    runCalculations();
+  } catch (err) {
+    console.error("Fel vid initiering:", err);
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.innerText = "Kunde inte ladda data. Kontrollera filerna.";
   }
 }
 
@@ -15,8 +31,8 @@ function populateAirportSelects() {
   const selectLdg = document.getElementById('in-ldg-c4');
   if (!selectTo) return;
 
-  selectTo.innerHTML = '<option value="">-- Välj bana --</option>';
-  if (selectLdg) selectLdg.innerHTML = '<option value="">-- Välj bana --</option>';
+  selectTo.innerHTML = '';
+  if (selectLdg) selectLdg.innerHTML = '';
 
   globalData.airports.forEach(airport => {
     airport.runways.forEach(rwy => {
@@ -29,38 +45,34 @@ function populateAirportSelects() {
   });
 }
 
-function setupEventListeners() {
-  const triggers = ['in-to-c4', 'in-to-c6', 'in-to-c7', 'in-to-c10', 'in-to-c14'];
-  triggers.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('change', runCalculations);
-  });
-}
-
 function runCalculations() {
-  const rwySelection = document.getElementById('in-to-c4').value;
-  if (!rwySelection) return;
+  const rwySelection = document.getElementById('in-to-c4')?.value;
+  if (!rwySelection || !globalData.airports.length) return;
 
   const [icao, , rwyDesig] = rwySelection.split(' ');
   const airport = globalData.airports.find(a => a.icao === icao);
   if (!airport) return;
-  selectedRunwayData = airport.runways.find(r => r.designator === rwyDesig);
+  selectedRunwayData = airport.runways.find(r => r.designator === rwyDesig) || airport.runways[0];
 
-  const windDir = parseFloat(document.getElementById('in-to-c6')?.value) || 0;
-  const windSpd = parseFloat(document.getElementById('in-to-c7')?.value) || 0;
+  const windDir = parseFloat(document.getElementById('in-to-e6')?.value || document.getElementById('val-to-c6')?.innerText) || 270;
+  const windSpd = parseFloat(document.getElementById('in-to-e7')?.value || document.getElementById('val-to-c7')?.innerText) || 6;
   const rwcc = document.getElementById('in-to-c10')?.value || "6";
   const mass = parseFloat(document.getElementById('in-to-c14')?.value) || 12500;
 
   const wind = calculateWind(windDir, windSpd, selectedRunwayData.heading);
   const toResult = computeTakeoff(mass, rwcc, globalData.factors, selectedRunwayData, wind);
 
-  // Uppdatera gränssnittet direkt med lokala resultat
+  // Uppdatera UI
   document.getElementById('val-v1').innerText = toResult.v1;
   document.getElementById('val-vr').innerText = toResult.vr;
   document.getElementById('val-v2').innerText = toResult.v2;
   document.getElementById('to-distance').innerText = `${toResult.tor}m`;
-  document.getElementById('to-status-badge').innerText = toResult.passed ? "OK" : "EJ GODKÄND";
-  document.getElementById('to-status-badge').className = toResult.passed ? "badge-ok" : "badge-danger";
+  
+  const badge = document.getElementById('to-status-badge');
+  if (badge) {
+    badge.innerText = toResult.passed ? "OK" : "ÖVERSKRIDEN";
+    badge.className = toResult.passed ? "badge-ok" : "badge-danger";
+  }
 }
 
 window.addEventListener('DOMContentLoaded', init);
