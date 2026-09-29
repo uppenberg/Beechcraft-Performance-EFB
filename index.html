@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>King Air 200 Performance EFB</title>
+  <link rel="manifest" href="./manifest.json">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #131d31;
+      --border: #1e293b;
+      --border-focus: #0ea5e9;
+      --accent: #0ea5e9;
+      --accent-glow: rgba(14, 165, 233, 0.15);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #f1f5f9;
+      --muted: #64748b;
+      --input-bg: #090d16;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; font-size: 13px; }
+
+    header {
+      background-color: var(--card);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-tabs { display: flex; gap: 6px; }
+    .tab-btn {
+      background: var(--input-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .status-badge.online { background-color: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+    .status-badge.offline { background-color: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+
+    main { flex: 1; padding: 10px; overflow-y: auto; width: 100%; max-width: 1024px; margin: 0 auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .sheet-table { width: 100%; border-collapse: collapse; }
+    .sheet-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+    }
+    .col-label { color: var(--text); font-weight: 500; font-size: 12px; }
+
+    .form-control {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      width: 100%;
+    }
+    .form-control:focus { outline: none; border-color: var(--border-focus); }
+    select.form-control { text-align-last: right; }
+
+    .form-range {
+      accent-color: var(--accent);
+      background: var(--input-bg);
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .kpi-card {
+      background: var(--accent-glow);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    .kpi-card.alert-success { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.4); }
+    .kpi-card.alert-success .kpi-value, .kpi-card.alert-success .kpi-unit { color: var(--success); }
+    .kpi-card.alert-danger { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.5); }
+    .kpi-card.alert-danger .kpi-value, .kpi-card.alert-danger .kpi-unit { color: var(--danger); }
+
+    .kpi-label { font-size: 9px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .kpi-value { font-size: 13px; color: #fff; font-weight: 800; margin-top: 2px; }
+    .kpi-unit { font-size: 9px; color: var(--accent); }
+
+    .v-speeds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 2px; }
+    .v-speed-col { background: rgba(255, 255, 255, 0.03); border-radius: 4px; padding: 3px 2px; text-align: center; }
+    .v-speed-title { font-size: 8px; color: var(--muted); font-weight: 700; }
+    .v-speed-val { font-size: 12px; font-weight: 800; color: #fff; }
+
+    .badge-ok { color: #4ade80; font-weight: 700; }
+    .badge-danger { color: #ef4444; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showTab('takeoff')">Take-off</button>
+      <button class="tab-btn" onclick="showTab('landing')">Landing</button>
+    </div>
+    <div class="header-right">
+      <span id="network-status" class="status-badge offline">OFFLINE</span>
+      <span style="font-size: 10px; color: var(--muted); font-weight: 700;">v6.0 PWA</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- TAKEOFF DASHBOARD -->
+    <div id="page-takeoff" class="page active">
+      
+      <div class="kpi-container" id="to-kpi-block">
+        <div class="kpi-card">
+          <div class="kpi-label">V-Speeds</div>
+          <div class="v-speeds-grid">
+            <div class="v-speed-col"><div class="v-speed-title">V1</div><div class="v-speed-val" id="val-v1">--</div></div>
+            <div class="v-speed-col"><div class="v-speed-title">VR</div><div class="v-speed-val" id="val-vr">--</div></div>
+            <div class="v-speed-col"><div class="v-speed-title">V2</div><div class="v-speed-val" id="val-v2">--</div></div>
+          </div>
+          <div class="kpi-unit">KTS</div>
+        </div>
+
+        <div class="kpi-card" id="kpi-tod-card">
+          <div class="kpi-label">Takeoff Distance (TOR)</div>
+          <div class="kpi-value" id="to-distance">--</div>
+          <div class="kpi-unit" id="to-status-badge">Beräknar...</div>
+        </div>
+      </div>
+
+      <div class="compact-grid">
+        <div class="card">
+          <div class="card-title">Airport & Weather</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Airport and RWY</td>
+              <td><select class="form-control" id="in-to-c4"></select></td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Direction</td>
+              <td><input type="text" class="form-control" id="in-to-c6" value="270"></td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Speed</td>
+              <td><input type="text" class="form-control" id="in-to-c7" value="6"></td>
+            </tr>
+            <tr>
+              <td class="col-label">Runway Condition Code</td>
+              <td>
+                <select class="form-control" id="in-to-c10">
+                  <option value="6">6 (Dry)</option>
+                  <option value="5">5 (Good)</option>
+                  <option value="4">4 (Medium-Good)</option>
+                  <option value="3">3 (Medium)</option>
+                  <option value="2">2 (Medium-Poor)</option>
+                  <option value="1">1 (Poor)</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Setup & Mass</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Take-off Mass (Lbs)</td>
+              <td>
+                <input type="range" id="in-to-c14" min="9000" max="12500" step="100" value="12500" class="form-range" oninput="document.getElementById('c14-val').innerText = this.value">
+                <span id="c14-val" style="font-weight: 700; color: var(--accent);">12500</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANDING DASHBOARD -->
+    <div id="page-landing" class="page">
+      <div class="card">
+        <div class="card-title">Landing Performance</div>
+        <p style="color: var(--muted);">Landningsberäkningar laddas från lokala databasen.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ladda moduler i rätt ordning -->
+  <script src="./js/db.js"></script>
+  <script src="./js/performance.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    function showTab(name) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(`page-${name}`).classList.add('active');
+    }
+  </script>
+</body>
+</html>
