@@ -123,3 +123,6 @@ function updateRunwayChart(res, rwy) {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+// I runCalculations() eller när banan ändras:
+const [icao] = rwySelection.split(' ');
+fetchMetarForAirport(icao, 'takeoff');
