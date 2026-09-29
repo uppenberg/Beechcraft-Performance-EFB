@@ -2,18 +2,27 @@ let globalData = { airports: [], factors: {} };
 let selectedRunwayData = null;
 
 async function init() {
+  console.log("Startar PWA och laddar data...");
   try {
     globalData = await loadData();
     
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('to-kpi-block').style.display = 'grid';
-    document.getElementById('card-chart-block').style.display = 'block';
+    // Dölj laddningsmeddelandet omedelbart
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    // Visa gränssnittet direkt
+    const kpiBlock = document.getElementById('to-kpi-block');
+    if (kpiBlock) kpiBlock.style.display = 'grid';
+
+    const chartBlock = document.getElementById('card-chart-block');
+    if (chartBlock) chartBlock.style.display = 'block';
 
     populateAirportSelects();
     runCalculations();
   } catch (err) {
-    console.error("Fel vid init:", err);
-    document.getElementById('loading').innerText = "Kunde inte ladda data.";
+    console.error("Fel vid initiering:", err);
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) loadingEl.innerText = "Kunde inte ladda data. Kontrollera filerna.";
   }
 }
 
@@ -47,32 +56,29 @@ function runCalculations() {
   const windDir = parseFloat(document.getElementById('in-to-e6')?.value || 270);
   const windSpd = parseFloat(document.getElementById('in-to-e7')?.value || 6);
   const rwcc = document.getElementById('in-to-c10')?.value || "6";
-  const mass = parseFloat(document.getElementById('in-to-c14')?.value) || 12500;
+  const mass = parseFloat(document.getElementById('in-to-c14')?.value || 12500);
   const flaps = document.getElementById('in-to-c26')?.value || "UP";
   const contaminant = document.getElementById('in-to-c11')?.value || "No contaminant";
 
-  // Sätt vind i UI
-  document.getElementById('val-to-c6').innerText = windDir;
-  document.getElementById('val-to-c7').innerText = windSpd;
+  // Sätt vindvärden i UI om de inte är överskrivna
+  const dirEl = document.getElementById('val-to-c6');
+  const spdEl = document.getElementById('val-to-c7');
+  if (dirEl) dirEl.innerText = windDir;
+  if (spdEl) spdEl.innerText = windSpd;
 
   const wind = calculateWind(windDir, windSpd, selectedRunwayData.heading);
   const toResult = computeTakeoff(mass, rwcc, globalData.factors, selectedRunwayData, wind, flaps, contaminant);
-  const ldgResult = computeLanding(mass, rwcc, globalData.factors, selectedRunwayData, wind, "DOWN");
 
-  // Uppdatera V-speeds & Distans
+  // Uppdatera V-speeds & Distans i UI
   document.getElementById('val-v1').innerText = toResult.v1;
   document.getElementById('val-vr').innerText = toResult.vr;
   document.getElementById('val-v2').innerText = toResult.v2;
   document.getElementById('to-distance').innerText = `${toResult.tor}m`;
-  
-  // Stigning
   document.getElementById('to-climb').innerText = `${toResult.climbGrad}%`;
 
-  // Vind / XW
   const hwTwStr = wind.hw >= 0 ? `HW+${wind.hw}` : `TW${Math.abs(wind.hw)}`;
   document.getElementById('to-wind-val').innerText = `${hwTwStr} | ${wind.xw}kt`;
 
-  // Status Badge & EASA Checklist
   const todCard = document.getElementById('kpi-tod-card');
   const todStatusElem = document.getElementById('to-distance-status');
   if (toResult.passed) {
@@ -87,7 +93,7 @@ function runCalculations() {
     document.getElementById('to-status-badge').className = "badge-danger";
   }
 
-  // EASA Check-lista
+  // EASA-kontroller
   const easaContainer = document.getElementById('easa-compliance-details');
   if (easaContainer) {
     easaContainer.innerHTML = `
@@ -99,8 +105,12 @@ function runCalculations() {
     `;
   }
 
-  // Uppdatera grafisk banprofil
   updateRunwayChart(toResult, selectedRunwayData);
+
+  // Anropa METAR-hämtning när flygplats ändras
+  if (typeof fetchMetarForAirport === 'function') {
+    fetchMetarForAirport(icao, 'takeoff');
+  }
 }
 
 function updateRunwayChart(res, rwy) {
@@ -123,6 +133,3 @@ function updateRunwayChart(res, rwy) {
 }
 
 window.addEventListener('DOMContentLoaded', init);
-// I runCalculations() eller när banan ändras:
-const [icao] = rwySelection.split(' ');
-fetchMetarForAirport(icao, 'takeoff');
