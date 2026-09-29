@@ -1,63 +1,66 @@
-let appAirports = [];
-let activeAirport = null;
+let globalData = { airports: [], factors: {} };
+let selectedRunwayData = null;
 
-async function initApp() {
-  console.log("Startar PWA och laddar lokal databas...");
-  
-  try {
-    // Hämta flygplatser via db.js (från JSON eller IndexedDB)
-    appAirports = await getAirports();
-    populateAirportDropdowns();
-  } catch (err) {
-    console.error("Kunde inte ladda flygplatsdatabas:", err);
+async function init() {
+  globalData = await loadData();
+  populateAirportSelects();
+  setupEventListeners();
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW error:', err));
   }
-
-  // Lyssna på online/offline-status
-  window.addEventListener('online', updateNetworkStatus);
-  window.addEventListener('offline', updateNetworkStatus);
-  updateNetworkStatus();
 }
 
-function populateAirportDropdowns() {
+function populateAirportSelects() {
   const selectTo = document.getElementById('in-to-c4');
   const selectLdg = document.getElementById('in-ldg-c4');
-  
   if (!selectTo) return;
 
-  selectTo.innerHTML = '<option value="">-- Välj flygplats/bana --</option>';
-  if (selectLdg) selectLdg.innerHTML = '<option value="">-- Välj flygplats/bana --</option>';
+  selectTo.innerHTML = '<option value="">-- Välj bana --</option>';
+  if (selectLdg) selectLdg.innerHTML = '<option value="">-- Välj bana --</option>';
 
-  appAirports.forEach(airport => {
+  globalData.airports.forEach(airport => {
     airport.runways.forEach(rwy => {
-      const optionVal = `${airport.icao} RWY ${rwy.designator}`;
+      const val = `${airport.icao} RWY ${rwy.designator}`;
+      const text = `${airport.icao} - ${airport.name} (RWY ${rwy.designator})`;
       
-      const opt1 = document.createElement('option');
-      opt1.value = optionVal;
-      opt1.innerText = `${airport.icao} - ${airport.name} (RWY ${rwy.designator})`;
-      selectTo.appendChild(opt1);
-
-      if (selectLdg) {
-        const opt2 = document.createElement('option');
-        opt2.value = optionVal;
-        opt2.innerText = `${airport.icao} - ${airport.name} (RWY ${rwy.designator})`;
-        selectLdg.appendChild(opt2);
-      }
+      selectTo.add(new Option(text, val));
+      if (selectLdg) selectLdg.add(new Option(text, val));
     });
   });
 }
 
-function updateNetworkStatus() {
-  const statusElem = document.getElementById('network-status');
-  if (!statusElem) return;
-  
-  if (navigator.onLine) {
-    statusElem.innerText = "ONLINE";
-    statusElem.className = "status-badge online";
-  } else {
-    statusElem.innerText = "OFFLINE";
-    statusElem.className = "status-badge offline";
-  }
+function setupEventListeners() {
+  const triggers = ['in-to-c4', 'in-to-c6', 'in-to-c7', 'in-to-c10', 'in-to-c14'];
+  triggers.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', runCalculations);
+  });
 }
 
-// Kör igång när sidan laddas
-window.addEventListener('DOMContentLoaded', initApp);
+function runCalculations() {
+  const rwySelection = document.getElementById('in-to-c4').value;
+  if (!rwySelection) return;
+
+  const [icao, , rwyDesig] = rwySelection.split(' ');
+  const airport = globalData.airports.find(a => a.icao === icao);
+  if (!airport) return;
+  selectedRunwayData = airport.runways.find(r => r.designator === rwyDesig);
+
+  const windDir = parseFloat(document.getElementById('in-to-c6')?.value) || 0;
+  const windSpd = parseFloat(document.getElementById('in-to-c7')?.value) || 0;
+  const rwcc = document.getElementById('in-to-c10')?.value || "6";
+  const mass = parseFloat(document.getElementById('in-to-c14')?.value) || 12500;
+
+  const wind = calculateWind(windDir, windSpd, selectedRunwayData.heading);
+  const toResult = computeTakeoff(mass, rwcc, globalData.factors, selectedRunwayData, wind);
+
+  // Uppdatera gränssnittet direkt med lokala resultat
+  document.getElementById('val-v1').innerText = toResult.v1;
+  document.getElementById('val-vr').innerText = toResult.vr;
+  document.getElementById('val-v2').innerText = toResult.v2;
+  document.getElementById('to-distance').innerText = `${toResult.tor}m`;
+  document.getElementById('to-status-badge').innerText = toResult.passed ? "OK" : "EJ GODKÄND";
+  document.getElementById('to-status-badge').className = toResult.passed ? "badge-ok" : "badge-danger";
+}
+
+window.addEventListener('DOMContentLoaded', init);
