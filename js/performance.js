@@ -1,35 +1,46 @@
-// Beräkna med-/motvind och sidvind baserat på vindriktning, vindstyrka och banans färdriktning (heading)
-function calculateWindComponents(windDir, windSpeed, rwyHeading) {
+// Vindkomponenter (Head/Tail och Crosswind)
+function calculateWind(windDir, windSpeed, rwyHeading) {
   if (isNaN(windDir) || isNaN(windSpeed) || isNaN(rwyHeading)) {
-    return { headTailWind: 0, crossWind: 0 };
+    return { hw: 0, xw: 0 };
   }
-
-  // Vinkelskillnad i radianer
-  const angleDiff = (windDir - rwyHeading) * (Math.PI / 180);
-  
-  // Med-/motvind (+ = motvind, - = medvind)
-  const headTailWind = Math.round(windSpeed * Math.cos(angleDiff));
-  
-  // Sidvind (absolut belopp)
-  const crossWind = Math.abs(Math.round(windSpeed * Math.sin(angleDiff)));
-
-  return { headTailWind, crossWind };
+  const diff = (windDir - rwyHeading) * (Math.PI / 180);
+  const hw = Math.round(windSpeed * Math.cos(diff));
+  const xw = Math.abs(Math.round(windSpeed * Math.sin(diff)));
+  return { hw, xw };
 }
 
-// Validera prestanda mot EASA-krav (exempel för start)
-pwaPerformanceCheck = {
-  validateTakeoff(tora, asda, tor, tod, asd) {
-    return {
-      torOk: tor <= tora || tora === 0,
-      todaOk: tod <= tora || tora === 0,
-      asdaOk: asd <= asda || asda === 0
-    };
-  },
+// Beräkna startprestanda
+function computeTakeoff(mass, rwcc, factors, rwyData, windData) {
+  const baseRoll = 539; // Baserat på AFM-referens för 12000-12500 lbs
+  const rccFactor = factors.rwcc[rwcc]?.factor || 1.67;
   
-  validateLanding(lda, ldgDist) {
-    return {
-      landingOk: ldgDist <= lda || lda === 0,
-      marginMeters: lda - ldgDist
-    };
-  }
-};
+  // Enkel modellering för lokal offline-beräkning
+  const tor = Math.round(baseRoll * (mass / 12500) * (windData.hw < 0 ? 1.1 : 0.95));
+  const tod = Math.round(tor * 1.5);
+  const asd = Math.round(tod * rccFactor * 0.9);
+
+  return {
+    tor,
+    tod,
+    asd,
+    v1: 94,
+    vr: 94,
+    v2: 103,
+    passed: tor <= rwyData.tora && asd <= rwyData.asda
+  };
+}
+
+// Beräkna landningsprestanda
+function computeLanding(mass, rwcc, factors, lda, windData) {
+  const baseLD = 1200; // Basreferens landningssträcka
+  const rccFactor = factors.rwcc[rwcc]?.factor || 1.67;
+  
+  const ld = Math.round(baseLD * (mass / 12500) * rccFactor);
+  
+  return {
+    landingDistance: ld,
+    lda: lda,
+    vref: 119,
+    passed: ld <= lda
+  };
+}
