@@ -125,29 +125,29 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor från "Airport data"-fliken baserat på exakt struktur
+// Fyll flygplatsrullistor direkt från den inlästa matrisen
 function populateAirports() {
   if (!hfInstance) return;
-  const config = CELL_MAPPING.airport;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
-  const sheetName = config.sheetName;
+  try {
+    const sheetId = hfInstance.getSheetId('Airport data');
+    const width = hfInstance.getSheetWidth(sheetId);
+    const height = hfInstance.getSheetHeight(sheetId);
 
-  // Loopa igenom rader från rad 4 (index 3 i 0-baserad eller rad 4 i Excel) upp till 60
-  for (let row = 4; row <= 60; row++) {
-    try {
-      const cellAddress = hfInstance.detailedCellAddressFromString(`${sheetName}!A${row}`);
-      const codeVal = hfInstance.getCellValue(cellAddress);
+    // Gå igenom alla rader i bladet
+    for (let r = 0; r < height; r++) {
+      const cellVal = hfInstance.getCellValue({ sheet: sheetId, col: 0, row: r });
 
-      // Hoppa över tomma rader eller rubrikrader som inte är flygplatser
-      if (codeVal === null || codeVal === undefined || codeVal === '' || codeVal === 'Airport' || codeVal === '[ft]') {
+      // Filtrera ut tomma rader och rubriker
+      if (cellVal === null || cellVal === undefined || cellVal === '' || cellVal === 'Airport' || cellVal === '[ft]') {
         continue;
       }
 
-      optionsHtml += `<option value="${codeVal}">${codeVal}</option>`;
-    } catch (e) {
-      continue;
+      optionsHtml += `<option value="${cellVal}">${cellVal}</option>`;
     }
+  } catch (e) {
+    console.error("Fel vid hämtning av flygplatser:", e);
   }
 
   const toSelect = document.getElementById('to-airport');
