@@ -558,12 +558,12 @@ function parseAndPopulateMetarData(metarText) {
     let spd = windMatch[2] || windMatch[5];
 
     if (dir !== "VRB") {
-      updateEngineCellVal('takeoff', 'to-wind-dir', parseInt(dir, 10));
+      updateEngineCellVal('takeoff', 'windDir', parseInt(dir, 10));
     } else {
-      updateEngineCellVal('takeoff', 'to-wind-dir', 0);
+      updateEngineCellVal('takeoff', 'windDir', 0);
     }
 
-    updateEngineCellVal('takeoff', 'to-wind-spd', parseInt(spd, 10));
+    updateEngineCellVal('takeoff', 'windSpeed', parseInt(spd, 10));
   }
 
   // 2. Parsa temperatur / OAT (ex. "15/08", "M02/M05")
@@ -575,7 +575,7 @@ function parseAndPopulateMetarData(metarText) {
     if (tempStr.startsWith('M')) {
       tempStr = '-' + tempStr.substring(1);
     }
-    updateEngineCellVal('takeoff', 'to-oat', parseInt(tempStr, 10));
+    updateEngineCellVal('takeoff', 'oat', parseInt(tempStr, 10));
   }
 
   // 3. Parsa QNH (ex. "Q1013")
@@ -583,13 +583,13 @@ function parseAndPopulateMetarData(metarText) {
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
-    updateEngineCellVal('takeoff', 'to-qnh', parseInt(qnhMatch[1], 10));
+    updateEngineCellVal('takeoff', 'qnh', parseInt(qnhMatch[1], 10));
   } else {
     const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
     if (altMatch) {
       let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
-      updateEngineCellVal('takeoff', 'to-qnh', hpa);
+      updateEngineCellVal('takeoff', 'qnh', hpa);
     }
   }
 
