@@ -103,7 +103,7 @@ async function loadExcelFile(url) {
     console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
   } catch (error) {
     console.error("Fel vid inläsning av Excel-fil:", error);
-    alert("Kunde inte läsa in 'data/be200_prestanda.xlsx'. Kontrollera att filen ligger på rätt plats.");
+    alert("Kunde inte läsa in 'data/be200_prestanda.xlsx'. Kontrollera att filen ligger på rätt plats och att du kör via en lokal server (t.ex. Live Server).");
   }
 }
 
@@ -142,12 +142,14 @@ function populateAirports() {
       optionsHtml += `<option value="${codeVal}">${codeVal} - ${nameVal}</option>`;
       row++;
     } catch (e) {
-      break; // Bryt loopen om raden inte existerar
+      break; 
     }
   }
 
-  document.getElementById('to-airport').innerHTML = optionsHtml;
-  document.getElementById('ldg-airport').innerHTML = optionsHtml;
+  const toSelect = document.getElementById('to-airport');
+  const ldgSelect = document.getElementById('ldg-airport');
+  if (toSelect) toSelect.innerHTML = optionsHtml;
+  if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
 
 // Generell funktion för att skriva värde till motorn
@@ -169,12 +171,14 @@ function handleTakeoffAirport(val) { updateEngineCellVal('takeoff', 'airportAndR
 function handleLandingAirport(val) { updateEngineCellVal('landing', 'airportAndRwy', val); }
 
 function handleTakeoffMass(val) {
-  document.getElementById('to-mass-val').innerText = val;
+  const span = document.getElementById('to-mass-val');
+  if (span) span.innerText = val;
   updateEngineCellVal('takeoff', 'mass', Number(val));
 }
 
 function handleLandingMass(val) {
-  document.getElementById('ldg-mass-val').innerText = val;
+  const span = document.getElementById('ldg-mass-val');
+  if (span) span.innerText = val;
   updateEngineCellVal('landing', 'mass', Number(val));
 }
 
@@ -206,35 +210,52 @@ function refreshOutputs() {
 
   // Take-off
   const to = CELL_MAPPING.takeoff;
-  document.getElementById('res-to-v1').innerText = getOutputVal(to.sheetName, to.outputs.v1);
-  document.getElementById('res-to-vr').innerText = getOutputVal(to.sheetName, to.outputs.vr);
-  document.getElementById('res-to-v2').innerText = getOutputVal(to.sheetName, to.outputs.v2);
-  document.getElementById('res-to-tod').innerText = getOutputVal(to.sheetName, to.outputs.tod);
-  document.getElementById('res-to-asd').innerText = getOutputVal(to.sheetName, to.outputs.asd);
-  document.getElementById('res-to-tora').innerText = getOutputVal(to.sheetName, to.outputs.tora);
-  document.getElementById('res-to-asda').innerText = getOutputVal(to.sheetName, to.outputs.asda);
-  document.getElementById('res-to-tor').innerText = getOutputVal(to.sheetName, to.outputs.tor);
-  document.getElementById('res-to-climb').innerText = getOutputVal(to.sheetName, to.outputs.climbGrad);
-  document.getElementById('res-to-hwtw').innerText = getOutputVal(to.sheetName, to.outputs.hwTw);
-  document.getElementById('res-to-xw').innerText = getOutputVal(to.sheetName, to.outputs.xw);
-  document.getElementById('res-to-xwlimit').innerText = getOutputVal(to.sheetName, to.outputs.xwLimit);
-  document.getElementById('res-to-g19').innerText = getOutputVal(to.sheetName, to.outputs.g19);
-  document.getElementById('res-to-emup-vref').innerText = getOutputVal(to.sheetName, to.outputs.emUpVref);
-  document.getElementById('res-to-emup-dist').innerText = getOutputVal(to.sheetName, to.outputs.emUpDist);
-  document.getElementById('res-to-emdown-vref').innerText = getOutputVal(to.sheetName, to.outputs.emDownVref);
-  document.getElementById('res-to-emdown-dist').innerText = getOutputVal(to.sheetName, to.outputs.emDownDist);
-  document.getElementById('res-to-cloud').innerText = getOutputVal(to.sheetName, to.outputs.cloudBase);
-  document.getElementById('res-to-escape').innerText = getOutputVal(to.sheetName, to.outputs.escapeRoute);
+  safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
+  safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
+  safeSetText('res-to-v2', getOutputVal(to.sheetName, to.outputs.v2));
+  safeSetText('res-to-tod', getOutputVal(to.sheetName, to.outputs.tod));
+  safeSetText('res-to-asd', getOutputVal(to.sheetName, to.outputs.asd));
+  safeSetText('res-to-tora', getOutputVal(to.sheetName, to.outputs.tora));
+  safeSetText('res-to-asda', getOutputVal(to.sheetName, to.outputs.asda));
+  safeSetText('res-to-tor', getOutputVal(to.sheetName, to.outputs.tor));
+  safeSetText('res-to-climb', getOutputVal(to.sheetName, to.outputs.climbGrad));
+  safeSetText('res-to-hwtw', getOutputVal(to.sheetName, to.outputs.hwTw));
+  safeSetText('res-to-xw', getOutputVal(to.sheetName, to.outputs.xw));
+  safeSetText('res-to-xwlimit', getOutputVal(to.sheetName, to.outputs.xwLimit));
+  safeSetText('res-to-g19', getOutputVal(to.sheetName, to.outputs.g19));
+  safeSetText('res-to-emup-vref', getOutputVal(to.sheetName, to.outputs.emUpVref));
+  safeSetText('res-to-emup-dist', getOutputVal(to.sheetName, to.outputs.emUpDist));
+  safeSetText('res-to-emdown-vref', getOutputVal(to.sheetName, to.outputs.emDownVref));
+  safeSetText('res-to-emdown-dist', getOutputVal(to.sheetName, to.outputs.emDownDist));
+  safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
+  safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Landing
   const ldg = CELL_MAPPING.landing;
-  document.getElementById('res-ldg-lda').innerText = getOutputVal(ldg.sheetName, ldg.outputs.lda);
-  document.getElementById('res-ldg-hwtw').innerText = getOutputVal(ldg.sheetName, ldg.outputs.hwTw);
-  document.getElementById('res-ldg-xw').innerText = getOutputVal(ldg.sheetName, ldg.outputs.xw);
-  document.getElementById('res-ldg-xwlimit').innerText = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
-  document.getElementById('res-ldg-missed').innerText = getOutputVal(ldg.sheetName, ldg.outputs.missedClimb);
-  document.getElementById('res-ldg-vrefup').innerText = getOutputVal(ldg.sheetName, ldg.outputs.vrefUp);
-  document.getElementById('res-ldg-distup').innerText = getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp);
-  document.getElementById('res-ldg-vrefdown').innerText = getOutputVal(ldg.sheetName, ldg.outputs.vrefDown);
-  document.getElementById('res-ldg-distdown').innerText = getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown);
+  safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
+  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
+  safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
+  safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
+  safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
+  safeSetText('res-ldg-vrefup', getOutputVal(ldg.sheetName, ldg.outputs.vrefUp));
+  safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
+  safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
+  safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
 }
+
+function safeSetText(elementId, text) {
+  const el = document.getElementById(elementId);
+  if (el) el.innerText = text;
+}
+
+// Exportera funktioner globalt så att HTML-elementen når dem
+window.switchTab = switchTab;
+window.handleTakeoffAirport = handleTakeoffAirport;
+window.handleLandingAirport = handleLandingAirport;
+window.handleTakeoffMass = handleTakeoffMass;
+window.handleLandingMass = handleLandingMass;
+window.handleTakeoffFlaps = handleTakeoffFlaps;
+window.handleLandingFlaps = handleLandingFlaps;
+window.handleWeather = handleWeather;
+window.handleWeatherOverride = handleWeatherOverride;
+window.updateEngineCellVal = updateEngineCellVal;
