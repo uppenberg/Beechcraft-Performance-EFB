@@ -186,9 +186,10 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
   }
 }
 
-// Uppdaterad funktion för att hämta output-värde
+// Säkert hämta output-värde från angivet blad och cellreferens (t.ex. "C38")
 function getOutputVal(sheetName, cellRef) {
   if (!hfInstance) return '-';
+  if (!cellRef) return '-';
   try {
     const sheetId = hfInstance.getSheetId(sheetName);
     const pos = parseCellRef(cellRef);
