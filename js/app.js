@@ -513,30 +513,42 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    console.log(`Hämtar METAR för ICAO: ${icaoCode}`);
+    console.log(`Hämtar METAR (JSON) för ICAO: ${icaoCode}`);
 
-    // 3. Bygg API-url och skicka via en CORS-proxy (t.ex. corsproxy.io)
-    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=raw`;
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+    // 3. Anropa JSON-endpointen (den har stöd för CORS direkt i webbläsaren!)
+    const url = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=json&_t=${new Date().getTime()}`;
     
-    const response = await fetch(proxyUrl);
+    const response = await fetch(url);
     
     if (!response.ok) {
       throw new Error(`Kunde inte hämta METAR (status: ${response.status})`);
     }
     
-    const metarString = await response.text();
+    const data = await response.json();
     
-    if (!metarString.trim()) {
-      console.warn(`Ingen METAR hittades för ${icaoCode}.`);
-      return;
+    // 4. Plocka ut råtexten ur JSON-svaret (ofta ligger den i 'rawOb')
+    let metarText = "";
+    if (Array.isArray(data) && data.length > 0) {
+      metarText = data[0].rawOb || data[0].raw || "";
+    } else if (data.rawOb) {
+      metarText = data.rawOb;
     }
 
-    // 4. Skriv in den råa METAR-strängen i cell C5 (to-metar)
-    updateEngineCellVal('takeoff', 'to-metar', metarString.trim());
-    console.log("METAR mottagen och inlagd i C5:", metarString.trim());
+    metarText = metarText.trim();
+    
+    if (metarText) {
+      // Rensa bort ev. "METAR " i början precis som i ditt Apps Script
+      metarText = metarText.replace(/^METAR\s+/, "");
+      
+      // Spara i cell C5 (to-metar)
+      updateEngineCellVal('takeoff', 'to-metar', metarText);
+      console.log("METAR mottagen och inlagd i C5:", metarText);
+    } else {
+      updateEngineCellVal('takeoff', 'to-metar', "INGEN METAR HITTADES");
+    }
 
   } catch (error) {
     console.error("Fel vid hämtning av METAR för vald flygplats:", error);
+    updateEngineCellVal('takeoff', 'to-metar', "OFFLINE / KUNDE INTE HÄMTA METAR");
   }
 }
