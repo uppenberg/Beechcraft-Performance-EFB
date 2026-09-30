@@ -505,7 +505,7 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    // 2. Extrahera de första 4 tecknen (ICAO-koden) och gör till stora bokstäver
+    // 2. Extrahera de första 4 tecknen (ICAO-koden)
     const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
     
     if (icaoCode.length < 4) {
@@ -515,9 +515,11 @@ async function fetchMetarForSelectedAirport() {
 
     console.log(`Hämtar METAR för ICAO: ${icaoCode}`);
 
-    // 3. Gör anropet till Aviation Weather Center API
-    const url = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=raw`;
-    const response = await fetch(url);
+    // 3. Bygg API-url och skicka via en CORS-proxy (t.ex. corsproxy.io)
+    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${icaoCode}&format=raw`;
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+    
+    const response = await fetch(proxyUrl);
     
     if (!response.ok) {
       throw new Error(`Kunde inte hämta METAR (status: ${response.status})`);
@@ -530,11 +532,12 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    // 4. Skriv in den råa METAR-strängen i cell C5 (metar_to)
+    // 4. Skriv in den råa METAR-strängen i cell C5 (to-metar)
     updateEngineCellVal('takeoff', 'to-metar', metarString.trim());
     console.log("METAR mottagen och inlagd i C5:", metarString.trim());
 
   } catch (error) {
     console.error("Fel vid hämtning av METAR för vald flygplats:", error);
   }
+}
 }
