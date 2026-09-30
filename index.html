@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>King Air 200 EFB</title>
     <link rel="stylesheet" href="style.css">
-    <!-- HyperFormula laddas via CDN -->
+    <!-- SheetJS (xlsx) och HyperFormula via CDN -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
 </head>
 <body>
@@ -19,8 +20,8 @@
 
     <!-- Fliknavigering -->
     <nav class="tabs">
-        <button class="tab-btn active" onclick="switchTab('takeoff')">Take-off</button>
-        <button class="tab-btn" onclick="switchTab('landing')">Landing</button>
+        <button class="tab-btn active" onclick="switchTab('takeoff', event)">Take-off</button>
+        <button class="tab-btn" onclick="switchTab('landing', event)">Landing</button>
     </nav>
 
     <main>
@@ -31,21 +32,21 @@
             <div class="form-group">
                 <label>Flygplats & Bana (C4):</label>
                 <select id="to-airport" onchange="handleTakeoffAirport(this.value)">
-                    <option value="">Laddar flygplatser...</option>
+                    <option value="">Laddar flygplatser från Excel...</option>
                 </select>
             </div>
 
             <fieldset>
                 <legend>Väder & Overrides</legend>
                 <div class="grid-2">
-                    <div><label>Vindriktning (C6 / E6 ovr):</label><input type="number" id="to-wind-dir" placeholder="Auto (C6)" oninput="handleWeather('takeoff', 'windDir', this.value)"></div>
-                    <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" placeholder="Ovr E6" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
-                    <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="to-wind-spd" placeholder="Auto (C7)" oninput="handleWeather('takeoff', 'windSpeed', this.value)"></div>
-                    <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" placeholder="Ovr E7" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
-                    <div><label>OAT °C (C8 / E8 ovr):</label><input type="number" id="to-oat" placeholder="Auto (C8)" oninput="handleWeather('takeoff', 'oat', this.value)"></div>
-                    <div><label>Override E8:</label><input type="number" id="to-oat-ovr" placeholder="Ovr E8" oninput="handleWeatherOverride('takeoff', 'oatOverride', this.value)"></div>
-                    <div><label>QNH (C9 / E9 ovr):</label><input type="number" id="to-qnh" placeholder="Auto (C9)" oninput="handleWeather('takeoff', 'qnh', this.value)"></div>
-                    <div><label>Override E9:</label><input type="number" id="to-qnh-ovr" placeholder="Ovr E9" oninput="handleWeatherOverride('takeoff', 'qnhOverride', this.value)"></div>
+                    <div><label>Vindriktning (C6 / E6 ovr):</label><input type="number" id="to-wind-dir" oninput="handleWeather('takeoff', 'windDir', this.value)"></div>
+                    <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
+                    <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="to-wind-spd" oninput="handleWeather('takeoff', 'windSpeed', this.value)"></div>
+                    <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
+                    <div><label>OAT °C (C8 / E8 ovr):</label><input type="number" id="to-oat" oninput="handleWeather('takeoff', 'oat', this.value)"></div>
+                    <div><label>Override E8:</label><input type="number" id="to-oat-ovr" oninput="handleWeatherOverride('takeoff', 'oatOverride', this.value)"></div>
+                    <div><label>QNH (C9 / E9 ovr):</label><input type="number" id="to-qnh" oninput="handleWeather('takeoff', 'qnh', this.value)"></div>
+                    <div><label>Override E9:</label><input type="number" id="to-qnh-ovr" oninput="handleWeatherOverride('takeoff', 'qnhOverride', this.value)"></div>
                 </div>
             </fieldset>
 
@@ -56,7 +57,7 @@
                     <input type="range" id="to-mass" min="8000" max="12500" step="50" value="10000" oninput="handleTakeoffMass(this.value)">
                 </div>
                 <div class="form-group">
-                    <label>Flaps (Dropdown PWA):</label>
+                    <label>Flaps (PWA):</label>
                     <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
                         <option value="UP">UP</option>
                         <option value="APP">APP</option>
@@ -81,10 +82,24 @@
 
             <div class="results-box">
                 <h3>Beräknat Resultat</h3>
-                <p>V1: <strong id="res-to-v1">-</strong></p>
-                <p>VR: <strong id="res-to-vr">-</strong></p>
-                <p>V2: <strong id="res-to-v2">-</strong></p>
-                <p>TOD: <strong id="res-to-tod">-</strong> m</p>
+                <div class="grid-2">
+                    <p>V1: <strong id="res-to-v1">-</strong></p>
+                    <p>VR: <strong id="res-to-vr">-</strong></p>
+                    <p>V2: <strong id="res-to-v2">-</strong></p>
+                    <p>TOD (C36): <strong id="res-to-tod">-</strong> m</p>
+                    <p>ASD (C37): <strong id="res-to-asd">-</strong> m</p>
+                    <p>TORA (C20): <strong id="res-to-tora">-</strong> m</p>
+                    <p>ASDA (C19): <strong id="res-to-asda">-</strong> m</p>
+                    <p>TOR (F21): <strong id="res-to-tor">-</strong> m</p>
+                    <p>Stigningsgradient (C42): <strong id="res-to-climb">-</strong></p>
+                    <p>H/T Vind (C24): <strong id="res-to-hwtw">-</strong></p>
+                    <p>Sidvind (C25 / Limit F25): <strong id="res-to-xw">-</strong> / <span id="res-to-xwlimit">-</span></p>
+                    <p>G19 (G19): <strong id="res-to-g19">-</strong></p>
+                </div>
+                <hr style="border-color: #294868; margin: 10px 0;">
+                <p><strong>Motorfel Upp:</strong> Vref: <span id="res-to-emup-vref">-</span> | Dist: <span id="res-to-emup-dist">-</span></p>
+                <p><strong>Motorfel Ner:</strong> Vref: <span id="res-to-emdown-vref">-</span> | Dist: <span id="res-to-emdown-dist">-</span></p>
+                <p>Molnbas (C69): <strong id="res-to-cloud">-</strong> | Escape Route (C70): <strong id="res-to-escape">-</strong></p>
             </div>
         </section>
 
@@ -95,7 +110,7 @@
             <div class="form-group">
                 <label>Flygplats & Bana (C4):</label>
                 <select id="ldg-airport" onchange="handleLandingAirport(this.value)">
-                    <option value="">Laddar flygplatser...</option>
+                    <option value="">Laddar flygplatser från Excel...</option>
                 </select>
             </div>
 
@@ -120,7 +135,7 @@
                     <input type="range" id="ldg-mass" min="9000" max="12500" step="50" value="9500" oninput="handleLandingMass(this.value)">
                 </div>
                 <div class="form-group">
-                    <label>Flaps (Dropdown PWA):</label>
+                    <label>Flaps (PWA):</label>
                     <select id="ldg-flaps" onchange="handleLandingFlaps(this.value)">
                         <option value="UP">UP</option>
                         <option value="DOWN">DOWN</option>
@@ -134,13 +149,19 @@
 
             <div class="results-box">
                 <h3>Beräknat Resultat</h3>
-                <p>VREF: <strong id="res-ldg-vref">-</strong></p>
-                <p>Landningsdistans: <strong id="res-ldg-dist">-</strong> m</p>
+                <div class="grid-2">
+                    <p>LDA (C18): <strong id="res-ldg-lda">-</strong> m</p>
+                    <p>H/T Vind (C21): <strong id="res-ldg-hwtw">-</strong></p>
+                    <p>Sidvind (C22 / Limit G22): <strong id="res-ldg-xw">-</strong> / <span id="res-ldg-xwlimit">-</span></p>
+                    <p>Missed Approach Climb (C31): <strong id="res-ldg-missed">-</strong></p>
+                </div>
+                <hr style="border-color: #294868; margin: 10px 0;">
+                <p><strong>Flaps UP:</strong> Vref: <span id="res-ldg-vrefup">-</span> | Dist: <span id="res-ldg-distup">-</span> m</p>
+                <p><strong>Flaps DOWN:</strong> Vref: <span id="res-ldg-vrefdown">-</span> | Dist: <span id="res-ldg-distdown">-</span> m</p>
             </div>
         </section>
     </main>
 
-<script src="js/app.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
