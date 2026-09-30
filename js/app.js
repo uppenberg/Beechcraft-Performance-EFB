@@ -211,7 +211,16 @@ function handleLandingAirport(val) { updateEngineCellVal('landing', 'airportAndR
 function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
   if (span) span.innerText = val;
+  
+  // 1. Sätt massan i C14 som vanligt
   updateEngineCellVal('takeoff', 'mass', Number(val));
+  
+  // 2. Tvinga även in samma värde i C494 direkt via koden! 
+  // (Rad 494 är index 493, kolumn C är kolumn 2)
+  if (hfInstance) {
+    const sheetId = hfInstance.getSheetId('Take-off');
+    hfInstance.setCellContents({ sheet: sheetId, col: 2, row: 493 }, [[Number(val)]]);
+  }
 }
 
 function handleLandingMass(val) {
