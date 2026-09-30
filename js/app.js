@@ -441,7 +441,6 @@ function refreshOutputs() {
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
-  const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwtw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
