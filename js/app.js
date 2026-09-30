@@ -51,6 +51,7 @@ const CELL_MAPPING = {
   landing: {
     sheetName: 'Landing',
     inputs: {
+      metar_ldg: 'C5',
       airportAndRwy: 'C4',
       windDirOverride: 'E6',
       windSpeedOverride: 'E7',
