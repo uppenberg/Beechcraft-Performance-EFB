@@ -10,13 +10,9 @@ const CELL_MAPPING = {
     sheetName: 'Take-off',
     inputs: {
       airportAndRwy: 'C4',
-      windDir: 'C6',
       windDirOverride: 'E6',
-      windSpeed: 'C7',
       windSpeedOverride: 'E7',
-      oat: 'C8',
       oatOverride: 'E8',
-      qnh: 'C9',
       qnhOverride: 'E9',
       rwcc: 'C10',
       contaminant: 'C11',
@@ -44,6 +40,11 @@ const CELL_MAPPING = {
       emDownDist: 'G46',
       cloudBase: 'C69',
       escapeRoute: 'C70'
+      windDir: 'C6',
+      windSpeed: 'C7',
+      oat: 'C8',
+      qnh: 'C9',
+
     }
   },
   landing: {
