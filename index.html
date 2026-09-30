@@ -36,50 +36,65 @@
                 </select>
             </div>
 
-            <fieldset>
-                <legend>Väder & Overrides</legend>
-                <div class="grid-2">
-                    <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" readonly></div>
-                    <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
-                    <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="to-wind-spd" oninput="handleWeather('takeoff', 'windSpeed', this.value)"></div>
-                    <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
-                    <div><label>OAT °C (C8 / E8 ovr):</label><input type="number" id="to-oat" oninput="handleWeather('takeoff', 'oat', this.value)"></div>
-                    <div><label>Override E8:</label><input type="number" id="to-oat-ovr" oninput="handleWeatherOverride('takeoff', 'oatOverride', this.value)"></div>
-                    <div><label>QNH (C9 / E9 ovr):</label><input type="number" id="to-qnh" oninput="handleWeather('takeoff', 'qnh', this.value)"></div>
-                    <div><label>Override E9:</label><input type="number" id="to-qnh-ovr" oninput="handleWeatherOverride('takeoff', 'qnhOverride', this.value)"></div>
-                </div>
-            </fieldset>
+           <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    
+    <!-- Väder & Overrides -->
+    <fieldset style="flex: 1; min-width: 320px;">
+        <legend>Väder & Overrides</legend>
+        
+        <!-- Laddad METAR (C5) -->
+        <div class="form-group" style="margin-bottom: 12px;">
+            <label>Laddad METAR (C5):</label>
+            <input type="text" id="to-metar" readonly style="width: 100%; font-family: monospace;">
+        </div>
 
-            <fieldset>
-                <legend>Setup & Mass</legend>
-                <div class="form-group">
-                    <label>Startmassa (C14: <span id="to-mass-val">10000</span> lbs) [9000–12500]:</label>
-                    <input type="range" id="to-mass" min="9000" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)">
-                </div>
-                <div class="form-group">
-                    <label>Flaps (PWA):</label>
-                    <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
-                        <option value="UP">UP</option>
-                        <option value="APP">APP</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Banförorening / Contaminant (C11):</label>
-                    <input type="text" id="to-contaminant" value="No contaminant" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)">
-                </div>
-                <div class="form-group">
-                    <label>Engine Anti-Ice (C13):</label>
-                    <select id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)">
-                        <option value="OFF">OFF</option>
-                        <option value="ON">ON</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>RWCC (C10):</label>
-                    <input type="number" id="to-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('takeoff', 'rwcc', this.value)">
-                </div>
-            </fieldset>
+        <div class="grid-2">
+            <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" readonly></div>
+            <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
+            
+            <div><label>Vindstyrka (C7):</label><input type="number" id="to-wind-spd" readonly></div>
+            <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
+            
+            <div><label>OAT °C (C8):</label><input type="number" id="to-oat" readonly></div>
+            <div><label>Override E8:</label><input type="number" id="to-oat-ovr" oninput="handleWeatherOverride('takeoff', 'oatOverride', this.value)"></div>
+            
+            <div><label>QNH (C9):</label><input type="number" id="to-qnh" readonly></div>
+            <div><label>Override E9:</label><input type="number" id="to-qnh-ovr" oninput="handleWeatherOverride('takeoff', 'qnhOverride', this.value)"></div>
+        </div>
+    </fieldset>
 
+    <!-- Setup & Mass -->
+    <fieldset style="flex: 1; min-width: 320px;">
+        <legend>Setup & Mass</legend>
+        <div class="form-group">
+            <label>Startmassa (C14: <span id="to-mass-val">10000</span> lbs) [9000–12500]:</label>
+            <input type="range" id="to-mass" min="9000" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)">
+        </div>
+        <div class="form-group">
+            <label>Flaps (PWA):</label>
+            <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
+                <option value="UP">UP</option>
+                <option value="APP">APP</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Banförorening / Contaminant (C11):</label>
+            <input type="text" id="to-contaminant" value="No contaminant" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)">
+        </div>
+        <div class="form-group">
+            <label>Engine Anti-Ice (C13):</label>
+            <select id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)">
+                <option value="OFF">OFF</option>
+                <option value="ON">ON</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>RWCC (C10):</label>
+            <input type="number" id="to-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('takeoff', 'rwcc', this.value)">
+        </div>
+    </fieldset>
+
+</div>
             <div class="results-box">
                 <h3>Beräknat Resultat</h3>
                 <div class="grid-2">
