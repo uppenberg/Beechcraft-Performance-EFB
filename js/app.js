@@ -125,18 +125,22 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor från "Airport data"-fliken (visar endast Kolumn A)
+// Fyll flygplatsrullistor från "Airport data"-fliken baserat på exakt struktur
 function populateAirports() {
   if (!hfInstance) return;
   const config = CELL_MAPPING.airport;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
-  for (let row = config.startRow; row <= 100; row++) {
+  const sheetName = config.sheetName;
+
+  // Loopa igenom rader från rad 4 (index 3 i 0-baserad eller rad 4 i Excel) upp till 60
+  for (let row = 4; row <= 60; row++) {
     try {
-      const cellAddress = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
+      const cellAddress = hfInstance.detailedCellAddressFromString(`${sheetName}!A${row}`);
       const codeVal = hfInstance.getCellValue(cellAddress);
 
-      if (codeVal === null || codeVal === undefined || codeVal === '' || codeVal === 0) {
+      // Hoppa över tomma rader eller rubrikrader som inte är flygplatser
+      if (codeVal === null || codeVal === undefined || codeVal === '' || codeVal === 'Airport' || codeVal === '[ft]') {
         continue;
       }
 
