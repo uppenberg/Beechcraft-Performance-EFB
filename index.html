@@ -39,7 +39,7 @@
             <fieldset>
                 <legend>Väder & Overrides</legend>
                 <div class="grid-2">
-                    <div><label>Vindriktning (C6 / E6 ovr):</label><input type="number" id="to-wind-dir" oninput="handleWeather('takeoff', 'windDir', this.value)"></div>
+                    <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" readonly></div>
                     <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
                     <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="to-wind-spd" oninput="handleWeather('takeoff', 'windSpeed', this.value)"></div>
                     <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
