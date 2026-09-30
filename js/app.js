@@ -4,7 +4,7 @@ const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport data',
     startRow: 4,
-    codeCol: 'A'
+    codeCol: 0 // Kolumn A (0-indexerat i JSON)
   },
   takeoff: {
     sheetName: 'Take-off',
@@ -101,7 +101,8 @@ async function loadExcelFile(url) {
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
     
-    populateAirports();
+    // Fyll rullistor direkt från rådatan för "Airport data"
+    populateAirportsFromRaw(sheetsData['Airport data']);
     refreshOutputs();
     console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
   } catch (error) {
@@ -124,28 +125,20 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor från "Airport data"-fliken
-function populateAirports() {
-  if (!hfInstance) return;
+// Fyll rullistor direkt från rådata-arrayen
+function populateAirportsFromRaw(rows) {
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
-  try {
-    const sheetId = hfInstance.getSheetId('Airport data');
-    const dimensions = hfInstance.getSheetDimensions(sheetId);
-    // dimensions returnerar { width, height }
-    const height = dimensions.height;
+  if (rows && Array.isArray(rows)) {
+    rows.forEach((row, index) => {
+      // Hoppa över de första rubrikraderna (index 0 till 3)
+      if (index < 4) return;
 
-    for (let r = 0; r < height; r++) {
-      const cellVal = hfInstance.getCellValue({ sheet: sheetId, col: 0, row: r });
-      
-      if (cellVal === null || cellVal === undefined || cellVal === '' || cellVal === 'Airport' || cellVal === '[ft]') {
-        continue;
+      const codeVal = row[0]; // Kolumn A
+      if (codeVal && codeVal !== 'Airport' && codeVal !== '[ft]') {
+        optionsHtml += `<option value="${codeVal}">${codeVal}</option>`;
       }
-
-      optionsHtml += `<option value="${cellVal}">${cellVal}</option>`;
-    }
-  } catch (e) {
-    console.error("Fel vid hämtning av flygplatser:", e);
+    });
   }
 
   const toSelect = document.getElementById('to-airport');
@@ -233,7 +226,7 @@ function refreshOutputs() {
 
   const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
+  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwtw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
