@@ -51,13 +51,9 @@ const CELL_MAPPING = {
     sheetName: 'Landing',
     inputs: {
       airportAndRwy: 'C4',
-      windDir: 'C6',
       windDirOverride: 'E6',
-      windSpeed: 'C7',
       windSpeedOverride: 'E7',
-      oat: 'C8',
       oatOverride: 'E8',
-      qnh: 'C9',
       qnhOverride: 'E9',
       rwcc: 'C10',
       mass: 'C11',
@@ -73,6 +69,10 @@ const CELL_MAPPING = {
       vrefDown: 'G26',
       ldgDistDown: 'G27',
       missedClimb: 'C31'
+      windDir: 'C6',
+      windSpeed: 'C7',
+      oat: 'C8',
+      qnh: 'C9',
     }
   }
 };
