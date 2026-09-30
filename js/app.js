@@ -416,7 +416,11 @@ function refreshOutputs() {
   const to = CELL_MAPPING.takeoff;
   const ldg = CELL_MAPPING.landing;
   // Deklarera 'to' HÖGST UPP innan den används
-
+// Väderfält som läses från Excel (C6-C9)
+  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.outputs.windDir));
+  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
+  safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
+  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
   // Testa att logga vad getOutputVal faktiskt hittar för ASD
   // const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
   // console.log("Hämtat ASD-värde från cell", to.outputs.asd, ":", asdVal);
@@ -451,11 +455,7 @@ function refreshOutputs() {
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
 }
-// Väderfält som läses från Excel (C6-C9)
-  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.outputs.windDir));
-  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
-  safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
-  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
+
 
 function safeSetText(elementId, text) {
   const el = document.getElementById(elementId);
