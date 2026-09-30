@@ -440,10 +440,6 @@ function refreshOutputs() {
   safeSetText('res-to-emdown-dist', getOutputVal(to.sheetName, to.outputs.emDownDist));
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
-  safeSetText('res-to-winddir', getOutputVal(to.sheetName, to.outputs.windDir));
-  safeSetText('res-to-windspeed', getOutputVal(to.sheetName, to.outputs.windSpeed));
-  safeSetText('res-to-oat', getOutputVal(to.sheetName, to.outputs.oat));
-  safeSetText('res-to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
 
   const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
