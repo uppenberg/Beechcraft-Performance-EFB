@@ -125,35 +125,25 @@ function switchTab(tabName, event) {
   }
 }
 
-// Säker hämtning av cellvärde utan att loopen kraschar
-function safeGetCellVal(cellRef) {
-  if (!hfInstance) return null;
-  try {
-    const addr = hfInstance.detailedCellAddressFromString(cellRef);
-    const val = hfInstance.getCellValue(addr);
-    return (val !== null && val !== undefined && val !== '') ? val : null;
-  } catch (e) {
-    return null;
-  }
-}
-
-// Fyll flygplatsrullistor från "Airport Data"-fliken
+// Fyll flygplatsrullistor från "Airport data"-fliken (visar endast Kolumn A)
 function populateAirports() {
   if (!hfInstance) return;
   const config = CELL_MAPPING.airport;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
   for (let row = config.startRow; row <= 100; row++) {
-    const codeRef = `${config.sheetName}!${config.codeCol}${row}`;
-    const codeVal = safeGetCellVal(codeRef);
+    try {
+      const cellAddress = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
+      const codeVal = hfInstance.getCellValue(cellAddress);
 
-    if (!codeVal) continue;
+      if (codeVal === null || codeVal === undefined || codeVal === '' || codeVal === 0) {
+        continue;
+      }
 
-    const rwyRef = `${config.sheetName}!${config.nameCol}${row}`;
-    const rwyVal = safeGetCellVal(rwyRef) || "";
-
-    const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
-    optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
+      optionsHtml += `<option value="${codeVal}">${codeVal}</option>`;
+    } catch (e) {
+      continue;
+    }
   }
 
   const toSelect = document.getElementById('to-airport');
@@ -241,7 +231,7 @@ function refreshOutputs() {
 
   const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwtw));
+  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
