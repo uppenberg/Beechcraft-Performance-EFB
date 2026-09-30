@@ -1,5 +1,17 @@
 let hfInstance;
 
+console.log("app.js har laddats!");
+
+// Ladda Excel-filen automatiskt vid start
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log("DOM is ready, laddar Excel-fil...");
+  const basePath = window.location.hostname.includes('github.io') 
+    ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
+    : 'data/be200_prestanda.xlsx';
+
+  await loadExcelFile(basePath);
+});
+
 const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport data',
