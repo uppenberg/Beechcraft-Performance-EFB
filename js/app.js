@@ -427,11 +427,11 @@ function refreshOutputs() {
   const to = CELL_MAPPING.takeoff;
   const ldg = CELL_MAPPING.landing;
 
-  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.outputs.windDir));
-  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
-  safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
-  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
-  safeSetValue('to-metar', getOutputVal(to.sheetName, 'C5'));
+  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
+  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
+  safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
+  safeSetValue('to-metar', getOutputVal(to.sheetName, to.inputs['to-metar']));
 
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
