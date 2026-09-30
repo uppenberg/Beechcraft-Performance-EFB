@@ -93,16 +93,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Ersätt din gamla inläsningskod med detta:
 
 async function loadData() {
+  console.log("1. loadData har startat!");
   try {
     const basePath = window.location.hostname.includes('github.io') 
       ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
       : 'data/be200_prestanda.xlsx';
 
+    console.log("2. Försöker hämta fil från:", basePath);
     const response = await fetch(basePath);
+    console.log("3. Fetch klar, status:", response.status);
+    
     if (!response.ok) throw new Error(`Kunde inte hämta filen (${response.statusText})`);
     
     const arrayBuffer = await response.arrayBuffer();
+    console.log("4. ArrayBuffer inläst, läser med XLSX...");
+    
     const workbook = XLSX.read(arrayBuffer, { type: 'array', cellFormula: true, cellValue: true });
+    console.log("5. Workbook klar, bearbetar blad...");
     
     const sheetsData = {};
     workbook.SheetNames.forEach(sheetName => {
@@ -111,13 +118,13 @@ async function loadData() {
     });
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
+    console.log("6. HyperFormula-instans skapad!");
     
-    // Fyll rullistor direkt från rådatan för "Airport data"
     populateAirportsFromRaw(sheetsData['Airport data']);
     refreshOutputs();
     console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
     
-    return sheetsData; // Returnera data om init() förväntar sig det
+    return sheetsData;
   } catch (error) {
     console.error("Fel vid inläsning av Excel-fil:", error);
     throw error;
@@ -489,3 +496,5 @@ window.handleLandingFlaps = handleLandingFlaps;
 window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;
 window.updateEngineCellVal = updateEngineCellVal;
+
+document.addEventListener('DOMContentLoaded', init);
