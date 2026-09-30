@@ -96,7 +96,7 @@ async function loadExcelFile(url) {
     const sheetsData = {};
     workbook.SheetNames.forEach(sheetName => {
       const worksheet = workbook.Sheets[sheetName];
-      sheetsData[sheetName] = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false });
+      sheetsData[sheetName] = worksheetToHyperFormulaData(worksheet);
     });
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
@@ -108,6 +108,180 @@ async function loadExcelFile(url) {
   } catch (error) {
     console.error("Fel vid inläsning av Excel-fil:", error);
   }
+}
+
+// Convert a SheetJS worksheet without losing formulas or its original cell
+// coordinates. sheet_to_json() returns cached/display values and can shift a
+// sheet whose used range starts after A1, so HyperFormula cannot recalculate it.
+function worksheetToHyperFormulaData(worksheet) {
+  if (!worksheet || !worksheet['!ref']) return [];
+
+  const range = XLSX.utils.decode_range(worksheet['!ref']);
+  const rows = Array.from(
+    { length: range.e.r + 1 },
+    () => Array(range.e.c + 1).fill(null)
+  );
+
+  Object.keys(worksheet).forEach(cellRef => {
+    if (cellRef.startsWith('!')) return;
+
+    const cell = worksheet[cellRef];
+    const position = XLSX.utils.decode_cell(cellRef);
+
+    if (cell.f && cell.f.includes('_xlfn.')) {
+      // HyperFormula does not support Excel's newer _xlfn functions (the
+      // workbook uses them for METAR regex parsing). Keep Excel's cached value;
+      // the corresponding weather fields can still overwrite these cells.
+      rows[position.r][position.c] = cell.v ?? null;
+    } else if (cell.f) {
+      const formula = normalizeFormulaForHyperFormula(cell.f);
+      rows[position.r][position.c] = `=${formula}`;
+    } else if (cell.t === 'e') {
+      // Preserve an Excel error as text instead of passing SheetJS's numeric
+      // error code to HyperFormula.
+      rows[position.r][position.c] = cell.w || null;
+    } else {
+      rows[position.r][position.c] = cell.v ?? null;
+    }
+  });
+
+  return rows;
+}
+
+function normalizeFormulaForHyperFormula(formula) {
+  // Excel serializes Boolean arguments as TRUE/FALSE, while HyperFormula
+  // parses them as the functions TRUE()/FALSE().
+  const normalizedBooleans = formula.replace(
+    /\b(TRUE|FALSE)\b(?!\s*\()/gi,
+    '$1()'
+  );
+
+  return normalizeHorizontalIndexCalls(normalizedBooleans);
+}
+
+// Excel allows INDEX(singleRowRange, columnNumber). HyperFormula interprets
+// the second argument strictly as a row number, so make the row explicit:
+// INDEX(singleRowRange, 1, columnNumber).
+function normalizeHorizontalIndexCalls(formula) {
+  let result = '';
+  let index = 0;
+
+  while (index < formula.length) {
+    const char = formula[index];
+
+    if (char === '"' || char === "'") {
+      const quoteEnd = findFormulaQuoteEnd(formula, index, char);
+      result += formula.slice(index, quoteEnd);
+      index = quoteEnd;
+      continue;
+    }
+
+    const isIndexCall = formula.slice(index, index + 5).toUpperCase() === 'INDEX'
+      && !isFormulaIdentifierCharacter(formula[index - 1]);
+
+    if (isIndexCall) {
+      let openParen = index + 5;
+      while (/\s/.test(formula[openParen] || '')) openParen += 1;
+
+      if (formula[openParen] === '(') {
+        const closeParen = findMatchingFormulaParen(formula, openParen);
+
+        if (closeParen !== -1) {
+          const originalArguments = formula.slice(openParen + 1, closeParen);
+          const normalizedArguments = normalizeHorizontalIndexCalls(originalArguments);
+          const args = splitFormulaArguments(normalizedArguments);
+          const rewrittenArguments = args.length === 2 && isSingleRowRange(args[0])
+            ? `${args[0]},1,${args[1]}`
+            : normalizedArguments;
+
+          result += formula.slice(index, openParen + 1);
+          result += rewrittenArguments;
+          result += ')';
+          index = closeParen + 1;
+          continue;
+        }
+      }
+    }
+
+    result += char;
+    index += 1;
+  }
+
+  return result;
+}
+
+function findFormulaQuoteEnd(formula, start, quote) {
+  let index = start + 1;
+
+  while (index < formula.length) {
+    if (formula[index] === quote) {
+      // Excel escapes quotes by doubling them ("" in text, '' in sheet names).
+      if (formula[index + 1] === quote) {
+        index += 2;
+        continue;
+      }
+      return index + 1;
+    }
+    index += 1;
+  }
+
+  return formula.length;
+}
+
+function findMatchingFormulaParen(formula, openParen) {
+  let depth = 0;
+
+  for (let index = openParen; index < formula.length; index += 1) {
+    const char = formula[index];
+
+    if (char === '"' || char === "'") {
+      index = findFormulaQuoteEnd(formula, index, char) - 1;
+    } else if (char === '(') {
+      depth += 1;
+    } else if (char === ')') {
+      depth -= 1;
+      if (depth === 0) return index;
+    }
+  }
+
+  return -1;
+}
+
+function splitFormulaArguments(argumentsText) {
+  const args = [];
+  let depth = 0;
+  let argumentStart = 0;
+
+  for (let index = 0; index < argumentsText.length; index += 1) {
+    const char = argumentsText[index];
+
+    if (char === '"' || char === "'") {
+      index = findFormulaQuoteEnd(argumentsText, index, char) - 1;
+    } else if (char === '(') {
+      depth += 1;
+    } else if (char === ')') {
+      depth -= 1;
+    } else if (char === ',' && depth === 0) {
+      args.push(argumentsText.slice(argumentStart, index));
+      argumentStart = index + 1;
+    }
+  }
+
+  args.push(argumentsText.slice(argumentStart));
+  return args;
+}
+
+function isSingleRowRange(expression) {
+  const compactExpression = expression.replace(/\s+/g, '');
+  const rangeMatch = compactExpression.match(
+    /^(?:(?:'(?:[^']|'')+'|[A-Z_][A-Z0-9_.]*)!)?\$?[A-Z]{1,3}\$?(\d+):\$?[A-Z]{1,3}\$?(\d+)$/i
+  );
+
+  return Boolean(rangeMatch && rangeMatch[1] === rangeMatch[2]);
+}
+
+function isFormulaIdentifierCharacter(char) {
+  return Boolean(char && /[A-Z0-9_.]/i.test(char));
 }
 
 // Byt mellan flikar
@@ -211,21 +385,9 @@ function handleLandingAirport(val) { updateEngineCellVal('landing', 'airportAndR
 function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
   if (span) span.innerText = val;
-  
-  const numVal = Number(val);
 
-  // 1. Sätt massan i C14 som vanligt
-  updateEngineCellVal('takeoff', 'mass', numVal);
-  
-  // 2. Tvinga även in samma värde i C494 direkt i motorn!
-  if (hfInstance) {
-    const sheetId = hfInstance.getSheetId('Take-off');
-    // C494 ligger på rad 494 (index 493), kolumn C (index 2)
-    hfInstance.setCellContents({ sheet: sheetId, col: 2, row: 493 }, [[numVal]]);
-    
-    // Kör en extra uppdatering av gränssnittet direkt efter
-    refreshOutputs();
-  }
+  // C494 and the result cells depend on C14 through workbook formulas.
+  updateEngineCellVal('takeoff', 'mass', Number(val));
 }
 
 function handleLandingMass(val) {
@@ -255,8 +417,8 @@ function refreshOutputs() {
   const to = CELL_MAPPING.takeoff;
 
   // Testa att logga vad getOutputVal faktiskt hittar för ASD
-  const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
-  console.log("Hämtat ASD-värde från cell", to.outputs.asd, ":", asdVal);
+  // const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
+  // console.log("Hämtat ASD-värde från cell", to.outputs.asd, ":", asdVal);
 
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
