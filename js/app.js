@@ -21,7 +21,7 @@ const CELL_MAPPING = {
       rwcc: 'C10',
       contaminant: 'C11',
       antiIce: 'C13',
-      mass: 'C14',
+      mass: 'C24',
       flaps: 'C26'
     },
     outputs: {
