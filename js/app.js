@@ -76,7 +76,8 @@ const CELL_MAPPING = {
     }
   }
 };
-
+// Ta bort detta block om det ligger kvar på rad 86:
+/*
 // Ladda Excel-filen automatiskt vid start
 document.addEventListener('DOMContentLoaded', async () => {
   const basePath = window.location.hostname.includes('github.io') 
@@ -86,6 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadExcelFile(basePath);
 });
 
+
+});
+*/
 // Ersätt din gamla inläsningskod med detta:
 
 async function loadData() {
