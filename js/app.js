@@ -146,8 +146,25 @@ function populateAirportsFromRaw(rows) {
   if (toSelect) toSelect.innerHTML = optionsHtml;
   if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
+// Hjälpfunktion för att konvertera Excel-kolumnbokstav till nummer (A=0, B=1, C=2 etc.)
+function colLetterToIndex(letter) {
+  let column = 0;
+  for (let i = 0; i < letter.length; i++) {
+    column += (letter.charCodeAt(i) - 64) * Math.pow(26, letter.length - i - 1);
+  }
+  return column - 1;
+}
 
-// Generell funktion för att skriva värde till motorn (med loggning)
+// Hjälpfunktion för att konvertera t.ex. "C4" till {col: 2, row: 3}
+function parseCellRef(cellRef) {
+  const match = cellRef.match(/^([A-Z]+)(\d+)$/);
+  if (!match) return null;
+  const col = colLetterToIndex(match[1]);
+  const row = parseInt(match[2], 10) - 1; // 0-indexerat i HyperFormula
+  return { col, row };
+}
+
+// Uppdaterad funktion för att skriva värde till motorn
 function updateEngineCellVal(sheetType, fieldKey, value) {
   if (!hfInstance) return;
   const config = CELL_MAPPING[sheetType];
@@ -156,14 +173,31 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
   if (!cellRef) return;
 
   try {
-    const fullRef = `${config.sheetName}!${cellRef}`;
-    const address = hfInstance.detailedCellAddressFromString(fullRef);
-    console.log(`Sätter ${fullRef} till:`, value);
-    hfInstance.setCellContents(address, [[value]]);
+    const sheetId = hfInstance.getSheetId(config.sheetName);
+    const pos = parseCellRef(cellRef);
+    if (!pos) return;
+
+    console.log(`Sätter ${config.sheetName} (${pos.col}, ${pos.row}) till:`, value);
+    hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
     
     refreshOutputs();
   } catch (e) {
     console.error(`Fel vid uppdatering av cell ${fieldKey} på ${sheetType}:`, e);
+  }
+}
+
+// Uppdaterad funktion för att hämta output-värde
+function getOutputVal(sheetName, cellRef) {
+  if (!hfInstance) return '-';
+  try {
+    const sheetId = hfInstance.getSheetId(sheetName);
+    const pos = parseCellRef(cellRef);
+    if (!pos) return '-';
+
+    const val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
+    return (val !== null && val !== undefined && val !== '') ? val : '-';
+  } catch (e) {
+    return '-';
   }
 }
 
@@ -194,19 +228,6 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
-// Hjälpfunktion för att hämta säkra värden till UI
-function getOutputVal(sheetName, cellRef) {
-  if (!hfInstance) return '-';
-  try {
-    const fullRef = `${sheetName}!${cellRef}`;
-    const val = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(fullRef));
-    console.log(`Läser output från ${fullRef}:`, val);
-    return (val !== null && val !== undefined && val !== '') ? val : '-';
-  } catch (e) {
-    console.error(`Kunde inte läsa cell ${sheetName}!${cellRef}:`, e);
-    return '-';
-  }
-}
 
 // Uppdatera samtliga outputs i gränssnittet
 function refreshOutputs() {
