@@ -163,41 +163,8 @@
     .v-speed-title { font-size: 8px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
     .v-speed-val { font-size: 12px; font-weight: 800; color: #fff; margin-top: 1px; }
 
-    .emergency-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 2px; }
-    .emergency-col { background: rgba(255, 255, 255, 0.03); border-radius: 4px; padding: 4px; text-align: center; }
-    .emergency-col-title { font-size: 8px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
-    .emergency-val { font-size: 11px; font-weight: 800; color: #fff; }
-
-    .rwy-profile-container {
-      background-color: #1e222b;
-      border: 1px solid #2f3642;
-      border-radius: 8px;
-      padding: 35px 14px 10px 14px;
-      margin-top: 8px;
-      color: #fff;
-    }
-    .rwy-header, .rwy-footer { display: flex; justify-content: space-between; font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px; }
-    .rwy-footer { margin-top: 6px; font-weight: 600; }
-    .rwy-visual-track {
-      position: relative;
-      height: 32px;
-      background-color: #334155;
-      border-radius: 4px;
-      border: 1px dashed #64748b;
-      margin-top: 28px;
-    }
-    .rwy-centerline {
-      position: absolute; top: 50%; left: 0; right: 0; height: 2px;
-      background-image: linear-gradient(to right, #cbd5e1 50%, transparent 50%);
-      background-size: 20px 2px; transform: translateY(-50%); z-index: 1;
-    }
-    .rwy-threshold { position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: repeating-linear-gradient(to bottom, #fff, #fff 4px, transparent 4px, transparent 8px); z-index: 2; }
-    .rwy-ld-bar { position: absolute; top: 0; left: 0; height: 100%; background-color: rgba(14, 165, 233, 0.4); border-right: 3px solid #38bdf8; z-index: 3; }
-
     .action-link-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 10px; font-weight: 600; padding: 0; }
     .action-link-btn:hover { text-decoration: underline; }
-    .badge-ok { color: #4ade80; }
-    .badge-danger { color: #ef4444; }
   </style>
 </head>
 <body>
@@ -223,8 +190,8 @@
   <main>
     <div id="loading">Hämtar prestandadata...</div>
 
-    <!-- TAKEOFF DASHBOARD -->
-    <div id="page-takeoff" class="page">
+    <!-- TAKEOFF DASHBOARD (Startar med klassen 'active' så den syns direkt) -->
+    <div id="page-takeoff" class="page active">
       <div class="kpi-container" id="to-kpi-block" style="display: none;">
         <div class="kpi-card">
           <div class="kpi-label">V-Speeds</div>
@@ -493,10 +460,30 @@
       document.getElementById('ldg-kpi-block').style.display = 'grid';
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
       updateNetworkStatus();
-      initHyperFormula();
-      renderDashboard();
+      
+      // Hämta data från Google Sheets via PWA-bryggan vid start
+      google.script.run
+        .withSuccessHandler((data) => {
+          console.log("Data hämtad från Google Sheets:", data);
+          
+          // Spara ner datan i appState och localStorage
+          appState = data;
+          localStorage.setItem('aviation_app_state', JSON.stringify(data));
+          
+          // Initiera motorn och rita gränssnittet
+          initHyperFormula();
+          renderDashboard();
+          populateDropdowns(); // Fyll rullistorna med data från arket
+        })
+        .withFailureHandler((err) => {
+          console.error("Kunde inte hämta data från servern:", err);
+          // Fallback om vi kör helt offline och har sparad data i localStorage
+          initHyperFormula();
+          renderDashboard();
+        })
+        .getInitialData();
     });
 
     window.addEventListener('online', updateNetworkStatus);
