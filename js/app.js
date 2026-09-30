@@ -2,7 +2,7 @@ let hfInstance;
 
 const CELL_MAPPING = {
   airport: {
-    sheetName: 'Airport Data',
+    sheetName: 'Airport data',
     startRow: 6,
     codeCol: 'A', 
     nameCol: 'H'  
