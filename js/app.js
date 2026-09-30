@@ -543,24 +543,13 @@ async function fetchMetarForSelectedAirport() {
 
 function parseAndPopulateMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
+    console.log("Parser avbryts: Ingen giltig METAR-text.");
     return;
   }
 
-  console.log("Parsar METAR:", metarText);
+  console.log("--- START PARSERING ---", metarText);
 
-  // Hjälpfunktion som uppdaterar motorn OCH sätter värdet direkt i rätt HTML-fält
-  function updateField(engineKey, htmlId, value) {
-    // 1. Uppdatera motorn (HyperFormula)
-    updateEngineCellVal('takeoff', engineKey, value);
-
-    // 2. Uppdatera HTML-fältet direkt i gränssnittet
-    const el = document.getElementById(htmlId);
-    if (el) {
-      el.value = value;
-    }
-  }
-
-  // 1. Parsa vind (ex. "24015KT", "03010G20KT", "VRB03KT")
+  // 1. Parsa vind
   const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
   const windMatch = metarText.match(windRegex);
 
@@ -570,11 +559,21 @@ function parseAndPopulateMetarData(metarText) {
     let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
     let spdVal = parseInt(spd, 10);
 
-    updateField('windDir', 'to-wind-dir', dirVal);
-    updateField('windSpeed', 'to-wind-spd', spdVal);
+    console.log("Hittade vind:", dirVal, spdVal);
+
+    updateEngineCellVal('takeoff', 'windDir', dirVal);
+    updateEngineCellVal('takeoff', 'windSpeed', spdVal);
+
+    let elDir = document.getElementById('to-wind-dir');
+    let elSpd = document.getElementById('to-wind-spd');
+    
+    if (elDir) elDir.value = dirVal; else console.warn("Hittade inte element: to-wind-dir");
+    if (elSpd) elSpd.value = spdVal; else console.warn("Hittade inte element: to-wind-spd");
+  } else {
+    console.warn("Kunde inte matcha vind i METAR.");
   }
 
-  // 2. Parsa temperatur / OAT (ex. "15/08", "M02/M05")
+  // 2. Parsa temperatur / OAT
   const tempRegex = /\s(M?\d{2})\/(M?\d{2})\s/;
   const tempMatch = metarText.match(tempRegex);
 
@@ -585,26 +584,39 @@ function parseAndPopulateMetarData(metarText) {
     }
     let oatVal = parseInt(tempStr, 10);
     
-    updateField('oat', 'to-oat', oatVal);
+    console.log("Hittade OAT:", oatVal);
+
+    updateEngineCellVal('takeoff', 'oat', oatVal);
+    let elOat = document.getElementById('to-oat');
+    if (elOat) elOat.value = oatVal; else console.warn("Hittade inte element: to-oat");
+  } else {
+    console.warn("Kunde inte matcha OAT i METAR.");
   }
 
-  // 3. Parsa QNH (ex. "Q1013")
+  // 3. Parsa QNH
   const qnhRegex = /\bQ(\d{4})\b/i;
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
     let qnhVal = parseInt(qnhMatch[1], 10);
-    updateField('qnh', 'to-qnh', qnhVal);
+    console.log("Hittade QNH:", qnhVal);
+
+    updateEngineCellVal('takeoff', 'qnh', qnhVal);
+    let elQnh = document.getElementById('to-qnh');
+    if (elQnh) elQnh.value = qnhVal; else console.warn("Hittade inte element: to-qnh");
   } else {
     const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
     if (altMatch) {
       let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
-      updateField('qnh', 'to-qnh', hpa);
+      updateEngineCellVal('takeoff', 'qnh', hpa);
+      let elQnh = document.getElementById('to-qnh');
+      if (elQnh) elQnh.value = hpa;
+    } else {
+      console.warn("Kunde inte matcha QNH/Altimeter i METAR.");
     }
   }
 
-  // Trigga beräkning / uppdatering av outputs
   if (typeof refreshOutputs === 'function') {
     refreshOutputs();
   }
