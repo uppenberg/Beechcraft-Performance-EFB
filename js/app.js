@@ -513,9 +513,9 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    console.log(`Hämtar METAR för ICAO: ${icaoCode}`);
+    console.log(`Hämtar METAR via proxy för ICAO: ${icaoCode}`);
 
-    // 3. Använd JSON-format via AllOrigins proxy för att helt runda webbläsarens CORS-spärr
+    // 3. Anropa via AllOrigins proxy för att kringgå CORS-spärren
     const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=json&_t=${new Date().getTime()}`;
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
     
@@ -536,7 +536,6 @@ async function fetchMetarForSelectedAirport() {
         metarText = data.rawOb;
       }
     } catch (e) {
-      // Om det mot förmodan kom ren text direkt
       metarText = textData;
     }
 
@@ -553,7 +552,7 @@ async function fetchMetarForSelectedAirport() {
       updateEngineCellVal('takeoff', 'to-metar', "INGEN METAR HITTADES");
     }
 
-  } cache (error) {
+  } catch (error) {
     console.error("Fel vid hämtning av METAR för vald flygplats:", error);
     updateEngineCellVal('takeoff', 'to-metar', "OFFLINE / KUNDE INTE HÄMTA METAR");
   }
