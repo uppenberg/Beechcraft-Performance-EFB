@@ -413,9 +413,9 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 function refreshOutputs() {
   if (!hfInstance) return;
   console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
-
-  // Deklarera 'to' HÖGST UPP innan den används
   const to = CELL_MAPPING.takeoff;
+  const ldg = CELL_MAPPING.landing;
+  // Deklarera 'to' HÖGST UPP innan den används
 
   // Testa att logga vad getOutputVal faktiskt hittar för ASD
   // const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
