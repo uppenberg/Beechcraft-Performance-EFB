@@ -1,4 +1,5 @@
 let hfInstance;
+let globalData = { airports: [], factors: {} };
 
 const CELL_MAPPING = {
   airport: {
@@ -43,8 +44,7 @@ const CELL_MAPPING = {
       windDir: 'C6',
       windSpeed: 'C7',
       oat: 'C8',
-      qnh: 'C9',
-
+      qnh: 'C9'
     }
   },
   landing: {
@@ -72,26 +72,37 @@ const CELL_MAPPING = {
       windDir: 'C6',
       windSpeed: 'C7',
       oat: 'C8',
-      qnh: 'C9',
+      qnh: 'C9'
     }
   }
 };
-// Ta bort detta block om det ligger kvar på rad 86:
-/*
-// Ladda Excel-filen automatiskt vid start
-document.addEventListener('DOMContentLoaded', async () => {
-  const basePath = window.location.hostname.includes('github.io') 
-    ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
-    : 'data/be200_prestanda.xlsx';
 
-  await loadExcelFile(basePath);
-});
+// 1. Huvudfunktion som kör igång allt i rätt ordning
+async function init() {
+  try {
+    console.log("Startar PWA och laddar data...");
+    
+    // Ladda in Excel och skapa HyperFormula-instansen
+    globalData = await loadData(); 
+    
+    // Fyll rullistor och koppla eventlyssnare
+    populateAirportSelects();
+    setupEventListeners();
+    
+    // Registrera Service Worker för offline-stöd
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log("Service Worker registrerad!"))
+        .catch(err => console.log('SW error:', err));
+    }
+    
+    console.log("Appen är helt initierad!");
+  } catch (error) {
+    console.error("Kunde inte slutföra init():", error);
+  }
+}
 
-
-});
-*/
-// Ersätt din gamla inläsningskod med detta:
-
+// 2. Ladda Excel-filen
 async function loadData() {
   console.log("1. loadData har startat!");
   try {
@@ -131,9 +142,20 @@ async function loadData() {
   }
 }
 
-// Convert a SheetJS worksheet without losing formulas or its original cell
-// coordinates. sheet_to_json() returns cached/display values and can shift a
-// sheet whose used range starts after A1, so HyperFormula cannot recalculate it.
+// 3. Dummy för eventlyssnare så den inte kraschar
+function setupEventListeners() {
+  // Lägg till eventlyssnare här om det behövs
+}
+
+function setupAirportSelects() {
+  // Komplettera om du har en separat funktion för rullistorna, eller använd populateAirportsFromRaw
+}
+
+function populateAirportSelects() {
+  // Kan anropas från init
+}
+
+// Convert a SheetJS worksheet without losing formulas
 function worksheetToHyperFormulaData(worksheet) {
   if (!worksheet || !worksheet['!ref']) return [];
 
@@ -150,16 +172,11 @@ function worksheetToHyperFormulaData(worksheet) {
     const position = XLSX.utils.decode_cell(cellRef);
 
     if (cell.f && cell.f.includes('_xlfn.')) {
-      // HyperFormula does not support Excel's newer _xlfn functions (the
-      // workbook uses them for METAR regex parsing). Keep Excel's cached value;
-      // the corresponding weather fields can still overwrite these cells.
       rows[position.r][position.c] = cell.v ?? null;
     } else if (cell.f) {
       const formula = normalizeFormulaForHyperFormula(cell.f);
       rows[position.r][position.c] = `=${formula}`;
     } else if (cell.t === 'e') {
-      // Preserve an Excel error as text instead of passing SheetJS's numeric
-      // error code to HyperFormula.
       rows[position.r][position.c] = cell.w || null;
     } else {
       rows[position.r][position.c] = cell.v ?? null;
@@ -170,19 +187,13 @@ function worksheetToHyperFormulaData(worksheet) {
 }
 
 function normalizeFormulaForHyperFormula(formula) {
-  // Excel serializes Boolean arguments as TRUE/FALSE, while HyperFormula
-  // parses them as the functions TRUE()/FALSE().
   const normalizedBooleans = formula.replace(
     /\b(TRUE|FALSE)\b(?!\s*\()/gi,
     '$1()'
   );
-
   return normalizeHorizontalIndexCalls(normalizedBooleans);
 }
 
-// Excel allows INDEX(singleRowRange, columnNumber). HyperFormula interprets
-// the second argument strictly as a row number, so make the row explicit:
-// INDEX(singleRowRange, 1, columnNumber).
 function normalizeHorizontalIndexCalls(formula) {
   let result = '';
   let index = 0;
@@ -233,10 +244,8 @@ function normalizeHorizontalIndexCalls(formula) {
 
 function findFormulaQuoteEnd(formula, start, quote) {
   let index = start + 1;
-
   while (index < formula.length) {
     if (formula[index] === quote) {
-      // Excel escapes quotes by doubling them ("" in text, '' in sheet names).
       if (formula[index + 1] === quote) {
         index += 2;
         continue;
@@ -245,16 +254,13 @@ function findFormulaQuoteEnd(formula, start, quote) {
     }
     index += 1;
   }
-
   return formula.length;
 }
 
 function findMatchingFormulaParen(formula, openParen) {
   let depth = 0;
-
   for (let index = openParen; index < formula.length; index += 1) {
     const char = formula[index];
-
     if (char === '"' || char === "'") {
       index = findFormulaQuoteEnd(formula, index, char) - 1;
     } else if (char === '(') {
@@ -264,7 +270,6 @@ function findMatchingFormulaParen(formula, openParen) {
       if (depth === 0) return index;
     }
   }
-
   return -1;
 }
 
@@ -275,7 +280,6 @@ function splitFormulaArguments(argumentsText) {
 
   for (let index = 0; index < argumentsText.length; index += 1) {
     const char = argumentsText[index];
-
     if (char === '"' || char === "'") {
       index = findFormulaQuoteEnd(argumentsText, index, char) - 1;
     } else if (char === '(') {
@@ -287,7 +291,6 @@ function splitFormulaArguments(argumentsText) {
       argumentStart = index + 1;
     }
   }
-
   args.push(argumentsText.slice(argumentStart));
   return args;
 }
@@ -297,7 +300,6 @@ function isSingleRowRange(expression) {
   const rangeMatch = compactExpression.match(
     /^(?:(?:'(?:[^']|'')+'|[A-Z_][A-Z0-9_.]*)!)?\$?[A-Z]{1,3}\$?(\d+):\$?[A-Z]{1,3}\$?(\d+)$/i
   );
-
   return Boolean(rangeMatch && rangeMatch[1] === rangeMatch[2]);
 }
 
@@ -326,10 +328,8 @@ function populateAirportsFromRaw(rows) {
 
   if (rows && Array.isArray(rows)) {
     rows.forEach((row, index) => {
-      // Hoppa över de första rubrikraderna (index 0 till 3)
       if (index < 4) return;
-
-      const codeVal = row[0]; // Kolumn A
+      const codeVal = row[0];
       if (codeVal && codeVal !== 'Airport' && codeVal !== '[ft]') {
         optionsHtml += `<option value="${codeVal}">${codeVal}</option>`;
       }
@@ -341,7 +341,7 @@ function populateAirportsFromRaw(rows) {
   if (toSelect) toSelect.innerHTML = optionsHtml;
   if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
-// Hjälpfunktion för att konvertera Excel-kolumnbokstav till nummer (A=0, B=1, C=2 etc.)
+
 function colLetterToIndex(letter) {
   let column = 0;
   for (let i = 0; i < letter.length; i++) {
@@ -350,16 +350,14 @@ function colLetterToIndex(letter) {
   return column - 1;
 }
 
-// Hjälpfunktion för att konvertera t.ex. "C4" till {col: 2, row: 3}
 function parseCellRef(cellRef) {
   const match = cellRef.match(/^([A-Z]+)(\d+)$/);
   if (!match) return null;
   const col = colLetterToIndex(match[1]);
-  const row = parseInt(match[2], 10) - 1; // 0-indexerat i HyperFormula
+  const row = parseInt(match[2], 10) - 1;
   return { col, row };
 }
 
-// Uppdaterad funktion för att skriva värde till motorn
 function updateEngineCellVal(sheetType, fieldKey, value) {
   if (!hfInstance) return;
   const config = CELL_MAPPING[sheetType];
@@ -374,16 +372,12 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
 
     console.log(`Sätter ${config.sheetName} (${pos.col}, ${pos.row}) till:`, value);
     hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
-    
-    // <-- HÄR MÅSTE DETTA ANROP FINNAS!
     refreshOutputs();
-
   } catch (e) {
     console.error(`Fel vid uppdatering av cell ${fieldKey} på ${sheetType}:`, e);
   }
 }
 
-// Säkert hämta output-värde från angivet blad och cellreferens (t.ex. "C38")
 function getOutputVal(sheetName, cellRef) {
   if (!hfInstance) return '-';
   if (!cellRef) return '-';
@@ -399,15 +393,12 @@ function getOutputVal(sheetName, cellRef) {
   }
 }
 
-// Inmatningshanterare
 function handleTakeoffAirport(val) { updateEngineCellVal('takeoff', 'airportAndRwy', val); }
 function handleLandingAirport(val) { updateEngineCellVal('landing', 'airportAndRwy', val); }
 
 function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
   if (span) span.innerText = val;
-
-  // C494 and the result cells depend on C14 through workbook formulas.
   updateEngineCellVal('takeoff', 'mass', Number(val));
 }
 
@@ -428,22 +419,16 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
-
-// Uppdatera samtliga outputs i gränssnittet
 function refreshOutputs() {
   if (!hfInstance) return;
   console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
   const to = CELL_MAPPING.takeoff;
   const ldg = CELL_MAPPING.landing;
-  // Deklarera 'to' HÖGST UPP innan den används
-// Väderfält som läses från Excel (C6-C9)
+
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.outputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
-  // Testa att logga vad getOutputVal faktiskt hittar för ASD
-  // const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
-  // console.log("Hämtat ASD-värde från cell", to.outputs.asd, ":", asdVal);
 
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
@@ -476,15 +461,16 @@ function refreshOutputs() {
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
 }
 
-
 function safeSetText(elementId, text) {
   const el = document.getElementById(elementId);
   if (el) el.innerText = text;
 }
+
 function safeSetValue(elementId, value) {
   const el = document.getElementById(elementId);
   if (el) el.value = (value !== '-' && value !== null && value !== undefined) ? value : '';
 }
+
 // Exportera funktioner globalt
 window.switchTab = switchTab;
 window.handleTakeoffAirport = handleTakeoffAirport;
@@ -497,4 +483,5 @@ window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;
 window.updateEngineCellVal = updateEngineCellVal;
 
+// Starta appen när DOM är redo
 document.addEventListener('DOMContentLoaded', init);
