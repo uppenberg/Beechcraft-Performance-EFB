@@ -147,7 +147,7 @@ function populateAirportsFromRaw(rows) {
   if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
 
-// Generell funktion för att skriva värde till motorn
+// Generell funktion för att skriva värde till motorn (med loggning)
 function updateEngineCellVal(sheetType, fieldKey, value) {
   if (!hfInstance) return;
   const config = CELL_MAPPING[sheetType];
@@ -155,10 +155,16 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
   const cellRef = config.inputs[fieldKey];
   if (!cellRef) return;
 
-  const address = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${cellRef}`);
-  hfInstance.setCellContents(address, [[value]]);
-  
-  refreshOutputs();
+  try {
+    const fullRef = `${config.sheetName}!${cellRef}`;
+    const address = hfInstance.detailedCellAddressFromString(fullRef);
+    console.log(`Sätter ${fullRef} till:`, value);
+    hfInstance.setCellContents(address, [[value]]);
+    
+    refreshOutputs();
+  } catch (e) {
+    console.error(`Fel vid uppdatering av cell ${fieldKey} på ${sheetType}:`, e);
+  }
 }
 
 // Inmatningshanterare
@@ -192,9 +198,12 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 function getOutputVal(sheetName, cellRef) {
   if (!hfInstance) return '-';
   try {
-    const val = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${sheetName}!${cellRef}`));
+    const fullRef = `${sheetName}!${cellRef}`;
+    const val = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(fullRef));
+    console.log(`Läser output från ${fullRef}:`, val);
     return (val !== null && val !== undefined && val !== '') ? val : '-';
   } catch (e) {
+    console.error(`Kunde inte läsa cell ${sheetName}!${cellRef}:`, e);
     return '-';
   }
 }
