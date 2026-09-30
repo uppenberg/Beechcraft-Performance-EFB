@@ -180,7 +180,9 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
     console.log(`Sätter ${config.sheetName} (${pos.col}, ${pos.row}) till:`, value);
     hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
     
+    // <-- HÄR MÅSTE DETTA ANROP FINNAS!
     refreshOutputs();
+
   } catch (e) {
     console.error(`Fel vid uppdatering av cell ${fieldKey} på ${sheetType}:`, e);
   }
