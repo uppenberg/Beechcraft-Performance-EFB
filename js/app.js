@@ -233,7 +233,7 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 // Uppdatera samtliga outputs i gränssnittet
 function refreshOutputs() {
   if (!hfInstance) return;
-
+  console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
   const to = CELL_MAPPING.takeoff;
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
