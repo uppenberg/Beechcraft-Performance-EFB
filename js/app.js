@@ -4,8 +4,8 @@ const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport Data',
     startRow: 6,
-    codeCol: 'B', 
-    nameCol: 'C'  
+    codeCol: 'A', 
+    nameCol: 'H'  
   },
   takeoff: {
     sheetName: 'Take-off',
@@ -77,9 +77,8 @@ const CELL_MAPPING = {
   }
 };
 
-// Ladda Excel-filen automatiskt vid start (anpassat för GitHub Pages / subfoldrar)
+// Ladda Excel-filen automatiskt vid start
 document.addEventListener('DOMContentLoaded', async () => {
-  // Kontrollera om vi kör på GitHub Pages och anpassa sökvägen
   const basePath = window.location.hostname.includes('github.io') 
     ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
     : 'data/be200_prestanda.xlsx';
@@ -103,41 +102,12 @@ async function loadExcelFile(url) {
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
     
-// Fyll flygplatsrullistor från "Airport Data"-fliken i Excel (hanterar tomma rader)
-function populateAirports() {
-  if (!hfInstance) return;
-  const config = CELL_MAPPING.airport;
-  let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
-
-  // Loopa från startrad (6) upp till t.ex. rad 60 för att hantera tomma rader emellan
-  for (let row = config.startRow; row <= 60; row++) {
-    try {
-      const codeAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
-      const codeVal = hfInstance.getCellValue(codeAddr);
-
-      // Om raden är tom, hoppa över till nästa istället för att avbryta
-      if (codeVal === null || codeVal === "" || codeVal === undefined) {
-        continue;
-      }
-
-      const rwyAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!H${row}`);
-      const rwyVal = hfInstance.getCellValue(rwyAddr) || "";
-
-      // Skapar en snygg visningstext (t.ex. "ESPA (Bana 12)")
-      const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
-
-      optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
-    } catch (e) {
-      // Om raden inte finns i arket, hoppa vidare
-      continue;
-    }
+    populateAirports();
+    refreshOutputs();
+    console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
+  } catch (error) {
+    console.error("Fel vid inläsning av Excel-fil:", error);
   }
-
-  const toSelect = document.getElementById('to-airport');
-  const ldgSelect = document.getElementById('ldg-airport');
-  if (toSelect) toSelect.innerHTML = optionsHtml;
-  if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
-}
 }
 
 // Byt mellan flikar
@@ -155,27 +125,28 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor från "Airport Data"-fliken i Excel
+// Fyll flygplatsrullistor från "Airport Data"-fliken (hanterar tomma rader)
 function populateAirports() {
   if (!hfInstance) return;
   const config = CELL_MAPPING.airport;
-  let row = config.startRow;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
-  while (true) {
+  for (let row = config.startRow; row <= 100; row++) {
     try {
       const codeAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
       const codeVal = hfInstance.getCellValue(codeAddr);
 
-      if (codeVal === null || codeVal === "" || codeVal === undefined) break;
+      if (codeVal === null || codeVal === "" || codeVal === undefined) {
+        continue;
+      }
 
-      const nameAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.nameCol}${row}`);
-      const nameVal = hfInstance.getCellValue(nameAddr) || "";
+      const rwyAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.nameCol}${row}`);
+      const rwyVal = hfInstance.getCellValue(rwyAddr) || "";
 
-      optionsHtml += `<option value="${codeVal}">${codeVal} - ${nameVal}</option>`;
-      row++;
+      const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
+      optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
     } catch (e) {
-      break; 
+      continue;
     }
   }
 
@@ -241,7 +212,6 @@ function getOutputVal(sheetName, cellRef) {
 function refreshOutputs() {
   if (!hfInstance) return;
 
-  // Take-off
   const to = CELL_MAPPING.takeoff;
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
@@ -263,7 +233,6 @@ function refreshOutputs() {
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
-  // Landing
   const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
@@ -281,7 +250,7 @@ function safeSetText(elementId, text) {
   if (el) el.innerText = text;
 }
 
-// Exportera funktioner globalt så att HTML-elementen når dem
+// Exportera alla funktioner globalt till window
 window.switchTab = switchTab;
 window.handleTakeoffAirport = handleTakeoffAirport;
 window.handleLandingAirport = handleLandingAirport;
