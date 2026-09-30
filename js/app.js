@@ -431,6 +431,7 @@ function refreshOutputs() {
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
+  safeSetValue('to-metar', getOutputVal(to.sheetName, 'C5'));
 
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
