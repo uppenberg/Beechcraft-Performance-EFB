@@ -4,9 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>King Air 200 Performance EFB</title>
+  
   <!-- SheetJS (xlsx) och HyperFormula via CDN för offline-kapacitet -->
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
+
+  <!-- ========================================== -->
+  <!-- PWA-BRYGGA (Simulerar google.script.run via Fetch) -->
+  <!-- ========================================== -->
+  <script>
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec";
+
+    const google = {
+        script: {
+            run: {
+                withSuccessHandler: function(successCallback) {
+                    this.successCallback = successCallback;
+                    return this;
+                },
+                withFailureHandler: function(failureCallback) {
+                    this.failureCallback = failureCallback;
+                    return this;
+                },
+                __callServer: function(functionName, args) {
+                    fetch(scriptUrl, {
+                        method: "POST",
+                        body: JSON.stringify({ function: functionName, args: args })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (this.successCallback) this.successCallback(data);
+                    })
+                    .catch(err => {
+                        if (this.failureCallback) this.failureCallback(err);
+                        else console.error(err);
+                    });
+                },
+                get: function(target, prop) {
+                    if (prop === 'withSuccessHandler' || prop === 'withFailureHandler' || prop === '__callServer') {
+                        return target[prop];
+                    }
+                    return (...args) => {
+                        target.__callServer(prop, args);
+                    };
+                }
+            }
+        }
+    };
+
+    google.script.run = new Proxy(google.script.run, {
+        get: (target, prop) => google.script.run.get(target, prop)
+    });
+  </script>
+
   <style>
     :root {
       --bg: #090d16;
@@ -190,7 +240,7 @@
   <main>
     <div id="loading">Hämtar prestandadata...</div>
 
-    <!-- TAKEOFF DASHBOARD (Startar med klassen 'active' så den syns direkt) -->
+    <!-- TAKEOFF DASHBOARD -->
     <div id="page-takeoff" class="page active">
       <div class="kpi-container" id="to-kpi-block" style="display: none;">
         <div class="kpi-card">
@@ -460,7 +510,7 @@
       document.getElementById('ldg-kpi-block').style.display = 'grid';
     }
 
-window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
       updateNetworkStatus();
       
       // Hämta data från Google Sheets via PWA-bryggan vid start
@@ -475,7 +525,7 @@ window.addEventListener('DOMContentLoaded', () => {
           // Initiera motorn och rita gränssnittet
           initHyperFormula();
           renderDashboard();
-          populateDropdowns(); // Fyll rullistorna med data från arket
+          // populateDropdowns(); // (Aktivera om funktionen finns definierad)
         })
         .withFailureHandler((err) => {
           console.error("Kunde inte hämta data från servern:", err);
