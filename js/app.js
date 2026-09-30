@@ -125,29 +125,35 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor från "Airport Data"-fliken (hanterar tomma rader)
+// Säker hämtning av cellvärde utan att loopen kraschar
+function safeGetCellVal(cellRef) {
+  if (!hfInstance) return null;
+  try {
+    const addr = hfInstance.detailedCellAddressFromString(cellRef);
+    const val = hfInstance.getCellValue(addr);
+    return (val !== null && val !== undefined && val !== '') ? val : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// Fyll flygplatsrullistor från "Airport Data"-fliken
 function populateAirports() {
   if (!hfInstance) return;
   const config = CELL_MAPPING.airport;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
   for (let row = config.startRow; row <= 100; row++) {
-    try {
-      const codeAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
-      const codeVal = hfInstance.getCellValue(codeAddr);
+    const codeRef = `${config.sheetName}!${config.codeCol}${row}`;
+    const codeVal = safeGetCellVal(codeRef);
 
-      if (codeVal === null || codeVal === "" || codeVal === undefined) {
-        continue;
-      }
+    if (!codeVal) continue;
 
-      const rwyAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.nameCol}${row}`);
-      const rwyVal = hfInstance.getCellValue(rwyAddr) || "";
+    const rwyRef = `${config.sheetName}!${config.nameCol}${row}`;
+    const rwyVal = safeGetCellVal(rwyRef) || "";
 
-      const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
-      optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
-    } catch (e) {
-      continue;
-    }
+    const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
+    optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
   }
 
   const toSelect = document.getElementById('to-airport');
@@ -197,7 +203,7 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
-// Hjälpfunktion för att hämta säkra värden
+// Hjälpfunktion för att hämta säkra värden till UI
 function getOutputVal(sheetName, cellRef) {
   if (!hfInstance) return '-';
   try {
@@ -235,7 +241,7 @@ function refreshOutputs() {
 
   const ldg = CELL_MAPPING.landing;
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
+  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwtw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
@@ -250,7 +256,7 @@ function safeSetText(elementId, text) {
   if (el) el.innerText = text;
 }
 
-// Exportera alla funktioner globalt till window
+// Exportera funktioner globalt
 window.switchTab = switchTab;
 window.handleTakeoffAirport = handleTakeoffAirport;
 window.handleLandingAirport = handleLandingAirport;
