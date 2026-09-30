@@ -493,7 +493,6 @@ async function fetchMetarForSelectedAirport() {
   if (!hfInstance) return;
   
   try {
-    // 1. Hämta värdet från cell C4 på 'Take-off'-bladet via HyperFormula
     const toConfig = CELL_MAPPING.takeoff;
     const sheetId = hfInstance.getSheetId(toConfig.sheetName);
     const pos = parseCellRef(toConfig.inputs.airportAndRwy);
@@ -506,39 +505,30 @@ async function fetchMetarForSelectedAirport() {
     }
 
     const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
-    
-    if (icaoCode.length < 4) {
-      console.warn("Ogiltig ICAO-kod i cell C4:", airportCellVal);
-      return;
-    }
+    if (icaoCode.length < 4) return;
 
-    console.log(`Hämtar METAR via CodeTabs proxy för ICAO: ${icaoCode}`);
+    console.log(`Hämtar METAR via eget Apps Script för: ${icaoCode}`);
 
-    // 2. Använd CodeTabs CORS-proxy som är stabilare för webbläsare
-    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw&_t=${new Date().getTime()}`;
-    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+    // Byt ut nedanstående URL mot din riktiga Webbapp-URL från Steg 2
+    const scriptWebAppDataUrl = "HÄR_KLISTRAR_DU_IN_DIN_WEBBSCRIPT_URL?icao=" + encodeURIComponent(icaoCode);
     
-    const response = await fetch(proxyUrl);
+    const response = await fetch(scriptWebAppDataUrl);
     
     if (!response.ok) {
-      throw new Error(`Kunde inte hämta METAR (status: ${response.status})`);
+      throw new Error(`Kunde inte hämta via Apps Script (status: ${response.status})`);
     }
     
-    let metarText = await response.text();
-    metarText = metarText.trim();
+    const metarText = await response.text();
     
-    if (metarText && !metarText.includes("<!DOCTYPE html>")) {
-      // Rensa bort ev. "METAR " i början precis som i ditt Apps Script
-      metarText = metarText.replace(/^METAR\s+/, "");
-      
-      updateEngineCellVal('takeoff', 'to-metar', metarText);
-      console.log("METAR mottagen och inlagd i C5:", metarText);
+    if (metarText) {
+      updateEngineCellVal('takeoff', 'to-metar', metarText.trim());
+      console.log("METAR mottagen och inlagd i C5:", metarText.trim());
     } else {
       updateEngineCellVal('takeoff', 'to-metar', "INGEN METAR HITTADES");
     }
 
   } catch (error) {
-    console.error("Fel vid hämtning av METAR för vald flygplats:", error);
+    console.error("Fel vid hämtning av METAR:", error);
     updateEngineCellVal('takeoff', 'to-metar', "OFFLINE / KUNDE INTE HÄMTA METAR");
   }
 }
