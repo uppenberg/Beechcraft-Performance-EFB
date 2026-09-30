@@ -9,7 +9,7 @@
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
 
-  <!-- ========================================== -->
+<!-- ========================================== -->
   <!-- PWA-BRYGGA (Simulerar google.script.run via Fetch) -->
   <!-- ========================================== -->
   <script>
@@ -19,49 +19,57 @@
         script: {
             run: new Proxy({}, {
                 get(target, prop) {
-                    // Hjälpfunktion för att utföra själva fetch-anropet
-                    const execute = (successCb, failureCb, functionName, args) => {
-                        fetch(scriptUrl, {
-                            method: "POST",
-                            body: JSON.stringify({ function: functionName, args: args })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (successCb) successCb(data);
-                        })
-                        .catch(err => {
-                            if (failureCb) failureCb(err);
-                            else console.error(err);
-                        });
-                    };
-
-                    // Om man anropar withSuccessHandler eller withFailureHandler direkt på google.script.run
+                    // Om man anropar med handlers, returnera ett objekt som hanterar state och stödjer vidare kedjning
                     if (prop === 'withSuccessHandler' || prop === 'withFailureHandler') {
                         return function(callback) {
-                            let success = prop === 'withSuccessHandler' ? callback : null;
-                            let failure = prop === 'withFailureHandler' ? callback : null;
+                            let successCb = (prop === 'withSuccessHandler') ? callback : null;
+                            let failureCb = (prop === 'withFailureHandler') ? callback : null;
 
-                            // Returnera ett nytt objekt som stöder ytterligare kedjning och slutligt funktionsanrop
-                            return new Proxy({}, {
-                                get(subTarget, subProp) {
-                                    if (subProp === 'withSuccessHandler') {
-                                        return (cb) => { success = cb; return this; };
+                            const handlerObj = {
+                                withSuccessHandler(cb) {
+                                    successCb = cb;
+                                    return this;
+                                },
+                                withFailureHandler(cb) {
+                                    failureCb = cb;
+                                    return this;
+                                }
+                            };
+
+                            // Lägg till en Proxy på handlerObj för att fånga upp själva serverfunktionen (t.ex. .getInitialData())
+                            return new Proxy(handlerObj, {
+                                get(targetObj, methodProp) {
+                                    if (methodProp in targetObj) {
+                                        return targetObj[methodProp];
                                     }
-                                    if (subProp === 'withFailureHandler') {
-                                        return (cb) => { failure = cb; return this; };
-                                    }
-                                    // När själva serverfunktionen anropas i kedjan (t.ex. .getInitialData())
+                                    // Detta är själva serverfunktionen som anropas i slutet av kedjan
                                     return function(...args) {
-                                        execute(success, failure, subProp, args);
+                                        fetch(scriptUrl, {
+                                            method: "POST",
+                                            body: JSON.stringify({ function: methodProp, args: args })
+                                        })
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            if (successCb) successCb(data);
+                                        })
+                                        .catch(err => {
+                                            if (failureCb) failureCb(err);
+                                            else console.error(err);
+                                        });
                                     };
                                 }
                             });
                         };
                     }
 
-                    // Om man anropar funktionen direkt utan handlers (t.ex. google.script.run.getInitialData())
+                    // Om funktionen anropas direkt utan handlers (t.ex. google.script.run.minFunktion())
                     return function(...args) {
-                        execute(null, null, prop, args);
+                        fetch(scriptUrl, {
+                            method: "POST",
+                            body: JSON.stringify({ function: prop, args: args })
+                        })
+                        .then(res => res.json())
+                        .catch(err => console.error(err));
                     };
                 }
             })
