@@ -10,7 +10,7 @@ const CELL_MAPPING = {
   takeoff: {
     sheetName: 'Take-off',
     inputs: {
-      metar_to: 'C5',
+      to-metar: 'C5',
       airportAndRwy: 'C4',
       windDirOverride: 'E6',
       windSpeedOverride: 'E7',
@@ -51,7 +51,7 @@ const CELL_MAPPING = {
   landing: {
     sheetName: 'Landing',
     inputs: {
-      metar_ldg: 'C5',
+      ldg-metar: 'C5',
       airportAndRwy: 'C4',
       windDirOverride: 'E6',
       windSpeedOverride: 'E7',
