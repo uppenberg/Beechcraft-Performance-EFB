@@ -68,7 +68,7 @@ const CELL_MAPPING = {
       ldgDistUp: 'C27',
       vrefDown: 'G26',
       ldgDistDown: 'G27',
-      missedClimb: 'C31'
+      missedClimb: 'C31',
       windDir: 'C6',
       windSpeed: 'C7',
       oat: 'C8',
