@@ -236,6 +236,9 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 function refreshOutputs() {
   if (!hfInstance) return;
   console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
+  // Testa att logga vad getOutputVal faktiskt hittar för ASD
+  const asdVal = getOutputVal(to.sheetName, to.outputs.asd);
+  console.log("Hämtat ASD-värde från cell", to.outputs.asd, ":", asdVal);
   const to = CELL_MAPPING.takeoff;
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
