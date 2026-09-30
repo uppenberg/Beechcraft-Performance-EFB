@@ -60,7 +60,7 @@ const CELL_MAPPING = {
       qnhOverride: 'E9',
       rwcc: 'C10',
       mass: 'C11',
-      flaps: 'C-flaps'
+      flaps: 'G24'
     },
     outputs: {
       lda: 'C18',
