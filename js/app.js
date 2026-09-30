@@ -548,6 +548,18 @@ function parseAndPopulateMetarData(metarText) {
 
   console.log("Parsar METAR:", metarText);
 
+  // Hjälpfunktion som uppdaterar motorn OCH sätter värdet direkt i rätt HTML-fält
+  function updateField(engineKey, htmlId, value) {
+    // 1. Uppdatera motorn (HyperFormula)
+    updateEngineCellVal('takeoff', engineKey, value);
+
+    // 2. Uppdatera HTML-fältet direkt i gränssnittet
+    const el = document.getElementById(htmlId);
+    if (el) {
+      el.value = value;
+    }
+  }
+
   // 1. Parsa vind (ex. "24015KT", "03010G20KT", "VRB03KT")
   const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
   const windMatch = metarText.match(windRegex);
@@ -558,13 +570,8 @@ function parseAndPopulateMetarData(metarText) {
     let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
     let spdVal = parseInt(spd, 10);
 
-    // Uppdatera motorn via CELL_MAPPING-nycklar
-    updateEngineCellVal('takeoff', 'windDir', dirVal);
-    updateEngineCellVal('takeoff', 'windSpeed', spdVal);
-
-    // Uppdatera HTML-elementen direkt via deras ID:n
-    if (document.getElementById('to-wind-dir')) document.getElementById('to-wind-dir').value = dirVal;
-    if (document.getElementById('to-wind-spd')) document.getElementById('to-wind-spd').value = spdVal;
+    updateField('windDir', 'to-wind-dir', dirVal);
+    updateField('windSpeed', 'to-wind-spd', spdVal);
   }
 
   // 2. Parsa temperatur / OAT (ex. "15/08", "M02/M05")
@@ -578,8 +585,7 @@ function parseAndPopulateMetarData(metarText) {
     }
     let oatVal = parseInt(tempStr, 10);
     
-    updateEngineCellVal('takeoff', 'oat', oatVal);
-    if (document.getElementById('to-oat')) document.getElementById('to-oat').value = oatVal;
+    updateField('oat', 'to-oat', oatVal);
   }
 
   // 3. Parsa QNH (ex. "Q1013")
@@ -588,16 +594,13 @@ function parseAndPopulateMetarData(metarText) {
 
   if (qnhMatch) {
     let qnhVal = parseInt(qnhMatch[1], 10);
-    
-    updateEngineCellVal('takeoff', 'qnh', qnhVal);
-    if (document.getElementById('to-qnh')) document.getElementById('to-qnh').value = qnhVal;
+    updateField('qnh', 'to-qnh', qnhVal);
   } else {
     const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
     if (altMatch) {
       let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
-      updateEngineCellVal('takeoff', 'qnh', hpa);
-      if (document.getElementById('to-qnh')) document.getElementById('to-qnh').value = hpa;
+      updateField('qnh', 'to-qnh', hpa);
     }
   }
 
