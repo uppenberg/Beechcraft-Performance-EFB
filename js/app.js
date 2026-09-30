@@ -103,13 +103,41 @@ async function loadExcelFile(url) {
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
     
-    populateAirports();
-    refreshOutputs();
-    console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
-  } catch (error) {
-    console.error("Fel vid inläsning av Excel-fil:", error);
-    alert("Kunde inte läsa in 'data/be200_prestanda.xlsx'. Kontrollera att filen ligger på rätt plats och att du kör via en lokal server (t.ex. Live Server).");
+// Fyll flygplatsrullistor från "Airport Data"-fliken i Excel (hanterar tomma rader)
+function populateAirports() {
+  if (!hfInstance) return;
+  const config = CELL_MAPPING.airport;
+  let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
+
+  // Loopa från startrad (6) upp till t.ex. rad 60 för att hantera tomma rader emellan
+  for (let row = config.startRow; row <= 60; row++) {
+    try {
+      const codeAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
+      const codeVal = hfInstance.getCellValue(codeAddr);
+
+      // Om raden är tom, hoppa över till nästa istället för att avbryta
+      if (codeVal === null || codeVal === "" || codeVal === undefined) {
+        continue;
+      }
+
+      const rwyAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!H${row}`);
+      const rwyVal = hfInstance.getCellValue(rwyAddr) || "";
+
+      // Skapar en snygg visningstext (t.ex. "ESPA (Bana 12)")
+      const displayText = rwyVal ? `${codeVal} (Bana ${rwyVal})` : codeVal;
+
+      optionsHtml += `<option value="${codeVal}">${displayText}</option>`;
+    } catch (e) {
+      // Om raden inte finns i arket, hoppa vidare
+      continue;
+    }
   }
+
+  const toSelect = document.getElementById('to-airport');
+  const ldgSelect = document.getElementById('ldg-airport');
+  if (toSelect) toSelect.innerHTML = optionsHtml;
+  if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
+}
 }
 
 // Byt mellan flikar
