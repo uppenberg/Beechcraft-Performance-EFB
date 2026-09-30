@@ -1,23 +1,10 @@
 let hfInstance;
 
-console.log("app.js har laddats!");
-
-// Ladda Excel-filen automatiskt vid start
-document.addEventListener('DOMContentLoaded', async () => {
-  console.log("DOM is ready, laddar Excel-fil...");
-  const basePath = window.location.hostname.includes('github.io') 
-    ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
-    : 'data/be200_prestanda.xlsx';
-
-  await loadExcelFile(basePath);
-});
-
 const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport data',
-    startRow: 6,
-    codeCol: 'A', 
-    nameCol: 'H'  
+    startRow: 4,
+    codeCol: 'A'
   },
   takeoff: {
     sheetName: 'Take-off',
@@ -137,26 +124,16 @@ function switchTab(tabName, event) {
   }
 }
 
+// Fyll flygplatsrullistor från "Airport data"-fliken
 function populateAirports() {
-  if (!hfInstance) {
-    console.error("populateAirports: hfInstance saknas!");
-    return;
-  }
-  
-  const toSelect = document.getElementById('to-airport');
-  const ldgSelect = document.getElementById('ldg-airport');
-  
-  console.log("Hittades DOM-elementen?", { 
-    "to-airport": !!toSelect, 
-    "ldg-airport": !!ldgSelect 
-  });
-
+  if (!hfInstance) return;
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
   try {
     const sheetId = hfInstance.getSheetId('Airport data');
-    const height = hfInstance.getSheetHeight(sheetId);
-    console.log("Sheet ID för 'Airport data':", sheetId, "Antal rader:", height);
+    const dimensions = hfInstance.getSheetDimensions(sheetId);
+    // dimensions returnerar { width, height }
+    const height = dimensions.height;
 
     for (let r = 0; r < height; r++) {
       const cellVal = hfInstance.getCellValue({ sheet: sheetId, col: 0, row: r });
@@ -168,11 +145,11 @@ function populateAirports() {
       optionsHtml += `<option value="${cellVal}">${cellVal}</option>`;
     }
   } catch (e) {
-    console.error("Fel inne i populateAirports loop:", e);
+    console.error("Fel vid hämtning av flygplatser:", e);
   }
 
-  console.log("Färdig HTML som ska sättas in:", optionsHtml);
-
+  const toSelect = document.getElementById('to-airport');
+  const ldgSelect = document.getElementById('ldg-airport');
   if (toSelect) toSelect.innerHTML = optionsHtml;
   if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
