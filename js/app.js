@@ -540,4 +540,3 @@ async function fetchMetarForSelectedAirport() {
     console.error("Fel vid hämtning av METAR för vald flygplats:", error);
   }
 }
-}
