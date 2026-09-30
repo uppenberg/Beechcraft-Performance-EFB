@@ -510,7 +510,7 @@ async function fetchMetarForSelectedAirport() {
     console.log(`Hämtar METAR via eget Apps Script för: ${icaoCode}`);
 
     // Byt ut nedanstående URL mot din riktiga Webbapp-URL från Steg 2
-    const scriptWebAppDataUrl = "HÄR_KLISTRAR_DU_IN_DIN_WEBBSCRIPT_URL?icao=" + encodeURIComponent(icaoCode);
+    const scriptWebAppDataUrl = "https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec" + encodeURIComponent(icaoCode);
     
     const response = await fetch(scriptWebAppDataUrl);
     
