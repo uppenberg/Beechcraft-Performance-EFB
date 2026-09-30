@@ -17,44 +17,56 @@
 
     const google = {
         script: {
-            run: {
-                withSuccessHandler: function(successCallback) {
-                    this.successCallback = successCallback;
-                    return this;
-                },
-                withFailureHandler: function(failureCallback) {
-                    this.failureCallback = failureCallback;
-                    return this;
-                },
-                __callServer: function(functionName, args) {
-                    fetch(scriptUrl, {
-                        method: "POST",
-                        body: JSON.stringify({ function: functionName, args: args })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (this.successCallback) this.successCallback(data);
-                    })
-                    .catch(err => {
-                        if (this.failureCallback) this.failureCallback(err);
-                        else console.error(err);
-                    });
-                },
-                get: function(target, prop) {
-                    if (prop === 'withSuccessHandler' || prop === 'withFailureHandler' || prop === '__callServer') {
-                        return target[prop];
+            run: new Proxy({}, {
+                get(target, prop) {
+                    // Hjälpfunktion för att utföra själva fetch-anropet
+                    const execute = (successCb, failureCb, functionName, args) => {
+                        fetch(scriptUrl, {
+                            method: "POST",
+                            body: JSON.stringify({ function: functionName, args: args })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (successCb) successCb(data);
+                        })
+                        .catch(err => {
+                            if (failureCb) failureCb(err);
+                            else console.error(err);
+                        });
+                    };
+
+                    // Om man anropar withSuccessHandler eller withFailureHandler direkt på google.script.run
+                    if (prop === 'withSuccessHandler' || prop === 'withFailureHandler') {
+                        return function(callback) {
+                            let success = prop === 'withSuccessHandler' ? callback : null;
+                            let failure = prop === 'withFailureHandler' ? callback : null;
+
+                            // Returnera ett nytt objekt som stöder ytterligare kedjning och slutligt funktionsanrop
+                            return new Proxy({}, {
+                                get(subTarget, subProp) {
+                                    if (subProp === 'withSuccessHandler') {
+                                        return (cb) => { success = cb; return this; };
+                                    }
+                                    if (subProp === 'withFailureHandler') {
+                                        return (cb) => { failure = cb; return this; };
+                                    }
+                                    // När själva serverfunktionen anropas i kedjan (t.ex. .getInitialData())
+                                    return function(...args) {
+                                        execute(success, failure, subProp, args);
+                                    };
+                                }
+                            });
+                        };
                     }
-                    return (...args) => {
-                        target.__callServer(prop, args);
+
+                    // Om man anropar funktionen direkt utan handlers (t.ex. google.script.run.getInitialData())
+                    return function(...args) {
+                        execute(null, null, prop, args);
                     };
                 }
-            }
+            })
         }
     };
-
-    google.script.run = new Proxy(google.script.run, {
-        get: (target, prop) => google.script.run.get(target, prop)
-    });
   </script>
 
   <style>
