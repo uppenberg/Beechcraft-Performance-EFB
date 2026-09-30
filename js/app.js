@@ -1,3 +1,12 @@
+// Ladda Excel-filen automatiskt vid start (anpassat för GitHub Pages / subfoldrar)
+document.addEventListener('DOMContentLoaded', async () => {
+  // Kontrollera om vi kör på GitHub Pages och anpassa sökvägen
+  const basePath = window.location.hostname.includes('github.io') 
+    ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
+    : 'data/be200_prestanda.xlsx';
+
+  await loadExcelFile(basePath);
+});
 let hfInstance;
 
 const CELL_MAPPING = {
