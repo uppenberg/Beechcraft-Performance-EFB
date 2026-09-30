@@ -541,7 +541,6 @@ async function fetchMetarForSelectedAirport() {
   }
 }
 
-
 function parseAndPopulateMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
     return;
@@ -556,14 +555,16 @@ function parseAndPopulateMetarData(metarText) {
   if (windMatch) {
     let dir = windMatch[1] || windMatch[4];
     let spd = windMatch[2] || windMatch[5];
+    let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
+    let spdVal = parseInt(spd, 10);
 
-    if (dir !== "VRB") {
-      updateEngineCellVal('takeoff', 'windDir', parseInt(dir, 10));
-    } else {
-      updateEngineCellVal('takeoff', 'windDir', 0);
-    }
+    // Uppdatera motorn via CELL_MAPPING-nycklar
+    updateEngineCellVal('takeoff', 'windDir', dirVal);
+    updateEngineCellVal('takeoff', 'windSpeed', spdVal);
 
-    updateEngineCellVal('takeoff', 'windSpeed', parseInt(spd, 10));
+    // Uppdatera HTML-elementen direkt via deras ID:n
+    if (document.getElementById('to-wind-dir')) document.getElementById('to-wind-dir').value = dirVal;
+    if (document.getElementById('to-wind-spd')) document.getElementById('to-wind-spd').value = spdVal;
   }
 
   // 2. Parsa temperatur / OAT (ex. "15/08", "M02/M05")
@@ -575,7 +576,10 @@ function parseAndPopulateMetarData(metarText) {
     if (tempStr.startsWith('M')) {
       tempStr = '-' + tempStr.substring(1);
     }
-    updateEngineCellVal('takeoff', 'oat', parseInt(tempStr, 10));
+    let oatVal = parseInt(tempStr, 10);
+    
+    updateEngineCellVal('takeoff', 'oat', oatVal);
+    if (document.getElementById('to-oat')) document.getElementById('to-oat').value = oatVal;
   }
 
   // 3. Parsa QNH (ex. "Q1013")
@@ -583,16 +587,21 @@ function parseAndPopulateMetarData(metarText) {
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
-    updateEngineCellVal('takeoff', 'qnh', parseInt(qnhMatch[1], 10));
+    let qnhVal = parseInt(qnhMatch[1], 10);
+    
+    updateEngineCellVal('takeoff', 'qnh', qnhVal);
+    if (document.getElementById('to-qnh')) document.getElementById('to-qnh').value = qnhVal;
   } else {
     const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
     if (altMatch) {
       let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
       updateEngineCellVal('takeoff', 'qnh', hpa);
+      if (document.getElementById('to-qnh')) document.getElementById('to-qnh').value = hpa;
     }
   }
 
+  // Trigga beräkning / uppdatering av outputs
   if (typeof refreshOutputs === 'function') {
     refreshOutputs();
   }
