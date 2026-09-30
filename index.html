@@ -1,167 +1,482 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>King Air 200 EFB</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- SheetJS (xlsx) och HyperFormula via CDN -->
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>King Air 200 Performance EFB</title>
+  <!-- SheetJS (xlsx) och HyperFormula via CDN för offline-kapacitet -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #131d31;
+      --border: #1e293b;
+      --border-focus: #0ea5e9;
+      --accent: #0ea5e9;
+      --accent-glow: rgba(14, 165, 233, 0.15);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #f1f5f9;
+      --muted: #64748b;
+      --input-bg: #090d16;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; font-size: 13px; }
+
+    header {
+      background-color: var(--card);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-tabs { display: flex; gap: 6px; }
+    .tab-btn {
+      background: var(--input-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .status-badge.online { background-color: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+    .status-badge.offline { background-color: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
+
+    main { flex: 1; padding: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; width: 100%; max-width: 1024px; margin: 0 auto; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      transition: opacity 0.2s ease, filter 0.2s ease;
+    }
+
+    .card.calculating, .kpi-container.calculating, .engine-out-card.calculating {
+      opacity: 0.4;
+      filter: grayscale(40%);
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sheet-table { width: 100%; border-collapse: collapse; }
+    .sheet-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+    }
+    .col-label { color: var(--text); font-weight: 500; font-size: 12px; }
+
+    .form-control {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: right;
+      width: 100%;
+    }
+    .form-control:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 2px var(--accent-glow); }
+    select.form-control { text-align-last: right; }
+    
+    .form-control.override-input { width: 70px; text-align: center; }
+    .form-control.overridden { border-color: var(--warning); color: var(--warning); background: rgba(245, 158, 11, 0.05); }
+
+    .form-range {
+      accent-color: var(--accent);
+      background: var(--input-bg);
+      cursor: pointer;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    
+    .kpi-card {
+      background: var(--accent-glow);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    
+    .kpi-card.alert-success { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.4); }
+    .kpi-card.alert-success .kpi-value, .kpi-card.alert-success .kpi-unit { color: var(--success); }
+    .kpi-card.alert-warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.5); }
+    .kpi-card.alert-warning .kpi-value, .kpi-card.alert-warning .kpi-unit { color: var(--warning); }
+    .kpi-card.alert-danger { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.5); }
+    .kpi-card.alert-danger .kpi-value, .kpi-card.alert-danger .kpi-unit { color: var(--danger); }
+
+    .kpi-label { font-size: 9px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .kpi-value { font-size: 13px; color: #fff; font-weight: 800; margin-top: 2px; }
+    .kpi-unit { font-size: 9px; color: var(--accent); }
+
+    .v-speeds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 2px; }
+    .v-speed-col { background: rgba(255, 255, 255, 0.03); border-radius: 4px; padding: 3px 2px; text-align: center; }
+    .v-speed-title { font-size: 8px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .v-speed-val { font-size: 12px; font-weight: 800; color: #fff; margin-top: 1px; }
+
+    .action-link-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 10px; font-weight: 600; padding: 0; }
+    .action-link-btn:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>BE20 EFB - Performance</h1>
-        <div class="global-reg">
-            <label for="global-registration">Reg:</label>
-            <input type="text" id="global-registration" value="SE-XXX" />
+
+  <header>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showTab('takeoff')">Take-off</button>
+      <button class="tab-btn" onclick="showTab('landing')">Landing</button>
+      <button class="tab-btn" onclick="showTab('airport')">Airport Data</button>
+    </div>
+    <div class="header-right">
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <span style="font-size: 10px; color: var(--muted); font-weight: 700;">REG:</span>
+        <select class="form-control" id="global-registration" style="width: 95px; padding: 3px 6px; font-size: 11px;" onchange="updateGlobalRegistration(this.value)">
+          <option value="">-- Välj --</option>
+        </select>
+      </div>
+      <span id="network-status" class="status-badge offline">OFFLINE</span>
+      <span style="font-size: 10px; color: var(--muted); font-weight: 700;">v5.5</span>
+    </div>
+  </header>
+
+  <main>
+    <div id="loading">Hämtar prestandadata...</div>
+
+    <!-- TAKEOFF DASHBOARD (Startar med klassen 'active' så den syns direkt) -->
+    <div id="page-takeoff" class="page active">
+      <div class="kpi-container" id="to-kpi-block" style="display: none;">
+        <div class="kpi-card">
+          <div class="kpi-label">V-Speeds</div>
+          <div class="v-speeds-grid">
+            <div class="v-speed-col"><div class="v-speed-title">V1</div><div class="v-speed-val" id="val-v1">--</div></div>
+            <div class="v-speed-col"><div class="v-speed-title">VR</div><div class="v-speed-val" id="val-vr">--</div></div>
+            <div class="v-speed-col"><div class="v-speed-title">V2</div><div class="v-speed-val" id="val-v2">--</div></div>
+          </div>
         </div>
-    </header>
+        <div class="kpi-card">
+          <div class="kpi-label">Distances</div>
+          <div class="kpi-value" id="to-distance">--</div>
+          <div class="kpi-unit" id="to-distance-status">Beräknar...</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Climb Grad</div>
+          <div class="kpi-value" id="to-climb">-- %</div>
+          <div class="kpi-unit">OEI Wings</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Wind / XW</div>
+          <div class="kpi-value" id="to-wind-val">--</div>
+          <div class="kpi-unit" id="to-wind-unit">XW Limit: --</div>
+        </div>
+      </div>
 
-    <!-- Fliknavigering -->
-    <nav class="tabs">
-        <button class="tab-btn active" onclick="switchTab('takeoff', event)">Take-off</button>
-        <button class="tab-btn" onclick="switchTab('landing', event)">Landing</button>
-    </nav>
+      <div class="compact-grid">
+        <div class="card">
+          <div class="card-title">Airport & Weather</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Airport and RWY</td>
+              <td colspan="2"><select class="form-control" id="in-to-c4" onchange="updateCell('Take-off', 'C4', this.value)"></select></td>
+            </tr>
+            <tr>
+              <td class="col-label">METAR</td>
+              <td colspan="2" id="to-c5-cell" style="font-size: 10px; color: var(--accent);">--</td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Direction</td>
+              <td><span id="val-to-c6">--</span>°</td>
+              <td><input type="text" class="form-control override-input" id="in-to-e6" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E6', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Speed</td>
+              <td><span id="val-to-c7">--</span> KT</td>
+              <td><input type="text" class="form-control override-input" id="in-to-e7" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E7', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">Outside Air Temp</td>
+              <td><span id="val-to-c8">--</span>°C</td>
+              <td><input type="text" class="form-control override-input" id="in-to-e8" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E8', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">QNH</td>
+              <td><span id="val-to-c9">--</span> hPa</td>
+              <td><input type="text" class="form-control override-input" id="in-to-e9" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E9', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">RWCC</td>
+              <td><select class="form-control" id="in-to-c10" onchange="updateCell('Take-off', 'C10', this.value)"></select></td>
+              <td style="text-align: right;"><button class="action-link-btn" onclick="clearWeatherOverrides('Take-off')">Rensa</button></td>
+            </tr>
+          </table>
+        </div>
 
-    <main>
-        <!-- TAKEOFF-FLIK -->
-        <section id="page-takeoff" class="tab-content active">
-            <h2>Startprestanda</h2>
-            
-            <div class="form-group">
-                <label>Flygplats & Bana (C4):</label>
-                <select id="to-airport" onchange="handleTakeoffAirport(this.value)">
-                    <option value="">Laddar flygplatser från Excel...</option>
-                </select>
-            </div>
+        <div class="card">
+          <div class="card-title">Setup & Mass</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Take-off Mass</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <input type="range" id="in-to-c14" min="8000" max="12500" step="50" value="10000" class="form-range" oninput="document.getElementById('c14-val-label').innerText=this.value" onchange="updateCell('Take-off', 'C14', this.value)">
+                  <span id="c14-val-label" style="font-weight:700; color:var(--accent);">10000</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="col-label">Flaps</td>
+              <td><select class="form-control" id="in-to-c26" onchange="renderDashboard()"><option value="UP">UP</option><option value="APP">APP</option></select></td>
+            </tr>
+            <tr>
+              <td class="col-label">Contaminant</td>
+              <td><select class="form-control" id="in-to-c11" onchange="updateCell('Take-off', 'C11', this.value)"></select></td>
+            </tr>
+            <tr>
+              <td class="col-label">Anti-Ice</td>
+              <td><select class="form-control" id="in-to-c13" onchange="updateCell('Take-off', 'C13', this.value)"><option value="OFF">OFF</option><option value="ON">ON</option></select></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
 
-            <fieldset>
-                <legend>Väder & Overrides</legend>
-                <div class="grid-2">
-                    <div><label>Vindriktning (C6 / E6 ovr):</label><input type="number" id="to-wind-dir" oninput="handleWeather('takeoff', 'windDir', this.value)"></div>
-                    <div><label>Override E6:</label><input type="number" id="to-wind-dir-ovr" oninput="handleWeatherOverride('takeoff', 'windDirOverride', this.value)"></div>
-                    <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="to-wind-spd" oninput="handleWeather('takeoff', 'windSpeed', this.value)"></div>
-                    <div><label>Override E7:</label><input type="number" id="to-wind-spd-ovr" oninput="handleWeatherOverride('takeoff', 'windSpeedOverride', this.value)"></div>
-                    <div><label>OAT °C (C8 / E8 ovr):</label><input type="number" id="to-oat" oninput="handleWeather('takeoff', 'oat', this.value)"></div>
-                    <div><label>Override E8:</label><input type="number" id="to-oat-ovr" oninput="handleWeatherOverride('takeoff', 'oatOverride', this.value)"></div>
-                    <div><label>QNH (C9 / E9 ovr):</label><input type="number" id="to-qnh" oninput="handleWeather('takeoff', 'qnh', this.value)"></div>
-                    <div><label>Override E9:</label><input type="number" id="to-qnh-ovr" oninput="handleWeatherOverride('takeoff', 'qnhOverride', this.value)"></div>
-                </div>
-            </fieldset>
+    <!-- LANDING DASHBOARD -->
+    <div id="page-landing" class="page">
+      <div class="kpi-container" id="ldg-kpi-block" style="display: none;">
+        <div class="kpi-card"><div class="kpi-label">VREF</div><div class="kpi-value" id="ldg-vref">--</div><div class="kpi-unit">KTS</div></div>
+        <div class="kpi-card"><div class="kpi-label">LD vs LDA</div><div class="kpi-value" id="ldg-distance">--</div><div class="kpi-unit" id="ldg-distance-status">--</div></div>
+        <div class="kpi-card"><div class="kpi-label">Wind / XW</div><div class="kpi-value" id="ldg-wind-val">--</div><div class="kpi-unit" id="ldg-wind-unit">XW Limit: --</div></div>
+        <div class="kpi-card"><div class="kpi-label">Missed App Climb</div><div class="kpi-value" id="ldg-missed-climb">-- %</div><div class="kpi-unit" id="ldg-missed-climb-status">Min 2.5%</div></div>
+      </div>
 
-            <fieldset>
-                <legend>Setup & Mass</legend>
-                <div class="form-group">
-                    <label>Startmassa (C14: <span id="to-mass-val">10000</span> lbs) [8000–12500]:</label>
-                    <input type="range" id="to-mass" min="8000" max="12500" step="50" value="10000" oninput="handleTakeoffMass(this.value)">
-                </div>
-                <div class="form-group">
-                    <label>Flaps (PWA):</label>
-                    <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
-                        <option value="UP">UP</option>
-                        <option value="APP">APP</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Banförorening / Contaminant (C11):</label>
-                    <input type="text" id="to-contaminant" value="Dry" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)">
-                </div>
-                <div class="form-group">
-                    <label>Engine Anti-Ice (C13):</label>
-                    <select id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)">
-                        <option value="OFF">OFF</option>
-                        <option value="ON">ON</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>RWCC (C10):</label>
-                    <input type="number" id="to-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('takeoff', 'rwcc', this.value)">
-                </div>
-            </fieldset>
+      <div class="compact-grid">
+        <div class="card">
+          <div class="card-title">Airport & Weather (Landing)</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Airport and RWY</td>
+              <td colspan="2"><select class="form-control" id="in-ldg-c4" onchange="updateCell('Landing', 'C4', this.value)"></select></td>
+            </tr>
+            <tr>
+              <td class="col-label">METAR</td>
+              <td colspan="2" id="val-ldg-c5" style="font-size: 10px; color: var(--accent);">--</td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Direction</td>
+              <td><span id="val-ldg-c6">--</span>°</td>
+              <td><input type="text" class="form-control override-input" id="in-ldg-e6" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E6', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">Wind Speed</td>
+              <td><span id="val-ldg-c7">--</span> KT</td>
+              <td><input type="text" class="form-control override-input" id="in-ldg-e7" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E7', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">OAT</td>
+              <td><span id="val-ldg-c8">--</span>°C</td>
+              <td><input type="text" class="form-control override-input" id="in-ldg-e8" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E8', this.value)"></td>
+            </tr>
+            <tr>
+              <td class="col-label">QNH</td>
+              <td><span id="val-ldg-c9">--</span> hPa</td>
+              <td><input type="text" class="form-control override-input" id="in-ldg-e9" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E9', this.value)"></td>
+            </tr>
+          </table>
+        </div>
 
-            <div class="results-box">
-                <h3>Beräknat Resultat</h3>
-                <div class="grid-2">
-                    <p>V1: <strong id="res-to-v1">-</strong></p>
-                    <p>VR: <strong id="res-to-vr">-</strong></p>
-                    <p>V2: <strong id="res-to-v2">-</strong></p>
-                    <p>TOD (C36): <strong id="res-to-tod">-</strong> m</p>
-                    <p>ASD (C37): <strong id="res-to-asd">-</strong> m</p>
-                    <p>TORA (C20): <strong id="res-to-tora">-</strong> m</p>
-                    <p>ASDA (C19): <strong id="res-to-asda">-</strong> m</p>
-                    <p>TOR (F21): <strong id="res-to-tor">-</strong> m</p>
-                    <p>Stigningsgradient (C42): <strong id="res-to-climb">-</strong></p>
-                    <p>H/T Vind (C24): <strong id="res-to-hwtw">-</strong></p>
-                    <p>Sidvind (C25 / Limit F25): <strong id="res-to-xw">-</strong> / <span id="res-to-xwlimit">-</span></p>
-                    <p>G19 (G19): <strong id="res-to-g19">-</strong></p>
+        <div class="card">
+          <div class="card-title">Setup & Mass (Landing)</div>
+          <table class="sheet-table">
+            <tr>
+              <td class="col-label">Landing Mass</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <input type="range" id="in-ldg-c11" min="9000" max="12500" step="50" value="9500" class="form-range" oninput="document.getElementById('c11-val-label').innerText=this.value" onchange="updateCell('Landing', 'C11', this.value)">
+                  <span id="c11-val-label" style="font-weight:700; color:var(--accent);">9500</span>
                 </div>
-                <hr style="border-color: #294868; margin: 10px 0;">
-                <p><strong>Motorfel Upp:</strong> Vref: <span id="res-to-emup-vref">-</span> | Dist: <span id="res-to-emup-dist">-</span></p>
-                <p><strong>Motorfel Ner:</strong> Vref: <span id="res-to-emdown-vref">-</span> | Dist: <span id="res-to-emdown-dist">-</span></p>
-                <p>Molnbas (C69): <strong id="res-to-cloud">-</strong> | Escape Route (C70): <strong id="res-to-escape">-</strong></p>
-            </div>
-        </section>
+              </td>
+            </tr>
+            <tr>
+              <td class="col-label">Flaps</td>
+              <td><select class="form-control" id="in-ldg-flaps" onchange="renderDashboard()"><option value="UP">UP</option><option value="DOWN">DOWN</option></select></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
 
-        <!-- LANDING-FLIK -->
-        <section id="page-landing" class="tab-content">
-            <h2>Landningsprestanda</h2>
-            
-            <div class="form-group">
-                <label>Flygplats & Bana (C4):</label>
-                <select id="ldg-airport" onchange="handleLandingAirport(this.value)">
-                    <option value="">Laddar flygplatser från Excel...</option>
-                </select>
-            </div>
+    <!-- AIRPORT DATA -->
+    <div id="page-airport" class="page">
+      <div class="card" style="margin-bottom: 10px;">
+        <div class="card-title">Custom Airport Data</div>
+        <table class="sheet-table" id="manual-airport-table"></table>
+      </div>
+      <div class="card">
+        <div class="card-title">Airport Database</div>
+        <div id="airport-list"></div>
+      </div>
+    </div>
+  </main>
 
-            <fieldset>
-                <legend>Väder & Overrides</legend>
-                <div class="grid-2">
-                    <div><label>Vindriktning (C6 / E6 ovr):</label><input type="number" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)"></div>
-                    <div><label>Override E6:</label><input type="number" id="ldg-wind-dir-ovr" oninput="handleWeatherOverride('landing', 'windDirOverride', this.value)"></div>
-                    <div><label>Vindstyrka (C7 / E7 ovr):</label><input type="number" id="ldg-wind-spd" oninput="handleWeather('landing', 'windSpeed', this.value)"></div>
-                    <div><label>Override E7:</label><input type="number" id="ldg-wind-spd-ovr" oninput="handleWeatherOverride('landing', 'windSpeedOverride', this.value)"></div>
-                    <div><label>OAT °C (C8 / E8 ovr):</label><input type="number" id="ldg-oat" oninput="handleWeather('landing', 'oat', this.value)"></div>
-                    <div><label>Override E8:</label><input type="number" id="ldg-oat-ovr" oninput="handleWeatherOverride('landing', 'oatOverride', this.value)"></div>
-                    <div><label>QNH (C9 / E9 ovr):</label><input type="number" id="ldg-qnh" oninput="handleWeather('landing', 'qnh', this.value)"></div>
-                    <div><label>Override E9:</label><input type="number" id="ldg-qnh-ovr" oninput="handleWeatherOverride('landing', 'qnhOverride', this.value)"></div>
-                </div>
-            </fieldset>
+  <script>
+    let appState = JSON.parse(localStorage.getItem('aviation_app_state')) || { takeoff: [], landing: [], airport: [] };
+    let weatherOverrides = JSON.parse(localStorage.getItem('aviation_weather_overrides')) || {};
+    let landingWeatherOverrides = JSON.parse(localStorage.getItem('aviation_landing_weather_overrides')) || {};
+    let hfInstance = null;
 
-            <fieldset>
-                <legend>Setup & Mass</legend>
-                <div class="form-group">
-                    <label>Landningsmassa (C11: <span id="ldg-mass-val">9500</span> lbs) [9000–12500]:</label>
-                    <input type="range" id="ldg-mass" min="9000" max="12500" step="50" value="9500" oninput="handleLandingMass(this.value)">
-                </div>
-                <div class="form-group">
-                    <label>Flaps (PWA):</label>
-                    <select id="ldg-flaps" onchange="handleLandingFlaps(this.value)">
-                        <option value="UP">UP</option>
-                        <option value="DOWN">DOWN</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>RWCC (C10):</label>
-                    <input type="number" id="ldg-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('landing', 'rwcc', this.value)">
-                </div>
-            </fieldset>
+    function showTab(tabName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`page-${tabName}`).classList.add('active');
+      event.target.classList.add('active');
+    }
 
-            <div class="results-box">
-                <h3>Beräknat Resultat</h3>
-                <div class="grid-2">
-                    <p>LDA (C18): <strong id="res-ldg-lda">-</strong> m</p>
-                    <p>H/T Vind (C21): <strong id="res-ldg-hwtw">-</strong></p>
-                    <p>Sidvind (C22 / Limit G22): <strong id="res-ldg-xw">-</strong> / <span id="res-ldg-xwlimit">-</span></p>
-                    <p>Missed Approach Climb (C31): <strong id="res-ldg-missed">-</strong></p>
-                </div>
-                <hr style="border-color: #294868; margin: 10px 0;">
-                <p><strong>Flaps UP:</strong> Vref: <span id="res-ldg-vrefup">-</span> | Dist: <span id="res-ldg-distup">-</span> m</p>
-                <p><strong>Flaps DOWN:</strong> Vref: <span id="res-ldg-vrefdown">-</span> | Dist: <span id="res-ldg-distdown">-</span> m</p>
-            </div>
-        </section>
-    </main>
+    function initHyperFormula() {
+      try {
+        if (typeof HyperFormula !== 'undefined' && appState.takeoff.length > 0) {
+          hfInstance = HyperFormula.build({
+            Takeoff: appState.takeoff,
+            Landing: appState.landing,
+            'Airport Data': appState.airport
+          }, { licenseKey: 'gpl-v3' });
+        }
+      } catch (e) {
+        console.error("HyperFormula init error:", e);
+      }
+    }
 
-    <script src="js/app.js"></script>
+    function getCellByA1(sheetType, a1) {
+      const isLanding = sheetType === 'landing' || sheetType === 'Landing';
+      const overrides = isLanding ? landingWeatherOverrides : weatherOverrides;
+      if (overrides[a1] !== undefined && overrides[a1] !== "") return overrides[a1];
+
+      const sName = isLanding ? 'Landing' : (sheetType === 'takeoff' ? 'Takeoff' : sheetType);
+      if (hfInstance) {
+        try {
+          const sheetId = hfInstance.getSheetIdByName(sName);
+          const val = hfInstance.getCellValue({ sheet: sheetId, col: colLetterToIndex(a1), row: rowNumberToIndex(a1) });
+          if (val !== null && val !== undefined) return val;
+        } catch (e) {}
+      }
+      return "";
+    }
+
+    function colLetterToIndex(a1) {
+      const colLetter = a1.match(/[A-Z]+/)[0];
+      let index = 0;
+      for (let i = 0; i < colLetter.length; i++) {
+        index = index * 26 + (colLetter.charCodeAt(i) - 64);
+      }
+      return index - 1;
+    }
+
+    function rowNumberToIndex(a1) {
+      return parseInt(a1.match(/\d+/)[0], 10) - 1;
+    }
+
+    function updateCell(sheetName, cellCoord, value) {
+      if (hfInstance) {
+        try {
+          const sheetId = hfInstance.getSheetIdByName(sheetName);
+          hfInstance.setCellContents({ sheet: sheetId, col: colLetterToIndex(cellCoord), row: rowNumberToIndex(cellCoord) }, value);
+        } catch (e) {}
+      }
+      renderDashboard();
+    }
+
+    function updateWeatherOverride(sheetName, cellRef, val) {
+      const isLanding = sheetName === 'Landing';
+      const overrides = isLanding ? landingWeatherOverrides : weatherOverrides;
+      if (val !== undefined && val !== "") {
+        overrides[cellRef] = val;
+      } else {
+        delete overrides[cellRef];
+      }
+      localStorage.setItem(isLanding ? 'aviation_landing_weather_overrides' : 'aviation_weather_overrides', JSON.stringify(overrides));
+      renderDashboard();
+    }
+
+    function clearWeatherOverrides(sheetName) {
+      if (sheetName === 'Landing') {
+        landingWeatherOverrides = {};
+        localStorage.removeItem('aviation_landing_weather_overrides');
+      } else {
+        weatherOverrides = {};
+        localStorage.removeItem('aviation_weather_overrides');
+      }
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('to-kpi-block').style.display = 'grid';
+      document.getElementById('ldg-kpi-block').style.display = 'grid';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateNetworkStatus();
+      initHyperFormula();
+      renderDashboard();
+    });
+
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+
+    function updateNetworkStatus() {
+      const status = document.getElementById('network-status');
+      if (navigator.onLine) {
+        status.innerText = "ONLINE"; status.className = "status-badge online";
+      } else {
+        status.innerText = "OFFLINE"; status.className = "status-badge offline";
+      }
+    }
+  </script>
 </body>
 </html>
