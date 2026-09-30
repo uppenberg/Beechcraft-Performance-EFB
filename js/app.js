@@ -125,21 +125,30 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll flygplatsrullistor direkt från den inlästa matrisen
 function populateAirports() {
-  if (!hfInstance) return;
+  if (!hfInstance) {
+    console.error("populateAirports: hfInstance saknas!");
+    return;
+  }
+  
+  const toSelect = document.getElementById('to-airport');
+  const ldgSelect = document.getElementById('ldg-airport');
+  
+  console.log("Hittades DOM-elementen?", { 
+    "to-airport": !!toSelect, 
+    "ldg-airport": !!ldgSelect 
+  });
+
   let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
 
   try {
     const sheetId = hfInstance.getSheetId('Airport data');
-    const width = hfInstance.getSheetWidth(sheetId);
     const height = hfInstance.getSheetHeight(sheetId);
+    console.log("Sheet ID för 'Airport data':", sheetId, "Antal rader:", height);
 
-    // Gå igenom alla rader i bladet
     for (let r = 0; r < height; r++) {
       const cellVal = hfInstance.getCellValue({ sheet: sheetId, col: 0, row: r });
-
-      // Filtrera ut tomma rader och rubriker
+      
       if (cellVal === null || cellVal === undefined || cellVal === '' || cellVal === 'Airport' || cellVal === '[ft]') {
         continue;
       }
@@ -147,11 +156,11 @@ function populateAirports() {
       optionsHtml += `<option value="${cellVal}">${cellVal}</option>`;
     }
   } catch (e) {
-    console.error("Fel vid hämtning av flygplatser:", e);
+    console.error("Fel inne i populateAirports loop:", e);
   }
 
-  const toSelect = document.getElementById('to-airport');
-  const ldgSelect = document.getElementById('ldg-airport');
+  console.log("Färdig HTML som ska sättas in:", optionsHtml);
+
   if (toSelect) toSelect.innerHTML = optionsHtml;
   if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
 }
