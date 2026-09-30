@@ -86,9 +86,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadExcelFile(basePath);
 });
 
-async function loadExcelFile(url) {
+// Ersätt din gamla inläsningskod med detta:
+
+async function loadData() {
   try {
-    const response = await fetch(url);
+    const basePath = window.location.hostname.includes('github.io') 
+      ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
+      : 'data/be200_prestanda.xlsx';
+
+    const response = await fetch(basePath);
     if (!response.ok) throw new Error(`Kunde inte hämta filen (${response.statusText})`);
     
     const arrayBuffer = await response.arrayBuffer();
@@ -106,8 +112,11 @@ async function loadExcelFile(url) {
     populateAirportsFromRaw(sheetsData['Airport data']);
     refreshOutputs();
     console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
+    
+    return sheetsData; // Returnera data om init() förväntar sig det
   } catch (error) {
     console.error("Fel vid inläsning av Excel-fil:", error);
+    throw error;
   }
 }
 
