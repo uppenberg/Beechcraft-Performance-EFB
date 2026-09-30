@@ -1,135 +1,190 @@
-let globalData = { airports: [], factors: {} };
-let selectedRunwayData = null;
+// Global HyperFormula-instans
+let hfInstance;
 
-async function init() {
-  console.log("Startar PWA och laddar data...");
-  try {
-    globalData = await loadData();
-    
-    // Dölj laddningsmeddelandet omedelbart
-    const loadingEl = document.getElementById('loading');
-    if (loadingEl) loadingEl.style.display = 'none';
-
-    // Visa gränssnittet direkt
-    const kpiBlock = document.getElementById('to-kpi-block');
-    if (kpiBlock) kpiBlock.style.display = 'grid';
-
-    const chartBlock = document.getElementById('card-chart-block');
-    if (chartBlock) chartBlock.style.display = 'block';
-
-    populateAirportSelects();
-    runCalculations();
-  } catch (err) {
-    console.error("Fel vid initiering:", err);
-    const loadingEl = document.getElementById('loading');
-    if (loadingEl) loadingEl.innerText = "Kunde inte ladda data. Kontrollera filerna.";
+// Mappningstabell som kopplar PWA mot ark och exakta celler
+const CELL_MAPPING = {
+  airport: {
+    sheetName: 'Airport Data',
+    startRow: 6,
+    codeCol: 'B', // Kolumn för ICAO/Flygplatskod
+    nameCol: 'C'  // Kolumn för ban-/flygplatsnamn
+  },
+  takeoff: {
+    sheetName: 'Take-off',
+    inputs: {
+      airportAndRwy: 'C4',
+      windDir: 'C6',
+      windDirOverride: 'E6',
+      windSpeed: 'C7',
+      windSpeedOverride: 'E7',
+      oat: 'C8',
+      oatOverride: 'E8',
+      qnh: 'C9',
+      qnhOverride: 'E9',
+      rwcc: 'C10',
+      contaminant: 'C11',
+      antiIce: 'C13',
+      mass: 'C14',
+      flaps: 'C26' // Exempelcell för flaps på start
+    },
+    outputs: {
+      v1: 'C38',
+      vr: 'C39',
+      v2: 'C40',
+      tod: 'C36'
+    }
+  },
+  landing: {
+    sheetName: 'Landing',
+    inputs: {
+      airportAndRwy: 'C4',
+      windDir: 'C6',
+      windDirOverride: 'E6',
+      windSpeed: 'C7',
+      windSpeedOverride: 'E7',
+      oat: 'C8',
+      oatOverride: 'E8',
+      qnh: 'C9',
+      qnhOverride: 'E9',
+      rwcc: 'C10',
+      mass: 'C11'
+    },
+    outputs: {
+      vrefUp: 'C26',
+      ldgDistUp: 'C27'
+    }
   }
-}
+};
 
-function populateAirportSelects() {
-  const selectTo = document.getElementById('in-to-c4');
-  const selectLdg = document.getElementById('in-ldg-c4');
-  if (!selectTo) return;
+// Initialisera HyperFormula med dina flikar
+document.addEventListener('DOMContentLoaded', () => {
+  const sheetsData = {
+    'Airport Data': [
+      ["ICAO", "Bana", "Elev", "Length"],
+      ["ESNS", "Bana 12", "215", "1999"],
+      ["ESPA", "Bana 10", "105", "2500"],
+      ["ESSA", "Bana 08L", "148", "3300"]
+    ],
+    'Take-off': [
+      /* Här laddas ditt faktiska kalkylblads formler/data */
+    ],
+    'Landing': [
+      /* Här laddas ditt faktiska kalkylblads formler/data */
+    ]
+  };
 
-  selectTo.innerHTML = '';
-  if (selectLdg) selectLdg.innerHTML = '';
+  // Skapa HyperFormula-motorn
+  hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
 
-  globalData.airports.forEach(airport => {
-    airport.runways.forEach(rwy => {
-      const val = `${airport.icao} RWY ${rwy.designator}`;
-      const text = `${airport.icao} - ${airport.name} (RWY ${rwy.designator})`;
-      selectTo.add(new Option(text, val));
-      if (selectLdg) selectLdg.add(new Option(text, val));
-    });
-  });
-}
-
-function runCalculations() {
-  const rwySelection = document.getElementById('in-to-c4')?.value;
-  if (!rwySelection || !globalData.airports.length) return;
-
-  const [icao, , rwyDesig] = rwySelection.split(' ');
-  const airport = globalData.airports.find(a => a.icao === icao);
-  if (!airport) return;
-  selectedRunwayData = airport.runways.find(r => r.designator === rwyDesig) || airport.runways[0];
-
-  const windDir = parseFloat(document.getElementById('in-to-e6')?.value || 270);
-  const windSpd = parseFloat(document.getElementById('in-to-e7')?.value || 6);
-  const rwcc = document.getElementById('in-to-c10')?.value || "6";
-  const mass = parseFloat(document.getElementById('in-to-c14')?.value || 12500);
-  const flaps = document.getElementById('in-to-c26')?.value || "UP";
-  const contaminant = document.getElementById('in-to-c11')?.value || "No contaminant";
-
-  // Sätt vindvärden i UI om de inte är överskrivna
-  const dirEl = document.getElementById('val-to-c6');
-  const spdEl = document.getElementById('val-to-c7');
-  if (dirEl) dirEl.innerText = windDir;
-  if (spdEl) spdEl.innerText = windSpd;
-
-  const wind = calculateWind(windDir, windSpd, selectedRunwayData.heading);
-  const toResult = computeTakeoff(mass, rwcc, globalData.factors, selectedRunwayData, wind, flaps, contaminant);
-
-  // Uppdatera V-speeds & Distans i UI
-  document.getElementById('val-v1').innerText = toResult.v1;
-  document.getElementById('val-vr').innerText = toResult.vr;
-  document.getElementById('val-v2').innerText = toResult.v2;
-  document.getElementById('to-distance').innerText = `${toResult.tor}m`;
-  document.getElementById('to-climb').innerText = `${toResult.climbGrad}%`;
-
-  const hwTwStr = wind.hw >= 0 ? `HW+${wind.hw}` : `TW${Math.abs(wind.hw)}`;
-  document.getElementById('to-wind-val').innerText = `${hwTwStr} | ${wind.xw}kt`;
-
-  const todCard = document.getElementById('kpi-tod-card');
-  const todStatusElem = document.getElementById('to-distance-status');
-  if (toResult.passed) {
-    todCard.className = "kpi-card alert-success";
-    todStatusElem.innerHTML = `<span style="color: var(--success); font-weight: 800;">OK</span>`;
-    document.getElementById('to-status-badge').innerText = "OK";
-    document.getElementById('to-status-badge').className = "badge-ok";
-  } else {
-    todCard.className = "kpi-card alert-danger";
-    todStatusElem.innerHTML = `<span style="color: var(--danger); font-weight: 800;">ÖVERSKRIDEN</span>`;
-    document.getElementById('to-status-badge').innerText = "ÖVERSKRIDEN";
-    document.getElementById('to-status-badge').className = "badge-danger";
-  }
-
-  // EASA-kontroller
-  const easaContainer = document.getElementById('easa-compliance-details');
-  if (easaContainer) {
-    easaContainer.innerHTML = `
-      <div style="font-weight: 700; margin-bottom: 4px; color: var(--muted);">EASA Performance Class A Criteria:</div>
-      <div class="easa-item"><span>1. TOR (${toResult.tor}m) ≤ TORA (${selectedRunwayData.tora}m):</span><span class="${toResult.torOk ? 'easa-pass' : 'easa-fail'}">${toResult.torOk ? 'OK' : 'EJ OK'}</span></div>
-      <div class="easa-item"><span>2. ASD (${toResult.asd}m) ≤ ASDA (${selectedRunwayData.asda}m):</span><span class="${toResult.asdOk ? 'easa-pass' : 'easa-fail'}">${toResult.asdOk ? 'OK' : 'EJ OK'}</span></div>
-      <div class="easa-item"><span>3. TOD (${toResult.tod}m) ≤ TODA (${selectedRunwayData.toda}m):</span><span class="${toResult.todOk ? 'easa-pass' : 'easa-fail'}">${toResult.todOk ? 'OK' : 'EJ OK'}</span></div>
-      <div class="easa-item"><span>4. Net Climb Gradient (${toResult.climbGrad}%) ≥ Min Req (${toResult.minClimbReq}%):</span><span class="${toResult.climbOk ? 'easa-pass' : 'easa-fail'}">${toResult.climbOk ? 'OK' : 'EJ OK'}</span></div>
-    `;
-  }
-
-  updateRunwayChart(toResult, selectedRunwayData);
-
-  // Anropa METAR-hämtning när flygplats ändras
-  if (typeof fetchMetarForAirport === 'function') {
-    fetchMetarForAirport(icao, 'takeoff');
-  }
-}
-
-function updateRunwayChart(res, rwy) {
-  const maxLimit = Math.max(rwy.tora, rwy.asda, res.tor, res.tod, res.asd, 1000);
-  document.getElementById('to-limit-label').innerText = `TORA: ${rwy.tora}m | ASDA: ${rwy.asda}m`;
+  // Fyll rullistor för flygplatser
+  populateAirports();
   
-  const torPct = Math.min(Math.round((res.tor / maxLimit) * 100), 100);
-  const todPct = Math.min(Math.round((res.tod / maxLimit) * 100), 100);
-  const asdPct = Math.min(Math.round((res.asd / maxLimit) * 100), 100);
+  // Kör första uppdateringen av gränssnittet
+  refreshOutputs();
+});
 
-  const mTor = document.getElementById('to-marker-tor');
-  const mTod = document.getElementById('to-marker-tod');
-  const mAsd = document.getElementById('to-marker-asd');
-
-  if (mTor) { mTor.style.display = 'block'; mTor.style.left = `${torPct}%`; }
-  if (mTod) { mTod.style.display = 'block'; mTod.style.left = `${todPct}%`; }
-  if (mAsd) { mAsd.style.display = 'block'; mAsd.style.left = `${asdPct}%`; }
-
-  document.getElementById('to-used-text').innerText = `TOR: ${res.tor}m | TOD: ${res.tod}m | ASD: ${res.asd}m`;
+// Byt mellan flikar i gränssnittet
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  
+  if (tabName === 'takeoff') {
+    document.getElementById('page-takeoff').classList.add('active');
+    document.event?.target?.classList.add('active'); // Säkerhetskontroll
+  } else {
+    document.getElementById('page-landing').classList.add('active');
+  }
+  // Aktivera knappvisuellt
+  event.currentTarget.classList.add('active');
 }
 
-window.addEventListener('DOMContentLoaded', init);
+// Fyll flygplatsrullistor från "Airport Data"-fliken
+function populateAirports() {
+  const config = CELL_MAPPING.airport;
+  let row = config.startRow;
+  let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
+
+  while (true) {
+    const codeAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.codeCol}${row}`);
+    const codeVal = hfInstance.getCellValue(codeAddr);
+
+    if (codeVal === null || codeVal === "") break;
+
+    const nameAddr = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${config.nameCol}${row}`);
+    const nameVal = hfInstance.getCellValue(nameAddr) || "";
+
+    optionsHtml += `<option value="${codeVal}">${codeVal} - ${nameVal}</option>`;
+    row++;
+  }
+
+  document.getElementById('to-airport').innerHTML = optionsHtml;
+  document.getElementById('ldg-airport').innerHTML = optionsHtml;
+}
+
+// Generell funktion för att skriva ett värde till motorn
+function updateEngineCellVal(sheetType, fieldKey, value) {
+  const config = CELL_MAPPING[sheetType];
+  if (!config) return;
+  const cellRef = config.inputs[fieldKey];
+  if (!cellRef) return;
+
+  const address = hfInstance.detailedCellAddressFromString(`${config.sheetName}!${cellRef}`);
+  hfInstance.setCellContents(address, [[value]]);
+  
+  refreshOutputs();
+}
+
+// Specifika inmatningshanterare
+function handleTakeoffAirport(val) {
+  updateEngineCellVal('takeoff', 'airportAndRwy', val);
+}
+
+function handleLandingAirport(val) {
+  updateEngineCellVal('landing', 'airportAndRwy', val);
+}
+
+function handleTakeoffMass(val) {
+  document.getElementById('to-mass-val').innerText = val;
+  updateEngineCellVal('takeoff', 'mass', Number(val));
+}
+
+function handleLandingMass(val) {
+  document.getElementById('ldg-mass-val').innerText = val;
+  updateEngineCellVal('landing', 'mass', Number(val));
+}
+
+function handleTakeoffFlaps(val) {
+  updateEngineCellVal('takeoff', 'flaps', val);
+}
+
+function handleLandingFlaps(val) {
+  // Styrs via logik för UP/DOWN beroende på din uppsättning i arket
+  updateEngineCellVal('landing', 'flaps', val);
+}
+
+function handleWeather(sheetType, param, val) {
+  // Skriver till C-cellen (automatisk data / basvärde)
+  updateEngineCellVal(sheetType, param, val === "" ? "" : Number(val));
+}
+
+function handleWeatherOverride(sheetType, paramOverrideKey, val) {
+  // Skriver till E-cellen (override)
+  updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
+}
+
+// Hämtar beräknade värden från motorn och uppdaterar skärmen
+function refreshOutputs() {
+  if (!hfInstance) return;
+
+  // Take-off outputs
+  const toConfig = CELL_MAPPING.takeoff;
+  document.getElementById('res-to-v1').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${toConfig.sheetName}!${toConfig.outputs.v1}`)) ?? '-';
+  document.getElementById('res-to-vr').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${toConfig.sheetName}!${toConfig.outputs.vr}`)) ?? '-';
+  document.getElementById('res-to-v2').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${toConfig.sheetName}!${toConfig.outputs.v2}`)) ?? '-';
+  document.getElementById('res-to-tod').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${toConfig.sheetName}!${toConfig.outputs.tod}`)) ?? '-';
+
+  // Landing outputs
+  const ldgConfig = CELL_MAPPING.landing;
+  document.getElementById('res-ldg-vref').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${ldgConfig.sheetName}!${ldgConfig.outputs.vrefUp}`)) ?? '-';
+  document.getElementById('res-ldg-dist').innerText = hfInstance.getCellValue(hfInstance.detailedCellAddressFromString(`${ldgConfig.sheetName}!${ldgConfig.outputs.ldgDistUp}`)) ?? '-';
+}
