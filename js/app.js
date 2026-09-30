@@ -496,7 +496,7 @@ async function fetchMetarForSelectedAirport() {
     // 1. Hämta värdet från cell C4 på 'Take-off'-bladet via HyperFormula
     const toConfig = CELL_MAPPING.takeoff;
     const sheetId = hfInstance.getSheetId(toConfig.sheetName);
-    const pos = parseCellRef(toConfig.inputs.airportAndRwy); // Hämtar cell C4
+    const pos = parseCellRef(toConfig.inputs.airportAndRwy);
     
     const airportCellVal = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
     
@@ -505,7 +505,6 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    // 2. Extrahera de första 4 tecknen (ICAO-koden)
     const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
     
     if (icaoCode.length < 4) {
@@ -513,11 +512,11 @@ async function fetchMetarForSelectedAirport() {
       return;
     }
 
-    console.log(`Hämtar METAR via proxy för ICAO: ${icaoCode}`);
+    console.log(`Hämtar METAR via CodeTabs proxy för ICAO: ${icaoCode}`);
 
-    // 3. Anropa via AllOrigins proxy för att kringgå CORS-spärren
-    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=json&_t=${new Date().getTime()}`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+    // 2. Använd CodeTabs CORS-proxy som är stabilare för webbläsare
+    const targetUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw&_t=${new Date().getTime()}`;
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
     
     const response = await fetch(proxyUrl);
     
@@ -525,27 +524,13 @@ async function fetchMetarForSelectedAirport() {
       throw new Error(`Kunde inte hämta METAR (status: ${response.status})`);
     }
     
-    const textData = await response.text();
-    let metarText = "";
-
-    try {
-      const data = JSON.parse(textData);
-      if (Array.isArray(data) && data.length > 0) {
-        metarText = data[0].rawOb || data[0].raw || "";
-      } else if (data && data.rawOb) {
-        metarText = data.rawOb;
-      }
-    } catch (e) {
-      metarText = textData;
-    }
-
+    let metarText = await response.text();
     metarText = metarText.trim();
     
-    if (metarText) {
-      // Rensa bort ev. "METAR " i början
+    if (metarText && !metarText.includes("<!DOCTYPE html>")) {
+      // Rensa bort ev. "METAR " i början precis som i ditt Apps Script
       metarText = metarText.replace(/^METAR\s+/, "");
       
-      // Spara i cell C5 (to-metar)
       updateEngineCellVal('takeoff', 'to-metar', metarText);
       console.log("METAR mottagen och inlagd i C5:", metarText);
     } else {
