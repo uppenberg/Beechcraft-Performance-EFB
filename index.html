@@ -460,10 +460,30 @@
       document.getElementById('ldg-kpi-block').style.display = 'grid';
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
       updateNetworkStatus();
-      initHyperFormula();
-      renderDashboard();
+      
+      // Hämta data från Google Sheets via PWA-bryggan vid start
+      google.script.run
+        .withSuccessHandler((data) => {
+          console.log("Data hämtad från Google Sheets:", data);
+          
+          // Spara ner datan i appState och localStorage
+          appState = data;
+          localStorage.setItem('aviation_app_state', JSON.stringify(data));
+          
+          // Initiera motorn och rita gränssnittet
+          initHyperFormula();
+          renderDashboard();
+          populateDropdowns(); // Fyll rullistorna med data från arket
+        })
+        .withFailureHandler((err) => {
+          console.error("Kunde inte hämta data från servern:", err);
+          // Fallback om vi kör helt offline och har sparad data i localStorage
+          initHyperFormula();
+          renderDashboard();
+        })
+        .getInitialData();
     });
 
     window.addEventListener('online', updateNetworkStatus);
