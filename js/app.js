@@ -452,12 +452,20 @@ function refreshOutputs() {
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
 }
+// Väderfält som läses från Excel (C6-C9)
+  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.outputs.windDir));
+  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.outputs.windSpeed));
+  safeSetValue('to-oat', getOutputVal(to.sheetName, to.outputs.oat));
+  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.outputs.qnh));
 
 function safeSetText(elementId, text) {
   const el = document.getElementById(elementId);
   if (el) el.innerText = text;
 }
-
+function safeSetValue(elementId, value) {
+  const el = document.getElementById(elementId);
+  if (el) el.value = (value !== '-' && value !== null && value !== undefined) ? value : '';
+}
 // Exportera funktioner globalt
 window.switchTab = switchTab;
 window.handleTakeoffAirport = handleTakeoffAirport;
