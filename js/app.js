@@ -20,7 +20,11 @@ const CELL_MAPPING = {
       contaminant: 'C11',
       antiIce: 'C13',
       mass: 'C14',
-      flaps: 'C26'
+      flaps: 'C26',
+      windDir: 'C6',
+      windSpeed: 'C7',
+      oat: 'C8',
+      qnh: 'C9',
     },
     outputs: {
       asda: 'C19',
@@ -42,10 +46,6 @@ const CELL_MAPPING = {
       emDownDist: 'G46',
       cloudBase: 'C69',
       escapeRoute: 'C70',
-      windDir: 'C6',
-      windSpeed: 'C7',
-      oat: 'C8',
-      qnh: 'C9'
     }
   },
   landing: {
@@ -59,7 +59,11 @@ const CELL_MAPPING = {
       qnhOverride: 'E9',
       rwcc: 'C10',
       mass: 'C11',
-      flaps: 'G24'
+      flaps: 'G24',
+      windDir: 'C6',
+      windSpeed: 'C7',
+      oat: 'C8',
+      qnh: 'C9',
     },
     outputs: {
       lda: 'C18',
@@ -71,10 +75,6 @@ const CELL_MAPPING = {
       vrefDown: 'G26',
       ldgDistDown: 'G27',
       missedClimb: 'C31',
-      windDir: 'C6',
-      windSpeed: 'C7',
-      oat: 'C8',
-      qnh: 'C9'
     }
   }
 };
@@ -509,7 +509,6 @@ async function fetchMetarForSelectedAirport() {
 
     console.log(`Hämtar METAR via eget Apps Script för: ${icaoCode}`);
 
-    // Byt ut nedanstående URL mot din riktiga Webbapp-URL från Steg 2
     const scriptWebAppDataUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
     
     const response = await fetch(scriptWebAppDataUrl);
@@ -518,17 +517,83 @@ async function fetchMetarForSelectedAirport() {
       throw new Error(`Kunde inte hämta via Apps Script (status: ${response.status})`);
     }
     
-    const metarText = await response.text();
+    let metarText = await response.text();
+    metarText = metarText ? metarText.trim() : "";
     
-    if (metarText) {
-      updateEngineCellVal('takeoff', 'to-metar', metarText.trim());
-      console.log("METAR mottagen och inlagd i C5:", metarText.trim());
+    if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
+      // Rensa bort eventuell "METAR " i början
+      metarText = metarText.replace(/^METAR\s+/, "");
+      
+      // 1. Spara rå METAR i C5
+      updateEngineCellVal('takeoff', 'to-metar', metarText);
+      console.log("METAR mottagen och inlagd i C5:", metarText);
+      
+      // 2. Extrahera och fyll i C6-C9 automatiskt
+      parseAndPopulateMetarData(metarText);
+      
     } else {
-      updateEngineCellVal('takeoff', 'to-metar', "INGEN METAR HITTADES");
+      updateEngineCellVal('takeoff', 'to-metar', metarText || "INGEN METAR HITTADES");
     }
 
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
     updateEngineCellVal('takeoff', 'to-metar', "OFFLINE / KUNDE INTE HÄMTA METAR");
+  }
+}
+
+
+function parseAndPopulateMetarData(metarText) {
+  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
+    return;
+  }
+
+  console.log("Parsar METAR:", metarText);
+
+  // 1. Parsa vind (ex. "24015KT", "03010G20KT", "VRB03KT")
+  const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
+  const windMatch = metarText.match(windRegex);
+
+  if (windMatch) {
+    let dir = windMatch[1] || windMatch[4];
+    let spd = windMatch[2] || windMatch[5];
+
+    if (dir !== "VRB") {
+      updateEngineCellVal('takeoff', 'to-wind-dir', parseInt(dir, 10));
+    } else {
+      updateEngineCellVal('takeoff', 'to-wind-dir', 0);
+    }
+
+    updateEngineCellVal('takeoff', 'to-wind-spd', parseInt(spd, 10));
+  }
+
+  // 2. Parsa temperatur / OAT (ex. "15/08", "M02/M05")
+  const tempRegex = /\s(M?\d{2})\/(M?\d{2})\s/;
+  const tempMatch = metarText.match(tempRegex);
+
+  if (tempMatch) {
+    let tempStr = tempMatch[1];
+    if (tempStr.startsWith('M')) {
+      tempStr = '-' + tempStr.substring(1);
+    }
+    updateEngineCellVal('takeoff', 'to-oat', parseInt(tempStr, 10));
+  }
+
+  // 3. Parsa QNH (ex. "Q1013")
+  const qnhRegex = /\bQ(\d{4})\b/i;
+  const qnhMatch = metarText.match(qnhRegex);
+
+  if (qnhMatch) {
+    updateEngineCellVal('takeoff', 'to-qnh', parseInt(qnhMatch[1], 10));
+  } else {
+    const altRegex = /\bA(\d{4})\b/i;
+    const altMatch = metarText.match(altRegex);
+    if (altMatch) {
+      let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
+      updateEngineCellVal('takeoff', 'to-qnh', hpa);
+    }
+  }
+
+  if (typeof refreshOutputs === 'function') {
+    refreshOutputs();
   }
 }
