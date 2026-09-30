@@ -39,7 +39,7 @@ const CELL_MAPPING = {
       emDownVref: 'G45',
       emDownDist: 'G46',
       cloudBase: 'C69',
-      escapeRoute: 'C70'
+      escapeRoute: 'C70',
       windDir: 'C6',
       windSpeed: 'C7',
       oat: 'C8',
