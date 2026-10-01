@@ -1000,3 +1000,16 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
         cardContainer.style.borderColor = "#d29922"; // Amber ram
     }
 }
+function onManualInputChange(inputElement) {
+    if (inputElement.value.trim() !== "") {
+        // Eget värde indrivet -> Ändra till amber/gult
+        inputElement.style.color = "#d29922";
+        inputElement.style.borderColor = "#d29922";
+        inputElement.style.background = "#221a05"; // Mörk amberton i bakgrunden (valfritt)
+    } else {
+        // Tomt -> Återställ till standard dark-mode stil
+        inputElement.style.color = "#fff";
+        inputElement.style.borderColor = "#30363d";
+        inputElement.style.background = "#0d1117";
+    }
+}
