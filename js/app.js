@@ -867,14 +867,7 @@ function parseAndPopulateMetarData(metarText) {
   if (typeof refreshOutputs === 'function') {
     refreshOutputs();
   }
-  if (qnhMatch) {
-    let qnhVal = parseInt(qnhMatch[1], 10);
-    console.log("Hittade QNH för landing:", qnhVal); // <-- Lägg till denna
-    updateEngineCellVal('landing', 'qnh', qnhVal);
-    let elQnh = document.getElementById('ldg-qnh');
-    console.log("Hittade elementet ldg-qnh:", elQnh); // <-- Och denna
-    if (elQnh) elQnh.value = qnhVal;
-  }
+
 }
 
 // Kloniad och fullt robust METAR-avkodare för Landing-sidan
