@@ -896,30 +896,33 @@ function renderLandingChart(ldgDist, lda) {
     }
 }
 
-function updateClimbCheckCard(reqValue, oeiValue) {
+function updateClimbCheckCard(actualValue, reqValue) {
+    const actualNum = parseFloat(actualValue);
     const reqNum = parseFloat(reqValue);
-    const oeiNum = parseFloat(oeiValue);
 
-    const reqSpan = document.getElementById('res-to-req');
-    const oeiSpan = document.getElementById('res-to-oei');
+    const actualSpan = document.getElementById('res-to-oei'); // Visar C42 (Actual)
+    const reqSpan = document.getElementById('res-to-req');       // Visar G19 (Required)
     const cardContainer = document.getElementById('card-climb-check');
 
-    if (isNaN(reqNum) || isNaN(oeiNum)) {
+    if (isNaN(actualNum) || isNaN(reqNum)) {
+        actualSpan.textContent = "-";
         reqSpan.textContent = "-";
-        oeiSpan.textContent = "-";
+        actualSpan.style.color = "#8b949e";
         reqSpan.style.color = "#fff";
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
         return;
     }
 
+    // Skriv ut med en decimal
+    actualSpan.textContent = actualNum.toFixed(1) + "%";
     reqSpan.textContent = reqNum.toFixed(1) + "%";
-    oeiSpan.textContent = oeiNum.toFixed(1) + "%";
 
-    if (reqNum > oeiNum) {
+    // Jämför: Om Required (G19) är större än Actual (C42) -> Hela kortet blir rött!
+    if (reqNum > actualNum) {
         reqSpan.style.color = "#ffffff";
-        cardContainer.style.background = "#3d1414";
-        cardContainer.style.borderColor = "#f85149";
+        cardContainer.style.background = "#3d1414"; // Mörkröd varningsbakgrund
+        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
     } else {
         reqSpan.style.color = "#ffffff";
         cardContainer.style.background = "#0d1117";
