@@ -553,6 +553,13 @@ function refreshOutputs() {
 const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw);
 const xwValue = getOutputVal(to.sheetName, to.outputs.xw);
 const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit);
+// Hämta värden för landning (anpassa efter dina egna output-nycklar i ldg)
+const ldgHwTw = getOutputVal(ldg.sheetName, ldg.outputs.hwTw);
+const ldgXw = getOutputVal(ldg.sheetName, ldg.outputs.xw);
+const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
+
+  // Kör vindkontrollen för landning
+  updateWindCheckCardLdg(ldgHwTw, ldgXw, ldgXwLimit);
 
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
@@ -589,12 +596,12 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('check-asd-val', getOutputVal(to.sheetName, to.outputs.asd));
   safeSetText('check-asda-val', getOutputVal(to.sheetName, to.outputs.asda));
   safeSetText('check-tod-val', getOutputVal(to.sheetName, to.outputs.tod));
-  safeSetText('check-toda-val-alt', getOutputVal(to.sheetName, to.outputs.toda));
+  safeSetText('check-toda-val-alt', getOutputVal(to.sheetName, to.outputs.toda)); // Hämtar cell C21 (toda)
   safeSetText('check-v1-val', getOutputVal(to.sheetName, to.outputs.v1));
 
   updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
-  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b);
+  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b); // Jämför TOD mot TODA
  
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
@@ -1023,5 +1030,66 @@ function onManualInputChange(inputElement) {
         inputElement.style.color = "#fff";
         inputElement.style.borderColor = "#30363d";
         inputElement.style.background = "#0d1117";
+    }
+}
+
+function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
+    const cardContainer = document.getElementById('card-wind-check-ldg');
+    const hwTwSpan = document.getElementById('res-ldg-hwtw');
+    const xwSpan = document.getElementById('res-ldg-xw');
+    const xwLimitSpan = document.getElementById('res-ldg-xwlimit');
+
+    if (!cardContainer) return;
+
+    hwTwSpan.textContent = hwTwVal || "-";
+    xwSpan.textContent = xwVal || "-";
+    xwLimitSpan.textContent = xwLimitVal || "-";
+
+    // Standardläge (mörkt)
+    cardContainer.style.background = "#0d1117";
+    cardContainer.style.borderColor = "#30363d";
+    hwTwSpan.style.color = "#fff";
+    xwSpan.style.color = "#fff";
+
+    const hwTwNum = parseFloat(hwTwVal);
+    const xwNum = parseFloat(xwVal);
+    const xwLimitNum = parseFloat(xwLimitVal);
+
+    let isRed = false;
+    let isAmber = false;
+
+    // Kontrollera sidvind mot limit
+    if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
+        isRed = true;
+    }
+
+    // Kontrollera medvind / motvind (negativt värde = medvind)
+    if (!isNaN(hwTwNum)) {
+        if (hwTwNum < 0) {
+            if (hwTwNum >= -10) {
+                isAmber = true; // Medvind upp till 10 knop = Amber
+            } else {
+                isRed = true;   // Medvind över 10 knop = Röd
+            }
+        }
+    } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
+        const match = hwTwVal.match(/([\d.]+)\s*TW/i);
+        if (match) {
+            const twVal = parseFloat(match[1]);
+            if (twVal > 0 && twVal <= 10) {
+                isAmber = true;
+            } else if (twVal > 10) {
+                isRed = true;
+            }
+        }
+    }
+
+    // Applicera styling baserat på status
+    if (isRed) {
+        cardContainer.style.background = "#3d1414";
+        cardContainer.style.borderColor = "#f85149";
+    } else if (isAmber) {
+        cardContainer.style.background = "#3b2e0c";
+        cardContainer.style.borderColor = "#d29922";
     }
 }
