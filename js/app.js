@@ -1093,3 +1093,45 @@ function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
         cardContainer.style.borderColor = "#d29922";
     }
 }
+
+function parseMetarAndPopulateLanding(metarText) {
+    if (!metarText) return;
+
+    // 1. Vindriktning och vindstyrka (t.ex. "24012KT" eller "24012G22KT")
+    const windRegex = /\b(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT\b/;
+    const windMatch = metarText.match(windRegex);
+    if (windMatch) {
+        const dir = windMatch[1] === 'VRB' ? '0' : windMatch[1];
+        const spd = windMatch[2];
+        
+        document.getElementById('ldg-wind-dir').value = parseInt(dir, 10);
+        document.getElementById('ldg-wind-spd').value = parseInt(spd, 10);
+        
+        // Triggera handleWeather så appen beräknar om direkt
+        handleWeather('landing', 'windDir', parseInt(dir, 10));
+        handleWeather('landing', 'windSpeed', parseInt(spd, 10));
+    }
+
+    // 2. Temperatur och daggpunkt (t.ex. "15/10" eller "M02/M05")
+    const tempRegex = /\b(M?\d{2})\/(M?\d{2})?\b/;
+    const tempMatch = metarText.match(tempRegex);
+    if (tempMatch) {
+        let tempStr = tempMatch[1];
+        if (tempStr.startsWith('M')) {
+            tempStr = '-' + tempStr.substring(1);
+        }
+        const tempVal = parseInt(tempStr, 10);
+        
+        document.getElementById('ldg-oat').value = tempVal;
+        handleWeather('landing', 'oat', tempVal);
+    }
+
+    // 3. QNH / Tryck (t.ex. "Q1013" eller "A2992")
+    const qnhRegex = /\bQ(\d{4})\b/;
+    const qnhMatch = metarText.match(qnhRegex);
+    if (qnhMatch) {
+        const qnhVal = parseInt(qnhMatch[1], 10);
+        document.getElementById('ldg-qnh').value = qnhVal;
+        handleWeather('landing', 'qnh', qnhVal);
+    }
+}
