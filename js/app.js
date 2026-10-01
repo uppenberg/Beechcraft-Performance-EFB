@@ -574,6 +574,19 @@ function refreshOutputs() {
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
+
+  // --- RENDERFLÄTTER FÖR GRAFISKA BANOR ---
+  renderTakeoffChart(
+    getOutputVal(to.sheetName, to.outputs.tor),
+    getOutputVal(to.sheetName, to.outputs.tod),
+    getOutputVal(to.sheetName, to.outputs.asd),
+    getOutputVal(to.sheetName, to.outputs.tora)
+  );
+
+  renderLandingChart(
+    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp),
+    getOutputVal(ldg.sheetName, ldg.outputs.lda)
+  );
 }
 
 // Hjälpfunktion för att sätta grön (OK) eller röd (EXCEEDS) badge
