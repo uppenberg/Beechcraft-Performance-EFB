@@ -102,77 +102,7 @@ input, select {
     margin: 6px 0;
 }
 
-/* --- Banprofil-stilar för landningsvyn --- */
-.rwy-profile-container {
-    position: relative;
-    margin: 20px 0;
-    width: 100%;
-}
-
-.rwy-visual-track {
-    position: relative;
-    height: 36px;
-    background-color: #2c3e50;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid #1a252f;
-}
-
-.rwy-centerline {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    border-top: 2px dashed rgba(255, 255, 255, 0.6);
-    transform: translateY(-50%);
-}
-
-.rwy-marker {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    z-index: 5;
-    transition: left 0.3s ease;
-}
-
-.ldg-marker {
-    background-color: #e74c3c;
-    box-shadow: 0 0 6px rgba(231, 76, 60, 0.8);
-}
-
-.lda-limit-marker {
-    background-color: #3498db;
-}
-
-.rwy-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: #7f8c8d;
-}
-/* Start-specifika markörer */
-.tor-marker {
-    background-color: #f39c12; /* Orange för TOR */
-    z-index: 6;
-}
-
-.tod-marker {
-    background-color: #2ecc71; /* Grön för TOD */
-    z-index: 7;
-}
-
-.asd-marker {
-    background-color: #e74c3c; /* Röd för ASD (Abort/Accelerate-Stop) */
-    z-index: 8;
-}
-
-.tora-limit-marker {
-    background-color: #3498db; /* Blå för total tillgänglig längd */
-}
-/* Stil för banvyn */
+/* --- Ny gemensam banprofil (Take-off & Landing) --- */
 .runway-container {
   position: relative;
   background: #161b22;
@@ -194,12 +124,12 @@ input, select {
   background: #21262d;
 }
 
-/* Tröskelmarkering (Pianotangenter) ENDAST till vänster */
+/* Tröskelmarkering (Pianotangenter) - samma höjd som TDZ */
 .runway-threshold-left {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 18px; /* Samma totala höjd som TDZ-paren */
+  height: 18px;
   left: 10px;
   width: 14px;
   background: repeating-linear-gradient(
@@ -212,34 +142,35 @@ input, select {
   z-index: 2;
 }
 
-/* Streckad mittlinje */
+/* Vit, streckad mittlinje */
 .runway-centerline {
   position: absolute;
   top: 50%;
   left: 24px;
   right: 10px;
   height: 2px;
-  border-top: 2px dashed rgba(255, 255, 255, 0.35);
+  background: linear-gradient(to right, #ffffff 12px, transparent 12px);
+  background-size: 24px 2px;
+  background-repeat: repeat-x;
   transform: translateY(-50%);
   z-index: 1;
+  opacity: 0.85;
 }
 
-/* Touchdown zone (TDZ) - Staplade som ett = (två rektanglar ovanför varandra på samma x-position) */
+/* Touchdown zone (TDZ) - Staplade som ett = */
 .runway-tdz-1, .runway-tdz-2 {
   position: absolute;
-  width: 24px;      /* Längd på strecken */
-  height: 5px;      /* Tjocklek på respektive streck */
+  width: 24px;
+  height: 5px;
   background: #ffffff;
   z-index: 2;
-  left: 80px;       /* Justera avståndet från tröskeln om du vill ha dem längre in */
+  left: 80px;
 }
 
-/* Det övre strecket i =-tecknet */
 .runway-tdz-1 {
   top: calc(50% - 9px);
 }
 
-/* Det undre strecket i =-tecknet */
 .runway-tdz-2 {
   top: calc(50% + 4px);
 }
@@ -254,7 +185,6 @@ input, select {
   z-index: 10;
 }
 
-/* Stil för rutan som följer strecket */
 .runway-marker::after {
   content: attr(data-label) ": " attr(data-val) "m";
   position: absolute;
@@ -269,16 +199,30 @@ input, select {
   pointer-events: none;
 }
 
-/* Varannan ovanför och varannan nedanför så de inte krockar */
-/* Exakt samma färg på både streck och ruta */
+/* Färgmatchning per markör */
 #tor-marker { background: #3fb950; }
-#tor-marker::after { background: #3fb950; }
+#tor-marker::after { background: #3fb950; bottom: -28px; }
 
 #tod-marker { background: #58a6ff; }
-#tod-marker::after { background: #58a6ff; }
+#tod-marker::after { background: #58a6ff; top: -26px; bottom: auto; }
 
 #asd-marker { background: #f85149; }
-#asd-marker::after { background: #f85149; }
+#asd-marker::after { background: #f85149; bottom: -52px; }
 
 #ldg-dist-marker { background: #a371f7; }
-#ldg-dist-marker::after { background: #a371f7; }
+#ldg-dist-marker::after { background: #a371f7; bottom: -28px; }
+
+/* METAR-textrad utan ruta */
+.metar-display-line {
+  font-family: monospace;
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 6px;
+  width: 100%;
+  display: block;
+  word-break: break-all;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-sizing: border-box;
+}
