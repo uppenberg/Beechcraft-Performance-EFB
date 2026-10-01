@@ -197,16 +197,17 @@ input, select {
 /* Tröskelmarkering (Pianotangenter) ENDAST till vänster */
 .runway-threshold-left {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 18px; /* Samma totala höjd som TDZ-paren */
   left: 10px;
   width: 14px;
   background: repeating-linear-gradient(
     to bottom,
     #ffffff,
-    #ffffff 4px,
-    #21262d 4px,
-    #21262d 8px
+    #ffffff 3px,
+    #21262d 3px,
+    #21262d 6px
   );
   z-index: 2;
 }
@@ -223,20 +224,25 @@ input, select {
   z-index: 1;
 }
 
-/* Touchdown zone (TDZ) / Fixpunktmarkeringar - horisontella rektanglar längs med banan */
+/* Touchdown zone (TDZ) - Staplade som ett = (två rektanglar ovanför varandra på samma x-position) */
 .runway-tdz-1, .runway-tdz-2 {
   position: absolute;
-  top: 50%;
-  height: 6px;      /* Tjocklek på markeringen */
-  width: 26px;      /* Längd på markeringen längs banan */
-  background: #ffffff; /* Rent vit färg */
-  transform: translateY(-50%);
+  width: 24px;      /* Längd på strecken */
+  height: 5px;      /* Tjocklek på respektive streck */
+  background: #ffffff;
   z-index: 2;
+  left: 80px;       /* Justera avståndet från tröskeln om du vill ha dem längre in */
 }
 
-/* Placering en bit in från tröskeln */
-.runway-tdz-1 { left: 90px; }
-.runway-tdz-2 { left: 130px; }
+/* Det övre strecket i =-tecknet */
+.runway-tdz-1 {
+  top: calc(50% - 9px);
+}
+
+/* Det undre strecket i =-tecknet */
+.runway-tdz-2 {
+  top: calc(50% + 4px);
+}
 
 /* Markörer och färgmatchade etikett-rutor */
 .runway-marker {
