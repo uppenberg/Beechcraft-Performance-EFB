@@ -680,3 +680,17 @@ function parseAndPopulateMetarData(metarText) {
     refreshOutputs();
   }
 }
+
+// Spara vald reg i localStorage vid ändring
+document.getElementById('global-registration').addEventListener('change', (e) => {
+  localStorage.setItem('selected_reg', e.target.value);
+});
+
+// Läs in sparad reg när sidan laddas
+window.addEventListener('DOMContentLoaded', () => {
+  const savedReg = localStorage.getItem('selected_reg');
+  if (savedReg) {
+    const regSelect = document.getElementById('global-registration');
+    if (regSelect) regSelect.value = savedReg;
+  }
+});
