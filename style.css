@@ -172,3 +172,79 @@ input, select {
 .tora-limit-marker {
     background-color: #3498db; /* Blå för total tillgänglig längd */
 }
+/* Stil för banvyn */
+.runway-container {
+  position: relative;
+  background: #1f242c;
+  border: 2px solid #30363d;
+  border-radius: 6px;
+  height: 60px;
+  margin: 20px 0 35px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Banans mittlinje och kanter */
+.runway-strip {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 20px;
+  right: 20px;
+  background: #21262d;
+  border-top: 2px dashed #8b949e;
+  border-bottom: 2px dashed #8b949e;
+}
+
+/* Tröskelmarkeringar (Pianotangenter) */
+.runway-threshold-left, .runway-threshold-right {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  width: 12px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #ffffff,
+    #ffffff 4px,
+    #21262d 4px,
+    #21262d 8px
+  );
+}
+.runway-threshold-left { left: 20px; }
+.runway-threshold-right { right: 20px; }
+
+/* Markörer och pilar för distanser */
+.runway-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  transition: left 0.3s ease;
+  z-index: 5;
+}
+
+.runway-marker::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: -28px;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Olika färger för olika värden */
+#tor-marker { background: #3fb950; }
+#tor-marker::after { background: #238636; color: #fff; }
+
+#tod-marker { background: #58a6ff; }
+#tod-marker::after { background: #1f6feb; color: #fff; top: -28px; bottom: auto; } /* Stapla ovanför om trångt */
+
+#asd-marker { background: #f85149; }
+#asd-marker::after { background: #da3633; color: #fff; }
+
+#ldg-dist-marker { background: #a371f7; }
+#ldg-dist-marker::after { background: #8957e5; color: #fff; }
