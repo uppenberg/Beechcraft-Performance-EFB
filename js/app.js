@@ -890,16 +890,32 @@ function displayMetarText(sheetType, metarText) {
 
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
     el.innerText = metarText || "";
-    el.style.color = "#8b949e";
+    el.style.color = "#f85149"; // Röd om saknas
     return;
   }
 
   el.innerText = metarText;
 
-  // Försök hitta tidssignatur i METAR (t.ex. "121150Z")
+  // 1. Hämta vald ICAO från rullistan
+  const selectId = sheetType === 'takeoff' ? 'to-airport' : 'ldg-airport';
+  const selectEl = document.getElementById(selectId);
+  const selectedIcao = selectEl ? selectEl.value.trim().toUpperCase() : "";
+
+  // 2. Kontrollera ICAO i METAR
+  const icaoMatch = metarText.match(/^([A-Z]{4})\b/);
+  const metarIcao = icaoMatch ? icaoMatch[1] : "";
+  const isIcaoMatching = (selectedIcao && metarIcao && selectedIcao.startsWith(metarIcao));
+
+  // Röd direkt om ICAO inte stämmer överens
+  if (!isIcaoMatching) {
+    el.style.color = "#f85149";
+    return;
+  }
+
+  // 3. Beräkna ålder via tidsstämpeln (t.ex. "121150Z")
   const timeMatch = metarText.match(/\b(\d{2})(\d{2})(\d{2})Z\b/);
   if (!timeMatch) {
-    el.style.color = "#8b949e"; // Standardfärg om tid saknas
+    el.style.color = "#f85149"; // Röd om tid saknas
     return;
   }
 
@@ -907,26 +923,26 @@ function displayMetarText(sheetType, metarText) {
   const metarHour = parseInt(timeMatch[2], 10);
   const metarMinute = parseInt(timeMatch[3], 10);
 
-  const now = new Date(); // UTC-tid
+  const now = new Date();
   const currentDay = now.getUTCDate();
   const currentHour = now.getUTCHours();
   const currentMinute = now.getUTCMinutes();
 
-  // Enkel beräkning av differens i minuter (hanterar om det bytt dygn nyligen)
   let totalMinutesNow = currentDay * 1440 + currentHour * 60 + currentMinute;
   let totalMinutesMetar = metarDay * 1440 + metarHour * 60 + metarMinute;
   
-  // Om månaden har skiftat eller dylikt kan en enklare kontroll vara på sin plats, 
-  // men oftast räcker detta för dygnsbyten:
   let diffMinutes = totalMinutesNow - totalMinutesMetar;
-  if (diffMinutes < 0) diffMinutes += 44640; // Enkel dygnsbuffert om man kliver över månadsskifte (sällan ett problem i drift)
+  if (diffMinutes < 0) diffMinutes += 44640; // Dygnsbuffert vid månadsskifte
 
-  // Sätt färg baserat på ålder
+  // 4. Färgstyrning baserat på ålder (eftersom ICAO stämmer):
+  // - Grön: <= 35 min
+  // - Amber: > 35 min och <= 60 min
+  // - Röd: > 60 min
   if (diffMinutes > 60) {
-    el.style.color = "#f85149"; // Röd om > 60 min
+    el.style.color = "#f85149"; // Röd (> 60 min)
   } else if (diffMinutes > 35) {
-    el.style.color = "#d29922"; // Amber/Gulorange om > 35 min
+    el.style.color = "#d29922"; // Amber (35 - 60 min)
   } else {
-    el.style.color = "#3fb950"; // Grön om färsk (< 35 min)
+    el.style.color = "#3fb950"; // Grön (0 - 35 min)
   }
 }
