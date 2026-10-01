@@ -888,3 +888,36 @@ function renderLandingChart(ldgDist, lda) {
         ldaLabel.textContent = `LDA: ${ldaNum} m`;
     }
 }
+function updateClimbCheckCard(reqValue, oeiValue) {
+    const reqNum = parseFloat(reqValue);
+    const oeiNum = parseFloat(oeiValue);
+
+    const reqSpan = document.getElementById('res-to-req');
+    const oeiSpan = document.getElementById('res-to-oei');
+    const cardContainer = document.getElementById('card-climb-check');
+
+    // Om värden saknas eller är ogiltiga, nollställ
+    if (isNaN(reqNum) || isNaN(oeiNum)) {
+        reqSpan.textContent = "-";
+        oeiSpan.textContent = "-";
+        reqSpan.style.color = "#fff";
+        cardContainer.style.background = "#0d1117";
+        cardContainer.style.borderColor = "#30363d";
+        return;
+    }
+
+    // Skriv ut med en decimal
+    reqSpan.textContent = reqNum.toFixed(1) + "%";
+    oeiSpan.textContent = oeiNum.toFixed(1) + "%";
+
+    // Jämför: Om REQ är större än OEI -> Hela kortet blir rött!
+    if (reqNum > oeiNum) {
+        reqSpan.style.color = "#ffffff"; // Vit text syns bra mot röd bakgrund
+        cardContainer.style.background = "#3d1414"; // Mörkröd/varningsbakgrund
+        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
+    } else {
+        reqSpan.style.color = "#ffffff";
+        cardContainer.style.background = "#0d1117"; // Standard mörk bakgrund
+        cardContainer.style.borderColor = "#30363d"; // Standard ram
+    }
+}
