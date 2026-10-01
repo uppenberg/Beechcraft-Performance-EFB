@@ -191,7 +191,7 @@ function worksheetToHyperFormulaData(worksheet) {
 
 function normalizeFormulaForHyperFormula(formula) {
   const normalizedBooleans = formula.replace(
-    / (TRUE|FALSE) (?!\s*\()/gi,
+    /\b(TRUE|FALSE)\b(?!\s*\()/gi,
     '$1()'
   );
   return normalizeHorizontalIndexCalls(normalizedBooleans);
@@ -467,7 +467,7 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
-// Manuellt inmatningsfält med amber-styling
+// Ny funktion för manuell väderinmatning med amber-styling
 function handleManualWeatherInput(sheetType, paramKey, inputElement) {
     const val = inputElement.value;
     
@@ -548,33 +548,18 @@ function refreshOutputs() {
       badgeMass.style.background = "rgba(248, 81, 73, 0.15)";
       badgeMass.style.color = "#f85149";
     }
+    
   }
+const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw);
+const xwValue = getOutputVal(to.sheetName, to.outputs.xw);
+const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit);
 
-  // Vindvärden Takeoff
-  const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw);
-  const xwValue = getOutputVal(to.sheetName, to.outputs.xw);
-  const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit);
-  updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
-
-  // Vindvärden Landing
-  const ldgHwTw = getOutputVal(ldg.sheetName, ldg.outputs.hwTw);
-  const ldgXw = getOutputVal(ldg.sheetName, ldg.outputs.xw);
-  const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
-  updateWindCheckCardLdg(ldgHwTw, ldgXw, ldgXwLimit);
-
-  // Synka Takeoff Inputs
+updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
 
-  // Synka Landing Inputs (Kloniad smarthet från takeoff)
-  safeSetValue('ldg-wind-dir', getOutputVal(ldg.sheetName, ldg.inputs.windDir));
-  safeSetValue('ldg-wind-spd', getOutputVal(ldg.sheetName, ldg.inputs.windSpeed));
-  safeSetValue('ldg-oat', getOutputVal(ldg.sheetName, ldg.inputs.oat));
-  safeSetValue('ldg-qnh', getOutputVal(ldg.sheetName, ldg.inputs.qnh));
-
-  // Takeoff Outputs
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
   safeSetText('res-to-v2', getOutputVal(to.sheetName, to.outputs.v2));
@@ -594,12 +579,11 @@ function refreshOutputs() {
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
-  // Climb OEI vs Req
+  // Climb OEI vs Req med 1 decimal och röd varning om req > oei
   const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad);
   const oeiVal = getOutputVal(to.sheetName, to.outputs.g19);
   updateClimbCheckCard(reqVal, oeiVal);
 
-  // Takeoff Checks & Badges
   safeSetText('check-tor-val', getOutputVal(to.sheetName, to.outputs.tor));
   safeSetText('check-tora-val', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('check-asd-val', getOutputVal(to.sheetName, to.outputs.asd));
@@ -611,8 +595,7 @@ function refreshOutputs() {
   updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
   updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b);
-
-  // Landing Outputs
+ 
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
@@ -622,13 +605,6 @@ function refreshOutputs() {
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
-
-  // Landing Checks & Badges (Kloniad smarthet från takeoff)
-  safeSetText('check-lda-val', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('check-ldgdistup-val', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
-  safeSetText('check-ldgdistdown-val', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
-  updateBadgeStatus('badge-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp), getOutputVal(ldg.sheetName, ldg.outputs.lda), (a, b) => a <= b);
-  updateBadgeStatus('badge-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown), getOutputVal(ldg.sheetName, ldg.outputs.lda), (a, b) => a <= b);
 
   renderTakeoffChart(
     getOutputVal(to.sheetName, to.outputs.tor),
@@ -701,7 +677,7 @@ window.updateEngineCellVal = updateEngineCellVal;
 
 document.addEventListener('DOMContentLoaded', init);
 
-// METAR-hämtning för både Takeoff och Landing med full klonad smarthet
+// Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
 async function fetchMetarForAirport(sheetType) {
   if (!hfInstance) return;
   
@@ -743,7 +719,7 @@ async function fetchMetarForAirport(sheetType) {
       const matchesIcao = metarText.toUpperCase().includes(icaoCode);
       
       let reportAgeMinutes = 0;
-      const timeMatch = metarText.match(/ \d{2}(\d{2})(\d{2})Z /);
+      const timeMatch = metarText.match(/\b\d{2}(\d{2})(\d{2})Z\b/);
       if (timeMatch) {
         const reportHour = parseInt(timeMatch[1], 10);
         const reportMinute = parseInt(timeMatch[2], 10);
@@ -772,8 +748,6 @@ async function fetchMetarForAirport(sheetType) {
       
       if (sheetType === 'takeoff') {
         parseAndPopulateMetarData(metarText);
-      } else if (sheetType === 'landing') {
-        parseAndPopulateLandingMetarData(metarText);
       }
     } else {
       const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
@@ -804,6 +778,7 @@ window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
 function parseAndPopulateMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
 
+  // Nollställ färgerna på fälten till standard vid automatisk METAR-ifyllnad
   ['to-wind-dir', 'to-wind-spd', 'to-oat', 'to-qnh'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
@@ -854,85 +829,12 @@ function parseAndPopulateMetarData(metarText) {
     let elQnh = document.getElementById('to-qnh');
     if (elQnh) elQnh.value = qnhVal;
   } else {
-    const altRegex = / A(\d{4}) /i;
+    const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
     if (altMatch) {
       let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
       updateEngineCellVal('takeoff', 'qnh', hpa);
       let elQnh = document.getElementById('to-qnh');
-      if (elQnh) elQnh.value = hpa;
-    }
-  }
-
-  if (typeof refreshOutputs === 'function') {
-    refreshOutputs();
-  }
-
-}
-
-
-
-/*
-// Kloniad och fullt robust METAR-avkodare för Landing-sidan
-function parseAndPopulateLandingMetarData(metarText) {
-  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
-
-  ['ldg-wind-dir', 'ldg-wind-spd', 'ldg-oat', 'ldg-qnh'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-          el.style.color = "#fff";
-          el.style.borderColor = "#30363d";
-          el.style.background = "#0d1117";
-      }
-  });
-
-  const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
-  const windMatch = metarText.match(windRegex);
-
-  if (windMatch) {
-    let dir = windMatch[1] || windMatch[4];
-    let spd = windMatch[2] || windMatch[5];
-    let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
-    let spdVal = parseInt(spd, 10);
-
-    updateEngineCellVal('landing', 'windDir', dirVal);
-    updateEngineCellVal('landing', 'windSpeed', spdVal);
-
-    let elDir = document.getElementById('ldg-wind-dir');
-    let elSpd = document.getElementById('ldg-wind-spd');
-    if (elDir) elDir.value = dirVal;
-    if (elSpd) elSpd.value = spdVal;
-  }
-
-  const tempRegex = /\s(M?\d{2})\/(M?\d{2})\s/;
-  const tempMatch = metarText.match(tempRegex);
-
-  if (tempMatch) {
-    let tempStr = tempMatch[1];
-    if (tempStr.startsWith('M')) {
-      tempStr = '-' + tempStr.substring(1);
-    }
-    let oatVal = parseInt(tempStr, 10);
-    updateEngineCellVal('landing', 'oat', oatVal);
-    let elOat = document.getElementById('ldg-oat');
-    if (elOat) elOat.value = oatVal;
-  }
-
-  const qnhRegex = /\bQ(\d{4})\b/i;
-  const qnhMatch = metarText.match(qnhRegex);
-
-  if (qnhMatch) {
-    let qnhVal = parseInt(qnhMatch[1], 10);
-    updateEngineCellVal('landing', 'qnh', qnhVal);
-    let elQnh = document.getElementById('ldg-qnh');
-    if (elQnh) elQnh.value = qnhVal;
-  } else {
-    const altRegex = / A(\d{4}) /i;
-    const altMatch = metarText.match(altRegex);
-    if (altMatch) {
-      let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
-      updateEngineCellVal('landing', 'qnh', hpa);
-      let elQnh = document.getElementById('ldg-qnh');
       if (elQnh) elQnh.value = hpa;
     }
   }
@@ -953,9 +855,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (regSelect) regSelect.value = savedReg;
   }
 });
-*/
-
-
 
 function checkContaminationLogic() {
   if (!hfInstance) return true;
@@ -1124,62 +1023,5 @@ function onManualInputChange(inputElement) {
         inputElement.style.color = "#fff";
         inputElement.style.borderColor = "#30363d";
         inputElement.style.background = "#0d1117";
-    }
-}
-
-function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
-    const cardContainer = document.getElementById('card-wind-check-ldg');
-    const hwTwSpan = document.getElementById('res-ldg-hwtw');
-    const xwSpan = document.getElementById('res-ldg-xw');
-    const xwLimitSpan = document.getElementById('res-ldg-xwlimit');
-
-    if (!cardContainer) return;
-
-    hwTwSpan.textContent = hwTwVal || "-";
-    xwSpan.textContent = xwVal || "-";
-    xwLimitSpan.textContent = xwLimitVal || "-";
-
-    cardContainer.style.background = "#0d1117";
-    cardContainer.style.borderColor = "#30363d";
-    hwTwSpan.style.color = "#fff";
-    xwSpan.style.color = "#fff";
-
-    const hwTwNum = parseFloat(hwTwVal);
-    const xwNum = parseFloat(xwVal);
-    const xwLimitNum = parseFloat(xwLimitVal);
-
-    let isRed = false;
-    let isAmber = false;
-
-    if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
-        isRed = true;
-    }
-
-    if (!isNaN(hwTwNum)) {
-        if (hwTwNum < 0) {
-            if (hwTwNum >= -10) {
-                isAmber = true;
-            } else {
-                isRed = true;
-            }
-        }
-    } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
-        const match = hwTwVal.match(/([\d.]+)\s*TW/i);
-        if (match) {
-            const twVal = parseFloat(match[1]);
-            if (twVal > 0 && twVal <= 10) {
-                isAmber = true;
-            } else if (twVal > 10) {
-                isRed = true;
-            }
-        }
-    }
-
-    if (isRed) {
-        cardContainer.style.background = "#3d1414";
-        cardContainer.style.borderColor = "#f85149";
-    } else if (isAmber) {
-        cardContainer.style.background = "#3b2e0c";
-        cardContainer.style.borderColor = "#d29922";
     }
 }
