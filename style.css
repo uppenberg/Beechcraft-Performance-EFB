@@ -153,3 +153,22 @@ input, select {
     font-size: 0.85rem;
     color: #7f8c8d;
 }
+/* Start-specifika markörer */
+.tor-marker {
+    background-color: #f39c12; /* Orange för TOR */
+    z-index: 6;
+}
+
+.tod-marker {
+    background-color: #2ecc71; /* Grön för TOD */
+    z-index: 7;
+}
+
+.asd-marker {
+    background-color: #e74c3c; /* Röd för ASD (Abort/Accelerate-Stop) */
+    z-index: 8;
+}
+
+.tora-limit-marker {
+    background-color: #3498db; /* Blå för total tillgänglig längd */
+}
