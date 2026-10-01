@@ -870,6 +870,9 @@ function parseAndPopulateMetarData(metarText) {
 
 }
 
+
+
+/*
 // Kloniad och fullt robust METAR-avkodare för Landing-sidan
 function parseAndPopulateLandingMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
@@ -950,6 +953,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (regSelect) regSelect.value = savedReg;
   }
 });
+*/
+
+
 
 function checkContaminationLogic() {
   if (!hfInstance) return true;
