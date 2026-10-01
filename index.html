@@ -40,7 +40,7 @@
   </div>
 
     
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px;">
     <!-- V1, VR, V2 -->
     <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
       <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
@@ -59,6 +59,24 @@
       <div style="font-size: 14px; font-weight: 700; color: #fff;">
         <span id="res-to-hwtw">-</span> | <span id="res-to-xw">-</span> <span style="font-size: 11px; color: #8b949e;">(<span id="res-to-xwlimit">-</span>)</span>
       </div>
+        <!-- Emergency Return KPI-kort -->
+<div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+  <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">Emergency Return</div>
+  
+  <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #c9d1d9;">
+    <!-- Flaps Up -->
+    <div style="display: flex; justify-content: space-between; background: #161b22; padding: 6px 10px; border-radius: 4px; border: 1px solid #21262d;">
+      <span>Flaps Up: Vref <span id="res-to-emup-vref" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span></span>
+      <span>Dist: <span id="res-to-emup-dist" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span></span>
+    </div>
+    
+    <!-- Flaps Down -->
+    <div style="display: flex; justify-content: space-between; background: #161b22; padding: 6px 10px; border-radius: 4px; border: 1px solid #21262d;">
+      <span>Flaps Down: Vref <span id="res-to-emdown-vref" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span></span>
+      <span>Dist: <span id="res-to-emdown-dist" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span></span>
+    </div>
+  </div>
+</div>
     </div>
   </div>
         
