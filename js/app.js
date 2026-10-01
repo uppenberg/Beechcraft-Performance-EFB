@@ -474,8 +474,22 @@ function refreshOutputs() {
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
+  // Uppdatera EASA-checklistans m-värden
+  safeSetText('check-tor-val', getOutputVal(to.sheetName, to.outputs.tor));
+  safeSetText('check-tora-val', getOutputVal(to.sheetName, to.outputs.tora));
+  safeSetText('check-asd-val', getOutputVal(to.sheetName, to.outputs.asd));
+  safeSetText('check-asda-val', getOutputVal(to.sheetName, to.outputs.asda));
+  safeSetText('check-tod-val', getOutputVal(to.sheetName, to.outputs.tod));
+  safeSetText('check-tora-val-alt', getOutputVal(to.sheetName, to.outputs.tora));
+  safeSetText('check-v1-val', getOutputVal(to.sheetName, to.outputs.v1));
+
+  // Dynamisk kontroll för OK / EXCEEDS (FAIL) på badgar
+  updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
+  updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
+  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
+
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwtw));
+  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
@@ -483,6 +497,32 @@ function refreshOutputs() {
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
+}
+
+// Hjälpfunktion för att sätta grön (OK) eller röd (EXCEEDS) badge
+function updateBadgeStatus(elementId, val1, val2, conditionFn) {
+  const badge = document.getElementById(elementId);
+  if (!badge) return;
+
+  const num1 = Number(val1);
+  const num2 = Number(val2);
+
+  if (isNaN(num1) || isNaN(num2) || val1 === '-' || val2 === '-') {
+    badge.innerText = "OK";
+    badge.style.background = "rgba(46, 160, 67, 0.15)";
+    badge.style.color = "#3fb950";
+    return;
+  }
+
+  if (conditionFn(num1, num2)) {
+    badge.innerText = "OK";
+    badge.style.background = "rgba(46, 160, 67, 0.15)";
+    badge.style.color = "#3fb950";
+  } else {
+    badge.innerText = "FAIL";
+    badge.style.background = "rgba(248, 81, 73, 0.15)";
+    badge.style.color = "#f85149";
+  }
 }
 
 function safeSetText(elementId, text) {
@@ -542,14 +582,11 @@ async function fetchMetarForSelectedAirport() {
     metarText = metarText ? metarText.trim() : "";
     
     if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
-      // Rensa bort eventuell "METAR " i början
       metarText = metarText.replace(/^METAR\s+/, "");
       
-      // 1. Spara rå METAR i C5
       updateEngineCellVal('takeoff', 'to-metar', metarText);
       console.log("METAR mottagen och inlagd i C5:", metarText);
       
-      // 2. Extrahera och fyll i C6-C9 automatiskt
       parseAndPopulateMetarData(metarText);
       
     } else {
@@ -570,7 +607,6 @@ function parseAndPopulateMetarData(metarText) {
 
   console.log("--- START PARSERING ---", metarText);
 
-  // 1. Parsa vind
   const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
   const windMatch = metarText.match(windRegex);
 
@@ -580,21 +616,16 @@ function parseAndPopulateMetarData(metarText) {
     let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
     let spdVal = parseInt(spd, 10);
 
-    console.log("Hittade vind:", dirVal, spdVal);
-
     updateEngineCellVal('takeoff', 'windDir', dirVal);
     updateEngineCellVal('takeoff', 'windSpeed', spdVal);
 
     let elDir = document.getElementById('to-wind-dir');
     let elSpd = document.getElementById('to-wind-spd');
     
-    if (elDir) elDir.value = dirVal; else console.warn("Hittade inte element: to-wind-dir");
-    if (elSpd) elSpd.value = spdVal; else console.warn("Hittade inte element: to-wind-spd");
-  } else {
-    console.warn("Kunde inte matcha vind i METAR.");
+    if (elDir) elDir.value = dirVal;
+    if (elSpd) elSpd.value = spdVal;
   }
 
-  // 2. Parsa temperatur / OAT
   const tempRegex = /\s(M?\d{2})\/(M?\d{2})\s/;
   const tempMatch = metarText.match(tempRegex);
 
@@ -605,26 +636,19 @@ function parseAndPopulateMetarData(metarText) {
     }
     let oatVal = parseInt(tempStr, 10);
     
-    console.log("Hittade OAT:", oatVal);
-
     updateEngineCellVal('takeoff', 'oat', oatVal);
     let elOat = document.getElementById('to-oat');
-    if (elOat) elOat.value = oatVal; else console.warn("Hittade inte element: to-oat");
-  } else {
-    console.warn("Kunde inte matcha OAT i METAR.");
+    if (elOat) elOat.value = oatVal;
   }
 
-  // 3. Parsa QNH
   const qnhRegex = /\bQ(\d{4})\b/i;
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
     let qnhVal = parseInt(qnhMatch[1], 10);
-    console.log("Hittade QNH:", qnhVal);
-
     updateEngineCellVal('takeoff', 'qnh', qnhVal);
     let elQnh = document.getElementById('to-qnh');
-    if (elQnh) elQnh.value = qnhVal; else console.warn("Hittade inte element: to-qnh");
+    if (elQnh) elQnh.value = qnhVal;
   } else {
     const altRegex = /\bA(\d{4})\b/i;
     const altMatch = metarText.match(altRegex);
@@ -633,8 +657,6 @@ function parseAndPopulateMetarData(metarText) {
       updateEngineCellVal('takeoff', 'qnh', hpa);
       let elQnh = document.getElementById('to-qnh');
       if (elQnh) elQnh.value = hpa;
-    } else {
-      console.warn("Kunde inte matcha QNH/Altimeter i METAR.");
     }
   }
 
