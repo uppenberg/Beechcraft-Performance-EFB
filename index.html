@@ -104,19 +104,19 @@
           </td>
         </tr>
         <tr style="border-bottom: 1px solid #21262d;">
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Vindriktning (C6):</td>
+          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind:</td>
           <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-wind-dir" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;"></td>
         </tr>
         <tr style="border-bottom: 1px solid #21262d;">
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Vindstyrka (C7):</td>
+          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Windspeed:</td>
           <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-wind-spd" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;"></td>
         </tr>
         <tr style="border-bottom: 1px solid #21262d;">
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C (C8):</td>
+          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
           <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-oat" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;"></td>
         </tr>
         <tr style="border-bottom: 1px solid #21262d;">
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH (C9):</td>
+          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
           <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-qnh" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;"></td>
         </tr>
 
@@ -159,9 +159,9 @@
           </td>
         </tr>
       </table>
-                <tr>
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
-          <td style="padding: 8px 0;">
+            <tr>
+          <td class="col-label" style="padding: 12px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+          <td style="padding: 12px 0;">
             <select class="form-control" id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;">
               <option value="1">1</option>
               <option value="2">2</option>
