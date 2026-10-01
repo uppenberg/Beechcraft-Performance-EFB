@@ -158,7 +158,6 @@
     <!-- Egen rad för texten som sträcker sig över hela kortet -->
     <span id="to-metar-display" class="metar-display-line"></span>
   </div>
-</div>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
@@ -299,6 +298,18 @@
                                 </select>
                             </td>
                         </tr>
+                        <div class="input-group" style="display: flex; flex-direction: column; margin-bottom: 5px; width: 100%;">
+                            
+    <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
+      <label for="ldg-metar" style="min-width: 90px;">METAR</label>
+      <input type="text" id="ldg-metar" style="flex: 1;" placeholder="Hämtar eller klistra in METAR..." />
+      <button onclick="fetchMetarForAirport('landing')">Update</button>
+    </div>
+    
+    <!-- Egen rad för texten som sträcker sig över hela kortet -->
+    <span id="ldg-metar-display" class="metar-display-line"></span>
+  </div>
+                        
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
                             <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
