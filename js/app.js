@@ -341,7 +341,7 @@ function switchTab(tabName, event) {
 
 // Fyll rullistor direkt från rådata-arrayen
 function populateAirportsFromRaw(rows) {
-  let optionsHtml = '<option value="">Välj flygplats/bana...</option>';
+  let optionsHtml = '<option value="">Choose airport and RWY</option>';
 
   if (rows && Array.isArray(rows)) {
     rows.forEach((row, index) => {
