@@ -311,16 +311,31 @@ function isFormulaIdentifierCharacter(char) {
 
 // Byt mellan flikar
 function switchTab(tabName, event) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  // Göm alla sidor med klassen .page
+  document.querySelectorAll('.page').forEach(page => {
+    page.style.display = 'none';
+    page.classList.remove('active');
+  });
   
-  if (tabName === 'takeoff') {
-    document.getElementById('page-takeoff').classList.add('active');
-  } else {
-    document.getElementById('page-landing').classList.add('active');
+  // Ta bort aktiv klass från alla flikknappar
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.background = '#161b22';
+    btn.style.color = '#8b949e';
+  });
+  
+  // Visa vald sida
+  const targetPage = document.getElementById('page-' + tabName);
+  if (targetPage) {
+    targetPage.style.display = 'block';
+    targetPage.classList.add('active');
   }
+  
+  // Markera klickad knapp som aktiv
   if (event && event.currentTarget) {
     event.currentTarget.classList.add('active');
+    event.currentTarget.style.background = '#21262d';
+    event.currentTarget.style.color = '#fff';
   }
 }
 
