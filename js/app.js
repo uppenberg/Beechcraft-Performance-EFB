@@ -845,7 +845,7 @@ function parseAndPopulateMetarData(metarText) {
     if (elOat) elOat.value = oatVal;
   }
 
-  const qnhRegex = / Q(\d{4}) /i;
+  const qnhRegex = /\bQ(\d{4})\b/i;
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
@@ -922,7 +922,7 @@ function parseAndPopulateLandingMetarData(metarText) {
     if (elOat) elOat.value = oatVal;
   }
 
-  const qnhRegex = / Q(\d{4}) /i;
+  const qnhRegex = /\bQ(\d{4})\b/i;
   const qnhMatch = metarText.match(qnhRegex);
 
   if (qnhMatch) {
