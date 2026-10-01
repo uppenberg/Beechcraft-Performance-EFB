@@ -352,7 +352,24 @@ function populateAirportsFromRaw(rows) {
       }
     });
   }
+// Efter att flygplatserna har fyllts i i rullistorna:
+const savedToAirport = localStorage.getItem('selected_to_airport');
+if (savedToAirport) {
+  const toSelect = document.getElementById('to-airport');
+  if (toSelect) {
+    toSelect.value = savedToAirport;
+    handleTakeoffAirport(savedToAirport);
+  }
+}
 
+const savedLdgAirport = localStorage.getItem('selected_ldg_airport');
+if (savedLdgAirport) {
+  const ldgSelect = document.getElementById('ldg-airport');
+  if (ldgSelect) {
+    ldgSelect.value = savedLdgAirport;
+    handleLandingAirport(savedLdgAirport);
+  }
+}
   const toSelect = document.getElementById('to-airport');
   const ldgSelect = document.getElementById('ldg-airport');
   if (toSelect) toSelect.innerHTML = optionsHtml;
