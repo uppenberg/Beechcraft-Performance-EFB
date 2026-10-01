@@ -119,19 +119,7 @@
           <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH (C9):</td>
           <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-qnh" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;"></td>
         </tr>
-        <tr>
-          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
-          <td style="padding: 8px 0;">
-            <select class="form-control" id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6" selected>6</option>
-            </select>
-          </td>
-        </tr>
+
       </table>
     </div>
 
@@ -171,6 +159,19 @@
           </td>
         </tr>
       </table>
+                <tr>
+          <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+          <td style="padding: 8px 0;">
+            <select class="form-control" id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px;">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6" selected>6</option>
+            </select>
+          </td>
+        </tr>
     </div>
 
   </div>
