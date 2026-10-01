@@ -135,9 +135,9 @@ input, select {
   background: repeating-linear-gradient(
     to bottom,
     #ffffff,
-    #ffffff 3px,
-    #21262d 3px,
-    #21262d 6px
+    #ffffff 4px,  /* Ändrat från 3px till 4px (matchar mittlinjens höjd) */
+    #21262d 4px,  /* Ändrat från 3px till 4px */
+    #21262d 8px   /* Ändrat från 6px till 8px (behåller mellanrummet proportionerligt) */
   );
   z-index: 2;
 }
@@ -148,9 +148,9 @@ input, select {
   top: 50%;
   left: 24px;
   right: 10px;
-  height: 5px;
+  height: 4px;
   background: linear-gradient(to right, #ffffff 24px, transparent 24px);
-  background-size: 48px 5px;
+  background-size: 48px 4px;
   background-repeat: repeat-x;
   transform: translateY(-50%);
   z-index: 1;
@@ -168,11 +168,11 @@ input, select {
 }
 
 .runway-tdz-1 {
-  top: calc(50% - 9px);
+  top: calc(50% - 12px);
 }
 
 .runway-tdz-2 {
-  top: calc(50% + 4px);
+  top: calc(50% + 7px);
 }
 
 /* Markörer och färgmatchade etikett-rutor */
