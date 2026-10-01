@@ -490,6 +490,41 @@ function refreshOutputs() {
     engineOutCard.style.display = hasData ? 'block' : 'none';
   }
 
+  // --- KONTROLL 5: Wet/Contam runway mass limit & rimlighet ---
+  const badgeMass = document.getElementById('badge-mass-limit');
+  if (badgeMass) {
+    const torVal = getOutputVal(to.sheetName, to.outputs.tor);
+    const toraVal = getOutputVal(to.sheetName, to.outputs.tora);
+    
+    let isCheckOk = true;
+
+    // Kontrollera att det inte är felkoder och att banan räcker till
+    if (String(torVal).startsWith('#') || torVal === '-') {
+      isCheckOk = false;
+    } else {
+      const tor = Number(torVal);
+      const tora = Number(toraVal);
+      if (!isNaN(tor) && !isNaN(tora) && tor > tora) {
+        isCheckOk = false;
+      }
+      
+      // Kör även vår nya C10-jämförelse för kontaminering/RCC
+      if (isCheckOk && !checkContaminationLogic()) {
+        isCheckOk = false; // Underkänn om sträckan inte ökade/följde logiken vid sämre RCC
+      }
+    }
+
+    // Uppdatera badgen
+    if (isCheckOk) {
+      badgeMass.innerText = "OK";
+      badgeMass.style.background = "rgba(46, 160, 67, 0.15)";
+      badgeMass.style.color = "#3fb950";
+    } else {
+      badgeMass.innerText = "FAIL";
+      badgeMass.style.background = "rgba(248, 81, 73, 0.15)";
+      badgeMass.style.color = "#f85149";
+    }
+  }
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
@@ -741,3 +776,38 @@ window.addEventListener('DOMContentLoaded', () => {
     if (regSelect) regSelect.value = savedReg;
   }
 });
+
+function checkContaminationLogic() {
+  if (!hfInstance) return true;
+
+  const config = CELL_MAPPING.takeoff;
+  const sheetId = hfInstance.getSheetId(config.sheetName);
+  
+  // RCC matas in i C10
+  const rccPos = parseCellRef("C10"); 
+  const currentRccVal = hfInstance.getCellValue({ sheet: sheetId, col: rccPos.col, row: rccPos.row });
+
+  // Om det är torrt (t.ex. RCC 6, tomt eller liknande) behövs ingen jämförelse
+  if (currentRccVal === 6 || currentRccVal === '6' || currentRccVal === '-' || currentRccVal === 'Dry' || currentRccVal === '') {
+    return true; 
+  }
+
+  // 1. Läs av nuvarande sträcka med det sämre banförhållandet
+  const currentTor = Number(getOutputVal(config.sheetName, config.outputs.tor));
+
+  // 2. Ändra temporärt C10 till 6 (torr bana) i HyperFormula
+  hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
+
+  // 3. Läs av sträckan för torr bana
+  const dryTor = Number(getOutputVal(config.sheetName, config.outputs.tor));
+
+  // 4. Återställ till användarens valda RCC i C10 igen direkt
+  hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
+
+  // 5. Jämför: Sträckan med sämre bana ska vara lika med eller längre än torr bana
+  if (!isNaN(currentTor) && !isNaN(dryTor) && dryTor > 0) {
+    return currentTor >= dryTor;
+  }
+
+  return true;
+}
