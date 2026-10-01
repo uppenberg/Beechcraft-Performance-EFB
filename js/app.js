@@ -466,6 +466,23 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
+// Ny funktion för manuell väderinmatning med amber-styling
+function handleManualWeatherInput(sheetType, paramKey, inputElement) {
+    const val = inputElement.value;
+    
+    if (val.trim() !== "") {
+        inputElement.style.color = "#d29922";
+        inputElement.style.borderColor = "#d29922";
+        inputElement.style.background = "#221a05";
+    } else {
+        inputElement.style.color = "#fff";
+        inputElement.style.borderColor = "#30363d";
+        inputElement.style.background = "#0d1117";
+    }
+
+    updateEngineCellVal(sheetType, paramKey, val === "" ? "" : Number(val));
+}
+
 function refreshOutputs() {
   if (!hfInstance) return;
   const to = CELL_MAPPING.takeoff;
@@ -576,7 +593,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
 
   updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
-  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
+  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.tor), (a, b) => a <= b);
 
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
@@ -654,6 +671,7 @@ window.handleTakeoffFlaps = handleTakeoffFlaps;
 window.handleLandingFlaps = handleLandingFlaps;
 window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;
+window.handleManualWeatherInput = handleManualWeatherInput;
 window.updateEngineCellVal = updateEngineCellVal;
 
 document.addEventListener('DOMContentLoaded', init);
@@ -697,10 +715,8 @@ async function fetchMetarForAirport(sheetType) {
     metarText = metarText ? metarText.trim() : "";
     
     if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
-      // Kontrollera om ICAO-koden i METAR matchar valda flygplatsen
       const matchesIcao = metarText.toUpperCase().includes(icaoCode);
       
-      // Beräkna ålder på rapporten (om tidsgrupp finns, ex. DDHHMMZ)
       let reportAgeMinutes = 0;
       const timeMatch = metarText.match(/\b\d{2}(\d{2})(\d{2})Z\b/);
       if (timeMatch) {
@@ -709,26 +725,23 @@ async function fetchMetarForAirport(sheetType) {
         const now = new Date();
         const reportDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), reportHour, reportMinute));
         reportAgeMinutes = (now - reportDate) / (1000 * 60);
-        // Hantera om rapporten är från gårdagen
         if (reportAgeMinutes < 0) reportAgeMinutes += 24 * 60;
       }
 
       metarText = metarText.replace(/^METAR\s+/, "");
       
-      // Uppdatera Excel-cellen
       const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
       updateEngineCellVal(sheetType, metarFieldKey, metarText);
       
       if (displaySpan) {
         displaySpan.textContent = metarText;
         
-        // Applicera färger enligt dina regler
         if (!matchesIcao || reportAgeMinutes > 60) {
-          displaySpan.style.color = "#f85149"; // Röd (> 60 min eller fel ICAO)
+          displaySpan.style.color = "#f85149";
         } else if (reportAgeMinutes >= 35) {
-          displaySpan.style.color = "#d29922"; // Amber / Orange (35-60 min)
+          displaySpan.style.color = "#d29922";
         } else {
-          displaySpan.style.color = "#3fb950"; // Grön (< 35 min och rätt ICAO)
+          displaySpan.style.color = "#3fb950";
         }
       }
       
@@ -763,6 +776,16 @@ window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
 
 function parseAndPopulateMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
+
+  // Nollställ färgerna på fälten till standard vid automatisk METAR-ifyllnad
+  ['to-wind-dir', 'to-wind-spd', 'to-oat', 'to-qnh'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.style.color = "#fff";
+          el.style.borderColor = "#30363d";
+          el.style.background = "#0d1117";
+      }
+  });
 
   const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
   const windMatch = metarText.match(windRegex);
@@ -905,8 +928,8 @@ function updateClimbCheckCard(actualValue, reqValue) {
     const actualNum = parseFloat(actualValue);
     const reqNum = parseFloat(reqValue);
 
-    const actualSpan = document.getElementById('res-to-oei'); // Visar C42 (Actual)
-    const reqSpan = document.getElementById('res-to-req');       // Visar G19 (Required)
+    const actualSpan = document.getElementById('res-to-oei');
+    const reqSpan = document.getElementById('res-to-req');
     const cardContainer = document.getElementById('card-climb-check');
 
     if (isNaN(actualNum) || isNaN(reqNum)) {
@@ -919,21 +942,20 @@ function updateClimbCheckCard(actualValue, reqValue) {
         return;
     }
 
-    // Skriv ut med en decimal
     actualSpan.textContent = actualNum.toFixed(1) + "%";
     reqSpan.textContent = reqNum.toFixed(1) + "%";
 
-    // Jämför: Om Required (G19) är större än Actual (C42) -> Hela kortet blir rött!
     if (reqNum > actualNum) {
         reqSpan.style.color = "#ffffff";
-        cardContainer.style.background = "#3d1414"; // Mörkröd varningsbakgrund
-        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
+        cardContainer.style.background = "#3d1414";
+        cardContainer.style.borderColor = "#f85149";
     } else {
         reqSpan.style.color = "#ffffff";
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
     }
 }
+
 function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
     const cardContainer = document.getElementById('card-wind-check');
     const hwTwSpan = document.getElementById('res-to-hwtw');
@@ -942,7 +964,6 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
 
     if (!cardContainer) return;
 
-    // Standardvärden / Nollställning
     hwTwSpan.textContent = hwTwVal || "-";
     xwSpan.textContent = xwVal || "-";
     xwLimitSpan.textContent = xwLimitVal || "-";
@@ -952,8 +973,6 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
     hwTwSpan.style.color = "#fff";
     xwSpan.style.color = "#fff";
 
-    // Tolka värden (ex. "15 HW", "5 TW" eller "-5" beroende på hur Excel formaterar det)
-    // Antar att strängen innehåller en siffra eller kan parsas:
     const hwTwNum = parseFloat(hwTwVal);
     const xwNum = parseFloat(xwVal);
     const xwLimitNum = parseFloat(xwLimitVal);
@@ -961,25 +980,19 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
     let isRed = false;
     let isAmber = false;
 
-    // 1. Kontrollera XW vs Limit (Rött om XW överstiger limit)
     if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
         isRed = true;
     }
 
-    // 2. Kontrollera TW (Tailwind) / HW
-    // Om värdet är negativt eller indikerar TW mellan 0 och -10 -> Amber. Efter -10 -> Rött.
-    // (Justera villkoret beroende på om din Excel returnerar t.ex. "-5" eller text med "TW")
     if (!isNaN(hwTwNum)) {
         if (hwTwNum < 0) {
-            // Tailwind-intervall (negativa värden)
             if (hwTwNum >= -10) {
-                isAmber = true; // TW 0 till -10 -> Amber
+                isAmber = true;
             } else {
-                isRed = true;   // Starkare medvind än -10 -> Rött
+                isRed = true;
             }
         }
     } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
-        // Om det skrivs ut som text (t.ex. "5 TW")
         const match = hwTwVal.match(/([\d.]+)\s*TW/i);
         if (match) {
             const twVal = parseFloat(match[1]);
@@ -991,23 +1004,21 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
         }
     }
 
-    // Applicera färger på hela kortet baserat på status
     if (isRed) {
-        cardContainer.style.background = "#3d1414"; // Mörkröd varningsbakgrund
-        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
+        cardContainer.style.background = "#3d1414";
+        cardContainer.style.borderColor = "#f85149";
     } else if (isAmber) {
-        cardContainer.style.background = "#3b2e0c"; // Mörkgul/amber varningsbakgrund
-        cardContainer.style.borderColor = "#d29922"; // Amber ram
+        cardContainer.style.background = "#3b2e0c";
+        cardContainer.style.borderColor = "#d29922";
     }
 }
+
 function onManualInputChange(inputElement) {
     if (inputElement.value.trim() !== "") {
-        // Eget värde indrivet -> Ändra till amber/gult
         inputElement.style.color = "#d29922";
         inputElement.style.borderColor = "#d29922";
-        inputElement.style.background = "#221a05"; // Mörk amberton i bakgrunden (valfritt)
+        inputElement.style.background = "#221a05";
     } else {
-        // Tomt -> Återställ till standard dark-mode stil
         inputElement.style.color = "#fff";
         inputElement.style.borderColor = "#30363d";
         inputElement.style.background = "#0d1117";
