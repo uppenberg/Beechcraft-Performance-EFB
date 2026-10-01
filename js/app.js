@@ -474,6 +474,21 @@ function refreshOutputs() {
       badgeV1.style.color = "#f85149";
     }
   }
+  // Hämta värden för Engine Out
+  const cloudVal = getOutputVal(to.sheetName, to.outputs.cloudBase);
+  const escapeVal = getOutputVal(to.sheetName, to.outputs.escapeRoute);
+  
+  safeSetText('res-to-cloud', cloudVal);
+  safeSetText('res-to-escape', escapeVal);
+
+  // Dölj eller visa Engine Out-kortet beroende på om data finns
+  const engineOutCard = document.getElementById('card-engine-out');
+  if (engineOutCard) {
+    const hasData = (cloudVal !== '-' && cloudVal !== '' && cloudVal != null) || 
+                    (escapeVal !== '-' && escapeVal !== '' && escapeVal != null);
+                    
+    engineOutCard.style.display = hasData ? 'block' : 'none';
+  }
 
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
