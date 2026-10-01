@@ -66,7 +66,14 @@
         <h1 style="font-size: 18px; margin: 0; color: #fff;">BE20 EFB - Performance</h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Reg:</label>
-            <input type="text" id="global-registration" value="SE-XXX" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 4px 8px; border-radius: 4px; width: 80px;" />
+            <select id="global-registration" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 110px;">
+                <option value="SE-LTL" selected>SE-LTL (BE20)</option>
+                <option value="SE-KVL">SE-KVL (BE20)</option>
+                <option value="SE-MJU">SE-MJU (BE20)</option>
+                <option value="SE-MHU">SE-MHU (B190)</option>
+                <option value="SE-MJV">SE-MJV (B190)</option>
+                <!-- Lägg till fler registreringar vid behov -->
+            </select>
         </div>
     </header>
 
@@ -236,8 +243,8 @@
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>4. Single value of V1 used:</span>
-                    <span style="font-weight: 600; color: #fff;">OK (<span id="check-v1-val">-</span>)</span>
+                    <span>4. Single value of V1 used (C38: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
+                    <span id="badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
