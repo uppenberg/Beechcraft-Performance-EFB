@@ -811,3 +811,38 @@ function checkContaminationLogic() {
 
   return true;
 }
+
+function renderTakeoffChart(tor, tod, asd, tora) {
+    const toraNum = parseFloat(tora) || 0;
+    if (toraNum <= 0) return;
+
+    // Beräkna procent för respektive värde
+    const torPercent = Math.min(Math.max((parseFloat(tor) / toraNum) * 100, 0), 100);
+    const todPercent = Math.min(Math.max((parseFloat(tod) / toraNum) * 100, 0), 100);
+    const asdPercent = Math.min(Math.max((parseFloat(asd) / toraNum) * 100, 0), 100);
+
+    // Flytta markörerna i DOM
+    document.getElementById('tor-marker').style.left = torPercent + '%';
+    document.getElementById('tod-marker').style.left = todPercent + '%';
+    document.getElementById('asd-marker').style.left = asdPercent + '%';
+
+    // Uppdatera textetiketten
+    const toraLabel = document.getElementById('tora-label');
+    if (toraLabel) {
+        toraLabel.textContent = `TORA: ${toraNum} m (TOR: ${tor}, TOD: ${tod}, ASD: ${asd})`;
+    }
+}
+
+function renderLandingChart(ldgDist, lda) {
+    const ldaNum = parseFloat(lda) || 0;
+    if (ldaNum <= 0) return;
+
+    const ldgPercent = Math.min(Math.max((parseFloat(ldgDist) / ldaNum) * 100, 0), 100);
+
+    document.getElementById('ldg-dist-marker').style.left = ldgPercent + '%';
+
+    const ldaLabel = document.getElementById('lda-label');
+    if (ldaLabel) {
+        ldaLabel.textContent = `LDA: ${ldaNum} m (LD: ${ldgDist})`;
+    }
+}
