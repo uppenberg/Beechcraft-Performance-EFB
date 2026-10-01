@@ -882,3 +882,51 @@ function renderLandingChart(ldgDist, lda) {
         ldaLabel.textContent = `LDA: ${ldaNum} m | Landningssträcka: ${ldgDist} m`;
     }
 }
+
+function displayMetarText(sheetType, metarText) {
+  const fieldId = sheetType === 'takeoff' ? 'to-metar-display' : 'ldg-metar-display';
+  const el = document.getElementById(fieldId);
+  if (!el) return;
+
+  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
+    el.innerText = metarText || "";
+    el.style.color = "#8b949e";
+    return;
+  }
+
+  el.innerText = metarText;
+
+  // Försök hitta tidssignatur i METAR (t.ex. "121150Z")
+  const timeMatch = metarText.match(/\b(\d{2})(\d{2})(\d{2})Z\b/);
+  if (!timeMatch) {
+    el.style.color = "#8b949e"; // Standardfärg om tid saknas
+    return;
+  }
+
+  const metarDay = parseInt(timeMatch[1], 10);
+  const metarHour = parseInt(timeMatch[2], 10);
+  const metarMinute = parseInt(timeMatch[3], 10);
+
+  const now = new Date(); // UTC-tid
+  const currentDay = now.getUTCDate();
+  const currentHour = now.getUTCHours();
+  const currentMinute = now.getUTCMinutes();
+
+  // Enkel beräkning av differens i minuter (hanterar om det bytt dygn nyligen)
+  let totalMinutesNow = currentDay * 1440 + currentHour * 60 + currentMinute;
+  let totalMinutesMetar = metarDay * 1440 + metarHour * 60 + metarMinute;
+  
+  // Om månaden har skiftat eller dylikt kan en enklare kontroll vara på sin plats, 
+  // men oftast räcker detta för dygnsbyten:
+  let diffMinutes = totalMinutesNow - totalMinutesMetar;
+  if (diffMinutes < 0) diffMinutes += 44640; // Enkel dygnsbuffert om man kliver över månadsskifte (sällan ett problem i drift)
+
+  // Sätt färg baserat på ålder
+  if (diffMinutes > 60) {
+    el.style.color = "#f85149"; // Röd om > 60 min
+  } else if (diffMinutes > 35) {
+    el.style.color = "#d29922"; // Amber/Gulorange om > 35 min
+  } else {
+    el.style.color = "#3fb950"; // Grön om färsk (< 35 min)
+  }
+}
