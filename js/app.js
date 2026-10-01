@@ -829,20 +829,20 @@ function renderTakeoffChart(tor, tod, asd, tora) {
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
-    // Beräkna procent för respektive värde
-    const torPercent = Math.min(Math.max((parseFloat(tor) / toraNum) * 100, 0), 100);
-    const todPercent = Math.min(Math.max((parseFloat(tod) / toraNum) * 100, 0), 100);
-    const asdPercent = Math.min(Math.max((parseFloat(asd) / toraNum) * 100, 0), 100);
+    // Beräkna position baserat på tillgänglig yta (anpassat för 20px marginal på varje sida)
+    const getPercent = (val) => {
+        const num = parseFloat(val) || 0;
+        const clamped = Math.min(Math.max(num / toraNum, 0), 1);
+        return clamped * 100; // Procent av banans längd
+    };
 
-    // Flytta markörerna i DOM
-    document.getElementById('tor-marker').style.left = torPercent + '%';
-    document.getElementById('tod-marker').style.left = todPercent + '%';
-    document.getElementById('asd-marker').style.left = asdPercent + '%';
+    document.getElementById('tor-marker').style.left = getPercent(tor) + '%';
+    document.getElementById('tod-marker').style.left = getPercent(tod) + '%';
+    document.getElementById('asd-marker').style.left = getPercent(asd) + '%';
 
-    // Uppdatera textetiketten
     const toraLabel = document.getElementById('tora-label');
     if (toraLabel) {
-        toraLabel.textContent = `TORA: ${toraNum} m (TOR: ${tor}, TOD: ${tod}, ASD: ${asd})`;
+        toraLabel.textContent = `TORA: ${toraNum} m | TOR: ${tor}m | TOD: ${tod}m | ASD: ${asd}m`;
     }
 }
 
@@ -850,12 +850,16 @@ function renderLandingChart(ldgDist, lda) {
     const ldaNum = parseFloat(lda) || 0;
     if (ldaNum <= 0) return;
 
-    const ldgPercent = Math.min(Math.max((parseFloat(ldgDist) / ldaNum) * 100, 0), 100);
+    const getPercent = (val) => {
+        const num = parseFloat(val) || 0;
+        const clamped = Math.min(Math.max(num / ldaNum, 0), 1);
+        return clamped * 100;
+    };
 
-    document.getElementById('ldg-dist-marker').style.left = ldgPercent + '%';
+    document.getElementById('ldg-dist-marker').style.left = getPercent(ldgDist) + '%';
 
     const ldaLabel = document.getElementById('lda-label');
     if (ldaLabel) {
-        ldaLabel.textContent = `LDA: ${ldaNum} m (LD: ${ldgDist})`;
+        ldaLabel.textContent = `LDA: ${ldaNum} m | Landningssträcka: ${ldgDist} m`;
     }
 }
