@@ -235,14 +235,106 @@
   </div>
 </section>
 
-<!-- LANDING-FLIK (Kan fyllas på motsvarande sätt vid behov) -->
-<section id="page-landing" class="page" style="display: none;">
-    <h2 style="font-size: 16px; color: #fff;">Landningsprestanda</h2>
-    <!-- (Landningsformulär oförändrat i sin struktur) -->
-</section>
+<!-- LANDNINGS-FLIK -->
+        <section id="page-landing" class="page" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Landing Performance Class A</h2>
+                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
+            </div>
 
-    </main>
+            <!-- Inmatningskorten för Landing -->
+            <div class="input-cards-wrapper" style="margin-bottom: 16px;">
+                
+                <!-- Airport & Weather Card (Landing) -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="ldg-airport" onchange="handleLandingAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="">Laddar flygplatser...</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-spd" oninput="handleWeather('landing', 'windSpeed', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-oat" oninput="handleWeather('landing', 'oat', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-qnh" oninput="handleWeather('landing', 'qnh', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                    </table>
+                </div>
 
-    <script src="js/app.js"></script>
-</body>
-</html>
+                <!-- Setup & Mass Card (Landing) -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Setup & Mass</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Landing Mass <br><span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">9500</span> lbs</td>
+                            <td style="padding: 10px 0;">
+                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="9500" oninput="handleLandingMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="ldg-flaps" onchange="handleLandingFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="UP">UP</option>
+                                    <option value="DOWN" selected>DOWN</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+                            <td style="padding: 10px 0;">
+                                <input type="number" class="form-control" id="ldg-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('landing', 'rwcc', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Resultatbox för Landing -->
+            <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
+                
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>LDA (C18):</span>
+                    <strong id="res-ldg-lda" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>H/T Vind (C21):</span>
+                    <strong id="res-ldg-hwtw" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Sidvind / Limit (C22 / G22):</span>
+                    <span><strong id="res-ldg-xw" style="color: #fff;">-</strong> / <span id="res-ldg-xwlimit">-</span></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Missed Approach Climb (C31):</span>
+                    <strong id="res-ldg-missed" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Flaps UP (Vref / Dist):</span>
+                    <span><span id="res-ldg-vrefup" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distup">-</span> m</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Flaps DOWN (Vref / Dist):</span>
+                    <span><span id="res-ldg-vrefdown" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distdown">-</span> m</span>
+                </div>
+            </div>
+        </section>
