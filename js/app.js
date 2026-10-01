@@ -150,7 +150,7 @@ function setupEventListeners() {
 }
 
 function setupAirportSelects() {
-  // Komplettera om du har en separat funktion för rullistorna, eller använd populateAirportsFromRaw
+  // Komplettera om du har en separat funktion för rullistorna
 }
 
 function populateAirportSelects() {
@@ -311,27 +311,23 @@ function isFormulaIdentifierCharacter(char) {
 
 // Byt mellan flikar
 function switchTab(tabName, event) {
-  // Göm alla sidor med klassen .page
   document.querySelectorAll('.page').forEach(page => {
     page.style.display = 'none';
     page.classList.remove('active');
   });
   
-  // Ta bort aktiv klass från alla flikknappar
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.remove('active');
     btn.style.background = '#161b22';
     btn.style.color = '#8b949e';
   });
   
-  // Visa vald sida
   const targetPage = document.getElementById('page-' + tabName);
   if (targetPage) {
     targetPage.style.display = 'block';
     targetPage.classList.add('active');
   }
   
-  // Markera klickad knapp som aktiv
   if (event && event.currentTarget) {
     event.currentTarget.classList.add('active');
     event.currentTarget.style.background = '#21262d';
@@ -352,24 +348,25 @@ function populateAirportsFromRaw(rows) {
       }
     });
   }
-// Efter att flygplatserna har fyllts i i rullistorna:
-const savedToAirport = localStorage.getItem('selected_to_airport');
-if (savedToAirport) {
-  const toSelect = document.getElementById('to-airport');
-  if (toSelect) {
-    toSelect.value = savedToAirport;
-    handleTakeoffAirport(savedToAirport);
-  }
-}
 
-const savedLdgAirport = localStorage.getItem('selected_ldg_airport');
-if (savedLdgAirport) {
-  const ldgSelect = document.getElementById('ldg-airport');
-  if (ldgSelect) {
-    ldgSelect.value = savedLdgAirport;
-    handleLandingAirport(savedLdgAirport);
+  const savedToAirport = localStorage.getItem('selected_to_airport');
+  if (savedToAirport) {
+    const toSelect = document.getElementById('to-airport');
+    if (toSelect) {
+      toSelect.value = savedToAirport;
+      handleTakeoffAirport(savedToAirport);
+    }
   }
-}
+
+  const savedLdgAirport = localStorage.getItem('selected_ldg_airport');
+  if (savedLdgAirport) {
+    const ldgSelect = document.getElementById('ldg-airport');
+    if (ldgSelect) {
+      ldgSelect.value = savedLdgAirport;
+      handleLandingAirport(savedLdgAirport);
+    }
+  }
+
   const toSelect = document.getElementById('to-airport');
   const ldgSelect = document.getElementById('ldg-airport');
   if (toSelect) toSelect.innerHTML = optionsHtml;
@@ -404,7 +401,6 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
     const pos = parseCellRef(cellRef);
     if (!pos) return;
 
-    console.log(`Sätter ${config.sheetName} (${pos.col}, ${pos.row}) till:`, value);
     hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
     refreshOutputs();
   } catch (e) {
@@ -421,8 +417,6 @@ function getOutputVal(sheetName, cellRef) {
     if (!pos) return '-';
 
     let val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
-    
-    // Om värdet är ett tal, avrunda till heltal (0 decimaler)
     if (typeof val === 'number') {
       val = Math.round(val);
     }
@@ -435,7 +429,7 @@ function getOutputVal(sheetName, cellRef) {
 
 function handleTakeoffAirport(val) { 
   updateEngineCellVal('takeoff', 'airportAndRwy', val); 
-  localStorage.setItem('selected_to_airport', val); // Spara startflygplats
+  localStorage.setItem('selected_to_airport', val);
   if (val && val !== "") {
     fetchMetarForAirport('takeoff');
   }
@@ -443,7 +437,7 @@ function handleTakeoffAirport(val) {
 
 function handleLandingAirport(val) { 
   updateEngineCellVal('landing', 'airportAndRwy', val); 
-  localStorage.setItem('selected_ldg_airport', val); // Spara landningsflygplats
+  localStorage.setItem('selected_ldg_airport', val);
   if (val && val !== "") {
     fetchMetarForAirport('landing');
   }
@@ -474,10 +468,9 @@ function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 
 function refreshOutputs() {
   if (!hfInstance) return;
-  console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
   const to = CELL_MAPPING.takeoff;
   const ldg = CELL_MAPPING.landing;
-  // Kontrollera om V1 är satt (om det finns ett giltigt numeriskt värde)
+
   const v1Val = getOutputVal(to.sheetName, to.outputs.v1);
   safeSetText('check-v1-val', v1Val);
   
@@ -493,23 +486,20 @@ function refreshOutputs() {
       badgeV1.style.color = "#f85149";
     }
   }
-  // Hämta värden för Engine Out
+
   const cloudVal = getOutputVal(to.sheetName, to.outputs.cloudBase);
   const escapeVal = getOutputVal(to.sheetName, to.outputs.escapeRoute);
   
   safeSetText('res-to-cloud', cloudVal);
   safeSetText('res-to-escape', escapeVal);
 
-  // Dölj eller visa Engine Out-kortet beroende på om data finns
   const engineOutCard = document.getElementById('card-engine-out');
   if (engineOutCard) {
     const hasData = (cloudVal !== '-' && cloudVal !== '' && cloudVal != null) || 
                     (escapeVal !== '-' && escapeVal !== '' && escapeVal != null);
-                    
     engineOutCard.style.display = hasData ? 'block' : 'none';
   }
 
-  // --- KONTROLL 5: Wet/Contam runway mass limit & rimlighet ---
   const badgeMass = document.getElementById('badge-mass-limit');
   if (badgeMass) {
     const torVal = getOutputVal(to.sheetName, to.outputs.tor);
@@ -517,7 +507,6 @@ function refreshOutputs() {
     
     let isCheckOk = true;
 
-    // Kontrollera att det inte är felkoder och att banan räcker till
     if (String(torVal).startsWith('#') || torVal === '-') {
       isCheckOk = false;
     } else {
@@ -527,13 +516,11 @@ function refreshOutputs() {
         isCheckOk = false;
       }
       
-      // Kör även vår nya C10-jämförelse för kontaminering/RCC
       if (isCheckOk && !checkContaminationLogic()) {
-        isCheckOk = false; // Underkänn om sträckan inte ökade/följde logiken vid sämre RCC
+        isCheckOk = false;
       }
     }
 
-    // Uppdatera badgen
     if (isCheckOk) {
       badgeMass.innerText = "OK";
       badgeMass.style.background = "rgba(46, 160, 67, 0.15)";
@@ -544,11 +531,11 @@ function refreshOutputs() {
       badgeMass.style.color = "#f85149";
     }
   }
+
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
-  safeSetValue('to-metar', getOutputVal(to.sheetName, to.inputs['to-metar']));
 
   safeSetText('res-to-v1', getOutputVal(to.sheetName, to.outputs.v1));
   safeSetText('res-to-vr', getOutputVal(to.sheetName, to.outputs.vr));
@@ -558,7 +545,6 @@ function refreshOutputs() {
   safeSetText('res-to-tora', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('res-to-asda', getOutputVal(to.sheetName, to.outputs.asda));
   safeSetText('res-to-tor', getOutputVal(to.sheetName, to.outputs.tor));
-  safeSetText('res-to-climb', getOutputVal(to.sheetName, to.outputs.climbGrad));
   safeSetText('res-to-hwtw', getOutputVal(to.sheetName, to.outputs.hwTw));
   safeSetText('res-to-xw', getOutputVal(to.sheetName, to.outputs.xw));
   safeSetText('res-to-xwlimit', getOutputVal(to.sheetName, to.outputs.xwLimit));
@@ -570,7 +556,11 @@ function refreshOutputs() {
   safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
-  // Uppdatera EASA-checklistans m-värden
+  // Climb OEI vs Req med 1 decimal och röd varning om req > oei
+  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad);
+  const oeiVal = getOutputVal(to.sheetName, to.outputs.g19);
+  updateClimbCheckCard(reqVal, oeiVal);
+
   safeSetText('check-tor-val', getOutputVal(to.sheetName, to.outputs.tor));
   safeSetText('check-tora-val', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('check-asd-val', getOutputVal(to.sheetName, to.outputs.asd));
@@ -579,7 +569,6 @@ function refreshOutputs() {
   safeSetText('check-tora-val-alt', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('check-v1-val', getOutputVal(to.sheetName, to.outputs.v1));
 
-  // Dynamisk kontroll för OK / EXCEEDS (FAIL) på badgar
   updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
   updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
@@ -594,7 +583,6 @@ function refreshOutputs() {
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
 
-  // --- RENDERFLÄTTER FÖR GRAFISKA BANOR ---
   renderTakeoffChart(
     getOutputVal(to.sheetName, to.outputs.tor),
     getOutputVal(to.sheetName, to.outputs.tod),
@@ -608,12 +596,10 @@ function refreshOutputs() {
   );
 }
 
-// Hjälpfunktion för att sätta grön (OK) eller röd (EXCEEDS) badge
 function updateBadgeStatus(elementId, val1, val2, conditionFn) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
 
-  // Om värdena är tomma, streck eller Excel-fel (#VALUE!, #N/A etc.), sätt FAIL direkt
   if (val1 === '-' || val2 === '-' || val1 === null || val2 === null || 
       String(val1).startsWith('#') || String(val2).startsWith('#')) {
     badge.innerText = "FAIL";
@@ -665,11 +651,14 @@ window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;
 window.updateEngineCellVal = updateEngineCellVal;
 
-// Starta appen när DOM är redo
 document.addEventListener('DOMContentLoaded', init);
 
+// Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
 async function fetchMetarForAirport(sheetType) {
   if (!hfInstance) return;
+  
+  const displaySpanId = sheetType === 'takeoff' ? 'to-metar-display' : 'ldg-metar-display';
+  const displaySpan = document.getElementById(displaySpanId);
   
   try {
     const config = CELL_MAPPING[sheetType];
@@ -679,14 +668,20 @@ async function fetchMetarForAirport(sheetType) {
     const airportCellVal = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
     
     if (!airportCellVal || airportCellVal === '-') {
-      console.warn(`Ingen flygplats vald för ${sheetType}.`);
+      if (displaySpan) {
+        displaySpan.textContent = "-";
+        displaySpan.style.color = "#8b949e";
+      }
       return;
     }
 
     const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
     if (icaoCode.length < 4) return;
 
-    console.log(`Hämtar METAR via Apps Script för ${sheetType} (${icaoCode})`);
+    if (displaySpan) {
+      displaySpan.textContent = "Hämtar METAR...";
+      displaySpan.style.color = "#8b949e";
+    }
 
     const scriptWebAppDataUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
     
@@ -697,45 +692,72 @@ async function fetchMetarForAirport(sheetType) {
     metarText = metarText ? metarText.trim() : "";
     
     if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
+      // Kontrollera om ICAO-koden i METAR matchar valda flygplatsen
+      const matchesIcao = metarText.toUpperCase().includes(icaoCode);
+      
+      // Beräkna ålder på rapporten (om tidsgrupp finns, ex. DDHHMMZ)
+      let reportAgeMinutes = 0;
+      const timeMatch = metarText.match(/\b\d{2}(\d{2})(\d{2})Z\b/);
+      if (timeMatch) {
+        const reportHour = parseInt(timeMatch[1], 10);
+        const reportMinute = parseInt(timeMatch[2], 10);
+        const now = new Date();
+        const reportDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), reportHour, reportMinute));
+        reportAgeMinutes = (now - reportDate) / (1000 * 60);
+        // Hantera om rapporten är från gårdagen
+        if (reportAgeMinutes < 0) reportAgeMinutes += 24 * 60;
+      }
+
       metarText = metarText.replace(/^METAR\s+/, "");
       
-      // Spara rå METAR i rätt fält beroende på flik
+      // Uppdatera Excel-cellen
       const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
       updateEngineCellVal(sheetType, metarFieldKey, metarText);
       
-      // Om det är takeoff kan vi även parsa vind/temp/qnh till fälten
+      if (displaySpan) {
+        displaySpan.textContent = metarText;
+        
+        // Applicera färger enligt dina regler
+        if (!matchesIcao || reportAgeMinutes > 60) {
+          displaySpan.style.color = "#f85149"; // Röd (> 60 min eller fel ICAO)
+        } else if (reportAgeMinutes >= 35) {
+          displaySpan.style.color = "#d29922"; // Amber / Orange (35-60 min)
+        } else {
+          displaySpan.style.color = "#3fb950"; // Grön (< 35 min och rätt ICAO)
+        }
+      }
+      
       if (sheetType === 'takeoff') {
         parseAndPopulateMetarData(metarText);
       }
     } else {
       const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
-      updateEngineCellVal(sheetType, metarFieldKey, metarText || "INGEN METAR HITTADES");
+      updateEngineCellVal(sheetType, metarFieldKey, "INGEN METAR HITTADES");
+      if (displaySpan) {
+        displaySpan.textContent = "INGEN METAR HITTADES";
+        displaySpan.style.color = "#f85149";
+      }
     }
 
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
+    if (displaySpan) {
+      displaySpan.textContent = "Kunde inte hämta METAR";
+      displaySpan.style.color = "#f85149";
+    }
   }
 }
 
-// Bakåtkompatibel wrapper för knappen i HTML
 function fetchMetarForSelectedAirport() {
-  // Kontrollera vilken flik som är aktiv, eller kör takeoff som standard
   const activePage = document.querySelector('.page.active');
   const sheetType = (activePage && activePage.id === 'page-landing') ? 'landing' : 'takeoff';
-  
   fetchMetarForAirport(sheetType);
 }
 
-// Se till att den även exporteras globalt om det behövs
 window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
 
 function parseAndPopulateMetarData(metarText) {
-  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
-    console.log("Parser avbryts: Ingen giltig METAR-text.");
-    return;
-  }
-
-  console.log("--- START PARSERING ---", metarText);
+  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
 
   const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
   const windMatch = metarText.match(windRegex);
@@ -751,7 +773,6 @@ function parseAndPopulateMetarData(metarText) {
 
     let elDir = document.getElementById('to-wind-dir');
     let elSpd = document.getElementById('to-wind-spd');
-    
     if (elDir) elDir.value = dirVal;
     if (elSpd) elSpd.value = spdVal;
   }
@@ -765,7 +786,6 @@ function parseAndPopulateMetarData(metarText) {
       tempStr = '-' + tempStr.substring(1);
     }
     let oatVal = parseInt(tempStr, 10);
-    
     updateEngineCellVal('takeoff', 'oat', oatVal);
     let elOat = document.getElementById('to-oat');
     if (elOat) elOat.value = oatVal;
@@ -795,12 +815,10 @@ function parseAndPopulateMetarData(metarText) {
   }
 }
 
-// Spara vald reg i localStorage vid ändring
 document.getElementById('global-registration').addEventListener('change', (e) => {
   localStorage.setItem('selected_reg', e.target.value);
 });
 
-// Läs in sparad reg när sidan laddas
 window.addEventListener('DOMContentLoaded', () => {
   const savedReg = localStorage.getItem('selected_reg');
   if (savedReg) {
@@ -815,28 +833,19 @@ function checkContaminationLogic() {
   const config = CELL_MAPPING.takeoff;
   const sheetId = hfInstance.getSheetId(config.sheetName);
   
-  // RCC matas in i C10
   const rccPos = parseCellRef("C10"); 
   const currentRccVal = hfInstance.getCellValue({ sheet: sheetId, col: rccPos.col, row: rccPos.row });
 
-  // Om det är torrt (t.ex. RCC 6, tomt eller liknande) behövs ingen jämförelse
   if (currentRccVal === 6 || currentRccVal === '6' || currentRccVal === '-' || currentRccVal === 'Dry' || currentRccVal === '') {
     return true; 
   }
 
-  // 1. Läs av nuvarande sträcka med det sämre banförhållandet
   const currentTor = Number(getOutputVal(config.sheetName, config.outputs.tor));
 
-  // 2. Ändra temporärt C10 till 6 (torr bana) i HyperFormula
   hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
-
-  // 3. Läs av sträckan för torr bana
   const dryTor = Number(getOutputVal(config.sheetName, config.outputs.tor));
-
-  // 4. Återställ till användarens valda RCC i C10 igen direkt
   hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
 
-  // 5. Jämför: Sträckan med sämre bana ska vara lika med eller längre än torr bana
   if (!isNaN(currentTor) && !isNaN(dryTor) && dryTor > 0) {
     return currentTor >= dryTor;
   }
@@ -854,12 +863,10 @@ function renderTakeoffChart(tor, tod, asd, tora) {
         return clamped * 100;
     };
 
-    // Flytta strecken
     document.getElementById('tor-marker').style.left = getPercent(tor) + '%';
     document.getElementById('tod-marker').style.left = getPercent(tod) + '%';
     document.getElementById('asd-marker').style.left = getPercent(asd) + '%';
 
-    // Uppdatera värdena i rutorna som följer med strecket
     document.getElementById('tor-marker').setAttribute('data-val', tor || 0);
     document.getElementById('tod-marker').setAttribute('data-val', tod || 0);
     document.getElementById('asd-marker').setAttribute('data-val', asd || 0);
@@ -888,6 +895,7 @@ function renderLandingChart(ldgDist, lda) {
         ldaLabel.textContent = `LDA: ${ldaNum} m`;
     }
 }
+
 function updateClimbCheckCard(reqValue, oeiValue) {
     const reqNum = parseFloat(reqValue);
     const oeiNum = parseFloat(oeiValue);
@@ -896,7 +904,6 @@ function updateClimbCheckCard(reqValue, oeiValue) {
     const oeiSpan = document.getElementById('res-to-oei');
     const cardContainer = document.getElementById('card-climb-check');
 
-    // Om värden saknas eller är ogiltiga, nollställ
     if (isNaN(reqNum) || isNaN(oeiNum)) {
         reqSpan.textContent = "-";
         oeiSpan.textContent = "-";
@@ -906,18 +913,16 @@ function updateClimbCheckCard(reqValue, oeiValue) {
         return;
     }
 
-    // Skriv ut med en decimal
     reqSpan.textContent = reqNum.toFixed(1) + "%";
     oeiSpan.textContent = oeiNum.toFixed(1) + "%";
 
-    // Jämför: Om REQ är större än OEI -> Hela kortet blir rött!
     if (reqNum > oeiNum) {
-        reqSpan.style.color = "#ffffff"; // Vit text syns bra mot röd bakgrund
-        cardContainer.style.background = "#3d1414"; // Mörkröd/varningsbakgrund
-        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
+        reqSpan.style.color = "#ffffff";
+        cardContainer.style.background = "#3d1414";
+        cardContainer.style.borderColor = "#f85149";
     } else {
         reqSpan.style.color = "#ffffff";
-        cardContainer.style.background = "#0d1117"; // Standard mörk bakgrund
-        cardContainer.style.borderColor = "#30363d"; // Standard ram
+        cardContainer.style.background = "#0d1117";
+        cardContainer.style.borderColor = "#30363d";
     }
 }
