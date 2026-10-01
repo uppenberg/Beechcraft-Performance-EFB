@@ -88,7 +88,7 @@
         <section id="page-takeoff" class="page active">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Take-Off Performance Class A</h2>
-                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
+                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA PC A</span>
             </div>
 
             <!-- Engine Out Procedure -->
@@ -303,7 +303,15 @@
                 <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Landing Performance Class A</h2>
                 <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
             </div>
-
+<!-- WIND / XW & HW/TW (Landing) -->
+<div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">HW/TW | XW (Limit)</div>
+    <div style="font-size: 12px; font-weight: 700; color: #fff;">
+        <span id="res-ldg-hwtw">-</span> | <span id="res-ldg-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit">-</span>)</span>
+    </div>
+</div>
+            
+            
             <!-- Inmatningskorten för Landing -->
             <div class="input-cards-wrapper">
                 <!-- Airport & Weather Card (Landing) -->
