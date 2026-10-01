@@ -388,7 +388,13 @@ function getOutputVal(sheetName, cellRef) {
     const pos = parseCellRef(cellRef);
     if (!pos) return '-';
 
-    const val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
+    let val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
+    
+    // Om värdet är ett tal, avrunda till heltal (0 decimaler)
+    if (typeof val === 'number') {
+      val = Math.round(val);
+    }
+
     return (val !== null && val !== undefined && val !== '') ? val : '-';
   } catch (e) {
     return '-';
