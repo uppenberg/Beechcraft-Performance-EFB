@@ -238,40 +238,41 @@ input, select {
 .runway-tdz-1 { left: 90px; }
 .runway-tdz-2 { left: 130px; }
 
-/* Markörer och färgmatchade etiketter */
+/* Markörer och färgmatchade etikett-rutor */
 .runway-marker {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 6px;
+  bottom: 6px;
   width: 3px;
   transition: left 0.3s ease;
   z-index: 10;
 }
 
-/* Standard etikett (placerad under banan) */
+/* Stil för rutan som följer strecket */
 .runway-marker::after {
-  content: attr(data-label);
+  content: attr(data-label) ": " attr(data-val) "m";
   position: absolute;
-  bottom: -30px;
   transform: translateX(-50%);
   font-size: 10px;
   font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 2px 5px;
+  border-radius: 3px;
   white-space: nowrap;
   color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  pointer-events: none;
 }
 
-/* Färgmatchade linjer och etikett-bakgrunder */
+/* Varannan ovanför och varannan nedanför så de inte krockar */
+/* Exakt samma färg på både streck och ruta */
 #tor-marker { background: #3fb950; }
-#tor-marker::after { background: #238636; bottom: -30px; }
+#tor-marker::after { background: #3fb950; }
 
 #tod-marker { background: #58a6ff; }
-#tod-marker::after { background: #1f6feb; top: -28px; bottom: auto; } /* Placeras ovanför för att slippa krock om nära TOR */
+#tod-marker::after { background: #58a6ff; }
 
 #asd-marker { background: #f85149; }
-#asd-marker::after { background: #da3633; bottom: -50px; } /* Förskjuten längre ner om den hamnar nära TOR */
+#asd-marker::after { background: #f85149; }
 
 #ldg-dist-marker { background: #a371f7; }
-#ldg-dist-marker::after { background: #8957e5; bottom: -30px; }
+#ldg-dist-marker::after { background: #a371f7; }
