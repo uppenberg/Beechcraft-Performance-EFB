@@ -31,7 +31,25 @@
     <h2 style="margin: 0; font-size: 18px; color: #fff; font-weight: 600;">Take-Off Performance Class A</h2>
     <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
   </div>
+    <!-- V1, VR, V2 -->
+    <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
+      <div style="font-size: 15px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span> / <span id="res-to-vr">-</span> / <span id="res-to-v2">-</span></div>
+    </div>
 
+    <!-- Climb Gradient OEI vs REQ -->
+    <div id="card-climb-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Climb OEI vs Req</div>
+      <div style="font-size: 15px; font-weight: 700;"><span id="res-to-climb">-</span> / <span id="res-to-g19" style="color: #8b949e;">-</span></div>
+    </div>
+
+    <!-- WIND / XW & HW/TW -->
+    <div id="card-wind-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">HW/TW | XW (Limit)</div>
+      <div style="font-size: 14px; font-weight: 700; color: #fff;">
+        <span id="res-to-hwtw">-</span> | <span id="res-to-xw">-</span> <span style="font-size: 11px; color: #8b949e;">(<span id="res-to-xwlimit">-</span>)</span>
+      </div>
+    </div>
   <!-- Inmatningssektion (2 kolumner) -->
   <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
     
@@ -238,25 +256,7 @@
   <!-- Huvud-KPI Grid -->
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px;">
     
-    <!-- V1, VR, V2 -->
-    <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
-      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
-      <div style="font-size: 15px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span> / <span id="res-to-vr">-</span> / <span id="res-to-v2">-</span></div>
-    </div>
 
-    <!-- Climb Gradient OEI vs REQ -->
-    <div id="card-climb-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
-      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Climb OEI vs Req</div>
-      <div style="font-size: 15px; font-weight: 700;"><span id="res-to-climb">-</span> / <span id="res-to-g19" style="color: #8b949e;">-</span></div>
-    </div>
-
-    <!-- WIND / XW & HW/TW -->
-    <div id="card-wind-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
-      <div style="font-size: 11px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">HW/TW | XW (Limit)</div>
-      <div style="font-size: 14px; font-weight: 700; color: #fff;">
-        <span id="res-to-hwtw">-</span> | <span id="res-to-xw">-</span> <span style="font-size: 11px; color: #8b949e;">(<span id="res-to-xwlimit">-</span>)</span>
-      </div>
-    </div>
 
   </div>
 
