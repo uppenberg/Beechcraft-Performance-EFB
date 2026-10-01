@@ -142,20 +142,24 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
                             <td style="padding: 8px 0;">
                                 <select class="form-control" id="to-airport" onchange="handleTakeoffAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                                    <option value="">Laddar flygplatser...</option>
+                                    <option value="">Loading airports...</option>
                                 </select>
                             </td>
                         </tr>
-                        <!-- Exempel för Take-off -->
-                        <div class="input-group" style="display: flex; flex-direction: column; margin-bottom: 10px;">
-                              <div style="display: flex; gap: 10px; align-items: center;">
-                                <label for="to-metar" style="min-width: 90px;">METAR / ICA:</label>
-                                <input type="text" id="to-metar" style="flex: 1;" placeholder="Hämtar eller klistra in METAR..." />
-                                <button onclick="fetchMetarForSelectedAirport()">Hämta</button>
-                              </div>
-                          <!-- Egen rad för texten utan ruta, med mindre typsnitt -->
-                          <span id="to-metar-display" class="metar-display-line"></span>
-                        </div>
+                        
+<!-- METAR-rad med input och hämta-knapp -->
+  <div class="input-group" style="display: flex; flex-direction: column; margin-bottom: 5px; width: 100%;">
+    <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
+      <label for="to-metar" style="min-width: 90px;">METAR</label>
+      <input type="text" id="to-metar" style="flex: 1;" placeholder="Hämtar eller klistra in METAR..." />
+      <button onclick="fetchMetarForAirport('takeoff')">Update</button>
+    </div>
+    
+    <!-- Egen rad för texten som sträcker sig över hela kortet -->
+    <span id="to-metar-display" class="metar-display-line"></span>
+  </div>
+</div>
+                        
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
                             <td style="padding: 8px 0;"><input type="number" class="form-control" id="to-wind-dir" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
