@@ -29,6 +29,7 @@ const CELL_MAPPING = {
     outputs: {
       asda: 'C19',
       tora: 'C20',
+      toda: 'C21',
       tor: 'F21',
       hwTw: 'C24',
       xw: 'C25',
