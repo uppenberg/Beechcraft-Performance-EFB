@@ -447,6 +447,22 @@ function refreshOutputs() {
   console.log("refreshOutputs körs! Uppdaterar gränssnittet...");
   const to = CELL_MAPPING.takeoff;
   const ldg = CELL_MAPPING.landing;
+  // Kontrollera om V1 är satt (om det finns ett giltigt numeriskt värde)
+  const v1Val = getOutputVal(to.sheetName, to.outputs.v1);
+  safeSetText('check-v1-val', v1Val);
+  
+  const badgeV1 = document.getElementById('badge-v1');
+  if (badgeV1) {
+    if (v1Val !== '-' && v1Val !== null && v1Val !== undefined && !isNaN(Number(v1Val))) {
+      badgeV1.innerText = "OK";
+      badgeV1.style.background = "rgba(46, 160, 67, 0.15)";
+      badgeV1.style.color = "#3fb950";
+    } else {
+      badgeV1.innerText = "FAIL";
+      badgeV1.style.background = "rgba(248, 81, 73, 0.15)";
+      badgeV1.style.color = "#f85149";
+    }
+  }
 
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
