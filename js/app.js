@@ -848,20 +848,25 @@ function renderTakeoffChart(tor, tod, asd, tora) {
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
-    // Beräkna position baserat på tillgänglig yta (anpassat för 20px marginal på varje sida)
     const getPercent = (val) => {
         const num = parseFloat(val) || 0;
         const clamped = Math.min(Math.max(num / toraNum, 0), 1);
-        return clamped * 100; // Procent av banans längd
+        return clamped * 100;
     };
 
+    // Flytta strecken
     document.getElementById('tor-marker').style.left = getPercent(tor) + '%';
     document.getElementById('tod-marker').style.left = getPercent(tod) + '%';
     document.getElementById('asd-marker').style.left = getPercent(asd) + '%';
 
+    // Uppdatera värdena i rutorna som följer med strecket
+    document.getElementById('tor-marker').setAttribute('data-val', tor || 0);
+    document.getElementById('tod-marker').setAttribute('data-val', tod || 0);
+    document.getElementById('asd-marker').setAttribute('data-val', asd || 0);
+
     const toraLabel = document.getElementById('tora-label');
     if (toraLabel) {
-        toraLabel.textContent = `TORA: ${toraNum} m | TOR: ${tor}m | TOD: ${tod}m | ASD: ${asd}m`;
+        toraLabel.textContent = `TORA: ${toraNum} m`;
     }
 }
 
@@ -876,73 +881,10 @@ function renderLandingChart(ldgDist, lda) {
     };
 
     document.getElementById('ldg-dist-marker').style.left = getPercent(ldgDist) + '%';
+    document.getElementById('ldg-dist-marker').setAttribute('data-val', ldgDist || 0);
 
     const ldaLabel = document.getElementById('lda-label');
     if (ldaLabel) {
-        ldaLabel.textContent = `LDA: ${ldaNum} m | Landningssträcka: ${ldgDist} m`;
+        ldaLabel.textContent = `LDA: ${ldaNum} m`;
     }
-}
-
-function displayMetarText(sheetType, metarText) {
-  const fieldId = sheetType === 'takeoff' ? 'to-metar-display' : 'ldg-metar-display';
-  const el = document.getElementById(fieldId);
-  if (!el) return;
-
-  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
-    el.innerText = metarText || "";
-    el.style.color = "#f85149"; // Röd om saknas
-    return;
-  }
-
-  el.innerText = metarText;
-
-  // 1. Hämta vald ICAO från rullistan
-  const selectId = sheetType === 'takeoff' ? 'to-airport' : 'ldg-airport';
-  const selectEl = document.getElementById(selectId);
-  const selectedIcao = selectEl ? selectEl.value.trim().toUpperCase() : "";
-
-  // 2. Kontrollera ICAO i METAR
-  const icaoMatch = metarText.match(/^([A-Z]{4})\b/);
-  const metarIcao = icaoMatch ? icaoMatch[1] : "";
-  const isIcaoMatching = (selectedIcao && metarIcao && selectedIcao.startsWith(metarIcao));
-
-  // Röd direkt om ICAO inte stämmer överens
-  if (!isIcaoMatching) {
-    el.style.color = "#f85149";
-    return;
-  }
-
-  // 3. Beräkna ålder via tidsstämpeln (t.ex. "121150Z")
-  const timeMatch = metarText.match(/\b(\d{2})(\d{2})(\d{2})Z\b/);
-  if (!timeMatch) {
-    el.style.color = "#f85149"; // Röd om tid saknas
-    return;
-  }
-
-  const metarDay = parseInt(timeMatch[1], 10);
-  const metarHour = parseInt(timeMatch[2], 10);
-  const metarMinute = parseInt(timeMatch[3], 10);
-
-  const now = new Date();
-  const currentDay = now.getUTCDate();
-  const currentHour = now.getUTCHours();
-  const currentMinute = now.getUTCMinutes();
-
-  let totalMinutesNow = currentDay * 1440 + currentHour * 60 + currentMinute;
-  let totalMinutesMetar = metarDay * 1440 + metarHour * 60 + metarMinute;
-  
-  let diffMinutes = totalMinutesNow - totalMinutesMetar;
-  if (diffMinutes < 0) diffMinutes += 44640; // Dygnsbuffert vid månadsskifte
-
-  // 4. Färgstyrning baserat på ålder (eftersom ICAO stämmer):
-  // - Grön: <= 35 min
-  // - Amber: > 35 min och <= 60 min
-  // - Röd: > 60 min
-  if (diffMinutes > 60) {
-    el.style.color = "#f85149"; // Röd (> 60 min)
-  } else if (diffMinutes > 35) {
-    el.style.color = "#d29922"; // Amber (35 - 60 min)
-  } else {
-    el.style.color = "#3fb950"; // Grön (0 - 35 min)
-  }
 }
