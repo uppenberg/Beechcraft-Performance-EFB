@@ -589,12 +589,12 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('check-asd-val', getOutputVal(to.sheetName, to.outputs.asd));
   safeSetText('check-asda-val', getOutputVal(to.sheetName, to.outputs.asda));
   safeSetText('check-tod-val', getOutputVal(to.sheetName, to.outputs.tod));
-  safeSetText('check-toda-val-alt', getOutputVal(to.sheetName, to.outputs.toda));
+  safeSetText('check-toda-val-alt', getOutputVal(to.sheetName, to.outputs.toda)); // Hämtar cell C21 (toda)
   safeSetText('check-v1-val', getOutputVal(to.sheetName, to.outputs.v1));
 
   updateBadgeStatus('badge-tor', getOutputVal(to.sheetName, to.outputs.tor), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getOutputVal(to.sheetName, to.outputs.asd), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
-  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b);
+  updateBadgeStatus('badge-tod', getOutputVal(to.sheetName, to.outputs.tod), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b); // Jämför TOD mot TODA
  
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
