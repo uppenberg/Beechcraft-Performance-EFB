@@ -27,10 +27,10 @@
     <main>
         <!-- TAKEOFF-FLIK -->
         <section id="page-takeoff" class="tab-content active">
-            <h2>Startprestanda</h2>
+            <h2>Take-Off performance Class A</h2>
             
             <div class="form-group">
-                <label>Flygplats & Bana (C4):</label>
+                <label>Airport & RWY:</label>
                 <select id="to-airport" onchange="handleTakeoffAirport(this.value)">
                     <option value="">Laddar flygplatser från Excel...</option>
                 </select>
@@ -38,59 +38,71 @@
 
            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
     
-    <!-- Väder & Overrides -->
+    <!-- Airport & Weather -->
     <fieldset style="flex: 1; min-width: 320px;">
-        <legend>Väder & Overrides</legend>
-        
-        <!-- Laddad METAR (C5) -->
+        <legend>Airport & Weather</legend>
+            <div class="form-group">
+                <label>Airport & RWY:</label>
+                <select id="to-airport" onchange="handleTakeoffAirport(this.value)">
+                <option value="">Laddar flygplatser från Excel...</option>
+                </select>
+        </div>
+        <!-- METAR -->
         <div class="form-group" style="margin-bottom: 12px;">
-            <label>Laddad METAR (C5):</label>
+            <label>METAR</label>
             <input type="text" id="to-metar" readonly style="width: 100%; font-family: monospace; margin-bottom: 6px;">
             <button type="button" onclick="fetchMetarForSelectedAirport()" style="width: 100%;">Hämta METAR</button>
         </div>
 
-        <div class="grid-2">
-            <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" onfocus="this.select()"></div>            
-            <div><label>Vindstyrka (C7):</label><input type="number" id="to-wind-spd" onfocus="this.select()"></div>            
-            <div><label>OAT °C (C8):</label><input type="number" id="to-oat" onfocus="this.select()"></div>            
-            <div><label>QNH (C9):</label><input type="number" id="to-qnh" onfocus="this.select()"></div>
-        </div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+    <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" onfocus="this.select()"></div>            
+    <div><label>Vindstyrka (C7):</label><input type="number" id="to-wind-spd" onfocus="this.select()"></div>            
+    <div><label>OAT °C (C8):</label><input type="number" id="to-oat" onfocus="this.select()"></div>            
+    <div><label>QNH (C9):</label><input type="number" id="to-qnh" onfocus="this.select()"></div>
+</div>
+        <div class="form-group">
+    <label>Runway Condition Code</label>
+    <select id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6" selected>6</option>
+    </select>
+</div>
     </fieldset>
 
     <!-- Setup & Mass -->
     <fieldset style="flex: 1; min-width: 320px;">
         <legend>Setup & Mass</legend>
         <div class="form-group">
-            <label>Startmassa (C14: <span id="to-mass-val">10000</span> lbs) [9000–12500]:</label>
+            <label>Take-off Mass<span id="to-mass-val">12500</span> lbs) [9000–12500]:</label>
             <input type="range" id="to-mass" min="9000" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)">
         </div>
         <div class="form-group">
-            <label>Flaps (PWA):</label>
+            <label>Flaps setting</label>
             <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
                 <option value="UP">UP</option>
                 <option value="APP">APP</option>
             </select>
         </div>
         <div class="form-group">
-            <label>Banförorening / Contaminant (C11):</label>
+            <label>Runway Contaminant</label>
             <input type="text" id="to-contaminant" value="No contaminant" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)">
         </div>
         <div class="form-group">
-            <label>Engine Anti-Ice (C13):</label>
+            <label>Engine Anti-Ice</label>
             <select id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)">
                 <option value="OFF">OFF</option>
                 <option value="ON">ON</option>
             </select>
         </div>
-        <div class="form-group">
-            <label>RWCC (C10):</label>
-            <input type="number" id="to-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('takeoff', 'rwcc', this.value)">
-        </div>
     </fieldset>
 
 </div>
             <div class="results-box">
-                <h3>Beräknat Resultat</h3>
+                <h3>EASA Performance Class A Criteria:</h3>
                 <div class="grid-2">
                     <p>V1: <strong id="res-to-v1">-</strong></p>
                     <p>VR: <strong id="res-to-vr">-</strong></p>
