@@ -102,188 +102,116 @@ input, select {
     margin: 6px 0;
 }
 
-/* --- Banprofil-stilar (Take-off & Landing) --- */
-.rwy-profile-container {
-  background-color: #1e222b;
-  border: 1px solid #2f3642;
-  border-radius: 8px;
-  padding: 35px 14px 10px 14px;
-  margin: 20px 0;
-  color: #fff;
-}
-
-.rwy-header, .rwy-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: #94a3b8;
-  margin-bottom: 4px;
-}
-
-.rwy-footer {
-  margin-top: 6px;
-  font-weight: 600;
-}
-
-.rwy-visual-track {
+/* --- Banprofil-stilar (Dina ursprungliga klassnamn) --- */
+.runway-container {
   position: relative;
-  height: 32px;
-  background-color: #334155;
-  border-radius: 4px;
-  overflow: visible;
-  border: 1px dashed #64748b;
-  margin-top: 28px;
+  background: #161b22;
+  border: 2px solid #30363d;
+  border-radius: 6px;
+  height: 68px;
+  margin: 20px 0 40px 0;
+  overflow: visible; /* Viktigt för att rutorna som sticker ut ska synas */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.rwy-centerline {
+/* Banans asfalt */
+.runway-strip {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: #21262d;
+}
+
+/* Tröskelmarkering (Pianotangenter) ENDAST till vänster */
+.runway-threshold-left {
   position: absolute;
   top: 50%;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-image: linear-gradient(to right, #cbd5e1 50%, transparent 50%);
-  background-size: 20px 2px;
   transform: translateY(-50%);
-  z-index: 1;
-}
-
-.rwy-threshold {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 16px;
+  height: 18px;
+  left: 10px;
+  width: 14px;
   background: repeating-linear-gradient(
     to bottom,
     #ffffff,
-    #ffffff 4px,
-    transparent 4px,
-    transparent 8px
+    #ffffff 3px,
+    #21262d 3px,
+    #21262d 6px
   );
   z-index: 2;
 }
 
-.rwy-ld-bar {
+/* Streckad mittlinje (Större vita streck med mer mellanrum) */
+.runway-centerline {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-color: rgba(14, 165, 233, 0.4);
-  border-right: 3px solid #38bdf8;
-  transition: width 0.4s ease-in-out;
-  z-index: 3;
+  top: 50%;
+  left: 24px;
+  right: 10px;
+  height: 2px;
+  background: linear-gradient(to right, #ffffff 12px, transparent 12px);
+  background-size: 24px 2px;
+  background-repeat: repeat-x;
+  transform: translateY(-50%);
+  z-index: 1;
+  opacity: 0.85;
 }
 
-/* Markör: TOD */
-.rwy-marker-tod {
+/* Touchdown zone (TDZ) - Staplade som ett = */
+.runway-tdz-1, .runway-tdz-2 {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  width: 24px;
+  height: 5px;
+  background: #ffffff;
+  z-index: 2;
+  left: 80px;
+}
+
+.runway-tdz-1 {
+  top: calc(50% - 9px);
+}
+
+.runway-tdz-2 {
+  top: calc(50% + 4px);
+}
+
+/* Markörer och färgmatchade etikett-rutor */
+.runway-marker {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
   width: 3px;
-  background-color: #38bdf8;
-  z-index: 4;
-  transition: left 0.4s ease-in-out;
+  transition: left 0.3s ease;
+  z-index: 10;
 }
-.rwy-marker-tod::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 0 5px 6px 5px;
-  border-style: solid;
-  border-color: transparent transparent #38bdf8 transparent;
-}
-.rwy-tooltip-tod {
+
+.runway-marker::after {
+  content: attr(data-label) ": " attr(data-val) "m";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: -42px;
   font-size: 10px;
-  font-weight: 800;
-  color: #0f172a;
-  background: #38bdf8;
-  padding: 1px 4px;
+  font-weight: bold;
+  padding: 2px 5px;
   border-radius: 3px;
   white-space: nowrap;
-  z-index: 5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  pointer-events: none;
-}
-
-/* Markör: ASD */
-.rwy-marker-asd {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: #fbbf24;
-  z-index: 4;
-  transition: left 0.4s ease-in-out;
-}
-.rwy-marker-asd::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 0 5px 6px 5px;
-  border-style: solid;
-  border-color: transparent transparent #fbbf24 transparent;
-}
-.rwy-tooltip-asd {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -20px;
-  font-size: 10px;
-  font-weight: 800;
-  color: #111827;
-  background: #fbbf24;
-  padding: 1px 4px;
-  border-radius: 3px;
-  white-space: nowrap;
-  z-index: 5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  pointer-events: none;
-}
-
-/* Markör: TOR */
-.rwy-marker-tor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: #a855f7;
-  z-index: 4;
-  transition: left 0.4s ease-in-out;
-}
-.rwy-marker-tor::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 0 5px 6px 5px;
-  border-style: solid;
-  border-color: transparent transparent #a855f7 transparent;
-}
-.rwy-tooltip-tor {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -64px;
-  font-size: 10px;
-  font-weight: 800;
   color: #fff;
-  background: #a855f7;
-  padding: 1px 4px;
-  border-radius: 3px;
-  white-space: nowrap;
-  z-index: 5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   pointer-events: none;
 }
+
+/* Färgmatchning per markör (med separata positioner för att inte krocka) */
+#tor-marker { background: #3fb950; }
+#tor-marker::after { background: #3fb950; bottom: -28px; }
+
+#tod-marker { background: #58a6ff; }
+#tod-marker::after { background: #58a6ff; top: -26px; }
+
+#asd-marker { background: #f85149; }
+#asd-marker::after { background: #f85149; bottom: -50px; }
+
+#ldg-dist-marker { background: #a371f7; }
+#ldg-dist-marker::after { background: #a371f7; bottom: -28px; }
 
 /* METAR-textrad utan ruta */
 .metar-display-line {
