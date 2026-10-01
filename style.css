@@ -223,17 +223,20 @@ input, select {
   z-index: 1;
 }
 
-/* Touchdown zone markeringar (parvisa vita linjer en bit in) */
+/* Touchdown zone (TDZ) / Fixpunktmarkeringar - horisontella rektanglar längs med banan */
 .runway-tdz-1, .runway-tdz-2 {
   position: absolute;
-  top: 18px;
-  bottom: 18px;
-  width: 5px;
-  background: rgba(255, 255, 255, 0.25);
-  z-index: 1;
+  top: 50%;
+  height: 6px;      /* Tjocklek på markeringen */
+  width: 26px;      /* Längd på markeringen längs banan */
+  background: #ffffff; /* Rent vit färg */
+  transform: translateY(-50%);
+  z-index: 2;
 }
+
+/* Placering en bit in från tröskeln */
 .runway-tdz-1 { left: 90px; }
-.runway-tdz-2 { left: 110px; }
+.runway-tdz-2 { left: 130px; }
 
 /* Markörer och färgmatchade etiketter */
 .runway-marker {
