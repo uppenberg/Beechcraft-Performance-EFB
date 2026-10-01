@@ -546,13 +546,22 @@ function updateBadgeStatus(elementId, val1, val2, conditionFn) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
 
+  // Om värdena är tomma, streck eller Excel-fel (#VALUE!, #N/A etc.), sätt FAIL direkt
+  if (val1 === '-' || val2 === '-' || val1 === null || val2 === null || 
+      String(val1).startsWith('#') || String(val2).startsWith('#')) {
+    badge.innerText = "FAIL";
+    badge.style.background = "rgba(248, 81, 73, 0.15)";
+    badge.style.color = "#f85149";
+    return;
+  }
+
   const num1 = Number(val1);
   const num2 = Number(val2);
 
-  if (isNaN(num1) || isNaN(num2) || val1 === '-' || val2 === '-') {
-    badge.innerText = "OK";
-    badge.style.background = "rgba(46, 160, 67, 0.15)";
-    badge.style.color = "#3fb950";
+  if (isNaN(num1) || isNaN(num2)) {
+    badge.innerText = "FAIL";
+    badge.style.background = "rgba(248, 81, 73, 0.15)";
+    badge.style.color = "#f85149";
     return;
   }
 
