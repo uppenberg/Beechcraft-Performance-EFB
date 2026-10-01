@@ -416,8 +416,19 @@ function getOutputVal(sheetName, cellRef) {
   }
 }
 
-function handleTakeoffAirport(val) { updateEngineCellVal('takeoff', 'airportAndRwy', val); }
-function handleLandingAirport(val) { updateEngineCellVal('landing', 'airportAndRwy', val); }
+function handleTakeoffAirport(val) { 
+  updateEngineCellVal('takeoff', 'airportAndRwy', val); 
+  if (val && val !== "") {
+    fetchMetarForAirport('takeoff');
+  }
+}
+
+function handleLandingAirport(val) { 
+  updateEngineCellVal('landing', 'airportAndRwy', val); 
+  if (val && val !== "") {
+    fetchMetarForAirport('landing');
+  }
+}
 
 function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
@@ -566,33 +577,30 @@ window.updateEngineCellVal = updateEngineCellVal;
 // Starta appen när DOM är redo
 document.addEventListener('DOMContentLoaded', init);
 
-async function fetchMetarForSelectedAirport() {
+async function fetchMetarForAirport(sheetType) {
   if (!hfInstance) return;
   
   try {
-    const toConfig = CELL_MAPPING.takeoff;
-    const sheetId = hfInstance.getSheetId(toConfig.sheetName);
-    const pos = parseCellRef(toConfig.inputs.airportAndRwy);
+    const config = CELL_MAPPING[sheetType];
+    const sheetId = hfInstance.getSheetId(config.sheetName);
+    const pos = parseCellRef(config.inputs.airportAndRwy);
     
     const airportCellVal = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
     
     if (!airportCellVal || airportCellVal === '-') {
-      console.warn("Ingen flygplats vald i cell C4.");
+      console.warn(`Ingen flygplats vald för ${sheetType}.`);
       return;
     }
 
     const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
     if (icaoCode.length < 4) return;
 
-    console.log(`Hämtar METAR via eget Apps Script för: ${icaoCode}`);
+    console.log(`Hämtar METAR via Apps Script för ${sheetType} (${icaoCode})`);
 
     const scriptWebAppDataUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
     
     const response = await fetch(scriptWebAppDataUrl);
-    
-    if (!response.ok) {
-      throw new Error(`Kunde inte hämta via Apps Script (status: ${response.status})`);
-    }
+    if (!response.ok) throw new Error(`Kunde inte hämta via Apps Script (status: ${response.status})`);
     
     let metarText = await response.text();
     metarText = metarText ? metarText.trim() : "";
@@ -600,18 +608,21 @@ async function fetchMetarForSelectedAirport() {
     if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
       metarText = metarText.replace(/^METAR\s+/, "");
       
-      updateEngineCellVal('takeoff', 'to-metar', metarText);
-      console.log("METAR mottagen och inlagd i C5:", metarText);
+      // Spara rå METAR i rätt fält beroende på flik
+      const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
+      updateEngineCellVal(sheetType, metarFieldKey, metarText);
       
-      parseAndPopulateMetarData(metarText);
-      
+      // Om det är takeoff kan vi även parsa vind/temp/qnh till fälten
+      if (sheetType === 'takeoff') {
+        parseAndPopulateMetarData(metarText);
+      }
     } else {
-      updateEngineCellVal('takeoff', 'to-metar', metarText || "INGEN METAR HITTADES");
+      const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
+      updateEngineCellVal(sheetType, metarFieldKey, metarText || "INGEN METAR HITTADES");
     }
 
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
-    updateEngineCellVal('takeoff', 'to-metar', "OFFLINE / KUNDE INTE HÄMTA METAR");
   }
 }
 
