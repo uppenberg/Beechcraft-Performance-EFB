@@ -25,99 +25,224 @@
     </nav>
 
     <main>
-        <!-- TAKEOFF-FLIK -->
-        <section id="page-takeoff" class="tab-content active">
-            <h2>Take-Off performance Class A</h2>
+<!-- TAKEOFF-FLIK (Optimerat UI) -->
+<div id="page-takeoff" class="page active">
+  
+  <!-- KPI Highlights -->
+  <div class="kpi-container" id="to-kpi-block" style="display: none;">
+    <div class="kpi-card">
+      <div class="kpi-label">V-Speeds</div>
+      <div class="v-speeds-grid">
+        <div class="v-speed-col">
+          <div class="v-speed-title">V1</div>
+          <div class="v-speed-val" id="val-v1">--</div>
+        </div>
+        <div class="v-speed-col">
+          <div class="v-speed-title">VR</div>
+          <div class="v-speed-val" id="val-vr">--</div>
+        </div>
+        <div class="v-speed-col">
+          <div class="v-speed-title">V2</div>
+          <div class="v-speed-val" id="val-v2">--</div>
+        </div>
+      </div>
+      <div class="kpi-unit" style="margin-top: 4px;">KTS</div>
+    </div>
 
-
-           <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    <div class="kpi-card" id="kpi-tod-card">
+      <div class="kpi-label">Distances</div>
+      <div class="kpi-value" id="to-distance">--</div>
+      <div class="kpi-unit" id="to-distance-status" style="font-size: 9px; font-weight: 600;">Beräknar...</div>
+    </div>
     
-    <!-- Airport & Weather -->
-    <fieldset style="flex: 1; min-width: 320px;">
-        <legend>Airport & Weather</legend>
-            <div class="form-group">
-                <label>Airport & RWY:</label>
-                <select id="to-airport" onchange="handleTakeoffAirport(this.value)">
-                <option value="">Laddar flygplatser från Excel...</option>
-                </select>
+    <div class="kpi-card" id="kpi-climb-card">
+      <div class="kpi-label">Climb Grad</div>
+      <div class="kpi-value" id="to-climb">-- %</div>
+      <div class="kpi-unit" id="to-climb-unit">OEI Wings</div>
+    </div>
+    
+    <div class="kpi-card" id="kpi-wind-card">
+      <div class="kpi-label">Wind / XW</div>
+      <div class="kpi-value" id="to-wind-val">--</div>
+      <div class="kpi-unit" id="to-wind-unit">XW Limit: --</div>
+    </div>
+    
+    <div class="kpi-card" id="kpi-emergency-card">
+      <div class="kpi-label">Emergency Return</div>
+      <div class="emergency-grid">
+        <div class="emergency-col">
+          <div class="emergency-col-title">Flaps UP</div>
+          <div class="emergency-val" id="em-up-val">--</div>
         </div>
-        <!-- METAR -->
-        <div class="form-group" style="margin-bottom: 12px;">
-            <label>METAR</label>
-            <input type="text" id="to-metar" readonly style="width: 100%; font-family: monospace; margin-bottom: 6px;">
-            <button type="button" onclick="fetchMetarForSelectedAirport()" style="width: 100%;">Hämta METAR</button>
+        <div class="emergency-col">
+          <div class="emergency-col-title">Flaps Down</div>
+          <div class="emergency-val" id="em-down-val">--</div>
         </div>
+      </div>
+      <div class="kpi-unit" style="margin-top: 4px;">Vref / Ldg Dist</div>
+    </div>
+  </div>
 
-<div style="display: flex; flex-direction: column; gap: 8px;">
-    <div><label>Vindriktning (C6):</label><input type="number" id="to-wind-dir" onfocus="this.select()"></div>            
-    <div><label>Vindstyrka (C7):</label><input type="number" id="to-wind-spd" onfocus="this.select()"></div>            
-    <div><label>OAT °C (C8):</label><input type="number" id="to-oat" onfocus="this.select()"></div>            
-    <div><label>QNH (C9):</label><input type="number" id="to-qnh" onfocus="this.select()"></div>
-</div>
-        <div class="form-group">
-    <label>Runway Condition Code</label>
-    <select id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6" selected>6</option>
-    </select>
-</div>
-    </fieldset>
+  <!-- Engine Out Procedure Sektion -->
+  <div class="engine-out-card" id="engine-out-section">
+    <div class="card-title"><i class="icon-oei"></i> Engine Out Procedure (OEI)</div>
+    <div class="engine-out-grid">
+      <div class="eo-col">
+        <div class="eo-title">Minimum Cloud Base</div>
+        <div class="eo-val" id="eo-cloud-base">-- FT</div>
+      </div>
+      <div class="eo-col">
+        <div class="eo-title">Escape Route</div>
+        <div class="eo-val" id="eo-escape-route" style="font-size: 13px; font-weight: 500;">--</div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Setup & Mass -->
-    <fieldset style="flex: 1; min-width: 320px;">
-        <legend>Setup & Mass</legend>
-        <div class="form-group">
-            <label>Take-off Mass<span id="to-mass-val">12500</span> </label>
-            <input type="range" id="to-mass" min="9000" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)">
-        </div>
-        <div class="form-group">
-            <label>Flaps setting</label>
-            <select id="to-flaps" onchange="handleTakeoffFlaps(this.value)">
-                <option value="UP">UP</option>
-                <option value="APP">APP</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Runway Contaminant</label>
-            <input type="text" id="to-contaminant" value="No contaminant" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)">
-        </div>
-        <div class="form-group">
-            <label>Engine Anti-Ice</label>
-            <select id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)">
-                <option value="OFF">OFF</option>
-                <option value="ON">ON</option>
-            </select>
-        </div>
-    </fieldset>
-
-</div>
-            <div class="results-box">
-                <h3>EASA Performance Class A Criteria:</h3>
-                <div class="grid-2">
-                    <p>V1: <strong id="res-to-v1">-</strong></p>
-                    <p>VR: <strong id="res-to-vr">-</strong></p>
-                    <p>V2: <strong id="res-to-v2">-</strong></p>
-                    <p>TOD (C36): <strong id="res-to-tod">-</strong> m</p>
-                    <p>ASD (C37): <strong id="res-to-asd">-</strong> m</p>
-                    <p>TORA (C20): <strong id="res-to-tora">-</strong> m</p>
-                    <p>ASDA (C19): <strong id="res-to-asda">-</strong> m</p>
-                    <p>TOR (F21): <strong id="res-to-tor">-</strong> m</p>
-                    <p>Climb gradient OEI (C42): <strong id="res-to-climb">-</strong></p>
-                    <p>H/T Vind (C24): <strong id="res-to-hwtw">-</strong></p>
-                    <p>Sidvind (C25 / Limit F25): <strong id="res-to-xw">-</strong> / <span id="res-to-xwlimit">-</span></p>
-                    <p>Climb gradient required<strong id="res-to-g19">-</strong></p>
-                </div>
-                <hr style="border-color: #294868; margin: 10px 0;">
-                <p><strong>Emergency return Flaps up</strong> Vref: <span id="res-to-emup-vref">-</span> | Dist: <span id="res-to-emup-dist">-</span></p>
-                <p><strong>Emergency return Flaps Down</strong> Vref: <span id="res-to-emdown-vref">-</span> | Dist: <span id="res-to-emdown-dist">-</span></p>
-                <p>Minimum Cloud Base<strong id="res-to-cloud">-</strong>Escape Route<strong id="res-to-escape">-</strong></p>
+  <div class="compact-grid">
+    
+    <!-- AIRPORT & WEATHER CARD -->
+    <div class="card" id="card-weather">
+      <div class="card-title">
+        <span>Airport & Weather</span>
+      </div>
+      
+      <table class="sheet-table">
+        <tr>
+          <td class="col-label" style="width: 38%;">Airport and RWY</td>
+          <td colspan="2">
+            <select class="form-control" id="in-to-c4" onchange="updateCell('Take-off', 'C4', this.value)"></select>
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">METAR</td>
+          <td colspan="2" id="to-c5-cell" style="font-size: 11px; color: var(--accent); word-break: break-all; padding: 4px 0; line-height: 1.3;">--</td>
+        </tr>
+        <tr>
+          <td class="col-label">Wind Direction</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <span id="val-to-c6" style="font-size: 12px; font-weight: 600;">--</span>
+              <span style="color: var(--muted); font-size: 11px;">°</span>
             </div>
-        </section>
+          </td>
+          <td style="text-align: right;">
+            <input type="text" inputmode="decimal" maxlength="4" class="form-control override-input" id="in-to-e6" placeholder="Ovrd" onfocus="this.select()" onchange="updateWeatherOverride('Take-off', 'E6', this.value)">
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">Wind Speed</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <span id="val-to-c7" style="font-size: 12px; font-weight: 600;">--</span>
+              <span style="color: var(--muted); font-size: 11px;">KT</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <input type="text" inputmode="decimal" maxlength="4" class="form-control override-input" id="in-to-e7" placeholder="Ovrd" onfocus="this.select()" onchange="updateWeatherOverride('Take-off', 'E7', this.value)">
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">Outside Air Temp</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <span id="val-to-c8" style="font-size: 12px; font-weight: 600;">--</span>
+              <span style="color: var(--muted); font-size: 11px;">°C</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <input type="text" inputmode="decimal" maxlength="4" class="form-control override-input" id="in-to-e8" placeholder="Ovrd" onfocus="this.select()" onchange="updateWeatherOverride('Take-off', 'E8', this.value)">
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">QNH</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <span id="val-to-c9" style="font-size: 12px; font-weight: 600;">--</span>
+              <span style="color: var(--muted); font-size: 11px;">hPa</span>
+            </div>
+          </td>
+          <td style="text-align: right;">
+            <input type="text" inputmode="decimal" maxlength="4" class="form-control override-input" id="in-to-e9" placeholder="Ovrd" onfocus="this.select()" onchange="updateWeatherOverride('Take-off', 'E9', this.value)">
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">Runway Condition</td>
+          <td><select class="form-control" id="in-to-c10" onchange="updateCell('Take-off', 'C10', this.value)"></select></td>
+          <td style="text-align: right;">
+            <button class="action-link-btn" onclick="clearWeatherOverrides('Take-off')">Refresh</button>
+          </td>
+        </tr>
+      </table>
+      <div id="metar-mismatch-warning" class="metar-warning-banner"></div>
+    </div>
 
+    <!-- Aircraft & Setup Card -->
+    <div class="card" id="card-setup">
+      <div class="card-title">Setup & Mass</div>
+
+      <table class="sheet-table">
+        <tr>
+          <td class="col-label" style="width: 40%;">Take-off Mass</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <input type="range" id="in-to-c14" min="8000" max="12500" step="100" value="12500" class="form-range" style="flex: 1;" oninput="document.getElementById('c14-val-label').innerText = this.value" onchange="updateCell('Take-off', 'C14', this.value)">
+              <span id="c14-val-label" style="font-size: 12px; font-weight: 600; color: var(--accent); min-width: 45px; text-align: right;">12500</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="col-label">Flaps Setting</td>
+          <td><select class="form-control" id="in-to-c26" onchange="renderDashboard()"></select></td>
+        </tr>
+        <tr>
+          <td class="col-label">Runway Contaminant</td>
+          <td><select class="form-control" id="in-to-c11" onchange="updateCell('Take-off', 'C11', this.value)"></select></td>
+        </tr>
+        <tr>
+          <td class="col-label">Engine Anti-Ice</td>
+          <td><select class="form-control" id="in-to-c13" onchange="updateCell('Take-off', 'C13', this.value)"></select></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Runway Visual Profile & EASA Compliance Breakdown -->
+  <div class="card" id="card-chart-block" style="display: none;">
+    <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+      <span>Runway Performance Profile & EASA Checks</span>
+      <span id="chart-calculating-label" style="color: var(--warning); display: none; font-size: 10px; font-weight: 600;">BERÄKNAR OM...</span>
+    </div>
+    
+    <div class="rwy-profile-container">
+      <div class="rwy-header">
+        <span>Banprofil (TOR, TOD & ASD)</span>
+        <span id="to-limit-label" style="font-weight: 600;">Limit: -- m</span>
+      </div>
+      
+      <div class="rwy-visual-track">
+        <div class="rwy-centerline"></div>
+        <div class="rwy-threshold"></div>
+        <div id="to-marker-tor" class="rwy-marker-tor" style="display: none;">
+          <span id="to-tooltip-tor" class="rwy-tooltip-tor">TOR: --</span>
+        </div>
+        <div id="to-marker-tod" class="rwy-marker-tod" style="display: none;">
+          <span id="to-tooltip-tod" class="rwy-tooltip-tod">TOD: --</span>
+        </div>
+        <div id="to-marker-asd" class="rwy-marker-asd" style="display: none;">
+          <span id="to-tooltip-asd" class="rwy-tooltip-asd">ASD: --</span>
+        </div>
+      </div>
+
+      <div class="rwy-footer">
+        <span id="to-used-text">TOR: 0m | TOD: 0m | ASD: 0m</span>
+        <span id="to-status-badge" class="badge-ok">--</span>
+      </div>
+    </div>
+
+    <div class="easa-check-list" id="easa-compliance-details" style="margin-top: 12px;"></div>
+  </div>
+</div>
 
 
 
