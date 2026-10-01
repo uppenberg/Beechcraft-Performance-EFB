@@ -224,7 +224,27 @@
                     </table>
                 </div>
             </div>
-
+<div id="page-takeoff" class="tab-content active">
+    <!-- Övriga fält för start... -->
+    
+<div class="rwy-profile-container">
+    <div class="rwy-visual-track">
+        <div class="rwy-centerline"></div>
+        
+        <!-- Markörer för start (TOR, TOD, ASD) -->
+        <div id="tor-marker" class="rwy-marker tor-marker" title="TOR (Take-off Run)"></div>
+        <div id="tod-marker" class="rwy-marker tod-marker" title="TOD (Take-off Distance)"></div>
+        <div id="asd-marker" class="rwy-marker asd-marker" title="ASD (Accelerate-Stop Distance)"></div>
+        
+        <!-- Banans totala gräns (TORA / ASDA) -->
+        <div id="tora-limit-marker" class="rwy-marker tora-limit-marker" title="TORA / ASDA Gräns"></div>
+    </div>
+    
+    <div class="rwy-labels">
+        <span class="rwy-label-start">0 m</span>
+        <span id="tora-label" class="rwy-label-end">TORA: - m</span>
+    </div>
+</div>
             <!-- Detaljerad EASA Checklista -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
@@ -354,6 +374,25 @@
                     <span><span id="res-ldg-vrefdown" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distdown">-</span> m</span>
                 </div>
             </div>
+            <div id="page-landing" class="tab-content">
+    <!-- Övriga fält för landning... -->
+    
+    <div class="rwy-profile-container">
+        <div class="rwy-visual-track">
+            <div class="rwy-centerline"></div>
+            <div class="rwy-threshold start"></div>
+            <div class="rwy-threshold end"></div>
+            
+            <div id="ldg-dist-marker" class="rwy-marker ldg-marker" title="Landningssträcka (LD)"></div>
+            <div id="lda-limit-marker" class="rwy-marker lda-limit-marker" title="LDA Gräns"></div>
+        </div>
+        
+        <div class="rwy-labels">
+            <span class="rwy-label-start">0 m</span>
+            <span id="lda-label" class="rwy-label-end">LDA: - m</span>
+        </div>
+    </div>
+</div>
         </section>
     </main>
 
