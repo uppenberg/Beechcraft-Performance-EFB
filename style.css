@@ -148,9 +148,9 @@ input, select {
   top: 50%;
   left: 24px;
   right: 10px;
-  height: 2px;
-  background: linear-gradient(to right, #ffffff 12px, transparent 12px);
-  background-size: 24px 2px;
+  height: 5px;
+  background: linear-gradient(to right, #ffffff 24px, transparent 24px);
+  background-size: 48px 5px;
   background-repeat: repeat-x;
   transform: translateY(-50%);
   z-index: 1;
