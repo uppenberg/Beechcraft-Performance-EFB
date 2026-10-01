@@ -101,3 +101,55 @@ input, select {
 .results-box p {
     margin: 6px 0;
 }
+
+/* --- Banprofil-stilar för landningsvyn --- */
+.rwy-profile-container {
+    position: relative;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.rwy-visual-track {
+    position: relative;
+    height: 36px;
+    background-color: #2c3e50;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #1a252f;
+}
+
+.rwy-centerline {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.6);
+    transform: translateY(-50%);
+}
+
+.rwy-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    z-index: 5;
+    transition: left 0.3s ease;
+}
+
+.ldg-marker {
+    background-color: #e74c3c;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.8);
+}
+
+.lda-limit-marker {
+    background-color: #3498db;
+}
+
+.rwy-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
