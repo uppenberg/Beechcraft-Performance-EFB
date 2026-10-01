@@ -418,6 +418,7 @@ function getOutputVal(sheetName, cellRef) {
 
 function handleTakeoffAirport(val) { 
   updateEngineCellVal('takeoff', 'airportAndRwy', val); 
+  localStorage.setItem('selected_to_airport', val); // Spara startflygplats
   if (val && val !== "") {
     fetchMetarForAirport('takeoff');
   }
@@ -425,6 +426,7 @@ function handleTakeoffAirport(val) {
 
 function handleLandingAirport(val) { 
   updateEngineCellVal('landing', 'airportAndRwy', val); 
+  localStorage.setItem('selected_ldg_airport', val); // Spara landningsflygplats
   if (val && val !== "") {
     fetchMetarForAirport('landing');
   }
