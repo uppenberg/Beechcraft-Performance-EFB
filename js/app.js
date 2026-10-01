@@ -626,6 +626,18 @@ async function fetchMetarForAirport(sheetType) {
   }
 }
 
+// Bakåtkompatibel wrapper för knappen i HTML
+function fetchMetarForSelectedAirport() {
+  // Kontrollera vilken flik som är aktiv, eller kör takeoff som standard
+  const activePage = document.querySelector('.page.active');
+  const sheetType = (activePage && activePage.id === 'page-landing') ? 'landing' : 'takeoff';
+  
+  fetchMetarForAirport(sheetType);
+}
+
+// Se till att den även exporteras globalt om det behövs
+window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
+
 function parseAndPopulateMetarData(metarText) {
   if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) {
     console.log("Parser avbryts: Ingen giltig METAR-text.");
