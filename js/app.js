@@ -530,8 +530,13 @@ function refreshOutputs() {
       badgeMass.style.background = "rgba(248, 81, 73, 0.15)";
       badgeMass.style.color = "#f85149";
     }
+    
   }
+const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw);
+const xwValue = getOutputVal(to.sheetName, to.outputs.xw);
+const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit);
 
+updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
   safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
@@ -927,5 +932,71 @@ function updateClimbCheckCard(actualValue, reqValue) {
         reqSpan.style.color = "#ffffff";
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
+    }
+}
+function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
+    const cardContainer = document.getElementById('card-wind-check');
+    const hwTwSpan = document.getElementById('res-to-hwtw');
+    const xwSpan = document.getElementById('res-to-xw');
+    const xwLimitSpan = document.getElementById('res-to-xwlimit');
+
+    if (!cardContainer) return;
+
+    // Standardvärden / Nollställning
+    hwTwSpan.textContent = hwTwVal || "-";
+    xwSpan.textContent = xwVal || "-";
+    xwLimitSpan.textContent = xwLimitVal || "-";
+
+    cardContainer.style.background = "#0d1117";
+    cardContainer.style.borderColor = "#30363d";
+    hwTwSpan.style.color = "#fff";
+    xwSpan.style.color = "#fff";
+
+    // Tolka värden (ex. "15 HW", "5 TW" eller "-5" beroende på hur Excel formaterar det)
+    // Antar att strängen innehåller en siffra eller kan parsas:
+    const hwTwNum = parseFloat(hwTwVal);
+    const xwNum = parseFloat(xwVal);
+    const xwLimitNum = parseFloat(xwLimitVal);
+
+    let isRed = false;
+    let isAmber = false;
+
+    // 1. Kontrollera XW vs Limit (Rött om XW överstiger limit)
+    if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
+        isRed = true;
+    }
+
+    // 2. Kontrollera TW (Tailwind) / HW
+    // Om värdet är negativt eller indikerar TW mellan 0 och -10 -> Amber. Efter -10 -> Rött.
+    // (Justera villkoret beroende på om din Excel returnerar t.ex. "-5" eller text med "TW")
+    if (!isNaN(hwTwNum)) {
+        if (hwTwNum < 0) {
+            // Tailwind-intervall (negativa värden)
+            if (hwTwNum >= -10) {
+                isAmber = true; // TW 0 till -10 -> Amber
+            } else {
+                isRed = true;   // Starkare medvind än -10 -> Rött
+            }
+        }
+    } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
+        // Om det skrivs ut som text (t.ex. "5 TW")
+        const match = hwTwVal.match(/([\d.]+)\s*TW/i);
+        if (match) {
+            const twVal = parseFloat(match[1]);
+            if (twVal > 0 && twVal <= 10) {
+                isAmber = true;
+            } else if (twVal > 10) {
+                isRed = true;
+            }
+        }
+    }
+
+    // Applicera färger på hela kortet baserat på status
+    if (isRed) {
+        cardContainer.style.background = "#3d1414"; // Mörkröd varningsbakgrund
+        cardContainer.style.borderColor = "#f85149"; // Skarpröd ram
+    } else if (isAmber) {
+        cardContainer.style.background = "#3b2e0c"; // Mörkgul/amber varningsbakgrund
+        cardContainer.style.borderColor = "#d29922"; // Amber ram
     }
 }
