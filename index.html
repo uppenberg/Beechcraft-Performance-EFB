@@ -224,20 +224,22 @@
                 </div>
             </div>
 
-            <!-- Banprofil för Take-off (Korrekt placerad inuti fliken) -->
-            <div class="rwy-profile-container" style="margin-bottom: 16px;">
-                <div class="rwy-visual-track">
-                    <div class="rwy-centerline"></div>
-                    <div id="tor-marker" class="rwy-marker tor-marker" title="TOR (Take-off Run)"></div>
-                    <div id="tod-marker" class="rwy-marker tod-marker" title="TOD (Take-off Distance)"></div>
-                    <div id="asd-marker" class="rwy-marker asd-marker" title="ASD (Accelerate-Stop Distance)"></div>
-                    <div id="tora-limit-marker" class="rwy-marker tora-limit-marker" title="TORA / ASDA Gräns"></div>
-                </div>
-                <div class="rwy-labels">
-                    <span class="rwy-label-start">0 m</span>
-                    <span id="tora-label" class="rwy-label-end">TORA: - m</span>
-                </div>
-            </div>
+<!-- Startbana / Take-off vy -->
+<div class="card">
+  <h3>Startbana & Prestanda</h3>
+  <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
+  
+  <div class="runway-container">
+    <div class="runway-threshold-left"></div>
+    <div class="runway-strip"></div>
+    <div class="runway-threshold-right"></div>
+    
+    <!-- Markörer för start -->
+    <div id="tor-marker" class="runway-marker" data-label="TOR"></div>
+    <div id="tod-marker" class="runway-marker" data-label="TOD"></div>
+    <div id="asd-marker" class="runway-marker" data-label="ASD"></div>
+  </div>
+</div>
 
             <!-- Detaljerad EASA Checklista -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
@@ -339,19 +341,20 @@
                 </div>
             </div>
 
-            <!-- Banprofil för Landing (Korrekt placerad inuti fliken) -->
-            <div class="rwy-profile-container" style="margin-bottom: 16px;">
-                <div class="rwy-visual-track">
-                    <div class="rwy-centerline"></div>
-                    <div id="ldg-dist-marker" class="rwy-marker ldg-marker" title="Landningssträcka (LD)"></div>
-                    <div id="lda-limit-marker" class="rwy-marker lda-limit-marker" title="LDA Gräns"></div>
-                </div>
-                <div class="rwy-labels">
-                    <span class="rwy-label-start">0 m</span>
-                    <span id="lda-label" class="rwy-label-end">LDA: - m</span>
-                </div>
-            </div>
-
+<!-- Landningsbana / Landing vy -->
+<div class="card" style="margin-top: 20px;">
+  <h3>Landningsbana & Prestanda</h3>
+  <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
+  
+  <div class="runway-container">
+    <div class="runway-threshold-left"></div>
+    <div class="runway-strip"></div>
+    <div class="runway-threshold-right"></div>
+    
+    <!-- Markör för landning -->
+    <div id="ldg-dist-marker" class="runway-marker" data-label="LDG Dist"></div>
+  </div>
+</div>
             <!-- Resultatbox för Landing -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
                 <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
