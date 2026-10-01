@@ -37,6 +37,7 @@
         display: flex;
         gap: 12px;
         flex-direction: column;
+        margin-bottom: 16px;
       }
       @media (min-width: 768px) {
         .input-cards-wrapper {
@@ -63,7 +64,7 @@
 </head>
 <body>
     <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
-        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;">v0.0.1</span></h1>
+        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;">v0.0.2</span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Reg:</label>
             <select id="global-registration" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
@@ -107,14 +108,13 @@
                     <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span>/<span id="res-to-vr">-</span>/<span id="res-to-v2">-</span></div>
                 </div>
 
-
-<!-- Climb Gradient OEI vs REQ -->
-<div id="card-climb-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
-    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Climb OEI vs Req</div>
-    <div style="font-size: 14px; font-weight: 700;">
-        <span id="res-to-req">-</span> / <span id="res-to-oei" style="color: #8b949e;">-</span>
-    </div>
-</div>
+                <!-- Climb Gradient OEI vs REQ -->
+                <div id="card-climb-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Climb OEI vs Req</div>
+                    <div style="font-size: 14px; font-weight: 700;">
+                        <span id="res-to-req">-</span> / <span id="res-to-oei" style="color: #8b949e;">-</span>
+                    </div>
+                </div>
 
                 <!-- WIND / XW & HW/TW -->
                 <div id="card-wind-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
@@ -134,8 +134,8 @@
                 </div>
             </div>
                 
-<!-- Inmatningssektion -->
-            <div class="input-cards-wrapper" style="margin-bottom: 16px;">
+            <!-- Inmatningssektion (Airport/Weather & Setup/Mass på samma rad) -->
+            <div class="input-cards-wrapper">
                 <!-- Airport & Weather Card -->
                 <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
                     <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
@@ -151,14 +151,14 @@
                             </td>
                         </tr>
 
-                        <!-- 2. METAR på egen rad utan box + Update-knapp under -->
+                        <!-- 2. METAR på egen rad utan box + Update-knapp ovanför -->
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td colspan="2" style="padding: 10px 0;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                            <td colspan="2" style="padding: 8px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForAirport('takeoff')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button onclick="fetchMetarForAirport('takeoff')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
-                                <!-- Ej editerbar textrad utan box som stöder färgning -->
+                                <!-- Ej editerbar textrad utan box med färgning enligt regel -->
                                 <span id="to-metar-display" class="metar-display-line">-</span>
                             </td>
                         </tr>
@@ -181,7 +181,6 @@
                         </tr>
                     </table>
                 </div>
-            </div>
 
                 <!-- Setup & Mass Card -->
                 <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
@@ -235,24 +234,23 @@
                 </div>
             </div>
 
-<!-- Startbana / Take-off vy -->
-<div class="card" style="width: 100%; box-sizing: border-box;">
-  <h3>Startbana & Prestanda</h3>
-  <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
-  
-  <div class="runway-container">
-    <div class="runway-threshold-left"></div>
-    <div class="runway-strip"></div>
-    <div class="runway-centerline"></div>
-    <div class="runway-tdz-1"></div>
-    <div class="runway-tdz-2"></div>
-    
-    <!-- data-val fylls i eller uppdateras av JS -->
-    <div id="tor-marker" class="runway-marker" data-label="TOR" data-val="0"></div>
-    <div id="tod-marker" class="runway-marker" data-label="TOD" data-val="0"></div>
-    <div id="asd-marker" class="runway-marker" data-label="ASD" data-val="0"></div>
-  </div>
-</div>
+            <!-- Startbana / Take-off vy -->
+            <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
+              <h3>Startbana & Prestanda</h3>
+              <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
+              
+              <div class="runway-container">
+                <div class="runway-threshold-left"></div>
+                <div class="runway-strip"></div>
+                <div class="runway-centerline"></div>
+                <div class="runway-tdz-1"></div>
+                <div class="runway-tdz-2"></div>
+                
+                <div id="tor-marker" class="runway-marker" data-label="TOR" data-val="0"></div>
+                <div id="tod-marker" class="runway-marker" data-label="TOD" data-val="0"></div>
+                <div id="asd-marker" class="runway-marker" data-label="ASD" data-val="0"></div>
+              </div>
+            </div>
 
             <!-- Detaljerad EASA Checklista -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
@@ -291,12 +289,13 @@
             </div>
 
             <!-- Inmatningskorten för Landing -->
-            <div class="input-cards-wrapper" style="margin-bottom: 16px;">
+            <div class="input-cards-wrapper">
                 <!-- Airport & Weather Card (Landing) -->
                 <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
                     <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <!-- 1. Airport & RWY överst -->
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
                             <td style="padding: 8px 0;">
@@ -305,17 +304,17 @@
                                 </select>
                             </td>
                         </tr>
-                        <div class="input-group" style="display: flex; flex-direction: column; margin-bottom: 5px; width: 100%;">
-                            
-    <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-      <label for="ldg-metar" style="min-width: 90px;">METAR</label>
-      <input type="text" id="ldg-metar" style="flex: 1;" placeholder="Hämtar eller klistra in METAR..." />
-      <button onclick="fetchMetarForAirport('landing')">Update</button>
-    </div>
-    
-    <!-- Egen rad för texten som sträcker sig över hela kortet -->
-    <span id="ldg-metar-display" class="metar-display-line"></span>
-  </div>
+
+                        <!-- 2. METAR på egen rad utan box + Update-knapp ovanför -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 8px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                    <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
+                                    <button onclick="fetchMetarForAirport('landing')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                </div>
+                                <span id="ldg-metar-display" class="metar-display-line">-</span>
+                            </td>
+                        </tr>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
@@ -366,21 +365,22 @@
                 </div>
             </div>
 
-<!-- Landningsbana / Landing vy -->
-<div class="card" style="width: 100%; box-sizing: border-box; margin-top: 20px;">
-  <h3>Landningsbana & Prestanda</h3>
-  <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
-  
-  <div class="runway-container">
-    <div class="runway-threshold-left"></div>
-    <div class="runway-strip"></div>
-    <div class="runway-centerline"></div>
-    <div class="runway-tdz-1"></div>
-    <div class="runway-tdz-2"></div>
-    
-    <div id="ldg-dist-marker" class="runway-marker" data-label="LDG Dist" data-val="0"></div>
-  </div>
-</div>
+            <!-- Landningsbana / Landing vy -->
+            <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
+              <h3>Landningsbana & Prestanda</h3>
+              <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
+              
+              <div class="runway-container">
+                <div class="runway-threshold-left"></div>
+                <div class="runway-strip"></div>
+                <div class="runway-centerline"></div>
+                <div class="runway-tdz-1"></div>
+                <div class="runway-tdz-2"></div>
+                
+                <div id="ldg-dist-marker" class="runway-marker" data-label="LDG Dist" data-val="0"></div>
+              </div>
+            </div>
+
             <!-- Resultatbox för Landing -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
                 <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
