@@ -134,13 +134,14 @@
                 </div>
             </div>
                 
-            <!-- Inmatningssektion -->
+<!-- Inmatningssektion -->
             <div class="input-cards-wrapper" style="margin-bottom: 16px;">
                 <!-- Airport & Weather Card -->
                 <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
                     <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <!-- 1. Airport & RWY överst -->
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
                             <td style="padding: 8px 0;">
@@ -149,18 +150,18 @@
                                 </select>
                             </td>
                         </tr>
-                        
-<!-- METAR-rad med input och hämta-knapp -->
-  <div class="input-group" style="display: flex; flex-direction: column; margin-bottom: 5px; width: 100%;">
-    <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
-      <label for="to-metar" style="min-width: 90px;">METAR</label>
-      <input type="text" id="to-metar" style="flex: 1;" placeholder="Hämtar eller klistra in METAR..." />
-      <button onclick="fetchMetarForAirport('takeoff')">Update</button>
-    </div>
-    
-    <!-- Egen rad för texten som sträcker sig över hela kortet -->
-    <span id="to-metar-display" class="metar-display-line"></span>
-  </div>
+
+                        <!-- 2. METAR på egen rad utan box + Update-knapp under -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 10px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
+                                    <button onclick="fetchMetarForAirport('takeoff')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                </div>
+                                <!-- Ej editerbar textrad utan box som stöder färgning -->
+                                <span id="to-metar-display" class="metar-display-line">-</span>
+                            </td>
+                        </tr>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
@@ -180,6 +181,7 @@
                         </tr>
                     </table>
                 </div>
+            </div>
 
                 <!-- Setup & Mass Card -->
                 <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
