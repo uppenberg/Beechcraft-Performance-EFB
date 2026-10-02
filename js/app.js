@@ -753,8 +753,10 @@ async function fetchMetarForAirport(sheetType) {
         }
       }
       
-      if (sheetType === 'takeoff') {
+        if (sheetType === 'takeoff') {
         parseAndPopulateMetarData(metarText);
+      } else if (sheetType === 'landing') {
+        parseAndPopulateLandingMetarData(metarText);
       }
     } else {
       const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
@@ -1092,4 +1094,74 @@ function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
         cardContainer.style.background = "#3b2e0c";
         cardContainer.style.borderColor = "#d29922";
     }
+}
+
+//--------------AUTOPOPULATEMETAR_LAND BELOW-----------------
+function parseAndPopulateLandingMetarData(metarText) {
+  if (!metarText || metarText.includes("INGEN METAR") || metarText.includes("OFFLINE")) return;
+
+  // Nollställ färgerna på landningsfälten till standard vid automatisk METAR-ifyllnad
+  ['ldg-wind-dir', 'ldg-wind-spd', 'ldg-oat', 'ldg-qnh'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+          el.style.color = "#fff";
+          el.style.borderColor = "#30363d";
+          el.style.background = "#0d1117";
+      }
+  });
+
+  const windRegex = /(?:(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?KT|(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?MPS)/i;
+  const windMatch = metarText.match(windRegex);
+
+  if (windMatch) {
+    let dir = windMatch[1] || windMatch[4];
+    let spd = windMatch[2] || windMatch[5];
+    let dirVal = (dir !== "VRB") ? parseInt(dir, 10) : 0;
+    let spdVal = parseInt(spd, 10);
+
+    updateEngineCellVal('landing', 'windDir', dirVal);
+    updateEngineCellVal('landing', 'windSpeed', spdVal);
+
+    let elDir = document.getElementById('ldg-wind-dir');
+    let elSpd = document.getElementById('ldg-wind-spd');
+    if (elDir) elDir.value = dirVal;
+    if (elSpd) elSpd.value = spdVal;
+  }
+
+  const tempRegex = /\s(M?\d{2})\/(M?\d{2})\s/;
+  const tempMatch = metarText.match(tempRegex);
+
+  if (tempMatch) {
+    let tempStr = tempMatch[1];
+    if (tempStr.startsWith('M')) {
+      tempStr = '-' + tempStr.substring(1);
+    }
+    let oatVal = parseInt(tempStr, 10);
+    updateEngineCellVal('landing', 'oat', oatVal);
+    let elOat = document.getElementById('ldg-oat');
+    if (elOat) elOat.value = oatVal;
+  }
+
+  const qnhRegex = /\bQ(\d{4})\b/i;
+  const qnhMatch = metarText.match(qnhRegex);
+
+  if (qnhMatch) {
+    let qnhVal = parseInt(qnhMatch[1], 10);
+    updateEngineCellVal('landing', 'qnh', qnhVal);
+    let elQnh = document.getElementById('ldg-qnh');
+    if (elQnh) elQnh.value = qnhVal;
+  } else {
+    const altRegex = /\bA(\d{4})\b/i;
+    const altMatch = metarText.match(altRegex);
+    if (altMatch) {
+      let hpa = Math.round(parseInt(altMatch[1], 10) * 0.338639);
+      updateEngineCellVal('landing', 'qnh', hpa);
+      let elQnh = document.getElementById('ldg-qnh');
+      if (elQnh) elQnh.value = hpa;
+    }
+  }
+
+  if (typeof refreshOutputs === 'function') {
+    refreshOutputs();
+  }
 }
