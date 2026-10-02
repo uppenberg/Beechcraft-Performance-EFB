@@ -211,7 +211,7 @@ input, select {
 #asd-marker::after { background: #f85149; bottom: -50px; }
 
 #ldg-dist-marker { background: #a371f7; }
-#ldg-dist-marker::after { background: #a371f7; bottom: -28px; }
+#ldg-dist-marker::after { background-color: #d29922 !important; color: #000000 !important;}
 #ldg-dist-down-marker::after { background-color: #238636 !important;}
 
 /* METAR-textrad utan ruta */
