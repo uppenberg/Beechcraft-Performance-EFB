@@ -926,18 +926,32 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
         return clamped * 100;
     };
 
-    // Uppdatera Flaps Up-markör
-    const markerUp = document.getElementById('ldg-dist-marker');
-    if (markerUp) {
-        markerUp.style.left = getPercent(ldgDistUp) + '%';
-        markerUp.setAttribute('data-val', ldgDistUp || 0);
-    }
+    // Hämta vald flaps-setting (UP eller DOWN)
+    const flapsSelect = document.getElementById('ldg-flaps');
+    const currentFlaps = flapsSelect ? flapsSelect.value : 'DOWN';
 
-    // Uppdatera Flaps Down-markör
+    const markerUp = document.getElementById('ldg-dist-marker');
     const markerDown = document.getElementById('ldg-dist-down-marker');
-    if (markerDown) {
-        markerDown.style.left = getPercent(ldgDistDown) + '%';
-        markerDown.setAttribute('data-val', ldgDistDown || 0);
+
+    // Visa eller dölj markörer beroende på vald flaps-inställning
+    if (currentFlaps === 'UP') {
+        if (markerUp) {
+            markerUp.style.display = 'block';
+            markerUp.style.left = getPercent(ldgDistUp) + '%';
+            markerUp.setAttribute('data-val', ldgDistUp || 0);
+        }
+        if (markerDown) {
+            markerDown.style.display = 'none';
+        }
+    } else {
+        if (markerDown) {
+            markerDown.style.display = 'block';
+            markerDown.style.left = getPercent(ldgDistDown) + '%';
+            markerDown.setAttribute('data-val', ldgDistDown || 0);
+        }
+        if (markerUp) {
+            markerUp.style.display = 'none';
+        }
     }
 
     const ldaLabel = document.getElementById('lda-label');
