@@ -622,6 +622,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
 
   renderLandingChart(
     getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp),
+    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown), // <-- Tillagd
     getOutputVal(ldg.sheetName, ldg.outputs.lda)
   );
 }
@@ -915,7 +916,7 @@ function renderTakeoffChart(tor, tod, asd, tora) {
     }
 }
 
-function renderLandingChart(ldgDist, lda) {
+function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     const ldaNum = parseFloat(lda) || 0;
     if (ldaNum <= 0) return;
 
@@ -925,8 +926,19 @@ function renderLandingChart(ldgDist, lda) {
         return clamped * 100;
     };
 
-    document.getElementById('ldg-dist-marker').style.left = getPercent(ldgDist) + '%';
-    document.getElementById('ldg-dist-marker').setAttribute('data-val', ldgDist || 0);
+    // Uppdatera Flaps Up-markör
+    const markerUp = document.getElementById('ldg-dist-marker');
+    if (markerUp) {
+        markerUp.style.left = getPercent(ldgDistUp) + '%';
+        markerUp.setAttribute('data-val', ldgDistUp || 0);
+    }
+
+    // Uppdatera Flaps Down-markör
+    const markerDown = document.getElementById('ldg-dist-down-marker');
+    if (markerDown) {
+        markerDown.style.left = getPercent(ldgDistDown) + '%';
+        markerDown.setAttribute('data-val', ldgDistDown || 0);
+    }
 
     const ldaLabel = document.getElementById('lda-label');
     if (ldaLabel) {
