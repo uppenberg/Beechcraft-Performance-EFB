@@ -205,7 +205,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off Mass <br><span id="to-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
                             <td style="padding: 10px 0;">
-                                <input type="range" class="form-range" id="to-mass" min="9000" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -367,9 +367,9 @@
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Landing Mass <br><span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">9500</span> lbs</td>
+                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Landing Mass <br><span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
                             <td style="padding: 10px 0;">
-                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="9500" oninput="handleLandingMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="12500" oninput="handleLandingMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -398,20 +398,26 @@
                 </div>
             </div>
 
+
             <!-- Landningsbana / Landing vy -->
             <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
-              <h3>Landningsbana & Prestanda</h3>
-              <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
+             <h3>Landningsbana & Prestanda</h3>
+             <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
               
-              <div class="runway-container">
+             <div class="runway-container" style="position: relative;">
                 <div class="runway-threshold-left"></div>
                 <div class="runway-strip"></div>
                 <div class="runway-centerline"></div>
                 <div class="runway-tdz-1"></div>
                 <div class="runway-tdz-2"></div>
                 
-                <div id="ldg-dist-marker" class="runway-marker" data-label="LDG Dist" data-val="0"></div>
-              </div>
+                <!-- Markör för Flaps Up -->
+                <!-- Markör för Flaps Up (Amber) -->
+                <div id="ldg-dist-marker" class="runway-marker" data-label="LDG Dist Up" data-val="0" style="background-color: #d29922;"></div>
+                
+                <!-- Markör för Flaps Down (Grön) -->
+                <div id="ldg-dist-down-marker" class="runway-marker" data-label="LDG Dist Down" data-val="0" style="background-color: #238636;"></div>
+             </div>
             </div>
 
             <!-- Resultatbox för Landing -->
