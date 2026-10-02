@@ -381,12 +381,19 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
-                            <td style="padding: 10px 0;">
-                                <input type="number" class="form-control" id="ldg-rwcc" value="6" min="1" max="6" oninput="updateEngineCellVal('landing', 'rwcc', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                            </td>
-                        </tr>
+                                <tr style="border-bottom: 1px solid #21262d;">
+                                    <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+                                    <td style="padding: 10px 0;">
+                                        <select class="form-control" id="ldg-rwcc" onchange="updateEngineCellVal('landing', 'rwcc', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
+                                            <option value="6" selected>6</option>
+                                            <option value="5">5</option>
+                                            <option value="4">4</option>
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                    </td>
+                                </tr>
                     </table>
                 </div>
             </div>
