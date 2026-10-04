@@ -122,57 +122,69 @@ input, select {
   left: 10px;
   right: 10px;
   background: #21262d;
+  overflow: hidden;
 }
 
-/* Tröskelmarkering (Pianotangenter) ENDAST till vänster */
+.runway-used-distance {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: rgba(210, 153, 34, 0.3);
+  transition: width 0.3s ease;
+}
+
+/* Tröskelmarkering: sex längsgående pianotangenter */
 .runway-threshold-left {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 18px;
+  height: 36px;
   left: 10px;
-  width: 14px;
+  width: 32px;
   background: repeating-linear-gradient(
     to bottom,
-    #ffffff,
-    #ffffff 4px,  /* Ändrat från 3px till 4px (matchar mittlinjens höjd) */
-    #21262d 4px,  /* Ändrat från 3px till 4px */
-    #21262d 8px   /* Ändrat från 6px till 8px (behåller mellanrummet proportionerligt) */
+    #f0f0ed 0,
+    #f0f0ed 4px,
+    transparent 4px,
+    transparent 6px
   );
   z-index: 2;
 }
 
-/* Streckad mittlinje (Större vita streck med mer mellanrum) */
+/* Mittlinje med längre streck än mellanrum */
 .runway-centerline {
   position: absolute;
   top: 50%;
-  left: 24px;
+  left: 48px;
   right: 10px;
   height: 4px;
-  background: linear-gradient(to right, #ffffff 24px, transparent 24px);
-  background-size: 48px 4px;
-  background-repeat: repeat-x;
+  background: repeating-linear-gradient(
+    to right,
+    #f0f0ed 0,
+    #f0f0ed 20px,
+    transparent 20px,
+    transparent 35px
+  );
   transform: translateY(-50%);
-  z-index: 1;
-  opacity: 0.85;
+  z-index: 2;
 }
 
-/* Touchdown zone (TDZ) - Staplade som ett = */
+/* TDZ-paret ligger i linje med mittlinjens andra mellanrum */
 .runway-tdz-1, .runway-tdz-2 {
   position: absolute;
   width: 24px;
-  height: 5px;
-  background: #ffffff;
-  z-index: 2;
-  left: 80px;
+  height: 6px;
+  background: #f0f0ed;
+  z-index: 3;
+  left: 99px;
 }
 
 .runway-tdz-1 {
-  top: calc(50% - 12px);
+  top: calc(50% - 15px);
 }
 
 .runway-tdz-2 {
-  top: calc(50% + 7px);
+  top: calc(50% + 10px);
 }
 
 /* Markörer och färgmatchade etikett-rutor */
@@ -227,4 +239,121 @@ input, select {
   border: none;
   padding: 0;
   box-sizing: border-box;
+}
+
+.global-reg {
+  position: relative;
+}
+
+.settings-menu {
+  position: relative;
+}
+
+.settings-toggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 7px;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.settings-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.settings-toggle.update-available {
+  color: #d29922;
+  border-color: #d29922;
+}
+
+.settings-toggle.update-available::after {
+  content: "!";
+  position: absolute;
+  top: -6px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: #0d1117;
+  background: #d29922;
+  border: 2px solid #0d1117;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: min(280px, calc(100vw - 24px));
+  padding: 14px;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+.settings-panel h2 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.check-updates-button {
+  width: 100%;
+  padding: 9px 10px;
+  color: #fff;
+  background: #21262d;
+  border: 1px solid #3d444d;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.check-updates-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.update-status {
+  margin: 9px 0 0;
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .app-header h1 {
+    flex: 1 1 100%;
+    font-size: 16px !important;
+  }
+
+  .global-reg select {
+    width: 155px !important;
+  }
 }

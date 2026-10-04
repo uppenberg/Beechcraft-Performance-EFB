@@ -1,5 +1,7 @@
 let hfInstance;
 let globalData = { airports: [], factors: {} };
+let appServiceWorkerRegistration = null;
+let reloadAfterServiceWorkerChange = false;
 
 const CELL_MAPPING = {
   airport: {
@@ -92,16 +94,176 @@ async function init() {
     populateAirportSelects();
     setupEventListeners();
     
-    // Registrera Service Worker för offline-stöd
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log("Service Worker registrerad!"))
-        .catch(err => console.log('SW error:', err));
-    }
+    setupSettingsMenu();
+    registerAppServiceWorker();
     
     console.log("Appen är helt initierad!");
   } catch (error) {
     console.error("Kunde inte slutföra init():", error);
+  }
+}
+
+function setupSettingsMenu() {
+  const toggle = document.getElementById('settings-toggle');
+  const panel = document.getElementById('settings-panel');
+  const updateButton = document.getElementById('check-updates-button');
+
+  if (!toggle || !panel || !updateButton) return;
+
+  toggle.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    panel.hidden = isOpen;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!panel.hidden && !event.target.closest('.settings-menu')) {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !panel.hidden) {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.focus();
+    }
+  });
+
+  updateButton.addEventListener('click', checkForAppUpdate);
+}
+
+function setUpdateStatus(message) {
+  const status = document.getElementById('update-status');
+  if (status) status.textContent = message;
+}
+
+function setUpdateAvailable(isAvailable) {
+  const toggle = document.getElementById('settings-toggle');
+  const updateButton = document.getElementById('check-updates-button');
+  if (!toggle || !updateButton) return;
+
+  toggle.classList.toggle('update-available', isAvailable);
+  toggle.setAttribute('aria-label', isAvailable ? 'Open settings, update available' : 'Open settings');
+  updateButton.textContent = isAvailable ? 'Update available — install' : 'Check for updates';
+  if (isAvailable) setUpdateStatus('A new app version is ready to install.');
+}
+
+function watchForServiceWorkerUpdate(registration) {
+  registration.addEventListener('updatefound', () => {
+    const installingWorker = registration.installing;
+    if (!installingWorker) return;
+
+    installingWorker.addEventListener('statechange', () => {
+      if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        setUpdateAvailable(true);
+      } else if (installingWorker.state === 'redundant') {
+        setUpdateStatus('The update could not be installed. Check your connection and try again.');
+      }
+    });
+  });
+}
+
+async function registerAppServiceWorker() {
+  if (!('serviceWorker' in navigator)) {
+    setUpdateStatus('App updates are not supported in this browser.');
+    return;
+  }
+
+  try {
+    appServiceWorkerRegistration = await navigator.serviceWorker.register('./sw.js', {
+      updateViaCache: 'none'
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadAfterServiceWorkerChange) window.location.reload();
+    });
+
+    watchForServiceWorkerUpdate(appServiceWorkerRegistration);
+
+    if (appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+      setUpdateAvailable(true);
+    } else {
+      setUpdateStatus('Checking for app updates…');
+    }
+
+    await appServiceWorkerRegistration.update();
+    if (appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+      setUpdateAvailable(true);
+    } else if (!appServiceWorkerRegistration.installing) {
+      setUpdateStatus('The app is up to date.');
+    }
+  } catch (error) {
+    console.error('Could not register or check the app service worker:', error);
+    setUpdateStatus('Could not check for updates. Check your connection and try again.');
+  }
+}
+
+function waitForServiceWorkerInstall(worker) {
+  return new Promise((resolve, reject) => {
+    if (worker.state === 'installed') {
+      resolve();
+      return;
+    }
+    if (worker.state === 'redundant') {
+      reject(new Error('The app update worker became redundant before installation.'));
+      return;
+    }
+
+    worker.addEventListener('statechange', () => {
+      if (worker.state === 'installed') resolve();
+      if (worker.state === 'redundant') {
+        reject(new Error('The app update worker became redundant before installation.'));
+      }
+    });
+  });
+}
+
+function activateAppUpdate(worker) {
+  reloadAfterServiceWorkerChange = true;
+  setUpdateStatus('Installing the update and refreshing the app…');
+  const updateButton = document.getElementById('check-updates-button');
+  if (updateButton) updateButton.disabled = true;
+  worker.postMessage({ type: 'SKIP_WAITING' });
+}
+
+async function checkForAppUpdate() {
+  const registration = appServiceWorkerRegistration;
+  const updateButton = document.getElementById('check-updates-button');
+  if (!registration || !updateButton) {
+    setUpdateStatus('App updates are not available until the app is connected securely.');
+    return;
+  }
+
+  updateButton.disabled = true;
+  setUpdateStatus('Checking for app updates…');
+
+  try {
+    if (registration.waiting) {
+      activateAppUpdate(registration.waiting);
+      return;
+    }
+
+    const workerBeingInstalled = registration.installing;
+    await registration.update();
+    const installingWorker = registration.installing || workerBeingInstalled;
+    if (!registration.waiting && installingWorker) {
+      await waitForServiceWorkerInstall(installingWorker);
+    }
+
+    if (registration.waiting) {
+      setUpdateAvailable(true);
+      activateAppUpdate(registration.waiting);
+    } else {
+      setUpdateAvailable(false);
+      setUpdateStatus('The app is already up to date.');
+      updateButton.disabled = false;
+    }
+  } catch (error) {
+    console.error('Could not install the app update:', error);
+    setUpdateStatus('The update failed. Check your connection and try again.');
+    updateButton.disabled = false;
   }
 }
 
@@ -327,6 +489,23 @@ function switchTab(tabName, event) {
   if (targetPage) {
     targetPage.style.display = 'block';
     targetPage.classList.add('active');
+  }
+
+  if (tabName === 'takeoff') {
+    const config = CELL_MAPPING.takeoff;
+    renderTakeoffChart(
+      getOutputVal(config.sheetName, config.outputs.tor),
+      getOutputVal(config.sheetName, config.outputs.tod),
+      getOutputVal(config.sheetName, config.outputs.asd),
+      getOutputVal(config.sheetName, config.outputs.tora)
+    );
+  } else if (tabName === 'landing') {
+    const config = CELL_MAPPING.landing;
+    renderLandingChart(
+      getOutputVal(config.sheetName, config.outputs.ldgDistUp),
+      getOutputVal(config.sheetName, config.outputs.ldgDistDown),
+      getOutputVal(config.sheetName, config.outputs.lda)
+    );
   }
   
   if (event && event.currentTarget) {
@@ -724,7 +903,10 @@ async function fetchMetarForAirport(sheetType) {
     metarText = metarText ? metarText.trim() : "";
     
     if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
-      const matchesIcao = metarText.toUpperCase().includes(icaoCode);
+      const metarIcaoMatch = metarText.match(/^(?:METAR\s+|SPECI\s+)?([A-Z]{4})\b/i);
+      const matchesIcao = Boolean(
+        metarIcaoMatch && metarIcaoMatch[1].toUpperCase() === icaoCode
+      );
       
       let reportAgeMinutes = 0;
       const timeMatch = metarText.match(/\b\d{2}(\d{2})(\d{2})Z\b/);
@@ -896,19 +1078,35 @@ function renderTakeoffChart(tor, tod, asd, tora) {
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
-    const getPercent = (val) => {
+    const getRatio = (val) => {
         const num = parseFloat(val) || 0;
-        const clamped = Math.min(Math.max(num / toraNum, 0), 1);
-        return clamped * 100;
+        return Math.min(Math.max(num / toraNum, 0), 1);
     };
+    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
+    const usedRunway = document.getElementById('takeoff-used-runway');
+    const maxDistance = Math.max(
+        parseFloat(tor) || 0,
+        parseFloat(tod) || 0,
+        parseFloat(asd) || 0
+    );
+    const usedRatio = getRatio(maxDistance);
 
-    document.getElementById('tor-marker').style.left = getPercent(tor) + '%';
-    document.getElementById('tod-marker').style.left = getPercent(tod) + '%';
-    document.getElementById('asd-marker').style.left = getPercent(asd) + '%';
+    [
+        ['tor', tor],
+        ['tod', tod],
+        ['asd', asd]
+    ].forEach(([id, value]) => {
+        const marker = document.getElementById(`${id}-marker`);
+        if (marker) {
+            const markerRatio = getRatio(value);
+            marker.style.left = `${runwayStrip ? runwayStrip.offsetLeft + markerRatio * runwayStrip.clientWidth : 0}px`;
+            marker.setAttribute('data-val', value || 0);
+        }
+    });
 
-    document.getElementById('tor-marker').setAttribute('data-val', tor || 0);
-    document.getElementById('tod-marker').setAttribute('data-val', tod || 0);
-    document.getElementById('asd-marker').setAttribute('data-val', asd || 0);
+    if (runwayStrip && usedRunway) {
+        usedRunway.style.width = `${usedRatio * 100}%`;
+    }
 
     const toraLabel = document.getElementById('tora-label');
     if (toraLabel) {
@@ -920,25 +1118,37 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     const ldaNum = parseFloat(lda) || 0;
     if (ldaNum <= 0) return;
 
-    const getPercent = (val) => {
-        const num = parseFloat(val) || 0;
-        const clamped = Math.min(Math.max(num / ldaNum, 0), 1);
-        return clamped * 100;
-    };
-
     // Hämta vald flaps-setting (UP eller DOWN)
     const flapsSelect = document.getElementById('ldg-flaps');
     const currentFlaps = flapsSelect ? flapsSelect.value : 'DOWN';
 
     const markerUp = document.getElementById('ldg-dist-marker');
     const markerDown = document.getElementById('ldg-dist-down-marker');
+    const runwayStrip = document.querySelector('#page-landing .runway-strip');
+    const usedRunway = document.getElementById('landing-used-runway');
+    const activeDistance = currentFlaps === 'UP' ? ldgDistUp : ldgDistDown;
+    const activeMarker = currentFlaps === 'UP' ? markerUp : markerDown;
+    const distanceRatio = Math.min(
+        Math.max((parseFloat(activeDistance) || 0) / ldaNum, 0),
+        1
+    );
+
+    if (activeMarker) {
+        const markerLeft = runwayStrip
+            ? runwayStrip.offsetLeft + distanceRatio * runwayStrip.clientWidth
+            : 0;
+        activeMarker.style.left = `${markerLeft}px`;
+        activeMarker.setAttribute('data-val', activeDistance || 0);
+    }
+
+    if (runwayStrip && usedRunway) {
+        usedRunway.style.width = `${distanceRatio * 100}%`;
+    }
 
     // Visa eller dölj markörer beroende på vald flaps-inställning
     if (currentFlaps === 'UP') {
         if (markerUp) {
             markerUp.style.display = 'block';
-            markerUp.style.left = getPercent(ldgDistUp) + '%';
-            markerUp.setAttribute('data-val', ldgDistUp || 0);
         }
         if (markerDown) {
             markerDown.style.display = 'none';
@@ -946,8 +1156,6 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     } else {
         if (markerDown) {
             markerDown.style.display = 'block';
-            markerDown.style.left = getPercent(ldgDistDown) + '%';
-            markerDown.setAttribute('data-val', ldgDistDown || 0);
         }
         if (markerUp) {
             markerUp.style.display = 'none';
@@ -971,8 +1179,6 @@ function updateClimbCheckCard(actualValue, reqValue) {
     if (isNaN(actualNum) || isNaN(reqNum)) {
         actualSpan.textContent = "-";
         reqSpan.textContent = "-";
-        actualSpan.style.color = "#8b949e";
-        reqSpan.style.color = "#fff";
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
         return;
@@ -982,11 +1188,9 @@ function updateClimbCheckCard(actualValue, reqValue) {
     reqSpan.textContent = reqNum.toFixed(1) + "%";
 
     if (reqNum > actualNum) {
-        reqSpan.style.color = "#ffffff";
         cardContainer.style.background = "#3d1414";
         cardContainer.style.borderColor = "#f85149";
     } else {
-        reqSpan.style.color = "#ffffff";
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
     }
