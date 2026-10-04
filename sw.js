@@ -1,5 +1,5 @@
 // Increment the cache version for every published app release.
-const CACHE_NAME = 'be20-efb-v12';
+const CACHE_NAME = 'be20-efb-v13';
 const ASSETS = [
   './index.html',
   './style.css',
