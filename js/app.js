@@ -93,6 +93,10 @@ async function init() {
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
     setupEventListeners();
+    const antiIceSelect = document.getElementById('to-anti-ice');
+    if (antiIceSelect) {
+      updateEngineCellVal('takeoff', 'antiIce', antiIceSelect.value);
+    }
     
     setupSettingsMenu();
     registerAppServiceWorker();
@@ -787,6 +791,12 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
+  const landingFlaps = document.getElementById('ldg-flaps')?.value || 'DOWN';
+  const landingVref = landingFlaps === 'UP'
+    ? getOutputVal(ldg.sheetName, ldg.outputs.vrefUp)
+    : getOutputVal(ldg.sheetName, ldg.outputs.vrefDown);
+  safeSetText('res-ldg-vref', landingVref);
+  safeSetText('res-ldg-vref-label', `VREF / FLAPS ${landingFlaps}`);
   safeSetText('res-ldg-vrefup', getOutputVal(ldg.sheetName, ldg.outputs.vrefUp));
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));

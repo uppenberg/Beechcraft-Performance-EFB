@@ -133,12 +133,11 @@ input, select {
   transition: width 0.3s ease;
 }
 
-/* Tröskelmarkering: sex längsgående pianotangenter */
+/* Tröskelmarkering fylld över banans hela bredd */
 .runway-threshold-left {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 36px;
+  top: 10px;
+  bottom: 10px;
   left: 10px;
   width: 32px;
   background: repeating-linear-gradient(
