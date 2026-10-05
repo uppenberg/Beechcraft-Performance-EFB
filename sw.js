@@ -7,6 +7,7 @@ const ASSETS = [
   './version.js',
   './manifest.json',
   './js/app.js',
+  './data/airports.json',
   './data/se-ltl.xlsx',
   'https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js',
   'https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js'
