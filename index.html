@@ -1,502 +1,488 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>King Air 200 Performance EFB</title>
-  <!-- SheetJS (xlsx) och HyperFormula via CDN för offline-kapacitet -->
-  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
-  <style>
-    :root {
-      --bg: #090d16;
-      --card: #131d31;
-      --border: #1e293b;
-      --border-focus: #0ea5e9;
-      --accent: #0ea5e9;
-      --accent-glow: rgba(14, 165, 233, 0.15);
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --text: #f1f5f9;
-      --muted: #64748b;
-      --input-bg: #090d16;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; overflow-y: auto; font-size: 13px; }
-
-    header {
-      background-color: var(--card);
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-tabs { display: flex; gap: 6px; }
-    .tab-btn {
-      background: var(--input-bg);
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-    .header-right { display: flex; align-items: center; gap: 10px; }
-    .status-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-    }
-    .status-badge.online { background-color: rgba(34,197,94,0.15); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
-    .status-badge.offline { background-color: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); }
-
-    main { flex: 1; padding: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; width: 100%; max-width: 1024px; margin: 0 auto; }
-    .page { display: none; }
-    .page.active { display: block; }
-
-    .compact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      transition: opacity 0.2s ease, filter 0.2s ease;
-    }
-
-    .card.calculating, .kpi-container.calculating, .engine-out-card.calculating {
-      opacity: 0.4;
-      filter: grayscale(40%);
-      pointer-events: none;
-    }
-
-    .card-title {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sheet-table { width: 100%; border-collapse: collapse; }
-    .sheet-table td {
-      padding: 6px 4px;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      vertical-align: middle;
-    }
-    .col-label { color: var(--text); font-weight: 500; font-size: 12px; }
-
-    .form-control {
-      background: var(--input-bg);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      padding: 4px 8px;
-      border-radius: 5px;
-      font-size: 12px;
-      font-weight: 700;
-      text-align: right;
-      width: 100%;
-    }
-    .form-control:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 2px var(--accent-glow); }
-    select.form-control { text-align-last: right; }
-    
-    .form-control.override-input { width: 70px; text-align: center; }
-    .form-control.overridden { border-color: var(--warning); color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-
-    .form-range {
-      accent-color: var(--accent);
-      background: var(--input-bg);
-      cursor: pointer;
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-    }
-
-    .kpi-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
-      width: 100%;
-    }
-    
-    .kpi-card {
-      background: var(--accent-glow);
-      border: 1px solid rgba(14, 165, 233, 0.3);
-      border-radius: 6px;
-      padding: 8px;
-      text-align: center;
-    }
-    
-    .kpi-card.alert-success { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.4); }
-    .kpi-card.alert-success .kpi-value, .kpi-card.alert-success .kpi-unit { color: var(--success); }
-    .kpi-card.alert-warning { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.5); }
-    .kpi-card.alert-warning .kpi-value, .kpi-card.alert-warning .kpi-unit { color: var(--warning); }
-    .kpi-card.alert-danger { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.5); }
-    .kpi-card.alert-danger .kpi-value, .kpi-card.alert-danger .kpi-unit { color: var(--danger); }
-
-    .kpi-label { font-size: 9px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
-    .kpi-value { font-size: 13px; color: #fff; font-weight: 800; margin-top: 2px; }
-    .kpi-unit { font-size: 9px; color: var(--accent); }
-
-    .v-speeds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 2px; }
-    .v-speed-col { background: rgba(255, 255, 255, 0.03); border-radius: 4px; padding: 3px 2px; text-align: center; }
-    .v-speed-title { font-size: 8px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
-    .v-speed-val { font-size: 12px; font-weight: 800; color: #fff; margin-top: 1px; }
-
-    .action-link-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 10px; font-weight: 600; padding: 0; }
-    .action-link-btn:hover { text-decoration: underline; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>King Air 200 EFB</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="./version.js"></script>
+    <!-- SheetJS (xlsx) och HyperFormula via CDN -->
+    <script crossorigin="anonymous" src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
+    <style>
+      /* iPad Mini & Touch Optimeringar */
+      body {
+        -webkit-text-size-adjust: 100%;
+        touch-action: manipulation;
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 10px;
+      }
+      input, select, button {
+        font-size: 16px !important; /* Förhindrar automatisk zoom på iOS vid fokus */
+      }
+      .responsive-top-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      @media (min-width: 768px) {
+        .responsive-top-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .landing-top-kpis {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .input-cards-wrapper {
+        display: flex;
+        gap: 12px;
+        flex-direction: column;
+        margin-bottom: 16px;
+      }
+      @media (min-width: 768px) {
+        .input-cards-wrapper {
+          flex-direction: row;
+        }
+      }
+      .engine-out-box {
+        display: flex;
+        justify-content: space-between;
+        background: #0d1117;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #21262d;
+        font-size: 12px;
+        color: #c9d1d9;
+        gap: 8px;
+      }
+      @media (max-width: 480px) {
+        .engine-out-box {
+          flex-direction: column;
+        }
+      }
+    </style>
 </head>
 <body>
-
-  <header>
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="showTab('takeoff')">Take-off</button>
-      <button class="tab-btn" onclick="showTab('landing')">Landing</button>
-      <button class="tab-btn" onclick="showTab('airport')">Airport Data</button>
-    </div>
-    <div class="header-right">
-      <div style="display: flex; align-items: center; gap: 4px;">
-        <span style="font-size: 10px; color: var(--muted); font-weight: 700;">REG:</span>
-        <select class="form-control" id="global-registration" style="width: 95px; padding: 3px 6px; font-size: 11px;" onchange="updateGlobalRegistration(this.value)">
-          <option value="">-- Välj --</option>
-        </select>
-      </div>
-      <span id="network-status" class="status-badge offline">OFFLINE</span>
-      <span style="font-size: 10px; color: var(--muted); font-weight: 700;">v5.5</span>
-    </div>
-  </header>
-
-  <main>
-    <div id="loading">Hämtar prestandadata...</div>
-
-    <!-- TAKEOFF DASHBOARD (Startar med klassen 'active' så den syns direkt) -->
-    <div id="page-takeoff" class="page active">
-      <div class="kpi-container" id="to-kpi-block" style="display: none;">
-        <div class="kpi-card">
-          <div class="kpi-label">V-Speeds</div>
-          <div class="v-speeds-grid">
-            <div class="v-speed-col"><div class="v-speed-title">V1</div><div class="v-speed-val" id="val-v1">--</div></div>
-            <div class="v-speed-col"><div class="v-speed-title">VR</div><div class="v-speed-val" id="val-vr">--</div></div>
-            <div class="v-speed-col"><div class="v-speed-title">V2</div><div class="v-speed-val" id="val-v2">--</div></div>
-          </div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Distances</div>
-          <div class="kpi-value" id="to-distance">--</div>
-          <div class="kpi-unit" id="to-distance-status">Beräknar...</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Climb Grad</div>
-          <div class="kpi-value" id="to-climb">-- %</div>
-          <div class="kpi-unit">OEI Wings</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Wind / XW</div>
-          <div class="kpi-value" id="to-wind-val">--</div>
-          <div class="kpi-unit" id="to-wind-unit">XW Limit: --</div>
-        </div>
-      </div>
-
-      <div class="compact-grid">
-        <div class="card">
-          <div class="card-title">Airport & Weather</div>
-          <table class="sheet-table">
-            <tr>
-              <td class="col-label">Airport and RWY</td>
-              <td colspan="2"><select class="form-control" id="in-to-c4" onchange="updateCell('Take-off', 'C4', this.value)"></select></td>
-            </tr>
-            <tr>
-              <td class="col-label">METAR</td>
-              <td colspan="2" id="to-c5-cell" style="font-size: 10px; color: var(--accent);">--</td>
-            </tr>
-            <tr>
-              <td class="col-label">Wind Direction</td>
-              <td><span id="val-to-c6">--</span>°</td>
-              <td><input type="text" class="form-control override-input" id="in-to-e6" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E6', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">Wind Speed</td>
-              <td><span id="val-to-c7">--</span> KT</td>
-              <td><input type="text" class="form-control override-input" id="in-to-e7" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E7', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">Outside Air Temp</td>
-              <td><span id="val-to-c8">--</span>°C</td>
-              <td><input type="text" class="form-control override-input" id="in-to-e8" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E8', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">QNH</td>
-              <td><span id="val-to-c9">--</span> hPa</td>
-              <td><input type="text" class="form-control override-input" id="in-to-e9" placeholder="Ovrd" onchange="updateWeatherOverride('Take-off', 'E9', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">RWCC</td>
-              <td><select class="form-control" id="in-to-c10" onchange="updateCell('Take-off', 'C10', this.value)"></select></td>
-              <td style="text-align: right;"><button class="action-link-btn" onclick="clearWeatherOverrides('Take-off')">Rensa</button></td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Setup & Mass</div>
-          <table class="sheet-table">
-            <tr>
-              <td class="col-label">Take-off Mass</td>
-              <td>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <input type="range" id="in-to-c14" min="8000" max="12500" step="50" value="10000" class="form-range" oninput="document.getElementById('c14-val-label').innerText=this.value" onchange="updateCell('Take-off', 'C14', this.value)">
-                  <span id="c14-val-label" style="font-weight:700; color:var(--accent);">10000</span>
+    <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
+        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
+        <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
+            <label for="global-registration" style="font-size: 12px; color: #8b949e;">Reg:</label>
+            <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
+                <option value="SE-LTL" selected>SE-LTL (BE20)</option>
+                <option value="SE-KVL">SE-KVL (BE20)</option>
+                <option value="SE-MJU">SE-MJU (BE20)</option>
+                <option value="SE-MHU">SE-MHU (B190)</option>
+                <option value="SE-MJV">SE-MJV (B190)</option>
+            </select>
+            <div class="settings-menu">
+                <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path>
+                        <path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"></path>
+                    </svg>
+                </button>
+                <div id="settings-panel" class="settings-panel" hidden>
+                    <h2>Settings</h2>
+                    <button id="check-updates-button" class="check-updates-button" type="button">Check for updates</button>
+                    <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="col-label">Flaps</td>
-              <td><select class="form-control" id="in-to-c26" onchange="renderDashboard()"><option value="UP">UP</option><option value="APP">APP</option></select></td>
-            </tr>
-            <tr>
-              <td class="col-label">Contaminant</td>
-              <td><select class="form-control" id="in-to-c11" onchange="updateCell('Take-off', 'C11', this.value)"></select></td>
-            </tr>
-            <tr>
-              <td class="col-label">Anti-Ice</td>
-              <td><select class="form-control" id="in-to-c13" onchange="updateCell('Take-off', 'C13', this.value)"><option value="OFF">OFF</option><option value="ON">ON</option></select></td>
-            </tr>
-          </table>
+            </div>
         </div>
-      </div>
-    </div>
+    </header>
+    <p id="registration-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
 
-    <!-- LANDING DASHBOARD -->
-    <div id="page-landing" class="page">
-      <div class="kpi-container" id="ldg-kpi-block" style="display: none;">
-        <div class="kpi-card"><div class="kpi-label">VREF</div><div class="kpi-value" id="ldg-vref">--</div><div class="kpi-unit">KTS</div></div>
-        <div class="kpi-card"><div class="kpi-label">LD vs LDA</div><div class="kpi-value" id="ldg-distance">--</div><div class="kpi-unit" id="ldg-distance-status">--</div></div>
-        <div class="kpi-card"><div class="kpi-label">Wind / XW</div><div class="kpi-value" id="ldg-wind-val">--</div><div class="kpi-unit" id="ldg-wind-unit">XW Limit: --</div></div>
-        <div class="kpi-card"><div class="kpi-label">Missed App Climb</div><div class="kpi-value" id="ldg-missed-climb">-- %</div><div class="kpi-unit" id="ldg-missed-climb-status">Min 2.5%</div></div>
-      </div>
+    <!-- Fliknavigering -->
+    <nav class="tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <button class="tab-btn active" onclick="switchTab('takeoff', event)" style="flex: 1; padding: 10px; background: #21262d; color: #fff; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Take-off</button>
+        <button class="tab-btn" onclick="switchTab('landing', event)" style="flex: 1; padding: 10px; background: #161b22; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Landing</button>
+    </nav>
 
-      <div class="compact-grid">
-        <div class="card">
-          <div class="card-title">Airport & Weather (Landing)</div>
-          <table class="sheet-table">
-            <tr>
-              <td class="col-label">Airport and RWY</td>
-              <td colspan="2"><select class="form-control" id="in-ldg-c4" onchange="updateCell('Landing', 'C4', this.value)"></select></td>
-            </tr>
-            <tr>
-              <td class="col-label">METAR</td>
-              <td colspan="2" id="val-ldg-c5" style="font-size: 10px; color: var(--accent);">--</td>
-            </tr>
-            <tr>
-              <td class="col-label">Wind Direction</td>
-              <td><span id="val-ldg-c6">--</span>°</td>
-              <td><input type="text" class="form-control override-input" id="in-ldg-e6" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E6', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">Wind Speed</td>
-              <td><span id="val-ldg-c7">--</span> KT</td>
-              <td><input type="text" class="form-control override-input" id="in-ldg-e7" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E7', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">OAT</td>
-              <td><span id="val-ldg-c8">--</span>°C</td>
-              <td><input type="text" class="form-control override-input" id="in-ldg-e8" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E8', this.value)"></td>
-            </tr>
-            <tr>
-              <td class="col-label">QNH</td>
-              <td><span id="val-ldg-c9">--</span> hPa</td>
-              <td><input type="text" class="form-control override-input" id="in-ldg-e9" placeholder="Ovrd" onchange="updateWeatherOverride('Landing', 'E9', this.value)"></td>
-            </tr>
-          </table>
-        </div>
+    <main>
+        <!-- TAKEOFF-FLIK -->
+        <section id="page-takeoff" class="page active">
 
-        <div class="card">
-          <div class="card-title">Setup & Mass (Landing)</div>
-          <table class="sheet-table">
-            <tr>
-              <td class="col-label">Landing Mass</td>
-              <td>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <input type="range" id="in-ldg-c11" min="9000" max="12500" step="50" value="9500" class="form-range" oninput="document.getElementById('c11-val-label').innerText=this.value" onchange="updateCell('Landing', 'C11', this.value)">
-                  <span id="c11-val-label" style="font-weight:700; color:var(--accent);">9500</span>
+            <!-- Engine Out Procedure -->
+            <div id="card-engine-out" style="background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                <h4 style="font-size: 11px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 0.5px;">Engine Out Procedure</h4>
+                <div class="engine-out-box">
+                <span>Min Cloud Base: <strong id="res-to-cloud" style="color: #fff;">-</strong> <span style="font-size: 11px; color: #8b949e;">ft</span></span>
+                <span>Escape Route: <strong id="res-to-escape" style="color: #fff;">-</strong></span>
                 </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="col-label">Flaps</td>
-              <td><select class="form-control" id="in-ldg-flaps" onchange="renderDashboard()"><option value="UP">UP</option><option value="DOWN">DOWN</option></select></td>
-            </tr>
-          </table>
-        </div>
-      </div>
+            </div>
+
+            <!-- Topp-KPI Grid -->
+            <div class="responsive-top-grid">
+                <!-- V1, VR, V2 -->
+                <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
+                    <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span>/<span id="res-to-vr">-</span>/<span id="res-to-v2">-</span></div>
+                </div>
+
+<!-- Climb OEI vs Req -->
+<div id="card-climb-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Climb gradient OEI / Req</div>
+    <div style="font-size: 14px; font-weight: 700; color: #fff;">
+        <span id="res-to-oei">-</span>/<span id="res-to-req">-</span>
     </div>
+</div>
 
-    <!-- AIRPORT DATA -->
-    <div id="page-airport" class="page">
-      <div class="card" style="margin-bottom: 10px;">
-        <div class="card-title">Custom Airport Data</div>
-        <table class="sheet-table" id="manual-airport-table"></table>
-      </div>
-      <div class="card">
-        <div class="card-title">Airport Database</div>
-        <div id="airport-list"></div>
-      </div>
+<!-- WIND / XW & HW/TW -->
+<div id="card-wind-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
+    <div style="font-size: 12px; font-weight: 700; color: #fff;">
+        <span id="res-to-hwtw">-</span> | <span id="res-to-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-to-xwlimit">-</span>)</span>
     </div>
-  </main>
+</div>
 
-  <script>
-    let appState = JSON.parse(localStorage.getItem('aviation_app_state')) || { takeoff: [], landing: [], airport: [] };
-    let weatherOverrides = JSON.parse(localStorage.getItem('aviation_weather_overrides')) || {};
-    let landingWeatherOverrides = JSON.parse(localStorage.getItem('aviation_landing_weather_overrides')) || {};
-    let hfInstance = null;
+                <!-- Emergency Return KPI-kort -->
+                <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">EMG RETURN — VREF / LD</div>
+                    <div style="font-size: 14px; font-weight: 700; color: #fff; display: flex; flex-direction: column; gap: 2px;">
+                        <div>UP: <span id="res-to-emup-vref">-</span> / <span id="res-to-emup-dist">--</span> m</div>
+                        <div>DOWN: <span id="res-to-emdown-vref">-</span> / <span id="res-to-emdown-dist">--</span> m</div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Inmatningssektion (Airport/Weather & Setup/Mass på samma rad) -->
+            <div class="input-cards-wrapper">
+                <!-- Airport & Weather Card -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <!-- 1. Airport & RWY överst -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="to-airport" onchange="handleTakeoffAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="">Loading airports...</option>
+                                </select>
+                            </td>
+                        </tr>
 
-    function showTab(tabName) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`page-${tabName}`).classList.add('active');
-      event.target.classList.add('active');
-    }
+                        <!-- 2. METAR på egen rad utan box + Update-knapp ovanför -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 8px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                    <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
+                                    <button onclick="fetchMetarForAirport('takeoff')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                </div>
+                                <!-- Ej editerbar textrad utan box med färgning enligt regel -->
+                                <span id="to-metar-display" class="metar-display-line">-</span>
+                            </td>
+                        </tr>
+                        
+<!-- Wind Direction (C6) -->
+<tr style="border-bottom: 1px solid #21262d;">
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+    <td style="padding: 8px 0;">
+        <input type="number" class="form-control" id="to-wind-dir" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windDir', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+    </td>
+</tr>
+<!-- Wind Speed (C7) -->
+<tr style="border-bottom: 1px solid #21262d;">
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
+    <td style="padding: 8px 0;">
+        <input type="number" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+    </td>
+</tr>
+<!-- OAT (C8) -->
+<tr style="border-bottom: 1px solid #21262d;">
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
+    <td style="padding: 8px 0;">
+        <input type="number" class="form-control" id="to-oat" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'oat', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+    </td>
+</tr>
+<!-- QNH (C9) -->
+<tr>
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
+    <td style="padding: 8px 0;">
+        <input type="number" class="form-control" id="to-qnh" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'qnh', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+    </td>
+</tr>
+                    </table>
+                </div>
 
-    function initHyperFormula() {
-      try {
-        if (typeof HyperFormula !== 'undefined' && appState.takeoff.length > 0) {
-          hfInstance = HyperFormula.build({
-            Takeoff: appState.takeoff,
-            Landing: appState.landing,
-            'Airport Data': appState.airport
-          }, { licenseKey: 'gpl-v3' });
-        }
-      } catch (e) {
-        console.error("HyperFormula init error:", e);
-      }
-    }
+                <!-- Setup & Mass Card -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Setup & Mass</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off Mass <br><span id="to-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
+                            <td style="padding: 10px 0;">
+                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="to-flaps" onchange="handleTakeoffFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="UP">UP</option>
+                                    <option value="APP">APP</option>
+                                </select>
+                            </td>
+                        </tr>
+                       <!--Vi kör utan contaminant tillsvidare ------
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Contaminant</td>
+                            <td style="padding: 10px 0;">
+                                <input type="text" class="form-control" id="to-contaminant" value="No contaminant" oninput="updateEngineCellVal('takeoff', 'contaminant', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; text-align: left;">
+                            </td>
+                        </tr> --> 
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Engine Anti-Ice</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="OFF">OFF</option>
+                                    <option value="ON" selected>ON</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="to-rwcc" onchange="updateEngineCellVal('takeoff', 'rwcc', this.value); if(typeof refreshOutputs === 'function') refreshOutputs();" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6" selected>6</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
-    function getCellByA1(sheetType, a1) {
-      const isLanding = sheetType === 'landing' || sheetType === 'Landing';
-      const overrides = isLanding ? landingWeatherOverrides : weatherOverrides;
-      if (overrides[a1] !== undefined && overrides[a1] !== "") return overrides[a1];
+            <!-- Startbana / Take-off vy -->
+            <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
+              <h3>Runway visualization</h3>
+              <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
+              
+              <div class="runway-container">
+                <div class="runway-threshold-left"></div>
+                <div class="runway-strip">
+                    <div id="takeoff-used-runway" class="runway-used-distance" aria-hidden="true"></div>
+                </div>
+                <div class="runway-centerline"></div>
+                <div class="runway-tdz-1"></div>
+                <div class="runway-tdz-2"></div>
+                
+                <div id="tor-marker" class="runway-marker" data-label="TOR" data-val="0"></div>
+                <div id="tod-marker" class="runway-marker" data-label="TOD" data-val="0"></div>
+                <div id="asd-marker" class="runway-marker" data-label="ASD" data-val="0"></div>
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Take-Off Performance Class A</h2>
+                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA PC A</span>
+            </div>
 
-      const sName = isLanding ? 'Landing' : (sheetType === 'takeoff' ? 'Takeoff' : sheetType);
-      if (hfInstance) {
-        try {
-          const sheetId = hfInstance.getSheetIdByName(sName);
-          const val = hfInstance.getCellValue({ sheet: sheetId, col: colLetterToIndex(a1), row: rowNumberToIndex(a1) });
-          if (val !== null && val !== undefined) return val;
-        } catch (e) {}
-      }
-      return "";
-    }
+            <!-- Detaljerad EASA Checklista -->
+            <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>1. TOR ≤ TORA [<span id="check-tor-val">-</span>m / <span id="check-tora-val">-</span>m]:</span>
+                    <span id="badge-tor" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
 
-    function colLetterToIndex(a1) {
-      const colLetter = a1.match(/[A-Z]+/)[0];
-      let index = 0;
-      for (let i = 0; i < colLetter.length; i++) {
-        index = index * 26 + (colLetter.charCodeAt(i) - 64);
-      }
-      return index - 1;
-    }
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>2. ASD ≤ ASDA [<span id="check-asd-val">-</span>m / <span id="check-asda-val">-</span>m]:</span>
+                    <span id="badge-asd" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
 
-    function rowNumberToIndex(a1) {
-      return parseInt(a1.match(/\d+/)[0], 10) - 1;
-    }
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>3. TOD ≤ TODA [<span id="check-tod-val">-</span>m / <span id="check-toda-val-alt">-</span>m]:</span>
+                    <span id="badge-tod" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
 
-    function updateCell(sheetName, cellCoord, value) {
-      if (hfInstance) {
-        try {
-          const sheetId = hfInstance.getSheetIdByName(sheetName);
-          hfInstance.setCellContents({ sheet: sheetId, col: colLetterToIndex(cellCoord), row: rowNumberToIndex(cellCoord) }, value);
-        } catch (e) {}
-      }
-      renderDashboard();
-    }
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>4. Single value of V1 used (C38: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
+                    <span id="badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
 
-    function updateWeatherOverride(sheetName, cellRef, val) {
-      const isLanding = sheetName === 'Landing';
-      const overrides = isLanding ? landingWeatherOverrides : weatherOverrides;
-      if (val !== undefined && val !== "") {
-        overrides[cellRef] = val;
-      } else {
-        delete overrides[cellRef];
-      }
-      localStorage.setItem(isLanding ? 'aviation_landing_weather_overrides' : 'aviation_weather_overrides', JSON.stringify(overrides));
-      renderDashboard();
-    }
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>5. Wet/Contam runway mass limit check:</span>
+                    <span id="badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
+            </div>
+        </section>
 
-    function clearWeatherOverrides(sheetName) {
-      if (sheetName === 'Landing') {
-        landingWeatherOverrides = {};
-        localStorage.removeItem('aviation_landing_weather_overrides');
-      } else {
-        weatherOverrides = {};
-        localStorage.removeItem('aviation_weather_overrides');
-      }
-      renderDashboard();
-    }
+        <!-- LANDNINGS-FLIK -->
+        <section id="page-landing" class="page" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Landing Performance Class A</h2>
+                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
+            </div>
 
-    function renderDashboard() {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('to-kpi-block').style.display = 'grid';
-      document.getElementById('ldg-kpi-block').style.display = 'grid';
-    }
+            <div class="responsive-top-grid landing-top-kpis">
+                <!-- WIND / XW & HW/TW (Landing) -->
+                <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">
+                        <span id="res-ldg-hwtw">-</span> | <span id="res-ldg-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit">-</span>)</span>
+                    </div>
+                </div>
+                <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                    <div id="res-ldg-vref-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">VREF / FLAPS DOWN</div>
+                    <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
+                </div>
+                <div id="kpi-missed-climb-card" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+                    <div class="kpi-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Missed App Climb gradient OEI</div>
+                    <div class="kpi-value" id="ldg-missed-climb" style="font-size: 14px; font-weight: 700; color: #fff;">-- %</div>
+                    <div class="kpi-unit" id="ldg-missed-climb-status" style="font-size: 8px; font-weight: 700; color: #8b949e;">Min 2.5%</div>
+                </div>
+            </div>
 
-window.addEventListener('DOMContentLoaded', () => {
-      updateNetworkStatus();
-      
-      // Hämta data från Google Sheets via PWA-bryggan vid start
-      google.script.run
-        .withSuccessHandler((data) => {
-          console.log("Data hämtad från Google Sheets:", data);
-          
-          // Spara ner datan i appState och localStorage
-          appState = data;
-          localStorage.setItem('aviation_app_state', JSON.stringify(data));
-          
-          // Initiera motorn och rita gränssnittet
-          initHyperFormula();
-          renderDashboard();
-          populateDropdowns(); // Fyll rullistorna med data från arket
-        })
-        .withFailureHandler((err) => {
-          console.error("Kunde inte hämta data från servern:", err);
-          // Fallback om vi kör helt offline och har sparad data i localStorage
-          initHyperFormula();
-          renderDashboard();
-        })
-        .getInitialData();
-    });
+            
+            <!-- Inmatningskorten för Landing -->
+            <div class="input-cards-wrapper">
+                <!-- Airport & Weather Card (Landing) -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <!-- 1. Airport & RWY överst -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="ldg-airport" onchange="handleLandingAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="">Laddar flygplatser...</option>
+                                </select>
+                            </td>
+                        </tr>
 
-    window.addEventListener('online', updateNetworkStatus);
-    window.addEventListener('offline', updateNetworkStatus);
+                        <!-- 2. METAR på egen rad utan box + Update-knapp ovanför -->
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 8px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                    <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
+                                    <button onclick="fetchMetarForAirport('landing')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                </div>
+                                <span id="ldg-metar-display" class="metar-display-line">-</span>
+                            </td>
+                        </tr>
+                        
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-spd" oninput="handleWeather('landing', 'windSpeed', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-oat" oninput="handleWeather('landing', 'oat', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-qnh" oninput="handleWeather('landing', 'qnh', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                        </tr>
+                    </table>
+                </div>
 
-    function updateNetworkStatus() {
-      const status = document.getElementById('network-status');
-      if (navigator.onLine) {
-        status.innerText = "ONLINE"; status.className = "status-badge online";
-      } else {
-        status.innerText = "OFFLINE"; status.className = "status-badge offline";
-      }
-    }
-  </script>
+                <!-- Setup & Mass Card (Landing) -->
+                <div class="card" style="flex: 1; background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px;">
+                    <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Setup & Mass</div>
+                    
+                    <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Landing Mass <br><span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
+                            <td style="padding: 10px 0;">
+                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="12500" oninput="handleLandingMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="ldg-flaps" onchange="handleLandingFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="UP">UP</option>
+                                    <option value="DOWN" selected>DOWN</option>
+                                </select>
+                            </td>
+                        </tr>
+                                <tr style="border-bottom: 1px solid #21262d;">
+                                    <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
+                                    <td style="padding: 10px 0;">
+                                        <select class="form-control" id="ldg-rwcc" onchange="updateEngineCellVal('landing', 'rwcc', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
+                                            <option value="6" selected>6</option>
+                                            <option value="5">5</option>
+                                            <option value="4">4</option>
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- Landningsbana / Landing vy -->
+            <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
+             <h3>Landningsbana & Prestanda</h3>
+             <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
+              
+             <div class="runway-container" style="position: relative;">
+                <div class="runway-threshold-left"></div>
+                <div class="runway-strip">
+                    <div id="landing-used-runway" class="runway-used-distance" aria-hidden="true"></div>
+                </div>
+                <div class="runway-centerline"></div>
+                <div class="runway-tdz-1"></div>
+                <div class="runway-tdz-2"></div>
+                
+                <!-- Markör för Flaps Up -->
+                <!-- Markör för Flaps Up (Amber) -->
+                <div id="ldg-dist-marker" class="runway-marker" data-label="LD Flaps Up" data-val="0" style="background-color: #d29922;"></div>
+                
+                <!-- Markör för Flaps Down (Grön) -->
+                <div id="ldg-dist-down-marker" class="runway-marker down-marker" data-label="LD Flaps down" data-val="0" style="background-color: #238636;"></div>
+             </div>
+            </div>
+
+            <!-- Resultatbox för Landing -->
+            <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
+                
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>LDA (C18):</span>
+                    <strong id="res-ldg-lda" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>H/T Vind (C21):</span>
+                    <strong id="res-ldg-hwtw" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Sidvind / Limit (C22 / G22):</span>
+                    <span><strong id="res-ldg-xw" style="color: #fff;">-</strong> / <span id="res-ldg-xwlimit">-</span></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Missed Approach Climb (C31):</span>
+                    <strong id="res-ldg-missed" style="color: #fff;">-</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                    <span>Flaps UP (Vref / Dist):</span>
+                    <span><span id="res-ldg-vrefup" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distup">-</span> m</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Flaps DOWN (Vref / Dist):</span>
+                    <span><span id="res-ldg-vrefdown" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distdown">-</span> m</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
