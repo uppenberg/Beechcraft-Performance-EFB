@@ -51,7 +51,7 @@
       }
       .engine-out-box {
         display: flex;
-        justify-content: space-between;
+        align-items: flex-start;
         background: #0d1117;
         padding: 8px 12px;
         border-radius: 4px;
@@ -59,6 +59,75 @@
         font-size: 12px;
         color: #c9d1d9;
         gap: 8px;
+      }
+      .engine-out-cloud {
+        flex: 0 0 auto;
+      }
+      .engine-out-escape {
+        display: flex;
+        flex: 1 1 0;
+        flex-direction: column;
+        min-width: 0;
+        gap: 4px;
+      }
+      .engine-out-escape strong {
+        font-size: clamp(14px, 2vw, 18px);
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+      }
+      .icao-autocomplete {
+        position: relative;
+      }
+      .icao-suggestions {
+        position: absolute;
+        z-index: 10;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+      }
+      .icao-suggestion {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: 0;
+        background: transparent;
+        color: #c9d1d9;
+        text-align: left;
+        cursor: pointer;
+      }
+      .icao-suggestion:hover,
+      .icao-suggestion[aria-selected="true"] {
+        background: #21262d;
+        color: #fff;
+      }
+      .runway-suggestion-options {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .runway-suggestion-option {
+        padding: 8px;
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+      }
+      .runway-suggestion-distances {
+        margin: 4px 0 8px;
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+      .runway-suggestion-button {
+        padding: 6px 10px;
+        background: #21262d;
+        color: #fff;
+        border: 1px solid #d29922;
+        border-radius: 4px;
+        cursor: pointer;
       }
       @media (max-width: 480px) {
         .engine-out-box {
@@ -101,6 +170,7 @@
         <button class="tab-btn active" onclick="switchTab('takeoff', event)" style="flex: 1; padding: 10px; background: #21262d; color: #fff; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Take-off</button>
         <button class="tab-btn" onclick="switchTab('landing', event)" style="flex: 1; padding: 10px; background: #161b22; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Landing</button>
     </nav>
+    <p id="airport-selection-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
 
     <main>
         <!-- TAKEOFF-FLIK -->
@@ -110,8 +180,8 @@
             <div id="card-engine-out" style="background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
                 <h4 style="font-size: 11px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 0.5px;">Engine Out Procedure</h4>
                 <div class="engine-out-box">
-                <span>Min Cloud Base: <strong id="res-to-cloud" style="color: #fff;">-</strong> <span style="font-size: 11px; color: #8b949e;">ft</span></span>
-                <span>Escape Route: <strong id="res-to-escape" style="color: #fff;">-</strong></span>
+                <span class="engine-out-cloud">Min Cloud Base: <strong id="res-to-cloud" style="color: #fff;">-</strong> <span style="font-size: 11px; color: #8b949e;">ft</span></span>
+                <span class="engine-out-escape"><span>Escape Route:</span><strong id="res-to-escape" style="color: #fff;">-</strong></span>
                 </div>
             </div>
 
@@ -156,13 +226,34 @@
                     <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
-                        <!-- 1. Airport & RWY överst -->
+                        <!-- Airport selection -->
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
+                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="to-airport" onchange="handleTakeoffAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                                    <option value="">Loading airports...</option>
+                                <div class="icao-autocomplete">
+                                    <input class="form-control" id="to-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value)" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <div class="icao-suggestions" id="to-icao-suggestions" role="listbox" hidden></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="to-airport-rwy" onchange="handleAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="">Enter an ICAO code first</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr id="to-intersection-row" style="border-bottom: 1px solid #21262d;" hidden>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Intersection:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="to-airport-intersection" onchange="handleAirportIntersectionChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
+                            </td>
+                        </tr>
+                        <tr id="to-runway-suggestion-row" style="border-bottom: 1px solid #21262d;" hidden>
+                            <td colspan="2" style="padding: 8px 0; color: #d29922; font-size: 12px;">
+                                <span id="to-runway-suggestion-text" role="status" aria-live="polite"></span>
+                                <div id="to-runway-suggestion-options" class="runway-suggestion-options"></div>
                             </td>
                         </tr>
 
@@ -171,7 +262,7 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForAirport('takeoff')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button onclick="fetchMetarForSelectedAirport()" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <!-- Ej editerbar textrad utan box med färgning enligt regel -->
                                 <span id="to-metar-display" class="metar-display-line">-</span>
@@ -264,7 +355,7 @@
 
             <!-- Startbana / Take-off vy -->
             <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
-              <h3>Runway visualization</h3>
+              <h3 id="takeoff-runway-visualization-title">Runway visualization</h3>
               <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
               
               <div class="runway-container">
@@ -350,13 +441,34 @@
                     <div class="card-title" style="font-size: 12px; font-weight: 600; color: #8b949e; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">Airport & Weather</div>
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
-                        <!-- 1. Airport & RWY överst -->
+                        <!-- Airport selection -->
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">Airport & RWY:</td>
+                            <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="ldg-airport" onchange="handleLandingAirport(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                                    <option value="">Laddar flygplatser...</option>
+                                <div class="icao-autocomplete">
+                                    <input class="form-control" id="ldg-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value)" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <div class="icao-suggestions" id="ldg-icao-suggestions" role="listbox" hidden></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="ldg-airport-rwy" onchange="handleAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="">Enter an ICAO code first</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr id="ldg-intersection-row" style="border-bottom: 1px solid #21262d;" hidden>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Intersection:</td>
+                            <td style="padding: 8px 0;">
+                                <select class="form-control" id="ldg-airport-intersection" onchange="handleAirportIntersectionChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
+                            </td>
+                        </tr>
+                        <tr id="ldg-runway-suggestion-row" style="border-bottom: 1px solid #21262d;" hidden>
+                            <td colspan="2" style="padding: 8px 0; color: #d29922; font-size: 12px;">
+                                <span id="ldg-runway-suggestion-text" role="status" aria-live="polite"></span>
+                                <div id="ldg-runway-suggestion-options" class="runway-suggestion-options"></div>
                             </td>
                         </tr>
 
@@ -365,7 +477,7 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForAirport('landing')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button onclick="fetchMetarForSelectedAirport()" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <span id="ldg-metar-display" class="metar-display-line">-</span>
                             </td>

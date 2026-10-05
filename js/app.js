@@ -1,23 +1,31 @@
 let hfInstance;
 let globalData = { airports: [], factors: {} };
+let airportSelection = { icao: '', runway: '', intersection: '' };
+let runwaySuggestion = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
 
 const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport data',
-    startRow: 4,
-    codeCol: 0 // Kolumn A (0-indexerat i JSON)
+    inputs: {
+      'RWY Elev [ft] (B6)': 'B6',
+      'TORA [m] (C6)': 'C6',
+      'TODA [m](D6)': 'D6',
+      'ASDA [m](E6)': 'E6',
+      'LDA [m](F6)': 'F6',
+      'Slope [%](G6)': 'G6',
+      'RWYHDG [°](H6)': 'H6',
+      'min climb gradient OEI(I6)': 'I6',
+      'min cloudbase(K6)': 'K6',
+      'Routing(L6)': 'L6',
+    }
   },
   takeoff: {
     sheetName: 'Take-off',
     inputs: {
       'to-metar': 'C5',
       airportAndRwy: 'C4',
-      windDirOverride: 'E6',
-      windSpeedOverride: 'E7',
-      oatOverride: 'E8',
-      qnhOverride: 'E9',
       rwcc: 'C10',
       contaminant: 'C11',
       antiIce: 'C13',
@@ -56,10 +64,6 @@ const CELL_MAPPING = {
     inputs: {
       'ldg-metar': 'C5',
       airportAndRwy: 'C4',
-      windDirOverride: 'E6',
-      windSpeedOverride: 'E7',
-      oatOverride: 'E8',
-      qnhOverride: 'E9',
       rwcc: 'C10',
       mass: 'C11',
       flaps: 'G24',
@@ -81,6 +85,7 @@ const CELL_MAPPING = {
     }
   }
 };
+const OPTIONAL_AIRPORT_DATA_FIELDS = ['min cloudbase(K6)', 'Routing(L6)'];
 
 const WORKBOOK_BY_REGISTRATION = {
   'SE-LTL': 'se-ltl.xlsx'
@@ -132,11 +137,15 @@ async function init() {
     }
     
     // Ladda in Excel och skapa HyperFormula-instansen
-    globalData = await loadData(registrationSelect?.value || 'SE-LTL');
+    await loadData(registrationSelect?.value || 'SE-LTL');
+    globalData.airports = await loadAirportDatabase();
     
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
     setupEventListeners();
+    if (getAirportRows(airportSelection.icao).length) {
+      fetchMetarForAirport();
+    }
     const antiIceSelect = document.getElementById('to-anti-ice');
     if (antiIceSelect) {
       updateEngineCellVal('takeoff', 'antiIce', antiIceSelect.value);
@@ -148,6 +157,7 @@ async function init() {
     console.log("Appen är helt initierad!");
   } catch (error) {
     console.error("Kunde inte slutföra init():", error);
+    showAirportSelectionError(`Could not initialize the performance calculator: ${error.message}`);
   }
 }
 
@@ -324,9 +334,7 @@ async function loadData(registration) {
       throw new Error(`No performancedata is available for the registration ${registration}.`);
     }
 
-    const basePath = window.location.hostname.includes('github.io')
-      ? `/Beechcraft-Performance-EFB/data/${workbookName}`
-      : `data/${workbookName}`;
+    const basePath = getDataFilePath(workbookName);
 
     console.log("2. Försöker hämta fil från:", basePath);
     const response = await fetch(basePath);
@@ -349,7 +357,6 @@ async function loadData(registration) {
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
     console.log("6. HyperFormula-instans skapad!");
     
-    populateAirportsFromRaw(sheetsData['Airport data']);
     refreshOutputs();
     console.log(`${workbookName} har lästs in i HyperFormula!`);
     
@@ -360,17 +367,48 @@ async function loadData(registration) {
   }
 }
 
+function getDataFilePath(fileName) {
+  return window.location.hostname.includes('github.io')
+    ? `/Beechcraft-Performance-EFB/data/${fileName}`
+    : `data/${fileName}`;
+}
+
+async function loadAirportDatabase() {
+  const response = await fetch(getDataFilePath('airports.json'));
+  if (!response.ok) {
+    throw new Error(`Could not load airport database (${response.status} ${response.statusText}).`);
+  }
+
+  const airportData = await response.json();
+  if (!airportData || !Array.isArray(airportData.Sheet1) || airportData.Sheet1.length === 0 ||
+      airportData.Sheet1.some((airport) =>
+        !airport || typeof airport.ICAO !== 'string' || !/^[A-Z0-9]{4}$/.test(airport.ICAO) ||
+        typeof airport.RWY !== 'string' || airport.RWY.trim() === ''
+      )) {
+    throw new Error('Airport database has an invalid format.');
+  }
+
+  return airportData.Sheet1;
+}
+
 // 3. Dummy för eventlyssnare så den inte kraschar
 function setupEventListeners() {
   // Lägg till eventlyssnare här om det behövs
 }
 
-function setupAirportSelects() {
-  // Komplettera om du har en separat funktion för rullistorna
-}
-
 function populateAirportSelects() {
-  // Kan anropas från init
+  airportSelection = {
+    icao: (localStorage.getItem('selected_airport_icao') || '').toUpperCase(),
+    runway: localStorage.getItem('selected_airport_runway') || '',
+    intersection: localStorage.getItem('selected_airport_intersection') || '',
+  };
+  if (!getAirportRows(airportSelection.icao).length ||
+      !getRunwayRows(airportSelection.icao, airportSelection.runway).length) {
+    airportSelection = { icao: '', runway: '', intersection: '' };
+  }
+
+  syncAirportControls();
+  updateCustomAirportData(getSelectedAirportRecord());
 }
 
 // Convert a SheetJS worksheet without losing formulas
@@ -568,42 +606,386 @@ function switchTab(tabName, event) {
   }
 }
 
-// Fyll rullistor direkt från rådata-arrayen
-function populateAirportsFromRaw(rows) {
-  let optionsHtml = '<option value="">Choose airport and RWY</option>';
+function getAirportRows(icao) {
+  if (!icao) return [];
+  return globalData.airports.filter((airport) =>
+    airport.ICAO.trim().toUpperCase() === icao.trim().toUpperCase()
+  );
+}
 
-  if (rows && Array.isArray(rows)) {
-    rows.forEach((row, index) => {
-      if (index < 4) return;
-      const codeVal = row[0];
-      if (codeVal && codeVal !== 'Airport' && codeVal !== '[ft]') {
-        optionsHtml += `<option value="${codeVal}">${codeVal}</option>`;
+function getRunwayRows(icao, runway) {
+  if (!runway) return [];
+  return getAirportRows(icao).filter((airport) => airport.RWY === runway);
+}
+
+function getSelectedAirportRecord() {
+  const runwayRows = getRunwayRows(airportSelection.icao, airportSelection.runway);
+  if (airportSelection.intersection) {
+    return runwayRows.find((airport) => airport.Intersection === airportSelection.intersection) || null;
+  }
+  return runwayRows.find((airport) => !airport.Intersection) || null;
+}
+
+function updateRunwayVisualizationTitle() {
+  const title = document.getElementById('takeoff-runway-visualization-title');
+  if (!title) return;
+  if (!airportSelection.runway) {
+    title.textContent = 'Runway visualization';
+    return;
+  }
+
+  const intersectionLabel = airportSelection.intersection
+    ? ` intersection ${airportSelection.intersection}`
+    : '';
+  title.textContent = `Runway ${airportSelection.runway}${intersectionLabel} visualization`;
+}
+
+function syncAirportControls() {
+  const icao = airportSelection.icao;
+  const airportRows = getAirportRows(icao);
+  const runways = [...new Set(airportRows.map((airport) => airport.RWY))];
+
+  ['to', 'ldg'].forEach((prefix) => {
+    const icaoInput = document.getElementById(`${prefix}-airport-icao`);
+    const runwaySelect = document.getElementById(`${prefix}-airport-rwy`);
+    const intersectionSelect = document.getElementById(`${prefix}-airport-intersection`);
+    const intersectionRow = document.getElementById(`${prefix}-intersection-row`);
+
+    if (icaoInput) icaoInput.value = icao;
+    if (runwaySelect) {
+      runwaySelect.replaceChildren(new Option(
+        runways.length ? 'Choose runway' : 'Enter an ICAO code first',
+        ''
+      ));
+      runways.forEach((runway) => runwaySelect.appendChild(new Option(runway, runway)));
+      runwaySelect.value = runways.includes(airportSelection.runway) ? airportSelection.runway : '';
+    }
+
+    const runwayRows = getRunwayRows(icao, airportSelection.runway);
+    const intersections = [...new Set(
+      runwayRows.map((airport) => airport.Intersection).filter(Boolean)
+    )];
+    const hasFullRunway = runwayRows.some((airport) => !airport.Intersection);
+    if (intersectionSelect) {
+      intersectionSelect.replaceChildren();
+      if (hasFullRunway) {
+        intersectionSelect.appendChild(new Option('Full runway', ''));
+      } else {
+        intersectionSelect.appendChild(new Option('Choose intersection', ''));
       }
+      intersections.forEach((intersection) =>
+        intersectionSelect.appendChild(new Option(intersection, intersection))
+      );
+      intersectionSelect.value = intersections.includes(airportSelection.intersection)
+        ? airportSelection.intersection
+        : '';
+    }
+    if (intersectionRow) intersectionRow.hidden = intersections.length === 0;
+  });
+  updateRunwayVisualizationTitle();
+}
+
+function updateRunwaySuggestion(message, suggestion = null) {
+  runwaySuggestion = suggestion;
+  ['to', 'ldg'].forEach((prefix) => {
+    const row = document.getElementById(`${prefix}-runway-suggestion-row`);
+    const text = document.getElementById(`${prefix}-runway-suggestion-text`);
+    const optionsContainer = document.getElementById(`${prefix}-runway-suggestion-options`);
+    if (!row || !text || !optionsContainer) return;
+
+    row.hidden = !message;
+    text.textContent = message;
+    optionsContainer.replaceChildren();
+    if (!suggestion) return;
+
+    const runwayRows = getRunwayRows(airportSelection.icao, suggestion.runway);
+    const distances = [
+      ['TORA', 'TORA [m] (C6)'],
+      ['TODA', 'TODA [m](D6)'],
+      ['ASDA', 'ASDA [m](E6)'],
+    ];
+    if (prefix === 'ldg') distances.push(['LDA', 'LDA [m](F6)']);
+    runwayRows.forEach((airport) => {
+      const option = document.createElement('div');
+      option.className = 'runway-suggestion-option';
+
+      const label = document.createElement('strong');
+      label.textContent = airport.Intersection
+        ? `Intersection ${airport.Intersection} available`
+        : 'Full runway available';
+      option.appendChild(label);
+
+      const distanceList = document.createElement('p');
+      distanceList.className = 'runway-suggestion-distances';
+      distanceList.textContent = distances
+        .map(([name, field]) => `${name}: ${airport[field] || '—'} m`)
+        .join(' | ');
+      option.appendChild(distanceList);
+
+      const selectButton = document.createElement('button');
+      selectButton.type = 'button';
+      selectButton.className = 'runway-suggestion-button';
+      selectButton.textContent = airport.Intersection
+        ? `Use RWY ${suggestion.runway}, intersection ${airport.Intersection}`
+        : `Use RWY ${suggestion.runway}, full runway`;
+      selectButton.addEventListener('click', () =>
+        applySuggestedRunway(suggestion.runway, airport.Intersection || '')
+      );
+      option.appendChild(selectButton);
+      optionsContainer.appendChild(option);
     });
+  });
+}
+
+function suggestRunwayFromMetar(metarText) {
+  const windMatch = metarText.match(/\b(VRB|\d{3})(\d{2,3})(?:G\d{2,3})?(KT|MPS)\b/i);
+  if (!windMatch || windMatch[1].toUpperCase() === 'VRB') {
+    updateRunwaySuggestion('No runway suggestion: METAR wind direction is variable or unavailable.');
+    return;
   }
 
-  const savedToAirport = localStorage.getItem('selected_to_airport');
-  if (savedToAirport) {
-    const toSelect = document.getElementById('to-airport');
-    if (toSelect) {
-      toSelect.value = savedToAirport;
-      handleTakeoffAirport(savedToAirport);
-    }
+  const direction = Number(windMatch[1]);
+  const speed = Number(windMatch[2]);
+  if (!Number.isFinite(direction) || direction > 360 || !Number.isFinite(speed) || speed === 0) {
+    updateRunwaySuggestion('No runway suggestion: METAR wind is calm or has an invalid direction.');
+    return;
   }
 
-  const savedLdgAirport = localStorage.getItem('selected_ldg_airport');
-  if (savedLdgAirport) {
-    const ldgSelect = document.getElementById('ldg-airport');
-    if (ldgSelect) {
-      ldgSelect.value = savedLdgAirport;
-      handleLandingAirport(savedLdgAirport);
-    }
+  const speedKnots = windMatch[3].toUpperCase() === 'MPS' ? speed * 1.94384 : speed;
+  const runwayCandidates = new Map();
+  const runwaysByName = new Map();
+  getAirportRows(airportSelection.icao).forEach((airport) => {
+    if (!runwaysByName.has(airport.RWY)) runwaysByName.set(airport.RWY, []);
+    runwaysByName.get(airport.RWY).push(airport);
+  });
+  runwaysByName.forEach((airportRows, runway) => {
+    const headings = [...new Set(airportRows
+      .map((airport) => airport['RWYHDG [°](H6)'])
+      .filter((value) => value !== null && value !== undefined && String(value).trim() !== '')
+      .map((value) => Number(value))
+      .filter((heading) => Number.isFinite(heading) && heading >= 0 && heading <= 360)
+      .map((heading) => heading % 360))];
+    if (headings.length !== 1) return;
+    const heading = headings[0];
+    const relativeWind = ((direction - heading + 540) % 360) - 180;
+    const headwind = speedKnots * Math.cos(relativeWind * Math.PI / 180);
+    runwayCandidates.set(runway, { runway, headwind });
+  });
+
+  const candidates = [...runwayCandidates.values()].sort((left, right) => right.headwind - left.headwind);
+  if (candidates.length === 0 || candidates[0].headwind <= 0) {
+    updateRunwaySuggestion('No runway has a headwind component; select a runway manually.');
+    return;
   }
 
-  const toSelect = document.getElementById('to-airport');
-  const ldgSelect = document.getElementById('ldg-airport');
-  if (toSelect) toSelect.innerHTML = optionsHtml;
-  if (ldgSelect) ldgSelect.innerHTML = optionsHtml;
+  if (candidates.length > 1 && Math.abs(candidates[0].headwind - candidates[1].headwind) < 0.1) {
+    updateRunwaySuggestion('Runways have similar headwind components; select a runway manually.');
+    return;
+  }
+
+  const suggestion = candidates[0];
+  updateRunwaySuggestion(
+    `METAR suggests RWY ${suggestion.runway} (${Math.round(suggestion.headwind)} kt headwind). Verify before use.`,
+    suggestion
+  );
+}
+
+function applySuggestedRunway(runway, intersection) {
+  if (!runwaySuggestion || runwaySuggestion.runway !== runway) return;
+  airportSelection.runway = runway;
+  airportSelection.intersection = intersection;
+  persistAirportSelection();
+  syncAirportControls();
+  updateCustomAirportData(getSelectedAirportRecord());
+}
+
+function getAirportIcaoCodes() {
+  return [...new Set(globalData.airports.map((airport) => airport.ICAO.trim().toUpperCase()))]
+    .sort();
+}
+
+function hideAirportIcaoSuggestions(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const suggestions = document.getElementById(input.getAttribute('aria-controls'));
+  if (!suggestions) return;
+  suggestions.hidden = true;
+  input.setAttribute('aria-expanded', 'false');
+  input.removeAttribute('aria-activedescendant');
+}
+
+function showAirportIcaoSuggestions(value, inputId) {
+  const input = document.getElementById(inputId);
+  const suggestions = document.getElementById(input.getAttribute('aria-controls'));
+  if (!suggestions) return;
+
+  const query = value.trim().toUpperCase();
+  const exactMatch = getAirportIcaoCodes().includes(query);
+  const matches = query && !exactMatch
+    ? getAirportIcaoCodes().filter((icao) => icao.startsWith(query)).slice(0, 8)
+    : [];
+
+  suggestions.replaceChildren();
+  input.removeAttribute('aria-activedescendant');
+  matches.forEach((icao, index) => {
+    const option = document.createElement('button');
+    option.type = 'button';
+    option.id = `${inputId}-suggestion-${index}`;
+    option.className = 'icao-suggestion';
+    option.setAttribute('role', 'option');
+    option.setAttribute('aria-selected', 'false');
+    option.textContent = icao;
+    option.addEventListener('mousedown', (event) => event.preventDefault());
+    option.addEventListener('click', () => {
+      hideAirportIcaoSuggestions(inputId);
+      handleAirportIcaoInput(icao);
+      input.focus();
+    });
+    suggestions.appendChild(option);
+  });
+
+  suggestions.hidden = matches.length === 0;
+  input.setAttribute('aria-expanded', String(matches.length > 0));
+}
+
+function handleAirportIcaoKeydown(event, inputId) {
+  const input = document.getElementById(inputId);
+  const suggestions = document.getElementById(input.getAttribute('aria-controls'));
+  if (!suggestions || suggestions.hidden) {
+    if (event.key === 'Escape') hideAirportIcaoSuggestions(inputId);
+    return;
+  }
+
+  const options = [...suggestions.querySelectorAll('[role="option"]')];
+  const activeIndex = options.findIndex((option) => option.getAttribute('aria-selected') === 'true');
+  if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    event.preventDefault();
+    const direction = event.key === 'ArrowDown' ? 1 : -1;
+    const nextIndex = activeIndex < 0
+      ? (direction === 1 ? 0 : options.length - 1)
+      : (activeIndex + direction + options.length) % options.length;
+    options.forEach((option, index) =>
+      option.setAttribute('aria-selected', String(index === nextIndex))
+    );
+    input.setAttribute('aria-activedescendant', options[nextIndex].id);
+  } else if (event.key === 'Enter' && (activeIndex >= 0 || options.length === 1)) {
+    event.preventDefault();
+    options[activeIndex >= 0 ? activeIndex : 0].click();
+  } else if (event.key === 'Escape') {
+    hideAirportIcaoSuggestions(inputId);
+  }
+}
+
+function persistAirportSelection() {
+  localStorage.setItem('selected_airport_icao', airportSelection.icao);
+  localStorage.setItem('selected_airport_runway', airportSelection.runway);
+  localStorage.setItem('selected_airport_intersection', airportSelection.intersection);
+}
+
+function showAirportSelectionError(message) {
+  const errorElement = document.getElementById('airport-selection-error');
+  if (!errorElement) return;
+  errorElement.textContent = message;
+  errorElement.hidden = !message;
+}
+
+function airportCellValue(value) {
+  if (value === null || value === undefined || String(value).trim() === '') return null;
+  const text = String(value).trim();
+  const number = Number(text);
+  return Number.isFinite(number) ? number : text;
+}
+
+function updateCustomAirportData(airport) {
+  if (!hfInstance) return;
+
+  try {
+    const airportConfig = CELL_MAPPING.airport;
+    const airportSheet = hfInstance.getSheetId(airportConfig.sheetName);
+    Object.entries(airportConfig.inputs).forEach(([dataField, cellRef]) => {
+      const position = parseCellRef(cellRef);
+      if (!position) throw new Error(`Invalid custom airport cell reference: ${cellRef}`);
+      const value = airport ? airportCellValue(airport[dataField]) : null;
+      hfInstance.setCellContents(
+        { sheet: airportSheet, col: position.col, row: position.row },
+        [[value]]
+      );
+    });
+
+    ['takeoff', 'landing'].forEach((sheetType) => {
+      const config = CELL_MAPPING[sheetType];
+      const sheet = hfInstance.getSheetId(config.sheetName);
+      const position = parseCellRef(config.inputs.airportAndRwy);
+      if (!position) throw new Error(`Invalid ${sheetType} airport cell reference.`);
+      hfInstance.setCellContents(
+        { sheet, col: position.col, row: position.row },
+        [['Custom airport']]
+      );
+    });
+
+    const missingFields = airport
+      ? Object.keys(airportConfig.inputs).filter((dataField) =>
+        !OPTIONAL_AIRPORT_DATA_FIELDS.includes(dataField) && airportCellValue(airport[dataField]) === null
+      )
+      : [];
+    showAirportSelectionError(
+      missingFields.length
+        ? `Airport data is missing required values: ${missingFields.join(', ')}.`
+        : ''
+    );
+    refreshOutputs();
+    return true;
+  } catch (error) {
+    console.error('Could not update custom airport data in the workbook:', error);
+    showAirportSelectionError('Could not update custom airport data in the workbook.');
+    return false;
+  }
+}
+
+function handleAirportIcaoInput(value) {
+  const icao = value.trim().toUpperCase();
+  if (icao === airportSelection.icao) {
+    syncAirportControls();
+    showAirportIcaoSuggestions(icao, document.activeElement.id);
+    return;
+  }
+
+  airportSelection = { icao, runway: '', intersection: '' };
+  persistAirportSelection();
+  syncAirportControls();
+  const inputId = document.activeElement.id;
+  if (inputId === 'to-airport-icao' || inputId === 'ldg-airport-icao') {
+    showAirportIcaoSuggestions(icao, inputId);
+  }
+  clearAirportMetar();
+  updateRunwaySuggestion('');
+  updateCustomAirportData(null);
+
+  const airportExists = /^[A-Z0-9]{4}$/.test(icao) && getAirportRows(icao).length > 0;
+  if (/^[A-Z0-9]{4}$/.test(icao) && !airportExists) {
+    showAirportSelectionError(`ICAO ${icao} was not found in the airport database.`);
+  } else if (airportExists) {
+    fetchMetarForAirport();
+  }
+}
+
+function handleAirportRunwayChange(runway) {
+  airportSelection.runway = runway;
+  airportSelection.intersection = '';
+  persistAirportSelection();
+  syncAirportControls();
+
+  const airport = getSelectedAirportRecord();
+  updateCustomAirportData(airport);
+}
+
+function handleAirportIntersectionChange(intersection) {
+  airportSelection.intersection = intersection;
+  persistAirportSelection();
+  syncAirportControls();
+
+  const airport = getSelectedAirportRecord();
+  updateCustomAirportData(airport);
 }
 
 function colLetterToIndex(letter) {
@@ -677,22 +1059,6 @@ function updateMissedClimbCard(value) {
   const isBelowMinimum = climbGradient < 2.5;
   card.style.background = isBelowMinimum ? '#3d1414' : '#0d1117';
   card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
-}
-
-function handleTakeoffAirport(val) { 
-  updateEngineCellVal('takeoff', 'airportAndRwy', val); 
-  localStorage.setItem('selected_to_airport', val);
-  if (val && val !== "") {
-    fetchMetarForAirport('takeoff');
-  }
-}
-
-function handleLandingAirport(val) { 
-  updateEngineCellVal('landing', 'airportAndRwy', val); 
-  localStorage.setItem('selected_ldg_airport', val);
-  if (val && val !== "") {
-    fetchMetarForAirport('landing');
-  }
 }
 
 function handleTakeoffMass(val) {
@@ -931,8 +1297,12 @@ function safeSetValue(elementId, value) {
 
 // Exportera funktioner globalt
 window.switchTab = switchTab;
-window.handleTakeoffAirport = handleTakeoffAirport;
-window.handleLandingAirport = handleLandingAirport;
+window.handleAirportIcaoInput = handleAirportIcaoInput;
+window.handleAirportIcaoKeydown = handleAirportIcaoKeydown;
+window.showAirportIcaoSuggestions = showAirportIcaoSuggestions;
+window.handleAirportRunwayChange = handleAirportRunwayChange;
+window.handleAirportIntersectionChange = handleAirportIntersectionChange;
+window.applySuggestedRunway = applySuggestedRunway;
 window.handleTakeoffMass = handleTakeoffMass;
 window.handleLandingMass = handleLandingMass;
 window.handleTakeoffFlaps = handleTakeoffFlaps;
@@ -1008,34 +1378,39 @@ function validateMetar(metarText, expectedIcao) {
   };
 }
 
-async function fetchMetarForAirport(sheetType) {
+function clearAirportMetar() {
+  [
+    { sheetType: 'takeoff', displayId: 'to-metar-display' },
+    { sheetType: 'landing', displayId: 'ldg-metar-display' },
+  ].forEach(({ sheetType, displayId }) => {
+    updateEngineCellVal(sheetType, sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar', '');
+    const displaySpan = document.getElementById(displayId);
+    if (displaySpan) {
+      displaySpan.textContent = '-';
+      displaySpan.style.color = '#8b949e';
+    }
+  });
+}
+
+async function fetchMetarForAirport() {
   if (!hfInstance) return;
-  
-  const displaySpanId = sheetType === 'takeoff' ? 'to-metar-display' : 'ldg-metar-display';
-  const displaySpan = document.getElementById(displaySpanId);
-  
+  const icaoCode = airportSelection.icao;
+  updateRunwaySuggestion('Checking METAR wind for a runway suggestion...');
+  const displaySpans = [
+    document.getElementById('to-metar-display'),
+    document.getElementById('ldg-metar-display'),
+  ].filter(Boolean);
   try {
-    const config = CELL_MAPPING[sheetType];
-    const sheetId = hfInstance.getSheetId(config.sheetName);
-    const pos = parseCellRef(config.inputs.airportAndRwy);
-    
-    const airportCellVal = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
-    
-    if (!airportCellVal || airportCellVal === '-') {
-      if (displaySpan) {
-        displaySpan.textContent = "-";
-        displaySpan.style.color = "#8b949e";
-      }
+    if (!/^[A-Z0-9]{4}$/.test(icaoCode) || !getAirportRows(icaoCode).length) {
+      clearAirportMetar();
+      updateRunwaySuggestion('');
       return;
     }
 
-    const icaoCode = airportCellVal.toString().trim().substring(0, 4).toUpperCase();
-    if (icaoCode.length < 4) return;
-
-    if (displaySpan) {
+    displaySpans.forEach((displaySpan) => {
       displaySpan.textContent = "Downloading METAR...";
       displaySpan.style.color = "#8b949e";
-    }
+    });
 
     const noaaUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
     const proxyUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
@@ -1053,33 +1428,32 @@ async function fetchMetarForAirport(sheetType) {
       validatedMetar = validateMetar(await fetchMetarText(metarSources[1].url, sourceName), icaoCode);
     }
 
-    console.info(`METAR hämtad från ${sourceName}.`);
-    const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
-    updateEngineCellVal(sheetType, metarFieldKey, validatedMetar.text);
+    if (airportSelection.icao !== icaoCode) return;
 
-    if (displaySpan) {
+    console.info(`METAR hämtad från ${sourceName}.`);
+    updateEngineCellVal('takeoff', 'to-metar', validatedMetar.text);
+    updateEngineCellVal('landing', 'ldg-metar', validatedMetar.text);
+
+    displaySpans.forEach((displaySpan) => {
       displaySpan.textContent = validatedMetar.text;
       displaySpan.style.color = validatedMetar.ageMinutes >= 35 ? '#d29922' : '#3fb950';
-    }
-
-    if (sheetType === 'takeoff') {
-      parseAndPopulateMetarData(validatedMetar.text);
-    } else {
-      parseAndPopulateLandingMetarData(validatedMetar.text);
-    }
+    });
+    suggestRunwayFromMetar(validatedMetar.text);
+    parseAndPopulateMetarData(validatedMetar.text);
+    parseAndPopulateLandingMetarData(validatedMetar.text);
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
-    if (displaySpan) {
+    if (airportSelection.icao !== icaoCode) return;
+    updateRunwaySuggestion('No runway suggestion: METAR could not be retrieved.');
+    displaySpans.forEach((displaySpan) => {
       displaySpan.textContent = "METAR unavailable or invalid from both sources";
       displaySpan.style.color = "#f85149";
-    }
+    });
   }
 }
 
 function fetchMetarForSelectedAirport() {
-  const activePage = document.querySelector('.page.active');
-  const sheetType = (activePage && activePage.id === 'page-landing') ? 'landing' : 'takeoff';
-  fetchMetarForAirport(sheetType);
+  fetchMetarForAirport();
 }
 
 window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
