@@ -24,7 +24,6 @@ const CELL_MAPPING = {
   takeoff: {
     sheetName: 'Take-off',
     inputs: {
-      'to-metar': 'C5',
       airportAndRwy: 'C4',
       rwcc: 'C10',
       contaminant: 'C11',
@@ -40,17 +39,31 @@ const CELL_MAPPING = {
       asda: 'C19',
       tora: 'C20',
       toda: 'C21',
-      tor: 'F21',
+      tor: 'C35',
+      to_tor: 'D35',
+      app_tor: 'E35',
       hwTw: 'C24',
       xw: 'C25',
       xwLimit: 'F25',
       req_climb_grad_to: 'G19',
       tod: 'C36',
+      to_tod: 'D36',
+      app_tod: 'E36',
       asd: 'C37',
+      to_asd: 'D37',
+      app_asd: 'E37',
       v1: 'C38',
+      to_v1: 'D38',
+      app_v1: 'E38',
       vr: 'C39',
+      to_vr: 'D39',
+      app_vr: 'E39',
       v2: 'C40',
+      to_v2: 'D40',
+      app_v2: 'E40',
       climbGrad: 'C42',
+      to_climbGrad: 'D42',
+      app_climbGrad: 'E42',
       emUpVref: 'C45',
       emUpDist: 'C46',
       emDownVref: 'G45',
@@ -62,11 +75,9 @@ const CELL_MAPPING = {
   landing: {
     sheetName: 'Landing',
     inputs: {
-      'ldg-metar': 'C5',
       airportAndRwy: 'C4',
       rwcc: 'C10',
       mass: 'C11',
-      flaps: 'G24',
       windDir: 'C6',
       windSpeed: 'C7',
       oat: 'C8',
@@ -89,8 +100,19 @@ const OPTIONAL_AIRPORT_DATA_FIELDS = ['min cloudbase(K6)', 'Routing(L6)'];
 
 const WORKBOOK_BY_REGISTRATION = {
   'SE-LTL': 'se-ltl.xlsx',
-  'SE-KVL': 'se-ltl_backup.xlsx',
+  'SE-KVL': 'se-kvl.xlsx',
+  'SE-MJU': 'se-mju.xlsx',
+  'SE-MJV': 'B190.xlsx',
+  'SE-MHU': 'B190.xlsx',
 };
+const AIRCRAFT_TYPE_BY_REGISTRATION = {
+  'SE-LTL': 'BE20',
+  'SE-KVL': 'BE20',
+  'SE-MJU': 'BE20',
+  'SE-MJV': 'B190',
+  'SE-MHU': 'B190',
+};
+let pendingRegistrationChange = null;
 
 function showRegistrationError(message) {
   const errorElement = document.getElementById('registration-error');
@@ -106,6 +128,12 @@ function clearRegistrationError() {
   errorElement.hidden = true;
 }
 
+function applyRegistrationChange(registration) {
+  localStorage.setItem('selected_reg', registration);
+  clearRegistrationError();
+  window.location.reload();
+}
+
 function handleRegistrationChange(registration) {
   const registrationSelect = document.getElementById('global-registration');
   if (!registrationSelect) return;
@@ -116,14 +144,49 @@ function handleRegistrationChange(registration) {
     return;
   }
 
-  localStorage.setItem('selected_reg', registration);
-  clearRegistrationError();
-  window.location.reload();
+  const previousRegistration = localStorage.getItem('selected_reg') || 'SE-LTL';
+  const previousType = AIRCRAFT_TYPE_BY_REGISTRATION[previousRegistration];
+  const nextType = AIRCRAFT_TYPE_BY_REGISTRATION[registration];
+  if (previousType && nextType && previousType !== nextType) {
+    const warningDialog = document.getElementById('aircraft-change-dialog');
+    if (!warningDialog || typeof warningDialog.showModal !== 'function') {
+      registrationSelect.value = previousRegistration;
+      showRegistrationError('Cannot confirm the aircraft type change because the warning dialog is unavailable.');
+      return;
+    }
+    pendingRegistrationChange = { previousRegistration, registration };
+    if (!warningDialog.open) warningDialog.showModal();
+    return;
+  }
+
+  applyRegistrationChange(registration);
+}
+
+function cancelAircraftTypeChange() {
+  if (pendingRegistrationChange) {
+    const registrationSelect = document.getElementById('global-registration');
+    if (registrationSelect) registrationSelect.value = pendingRegistrationChange.previousRegistration;
+  }
+  pendingRegistrationChange = null;
+  const warningDialog = document.getElementById('aircraft-change-dialog');
+  if (warningDialog?.open) warningDialog.close();
+}
+
+function confirmAircraftTypeChange() {
+  if (!pendingRegistrationChange) return;
+  const { registration } = pendingRegistrationChange;
+  pendingRegistrationChange = null;
+  const warningDialog = document.getElementById('aircraft-change-dialog');
+  if (warningDialog?.open) warningDialog.close();
+  applyRegistrationChange(registration);
 }
 
 // 1. Huvudfunktion som kör igång allt i rätt ordning
 async function init() {
   try {
+    const warningDialog = document.getElementById('aircraft-change-dialog');
+    warningDialog?.addEventListener('cancel', cancelAircraftTypeChange);
+
     const versionElement = document.getElementById('app-version');
     if (versionElement) versionElement.textContent = `v${window.APP_VERSION}`;
 
@@ -1123,7 +1186,7 @@ function handleLandingMass(val) {
 }
 
 function handleTakeoffFlaps(val) { updateEngineCellVal('takeoff', 'flaps', val); }
-function handleLandingFlaps(val) { updateEngineCellVal('landing', 'flaps', val); }
+function handleLandingFlaps() { refreshOutputs(); }
 
 function handleWeather(sheetType, param, val) {
   updateEngineCellVal(sheetType, param, val === "" ? "" : Number(val));
@@ -1362,6 +1425,8 @@ window.handleWeatherOverride = handleWeatherOverride;
 window.handleManualWeatherInput = handleManualWeatherInput;
 window.updateEngineCellVal = updateEngineCellVal;
 window.handleRegistrationChange = handleRegistrationChange;
+window.cancelAircraftTypeChange = cancelAircraftTypeChange;
+window.confirmAircraftTypeChange = confirmAircraftTypeChange;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -1429,11 +1494,7 @@ function validateMetar(metarText, expectedIcao) {
 }
 
 function clearAirportMetar() {
-  [
-    { sheetType: 'takeoff', displayId: 'to-metar-display' },
-    { sheetType: 'landing', displayId: 'ldg-metar-display' },
-  ].forEach(({ sheetType, displayId }) => {
-    updateEngineCellVal(sheetType, sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar', '');
+  ['to-metar-display', 'ldg-metar-display'].forEach((displayId) => {
     const displaySpan = document.getElementById(displayId);
     if (displaySpan) {
       displaySpan.textContent = '-';
@@ -1479,10 +1540,7 @@ async function fetchMetarForAirport() {
     }
 
     if (airportSelection.icao !== icaoCode) return;
-
     console.info(`METAR hämtad från ${sourceName}.`);
-    updateEngineCellVal('takeoff', 'to-metar', validatedMetar.text);
-    updateEngineCellVal('landing', 'ldg-metar', validatedMetar.text);
 
     displaySpans.forEach((displaySpan) => {
       displaySpan.textContent = validatedMetar.text;

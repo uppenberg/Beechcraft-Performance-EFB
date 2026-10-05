@@ -319,6 +319,89 @@ input, select {
   font-size: 14px;
 }
 
+.aircraft-change-dialog {
+  width: min(520px, calc(100vw - 56px));
+  padding: 0;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 3px solid #f85149;
+  border-radius: 12px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8);
+}
+
+.aircraft-change-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.aircraft-change-warning {
+  padding: 28px 28px 20px;
+  text-align: center;
+}
+
+.aircraft-change-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  color: #fff;
+  background: #da3633;
+  border: 4px solid #ff7b72;
+  border-radius: 50%;
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.aircraft-change-label {
+  margin: 0 0 6px;
+  color: #ff7b72;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.aircraft-change-warning h2 {
+  margin: 0 0 14px;
+  color: #ff7b72;
+  font-size: clamp(30px, 8vw, 42px);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.aircraft-change-warning > p:last-child {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.aircraft-change-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px 20px;
+}
+
+.aircraft-change-actions button {
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.aircraft-change-cancel {
+  color: #fff;
+  background: #30363d;
+  border: 1px solid #6e7681;
+}
+
+.aircraft-change-confirm {
+  color: #fff;
+  background: #da3633;
+  border: 1px solid #ff7b72;
+}
+
 .check-updates-button {
   width: 100%;
   padding: 9px 10px;
@@ -342,6 +425,18 @@ input, select {
 }
 
 @media (max-width: 480px) {
+  .aircraft-change-warning {
+    padding: 22px 18px 16px;
+  }
+
+  .aircraft-change-warning > p:last-child {
+    font-size: 15px;
+  }
+
+  .aircraft-change-actions {
+    flex-direction: column-reverse;
+  }
+
   .app-header {
     flex-wrap: wrap;
     gap: 8px;

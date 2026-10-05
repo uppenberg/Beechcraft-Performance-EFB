@@ -164,6 +164,18 @@
         </div>
     </header>
     <p id="registration-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
+    <dialog id="aircraft-change-dialog" class="aircraft-change-dialog" aria-labelledby="aircraft-change-title" aria-describedby="aircraft-change-message">
+        <div class="aircraft-change-warning" role="alert">
+            <div class="aircraft-change-icon" aria-hidden="true">!</div>
+            <p class="aircraft-change-label">AIRCRAFT TYPE CHANGE</p>
+            <h2 id="aircraft-change-title">WARNING</h2>
+            <p id="aircraft-change-message">You are switching between two different aircraft types: BE20 and B190. Performance data and calculations are aircraft-specific. Are you absolutely sure you want to continue?</p>
+        </div>
+        <div class="aircraft-change-actions">
+            <button type="button" class="aircraft-change-cancel" onclick="cancelAircraftTypeChange()">Cancel</button>
+            <button type="button" class="aircraft-change-confirm" onclick="confirmAircraftTypeChange()">Yes, switch aircraft</button>
+        </div>
+    </dialog>
 
     <!-- Fliknavigering -->
     <nav class="tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
