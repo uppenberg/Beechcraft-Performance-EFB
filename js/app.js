@@ -1037,17 +1037,20 @@ async function fetchMetarForAirport(sheetType) {
       displaySpan.style.color = "#8b949e";
     }
 
-    const primaryUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
-    const backupUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
+    const noaaUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
+    const proxyUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
+    const metarSources = window.location.hostname.includes('github.io')
+      ? [{ url: proxyUrl, name: 'Apps Script proxy' }, { url: noaaUrl, name: 'NOAA AWC' }]
+      : [{ url: noaaUrl, name: 'NOAA AWC' }, { url: proxyUrl, name: 'Apps Script proxy' }];
     let validatedMetar;
-    let sourceName = 'NOAA AWC';
+    let sourceName = metarSources[0].name;
 
     try {
-      validatedMetar = validateMetar(await fetchMetarText(primaryUrl, 'NOAA AWC'), icaoCode);
+      validatedMetar = validateMetar(await fetchMetarText(metarSources[0].url, metarSources[0].name), icaoCode);
     } catch (primaryError) {
-      console.warn('NOAA AWC failed validation; trying Apps Script backup:', primaryError);
-      sourceName = 'Apps Script (Secondary source)';
-      validatedMetar = validateMetar(await fetchMetarText(backupUrl, 'Apps Script backup'), icaoCode);
+      console.warn(`${metarSources[0].name} failed; trying ${metarSources[1].name}:`, primaryError);
+      sourceName = metarSources[1].name;
+      validatedMetar = validateMetar(await fetchMetarText(metarSources[1].url, sourceName), icaoCode);
     }
 
     console.info(`METAR hämtad från ${sourceName}.`);
@@ -1055,7 +1058,7 @@ async function fetchMetarForAirport(sheetType) {
     updateEngineCellVal(sheetType, metarFieldKey, validatedMetar.text);
 
     if (displaySpan) {
-      displaySpan.textContent = `${validatedMetar.text} (Source: ${sourceName})`;
+      displaySpan.textContent = validatedMetar.text;
       displaySpan.style.color = validatedMetar.ageMinutes >= 35 ? '#d29922' : '#3fb950';
     }
 
