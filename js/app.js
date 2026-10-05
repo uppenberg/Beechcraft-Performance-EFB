@@ -44,7 +44,7 @@ const CELL_MAPPING = {
       hwTw: 'C24',
       xw: 'C25',
       xwLimit: 'F25',
-      g19: 'G19',
+      req_climb_grad_to: 'G19',
       tod: 'C36',
       asd: 'C37',
       v1: 'C38',
@@ -88,7 +88,8 @@ const CELL_MAPPING = {
 const OPTIONAL_AIRPORT_DATA_FIELDS = ['min cloudbase(K6)', 'Routing(L6)'];
 
 const WORKBOOK_BY_REGISTRATION = {
-  'SE-LTL': 'se-ltl.xlsx'
+  'SE-LTL': 'se-ltl.xlsx',
+  'SE-KVL': 'se-ltl_backup.xlsx',
 };
 
 function showRegistrationError(message) {
@@ -1243,7 +1244,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-hwtw', getOutputVal(to.sheetName, to.outputs.hwTw));
   safeSetText('res-to-xw', getOutputVal(to.sheetName, to.outputs.xw));
   safeSetText('res-to-xwlimit', getOutputVal(to.sheetName, to.outputs.xwLimit));
-  safeSetText('res-to-g19', getOutputVal(to.sheetName, to.outputs.g19));
+  safeSetText('res-to-g19', getOutputVal(to.sheetName, to.outputs.req_climb_grad_to));
   safeSetText('res-to-emup-vref', getOutputVal(to.sheetName, to.outputs.emUpVref));
   safeSetText('res-to-emup-dist', getOutputVal(to.sheetName, to.outputs.emUpDist));
   safeSetText('res-to-emdown-vref', getOutputVal(to.sheetName, to.outputs.emDownVref));
@@ -1253,7 +1254,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
   const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad);
-  const oeiVal = getOutputVal(to.sheetName, to.outputs.g19);
+  const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to);
   updateClimbCheckCard(reqVal, oeiVal);
 
   safeSetText('check-tor-val', getOutputVal(to.sheetName, to.outputs.tor));
