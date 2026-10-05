@@ -454,15 +454,9 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="ldg-airport-rwy" onchange="handleAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-airport-rwy" onchange="handleLandingAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="">Enter an ICAO code first</option>
                                 </select>
-                            </td>
-                        </tr>
-                        <tr id="ldg-intersection-row" style="border-bottom: 1px solid #21262d;" hidden>
-                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Intersection:</td>
-                            <td style="padding: 8px 0;">
-                                <select class="form-control" id="ldg-airport-intersection" onchange="handleAirportIntersectionChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
                             </td>
                         </tr>
                         <tr id="ldg-runway-suggestion-row" style="border-bottom: 1px solid #21262d;" hidden>
@@ -542,7 +536,7 @@
 
             <!-- Landningsbana / Landing vy -->
             <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
-             <h3>Landningsbana & Prestanda</h3>
+             <h3 id="landing-runway-visualization-title">Runway visualization</h3>
              <div id="lda-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">LDA: - m</div>
               
              <div class="runway-container" style="position: relative;">

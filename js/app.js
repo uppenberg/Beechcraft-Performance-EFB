@@ -355,6 +355,14 @@ async function loadData(registration) {
     });
 
     hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
+    const landingConfig = CELL_MAPPING.landing;
+    const landingSheet = hfInstance.getSheetId(landingConfig.sheetName);
+    const landingLdaPosition = parseCellRef(landingConfig.outputs.lda);
+    if (!landingLdaPosition) throw new Error('Invalid landing LDA cell reference.');
+    hfInstance.setCellContents(
+      { sheet: landingSheet, col: landingLdaPosition.col, row: landingLdaPosition.row },
+      [["='Airport data'!F6"]]
+    );
     console.log("6. HyperFormula-instans skapad!");
     
     refreshOutputs();
@@ -402,9 +410,12 @@ function populateAirportSelects() {
     runway: localStorage.getItem('selected_airport_runway') || '',
     intersection: localStorage.getItem('selected_airport_intersection') || '',
   };
-  if (!getAirportRows(airportSelection.icao).length ||
-      !getRunwayRows(airportSelection.icao, airportSelection.runway).length) {
+  const runwayRows = getRunwayRows(airportSelection.icao, airportSelection.runway);
+  if (!getAirportRows(airportSelection.icao).length || !runwayRows.length) {
     airportSelection = { icao: '', runway: '', intersection: '' };
+  } else if (!runwayRows.some((airport) => !airport.Intersection) &&
+      !runwayRows.some((airport) => airport.Intersection === airportSelection.intersection)) {
+    airportSelection.intersection = runwayRows[0].Intersection || '';
   }
 
   syncAirportControls();
@@ -626,18 +637,29 @@ function getSelectedAirportRecord() {
   return runwayRows.find((airport) => !airport.Intersection) || null;
 }
 
+function getLandingAirportRecord(icao, runway) {
+  const runwayRows = getRunwayRows(icao, runway);
+  return runwayRows.find((airport) => !airport.Intersection) || runwayRows[0] || null;
+}
+
 function updateRunwayVisualizationTitle() {
-  const title = document.getElementById('takeoff-runway-visualization-title');
-  if (!title) return;
+  const takeoffTitle = document.getElementById('takeoff-runway-visualization-title');
+  const landingTitle = document.getElementById('landing-runway-visualization-title');
   if (!airportSelection.runway) {
-    title.textContent = 'Runway visualization';
+    if (takeoffTitle) takeoffTitle.textContent = 'Runway visualization';
+    if (landingTitle) landingTitle.textContent = 'Runway visualization';
     return;
   }
 
   const intersectionLabel = airportSelection.intersection
     ? ` intersection ${airportSelection.intersection}`
     : '';
-  title.textContent = `Runway ${airportSelection.runway}${intersectionLabel} visualization`;
+  if (takeoffTitle) {
+    takeoffTitle.textContent = `Runway ${airportSelection.runway}${intersectionLabel} visualization`;
+  }
+  if (landingTitle) {
+    landingTitle.textContent = `Runway ${airportSelection.runway} visualization`;
+  }
 }
 
 function syncAirportControls() {
@@ -699,20 +721,30 @@ function updateRunwaySuggestion(message, suggestion = null) {
     if (!suggestion) return;
 
     const runwayRows = getRunwayRows(airportSelection.icao, suggestion.runway);
+    const landingRecord = getLandingAirportRecord(airportSelection.icao, suggestion.runway);
+    const displayRows = prefix === 'ldg'
+      ? (landingRecord ? [landingRecord] : [])
+      : runwayRows;
     const distances = [
       ['TORA', 'TORA [m] (C6)'],
       ['TODA', 'TODA [m](D6)'],
       ['ASDA', 'ASDA [m](E6)'],
     ];
-    if (prefix === 'ldg') distances.push(['LDA', 'LDA [m](F6)']);
-    runwayRows.forEach((airport) => {
+    if (prefix === 'ldg') {
+      distances.splice(0, distances.length, ['LDA', 'LDA [m](F6)']);
+    } else {
+      distances.push(['LDA', 'LDA [m](F6)']);
+    }
+    displayRows.forEach((airport) => {
       const option = document.createElement('div');
       option.className = 'runway-suggestion-option';
 
       const label = document.createElement('strong');
-      label.textContent = airport.Intersection
-        ? `Intersection ${airport.Intersection} available`
-        : 'Full runway available';
+      label.textContent = prefix === 'ldg'
+        ? 'Full runway LDA available'
+        : airport.Intersection
+          ? `Intersection ${airport.Intersection} available`
+          : 'Full runway available';
       option.appendChild(label);
 
       const distanceList = document.createElement('p');
@@ -725,11 +757,13 @@ function updateRunwaySuggestion(message, suggestion = null) {
       const selectButton = document.createElement('button');
       selectButton.type = 'button';
       selectButton.className = 'runway-suggestion-button';
-      selectButton.textContent = airport.Intersection
-        ? `Use RWY ${suggestion.runway}, intersection ${airport.Intersection}`
-        : `Use RWY ${suggestion.runway}, full runway`;
+      selectButton.textContent = prefix === 'ldg'
+        ? `Use RWY ${suggestion.runway}`
+        : airport.Intersection
+          ? `Use RWY ${suggestion.runway}, intersection ${airport.Intersection}`
+          : `Use RWY ${suggestion.runway}, full runway`;
       selectButton.addEventListener('click', () =>
-        applySuggestedRunway(suggestion.runway, airport.Intersection || '')
+        applySuggestedRunway(suggestion.runway, airport.Intersection || '', prefix)
       );
       option.appendChild(selectButton);
       optionsContainer.appendChild(option);
@@ -790,10 +824,15 @@ function suggestRunwayFromMetar(metarText) {
   );
 }
 
-function applySuggestedRunway(runway, intersection) {
+function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
   if (!runwaySuggestion || runwaySuggestion.runway !== runway) return;
   airportSelection.runway = runway;
-  airportSelection.intersection = intersection;
+  if (pagePrefix === 'ldg') {
+    const airport = getLandingAirportRecord(airportSelection.icao, runway);
+    airportSelection.intersection = airport && airport.Intersection ? airport.Intersection : '';
+  } else {
+    airportSelection.intersection = intersection;
+  }
   persistAirportSelection();
   syncAirportControls();
   updateCustomAirportData(getSelectedAirportRecord());
@@ -976,6 +1015,15 @@ function handleAirportRunwayChange(runway) {
   syncAirportControls();
 
   const airport = getSelectedAirportRecord();
+  updateCustomAirportData(airport);
+}
+
+function handleLandingAirportRunwayChange(runway) {
+  airportSelection.runway = runway;
+  const airport = getLandingAirportRecord(airportSelection.icao, runway);
+  airportSelection.intersection = airport && airport.Intersection ? airport.Intersection : '';
+  persistAirportSelection();
+  syncAirportControls();
   updateCustomAirportData(airport);
 }
 
@@ -1301,6 +1349,7 @@ window.handleAirportIcaoInput = handleAirportIcaoInput;
 window.handleAirportIcaoKeydown = handleAirportIcaoKeydown;
 window.showAirportIcaoSuggestions = showAirportIcaoSuggestions;
 window.handleAirportRunwayChange = handleAirportRunwayChange;
+window.handleLandingAirportRunwayChange = handleLandingAirportRunwayChange;
 window.handleAirportIntersectionChange = handleAirportIntersectionChange;
 window.applySuggestedRunway = applySuggestedRunway;
 window.handleTakeoffMass = handleTakeoffMass;
