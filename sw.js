@@ -1,11 +1,13 @@
 // Increment the cache version for every published app release.
-const CACHE_NAME = 'be20-efb-v14';
+importScripts('./version.js');
+const CACHE_NAME = `be20-efb-v${self.APP_VERSION}`;
 const ASSETS = [
   './index.html',
   './style.css',
+  './version.js',
   './manifest.json',
   './js/app.js',
-  './data/be200_prestanda.xlsx',
+  './data/se-ltl.xlsx',
   'https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js',
   'https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js'
 ];

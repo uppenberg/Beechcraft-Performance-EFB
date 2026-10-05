@@ -6,6 +6,7 @@
     <title>King Air 200 EFB</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    <script src="./version.js"></script>
     <!-- SheetJS (xlsx) och HyperFormula via CDN -->
     <script crossorigin="anonymous" src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
@@ -34,7 +35,7 @@
           grid-template-columns: repeat(4, 1fr);
         }
         .landing-top-kpis {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
       .input-cards-wrapper {
@@ -68,10 +69,10 @@
 </head>
 <body>
     <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
-        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;">v0.0.2</span></h1>
+        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Reg:</label>
-            <select id="global-registration" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
+            <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
                 <option value="SE-LTL" selected>SE-LTL (BE20)</option>
                 <option value="SE-KVL">SE-KVL (BE20)</option>
                 <option value="SE-MJU">SE-MJU (BE20)</option>
@@ -93,6 +94,7 @@
             </div>
         </div>
     </header>
+    <p id="registration-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
 
     <!-- Fliknavigering -->
     <nav class="tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
@@ -131,7 +133,7 @@
 
 <!-- WIND / XW & HW/TW -->
 <div id="card-wind-check" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
-    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND|XW (XWLimit)</div>
+    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
     <div style="font-size: 12px; font-weight: 700; color: #fff;">
         <span id="res-to-hwtw">-</span> | <span id="res-to-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-to-xwlimit">-</span>)</span>
     </div>
@@ -324,7 +326,7 @@
             <div class="responsive-top-grid landing-top-kpis">
                 <!-- WIND / XW & HW/TW (Landing) -->
                 <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
-                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND|XW (XWLimit)</div>
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
                     <div style="font-size: 12px; font-weight: 700; color: #fff;">
                         <span id="res-ldg-hwtw">-</span> | <span id="res-ldg-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit">-</span>)</span>
                     </div>
@@ -332,6 +334,11 @@
                 <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
                     <div id="res-ldg-vref-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">VREF / FLAPS DOWN</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
+                </div>
+                <div id="kpi-missed-climb-card" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+                    <div class="kpi-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Missed App Climb gradient OEI</div>
+                    <div class="kpi-value" id="ldg-missed-climb" style="font-size: 14px; font-weight: 700; color: #fff;">-- %</div>
+                    <div class="kpi-unit" id="ldg-missed-climb-status" style="font-size: 8px; font-weight: 700; color: #8b949e;">Min 2.5%</div>
                 </div>
             </div>
 

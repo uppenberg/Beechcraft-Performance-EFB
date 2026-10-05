@@ -82,13 +82,57 @@ const CELL_MAPPING = {
   }
 };
 
+const WORKBOOK_BY_REGISTRATION = {
+  'SE-LTL': 'se-ltl.xlsx'
+};
+
+function showRegistrationError(message) {
+  const errorElement = document.getElementById('registration-error');
+  if (!errorElement) return;
+  errorElement.textContent = message;
+  errorElement.hidden = false;
+}
+
+function clearRegistrationError() {
+  const errorElement = document.getElementById('registration-error');
+  if (!errorElement) return;
+  errorElement.textContent = '';
+  errorElement.hidden = true;
+}
+
+function handleRegistrationChange(registration) {
+  const registrationSelect = document.getElementById('global-registration');
+  if (!registrationSelect) return;
+
+  if (!WORKBOOK_BY_REGISTRATION[registration]) {
+    registrationSelect.value = 'SE-LTL';
+    showRegistrationError(`No performancedata is available for ${registration}. `);
+    return;
+  }
+
+  localStorage.setItem('selected_reg', registration);
+  clearRegistrationError();
+  window.location.reload();
+}
+
 // 1. Huvudfunktion som kör igång allt i rätt ordning
 async function init() {
   try {
+    const versionElement = document.getElementById('app-version');
+    if (versionElement) versionElement.textContent = `v${window.APP_VERSION}`;
+
     console.log("Startar PWA och laddar data...");
+
+    const registrationSelect = document.getElementById('global-registration');
+    if (registrationSelect && !WORKBOOK_BY_REGISTRATION[registrationSelect.value]) {
+      const unsupportedRegistration = registrationSelect.value;
+      registrationSelect.value = 'SE-LTL';
+      localStorage.setItem('selected_reg', 'SE-LTL');
+      showRegistrationError(`No performancedata is available for ${unsupportedRegistration}. `);
+    }
     
     // Ladda in Excel och skapa HyperFormula-instansen
-    globalData = await loadData(); 
+    globalData = await loadData(registrationSelect?.value || 'SE-LTL');
     
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
@@ -272,12 +316,17 @@ async function checkForAppUpdate() {
 }
 
 // 2. Ladda Excel-filen
-async function loadData() {
+async function loadData(registration) {
   console.log("1. loadData har startat!");
   try {
-    const basePath = window.location.hostname.includes('github.io') 
-      ? '/Beechcraft-Performance-EFB/data/be200_prestanda.xlsx' 
-      : 'data/be200_prestanda.xlsx';
+    const workbookName = WORKBOOK_BY_REGISTRATION[registration];
+    if (!workbookName) {
+      throw new Error(`No performancedata is available for the registration ${registration}.`);
+    }
+
+    const basePath = window.location.hostname.includes('github.io')
+      ? `/Beechcraft-Performance-EFB/data/${workbookName}`
+      : `data/${workbookName}`;
 
     console.log("2. Försöker hämta fil från:", basePath);
     const response = await fetch(basePath);
@@ -302,7 +351,7 @@ async function loadData() {
     
     populateAirportsFromRaw(sheetsData['Airport data']);
     refreshOutputs();
-    console.log("be200_prestanda.xlsx har lästs in i HyperFormula!");
+    console.log(`${workbookName} har lästs in i HyperFormula!`);
     
     return sheetsData;
   } catch (error) {
@@ -592,7 +641,7 @@ function updateEngineCellVal(sheetType, fieldKey, value) {
   }
 }
 
-function getOutputVal(sheetName, cellRef) {
+function getOutputVal(sheetName, cellRef, roundNumber = true) {
   if (!hfInstance) return '-';
   if (!cellRef) return '-';
   try {
@@ -601,7 +650,7 @@ function getOutputVal(sheetName, cellRef) {
     if (!pos) return '-';
 
     let val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
-    if (typeof val === 'number') {
+    if (roundNumber && typeof val === 'number') {
       val = Math.round(val);
     }
 
@@ -609,6 +658,25 @@ function getOutputVal(sheetName, cellRef) {
   } catch (e) {
     return '-';
   }
+}
+
+function updateMissedClimbCard(value) {
+  const card = document.getElementById('kpi-missed-climb-card');
+  const valueElement = document.getElementById('ldg-missed-climb');
+  if (!card || !valueElement) return;
+
+  const climbGradient = Number(value);
+  if (value === '-' || !Number.isFinite(climbGradient)) {
+    valueElement.textContent = '-- %';
+    card.style.background = '#0d1117';
+    card.style.borderColor = '#30363d';
+    return;
+  }
+
+  valueElement.textContent = `${climbGradient.toFixed(1)} %`;
+  const isBelowMinimum = climbGradient < 2.5;
+  card.style.background = isBelowMinimum ? '#3d1414' : '#0d1117';
+  card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
 }
 
 function handleTakeoffAirport(val) { 
@@ -791,6 +859,8 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
   safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
+  const missedClimbValue = getOutputVal(ldg.sheetName, ldg.outputs.missedClimb, false);
+  updateMissedClimbCard(missedClimbValue);
   const landingFlaps = document.getElementById('ldg-flaps')?.value || 'DOWN';
   const landingVref = landingFlaps === 'UP'
     ? getOutputVal(ldg.sheetName, ldg.outputs.vrefUp)
@@ -871,10 +941,73 @@ window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;
 window.handleManualWeatherInput = handleManualWeatherInput;
 window.updateEngineCellVal = updateEngineCellVal;
+window.handleRegistrationChange = handleRegistrationChange;
 
 document.addEventListener('DOMContentLoaded', init);
 
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
+async function fetchMetarText(url, sourceName) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    if (!response.ok) {
+      throw new Error(`${sourceName} returned HTTP ${response.status}`);
+    }
+    return (await response.text()).trim();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function validateMetar(metarText, expectedIcao) {
+  const report = metarText.split(/\r?\n/).map(line => line.trim()).find(Boolean) || '';
+  const stationMatch = report.match(/^(?:(?:METAR|SPECI)\s+)?([A-Z]{4})\b/i);
+  if (!stationMatch || stationMatch[1].toUpperCase() !== expectedIcao) {
+    throw new Error(`METAR station does not match ${expectedIcao}`);
+  }
+
+  const timeMatch = report.match(/\b(\d{2})(\d{2})(\d{2})Z\b/);
+  if (!timeMatch) {
+    throw new Error('METAR report has no valid observation time');
+  }
+
+  const [, dayText, hourText, minuteText] = timeMatch;
+  const reportDay = Number(dayText);
+  const reportHour = Number(hourText);
+  const reportMinute = Number(minuteText);
+  if (reportDay < 1 || reportDay > 31 || reportHour > 23 || reportMinute > 59) {
+    throw new Error('METAR report has an invalid observation time');
+  }
+
+  const now = new Date();
+  const reportDates = [-1, 0, 1]
+    .map(monthOffset => new Date(Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth() + monthOffset,
+      reportDay,
+      reportHour,
+      reportMinute
+    )))
+    .filter(date => date.getUTCDate() === reportDay && date <= now);
+
+  if (reportDates.length === 0) {
+    throw new Error('METAR observation time is in the future or invalid');
+  }
+
+  const reportDate = reportDates.reduce((latest, date) => date > latest ? date : latest);
+  const ageMinutes = (now - reportDate) / 60000;
+  if (ageMinutes > 60) {
+    throw new Error(`METAR is too old (${Math.floor(ageMinutes)} minutes)`);
+  }
+
+  return {
+    text: report.replace(/^(?:METAR|SPECI)\s+/i, ''),
+    ageMinutes
+  };
+}
+
 async function fetchMetarForAirport(sheetType) {
   if (!hfInstance) return;
   
@@ -900,70 +1033,41 @@ async function fetchMetarForAirport(sheetType) {
     if (icaoCode.length < 4) return;
 
     if (displaySpan) {
-      displaySpan.textContent = "Hämtar METAR...";
+      displaySpan.textContent = "Downloading METAR...";
       displaySpan.style.color = "#8b949e";
     }
 
-    const scriptWebAppDataUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
-    
-    const response = await fetch(scriptWebAppDataUrl);
-    if (!response.ok) throw new Error(`Kunde inte hämta via Apps Script (status: ${response.status})`);
-    
-    let metarText = await response.text();
-    metarText = metarText ? metarText.trim() : "";
-    
-    if (metarText && !metarText.includes("INGEN METAR") && !metarText.includes("OFFLINE")) {
-      const metarIcaoMatch = metarText.match(/^(?:METAR\s+|SPECI\s+)?([A-Z]{4})\b/i);
-      const matchesIcao = Boolean(
-        metarIcaoMatch && metarIcaoMatch[1].toUpperCase() === icaoCode
-      );
-      
-      let reportAgeMinutes = 0;
-      const timeMatch = metarText.match(/\b\d{2}(\d{2})(\d{2})Z\b/);
-      if (timeMatch) {
-        const reportHour = parseInt(timeMatch[1], 10);
-        const reportMinute = parseInt(timeMatch[2], 10);
-        const now = new Date();
-        const reportDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), reportHour, reportMinute));
-        reportAgeMinutes = (now - reportDate) / (1000 * 60);
-        if (reportAgeMinutes < 0) reportAgeMinutes += 24 * 60;
-      }
+    const primaryUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
+    const backupUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
+    let validatedMetar;
+    let sourceName = 'NOAA AWC';
 
-      metarText = metarText.replace(/^METAR\s+/, "");
-      
-      const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
-      updateEngineCellVal(sheetType, metarFieldKey, metarText);
-      
-      if (displaySpan) {
-        displaySpan.textContent = metarText;
-        
-        if (!matchesIcao || reportAgeMinutes > 60) {
-          displaySpan.style.color = "#f85149";
-        } else if (reportAgeMinutes >= 35) {
-          displaySpan.style.color = "#d29922";
-        } else {
-          displaySpan.style.color = "#3fb950";
-        }
-      }
-      
-        if (sheetType === 'takeoff') {
-        parseAndPopulateMetarData(metarText);
-      } else if (sheetType === 'landing') {
-        parseAndPopulateLandingMetarData(metarText);
-      }
-    } else {
-      const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
-      updateEngineCellVal(sheetType, metarFieldKey, "INGEN METAR HITTADES");
-      if (displaySpan) {
-        displaySpan.textContent = "INGEN METAR HITTADES";
-        displaySpan.style.color = "#f85149";
-      }
+    try {
+      validatedMetar = validateMetar(await fetchMetarText(primaryUrl, 'NOAA AWC'), icaoCode);
+    } catch (primaryError) {
+      console.warn('NOAA AWC failed validation; trying Apps Script backup:', primaryError);
+      sourceName = 'Apps Script (Secondary source)';
+      validatedMetar = validateMetar(await fetchMetarText(backupUrl, 'Apps Script backup'), icaoCode);
     }
 
+    console.info(`METAR hämtad från ${sourceName}.`);
+    const metarFieldKey = sheetType === 'takeoff' ? 'to-metar' : 'ldg-metar';
+    updateEngineCellVal(sheetType, metarFieldKey, validatedMetar.text);
+
+    if (displaySpan) {
+      displaySpan.textContent = `${validatedMetar.text} (Source: ${sourceName})`;
+      displaySpan.style.color = validatedMetar.ageMinutes >= 35 ? '#d29922' : '#3fb950';
+    }
+
+    if (sheetType === 'takeoff') {
+      parseAndPopulateMetarData(validatedMetar.text);
+    } else {
+      parseAndPopulateLandingMetarData(validatedMetar.text);
+    }
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
     if (displaySpan) {
-      displaySpan.textContent = "Kunde inte hämta METAR";
+      displaySpan.textContent = "METAR unavailable or invalid from both sources";
       displaySpan.style.color = "#f85149";
     }
   }
@@ -1045,10 +1149,6 @@ function parseAndPopulateMetarData(metarText) {
     refreshOutputs();
   }
 }
-
-document.getElementById('global-registration').addEventListener('change', (e) => {
-  localStorage.setItem('selected_reg', e.target.value);
-});
 
 window.addEventListener('DOMContentLoaded', () => {
   const savedReg = localStorage.getItem('selected_reg');
