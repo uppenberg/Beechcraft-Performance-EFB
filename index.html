@@ -44,7 +44,11 @@
         flex-direction: column;
         margin-bottom: 16px;
       }
-      @media (min-width: 768px) {
+      .input-cards-wrapper > .card {
+        min-width: 0;
+        box-sizing: border-box;
+      }
+      @media (min-width: 600px) {
         .input-cards-wrapper {
           flex-direction: row;
         }
@@ -243,7 +247,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="to-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value)" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="to-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'to')" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <div class="icao-suggestions" id="to-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>
@@ -251,7 +255,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="to-airport-rwy" onchange="handleAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-airport-rwy" onchange="handleAirportRunwayChange(this.value, 'to')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="">Enter an ICAO code first</option>
                                 </select>
                             </td>
@@ -259,7 +263,7 @@
                         <tr id="to-intersection-row" style="border-bottom: 1px solid #21262d;" hidden>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Intersection:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="to-airport-intersection" onchange="handleAirportIntersectionChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
+                                <select class="form-control" id="to-airport-intersection" onchange="handleAirportIntersectionChange(this.value, 'to')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
                             </td>
                         </tr>
                         <tr id="to-runway-suggestion-row" style="border-bottom: 1px solid #21262d;" hidden>
@@ -274,7 +278,7 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForSelectedAirport()" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button onclick="fetchMetarForSelectedAirport('to')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <!-- Ej editerbar textrad utan box med färgning enligt regel -->
                                 <span id="to-metar-display" class="metar-display-line">-</span>
@@ -327,8 +331,17 @@
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
                             <td style="padding: 10px 0;">
                                 <select class="form-control" id="to-flaps" onchange="handleTakeoffFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                                    <option value="UP">UP</option>
-                                    <option value="APP">APP</option>
+                                    <option value="UP">Flaps Up</option>
+                                    <option value="APP">Approach</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="to-technique-row" hidden style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off technique</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="to-technique" onchange="updateEngineCellVal('takeoff', 'technique', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="Static T/O power">Static T/O power</option>
+                                    <option value="Rolling take off">Rolling take off</option>
                                 </select>
                             </td>
                         </tr>
@@ -458,7 +471,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="ldg-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value)" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="ldg-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'ldg')" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <div class="icao-suggestions" id="ldg-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>
@@ -466,7 +479,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="ldg-airport-rwy" onchange="handleLandingAirportRunwayChange(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-airport-rwy" onchange="handleLandingAirportRunwayChange(this.value, 'ldg')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="">Enter an ICAO code first</option>
                                 </select>
                             </td>
@@ -483,7 +496,7 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForSelectedAirport()" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button onclick="fetchMetarForSelectedAirport('ldg')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <span id="ldg-metar-display" class="metar-display-line">-</span>
                             </td>
