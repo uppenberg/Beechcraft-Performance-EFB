@@ -32,10 +32,10 @@
       }
       @media (min-width: 768px) {
         .responsive-top-grid {
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(5, minmax(0, 1fr));
         }
         .landing-top-kpis {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
         }
       }
       .input-cards-wrapper {
@@ -133,6 +133,12 @@
         border-radius: 4px;
         cursor: pointer;
       }
+      .runway-suggestion-button[aria-pressed="true"] {
+        background: #238636;
+        border-color: #2ea043;
+        color: #fff;
+        cursor: default;
+      }
       @media (max-width: 480px) {
         .engine-out-box {
           flex-direction: column;
@@ -207,6 +213,10 @@
                 <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span>/<span id="res-to-vr">-</span>/<span id="res-to-v2">-</span></div>
+                </div>
+                <div id="takeoff-exceedance-card" class="runway-exceedance-card" role="status" aria-live="polite">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Takeoff distances</div>
+                    <div id="takeoff-exceedance-status" class="runway-exceedance-status">Awaiting performance</div>
                 </div>
 
 <!-- Climb OEI vs Req -->
@@ -322,9 +332,13 @@
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off Mass <br><span id="to-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
-                            <td style="padding: 10px 0;">
-                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                            <td colspan="2" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">
+                                Take-off Mass: <span id="to-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 0 0 10px;">
+                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -451,6 +465,10 @@
                     <div id="res-ldg-vref-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">VREF / FLAPS DOWN</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
                 </div>
+                <div id="landing-exceedance-card" class="runway-exceedance-card" role="status" aria-live="polite">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Landing distance</div>
+                    <div id="landing-exceedance-status" class="runway-exceedance-status">Awaiting performance</div>
+                </div>
                 <div id="kpi-missed-climb-card" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
                     <div class="kpi-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Missed App Climb gradient OEI</div>
                     <div class="kpi-value" id="ldg-missed-climb" style="font-size: 14px; font-weight: 700; color: #fff;">-- %</div>
@@ -527,9 +545,13 @@
                     
                     <table class="sheet-table" style="width: 100%; border-collapse: collapse;">
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="width: 42%; padding: 10px 0; color: #c9d1d9; font-size: 12px;">Landing Mass <br><span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs</td>
-                            <td style="padding: 10px 0;">
-                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="12500" oninput="handleLandingMass(this.value)" style="width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                            <td colspan="2" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">
+                                Landing Mass: <span id="ldg-mass-val" style="color: var(--accent, #00d2ff); font-weight: 600;">12500</span> lbs
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 0 0 10px;">
+                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="12500" oninput="handleLandingMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">

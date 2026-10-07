@@ -100,7 +100,11 @@ const CELL_MAPPING = {
     }
   }
 };
-const OPTIONAL_AIRPORT_DATA_FIELDS = ['min cloudbase(K6)', 'Routing(L6)'];
+const OPTIONAL_AIRPORT_DATA_FIELDS = [
+  'LDA [m](F6)',
+  'min cloudbase(K6)',
+  'Routing(L6)',
+];
 const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
   to: {
     'RWY Elev [ft] (B6)': 'C16',
@@ -779,17 +783,19 @@ function switchTab(tabName, event) {
   if (tabName === 'takeoff') {
     const config = CELL_MAPPING.takeoff;
     renderTakeoffChart(
-      getTakeoffOutput('tor'),
-      getTakeoffOutput('tod'),
-      getTakeoffOutput('asd'),
-      getOutputVal(config.sheetName, config.outputs.tora)
+      getTakeoffOutput('tor', false),
+      getTakeoffOutput('tod', false),
+      getTakeoffOutput('asd', false),
+      getOutputVal(config.sheetName, config.outputs.tora, false),
+      getOutputVal(config.sheetName, config.outputs.toda, false),
+      getOutputVal(config.sheetName, config.outputs.asda, false)
     );
   } else if (tabName === 'landing') {
     const config = CELL_MAPPING.landing;
     renderLandingChart(
-      getOutputVal(config.sheetName, config.outputs.ldgDistUp),
-      getOutputVal(config.sheetName, config.outputs.ldgDistDown),
-      getOutputVal(config.sheetName, config.outputs.lda)
+      getOutputVal(config.sheetName, config.outputs.ldgDistUp, false),
+      getOutputVal(config.sheetName, config.outputs.ldgDistDown, false),
+      getOutputVal(config.sheetName, config.outputs.lda, false)
     );
   }
   
@@ -1515,6 +1521,12 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   updateBadgeStatus('badge-tor', getTakeoffOutput('tor'), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
   updateBadgeStatus('badge-asd', getTakeoffOutput('asd'), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
   updateBadgeStatus('badge-tod', getTakeoffOutput('tod'), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b); // Jämför TOD mot TODA
+
+  updateRunwayExceedanceCard('takeoff-exceedance-card', 'takeoff-exceedance-status', [
+    { label: 'TOR', distance: getTakeoffOutput('tor', false), limit: getOutputVal(to.sheetName, to.outputs.tora, false) },
+    { label: 'TOD', distance: getTakeoffOutput('tod', false), limit: getOutputVal(to.sheetName, to.outputs.toda, false) },
+    { label: 'ASD', distance: getTakeoffOutput('asd', false), limit: getOutputVal(to.sheetName, to.outputs.asda, false) },
+  ]);
  
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
   safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
@@ -1533,18 +1545,26 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));
   safeSetText('res-ldg-vrefdown', getOutputVal(ldg.sheetName, ldg.outputs.vrefDown));
   safeSetText('res-ldg-distdown', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown));
+  const activeLandingDistance = landingFlaps === 'UP'
+    ? getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp, false)
+    : getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown, false);
+  updateRunwayExceedanceCard('landing-exceedance-card', 'landing-exceedance-status', [
+    { label: 'LD', distance: activeLandingDistance, limit: getOutputVal(ldg.sheetName, ldg.outputs.lda, false) },
+  ]);
 
   renderTakeoffChart(
-    getTakeoffOutput('tor'),
-    getTakeoffOutput('tod'),
-    getTakeoffOutput('asd'),
-    getOutputVal(to.sheetName, to.outputs.tora)
+    getTakeoffOutput('tor', false),
+    getTakeoffOutput('tod', false),
+    getTakeoffOutput('asd', false),
+    getOutputVal(to.sheetName, to.outputs.tora, false),
+    getOutputVal(to.sheetName, to.outputs.toda, false),
+    getOutputVal(to.sheetName, to.outputs.asda, false)
   );
 
   renderLandingChart(
-    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp),
-    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown), // <-- Tillagd
-    getOutputVal(ldg.sheetName, ldg.outputs.lda)
+    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp, false),
+    getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown, false),
+    getOutputVal(ldg.sheetName, ldg.outputs.lda, false)
   );
 }
 
@@ -1851,7 +1871,51 @@ function checkContaminationLogic() {
   return true;
 }
 
-function renderTakeoffChart(tor, tod, asd, tora) {
+function finiteDistance(value) {
+    if (value === null || value === undefined || String(value).trim() === '' ||
+        String(value).startsWith('#')) return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+}
+
+function exceedsDistanceLimit(distance, limit) {
+    const distanceValue = finiteDistance(distance);
+    const limitValue = finiteDistance(limit);
+    return distanceValue === null || limitValue === null
+        ? null
+        : distanceValue > limitValue;
+}
+
+function updateRunwayExceedanceCard(cardId, statusId, checks) {
+    const card = document.getElementById(cardId);
+    const status = document.getElementById(statusId);
+    if (!card || !status) return;
+
+    const exceeded = checks.filter((check) =>
+        exceedsDistanceLimit(check.distance, check.limit) === true
+    );
+    const hasMissingValues = checks.some((check) =>
+        exceedsDistanceLimit(check.distance, check.limit) === null
+    );
+
+    card.classList.toggle('is-exceeded', exceeded.length > 0);
+    card.classList.toggle('is-within-limits', exceeded.length === 0 && !hasMissingValues);
+    status.textContent = exceeded.length
+        ? exceeded.map((check) => `${check.label} Exceeded`).join(' · ')
+        : hasMissingValues
+            ? 'Awaiting performance'
+            : 'Within limits';
+}
+
+function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
+    const exceeded = [
+        exceedsDistanceLimit(tor, tora),
+        exceedsDistanceLimit(tod, toda),
+        exceedsDistanceLimit(asd, asda),
+    ].some((result) => result === true);
+    const usedRunway = document.getElementById('takeoff-used-runway');
+    if (usedRunway) usedRunway.classList.toggle('is-exceeded', exceeded);
+
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
@@ -1860,7 +1924,6 @@ function renderTakeoffChart(tor, tod, asd, tora) {
         return Math.min(Math.max(num / toraNum, 0), 1);
     };
     const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
-    const usedRunway = document.getElementById('takeoff-used-runway');
     const maxDistance = Math.max(
         parseFloat(tor) || 0,
         parseFloat(tod) || 0,
@@ -1877,7 +1940,7 @@ function renderTakeoffChart(tor, tod, asd, tora) {
         if (marker) {
             const markerRatio = getRatio(value);
             marker.style.left = `${runwayStrip ? runwayStrip.offsetLeft + markerRatio * runwayStrip.clientWidth : 0}px`;
-            marker.setAttribute('data-val', value || 0);
+            marker.setAttribute('data-val', Math.round(parseFloat(value) || 0));
         }
     });
 
@@ -1887,14 +1950,11 @@ function renderTakeoffChart(tor, tod, asd, tora) {
 
     const toraLabel = document.getElementById('tora-label');
     if (toraLabel) {
-        toraLabel.textContent = `TORA: ${toraNum} m`;
+        toraLabel.textContent = `TORA: ${Math.round(toraNum)} m`;
     }
 }
 
 function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
-    const ldaNum = parseFloat(lda) || 0;
-    if (ldaNum <= 0) return;
-
     // Hämta vald flaps-setting (UP eller DOWN)
     const flapsSelect = document.getElementById('ldg-flaps');
     const currentFlaps = flapsSelect ? flapsSelect.value : 'DOWN';
@@ -1904,6 +1964,15 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     const runwayStrip = document.querySelector('#page-landing .runway-strip');
     const usedRunway = document.getElementById('landing-used-runway');
     const activeDistance = currentFlaps === 'UP' ? ldgDistUp : ldgDistDown;
+    const ldaNum = parseFloat(lda) || 0;
+    if (usedRunway) {
+        usedRunway.classList.toggle(
+            'is-exceeded',
+            exceedsDistanceLimit(activeDistance, lda) === true
+        );
+    }
+    if (ldaNum <= 0) return;
+
     const activeMarker = currentFlaps === 'UP' ? markerUp : markerDown;
     const distanceRatio = Math.min(
         Math.max((parseFloat(activeDistance) || 0) / ldaNum, 0),
@@ -1915,7 +1984,7 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
             ? runwayStrip.offsetLeft + distanceRatio * runwayStrip.clientWidth
             : 0;
         activeMarker.style.left = `${markerLeft}px`;
-        activeMarker.setAttribute('data-val', activeDistance || 0);
+        activeMarker.setAttribute('data-val', Math.round(parseFloat(activeDistance) || 0));
     }
 
     if (runwayStrip && usedRunway) {
@@ -1941,7 +2010,7 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
 
     const ldaLabel = document.getElementById('lda-label');
     if (ldaLabel) {
-        ldaLabel.textContent = `LDA: ${ldaNum} m`;
+        ldaLabel.textContent = `LDA: ${Math.round(ldaNum)} m`;
     }
 }
 
