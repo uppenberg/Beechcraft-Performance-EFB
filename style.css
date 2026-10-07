@@ -333,11 +333,13 @@ input, select {
 }
 
 .settings-panel {
+  box-sizing: border-box;
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
   z-index: 20;
-  width: min(280px, calc(100vw - 24px));
+  width: min(280px, calc(100vw - 20px));
+  max-width: calc(100vw - 20px);
   padding: 14px;
   color: #c9d1d9;
   background: #161b22;
@@ -440,6 +442,7 @@ input, select {
 }
 
 .check-updates-button {
+  box-sizing: border-box;
   width: 100%;
   padding: 9px 10px;
   color: #fff;
@@ -516,6 +519,27 @@ input, select {
   color: #8b949e;
   font-size: 12px;
   line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .app-header h1 {
+    flex: 1 1 100%;
+    font-size: 16px !important;
+  }
+
+  .global-reg {
+    width: 100%;
+  }
+
+  .global-reg .settings-menu {
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 480px) {
@@ -529,16 +553,6 @@ input, select {
 
   .aircraft-change-actions {
     flex-direction: column-reverse;
-  }
-
-  .app-header {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .app-header h1 {
-    flex: 1 1 100%;
-    font-size: 16px !important;
   }
 
   .global-reg select {
