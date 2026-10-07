@@ -454,6 +454,63 @@ input, select {
   opacity: 0.7;
 }
 
+.app-update-dialog {
+  width: min(420px, calc(100vw - 56px));
+  padding: 24px;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 2px solid #2ea043;
+  border-radius: 10px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8);
+}
+
+.app-update-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.app-update-dialog h2 {
+  margin: 0 0 10px;
+  color: #3fb950;
+  font-size: 20px;
+}
+
+.app-update-dialog p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.app-update-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.app-update-actions button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.app-update-later {
+  color: #c9d1d9;
+  background: #21262d;
+  border: 1px solid #30363d;
+}
+
+.app-update-install {
+  color: #fff;
+  background: #238636;
+  border: 1px solid #2ea043;
+}
+
+@media (max-width: 480px) {
+  .app-update-actions {
+    flex-direction: column-reverse;
+  }
+}
+
 .update-status {
   margin: 9px 0 0;
   color: #8b949e;

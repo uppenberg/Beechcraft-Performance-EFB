@@ -333,6 +333,9 @@ function setupSettingsMenu() {
   const toggle = document.getElementById('settings-toggle');
   const panel = document.getElementById('settings-panel');
   const updateButton = document.getElementById('check-updates-button');
+  const updateDialog = document.getElementById('app-update-dialog');
+  const installUpdateButton = document.getElementById('app-update-install');
+  const laterUpdateButton = document.getElementById('app-update-later');
 
   if (!toggle || !panel || !updateButton) return;
 
@@ -358,6 +361,14 @@ function setupSettingsMenu() {
   });
 
   updateButton.addEventListener('click', checkForAppUpdate);
+  installUpdateButton?.addEventListener('click', () => {
+    updateDialog?.close();
+    checkForAppUpdate();
+  });
+  laterUpdateButton?.addEventListener('click', () => updateDialog?.close());
+  updateDialog?.addEventListener('cancel', () => {
+    updateDialog.close();
+  });
 }
 
 function setUpdateStatus(message) {
@@ -373,7 +384,11 @@ function setUpdateAvailable(isAvailable) {
   toggle.classList.toggle('update-available', isAvailable);
   toggle.setAttribute('aria-label', isAvailable ? 'Open settings, update available' : 'Open settings');
   updateButton.textContent = isAvailable ? 'Update available — install' : 'Check for updates';
-  if (isAvailable) setUpdateStatus('A new app version is ready to install.');
+  if (isAvailable) {
+    setUpdateStatus('A new app version is ready to install.');
+    const updateDialog = document.getElementById('app-update-dialog');
+    if (updateDialog && !updateDialog.open) updateDialog.showModal();
+  }
 }
 
 function watchForServiceWorkerUpdate(registration) {

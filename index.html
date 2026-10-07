@@ -186,6 +186,14 @@
             <button type="button" class="aircraft-change-confirm" onclick="confirmAircraftTypeChange()">Yes, switch aircraft</button>
         </div>
     </dialog>
+    <dialog id="app-update-dialog" class="app-update-dialog" aria-labelledby="app-update-title" aria-describedby="app-update-message">
+        <h2 id="app-update-title">New update available</h2>
+        <p id="app-update-message">New update available. Please install.</p>
+        <div class="app-update-actions">
+            <button id="app-update-later" class="app-update-later" type="button">Later</button>
+            <button id="app-update-install" class="app-update-install" type="button">Install update</button>
+        </div>
+    </dialog>
 
     <!-- Fliknavigering -->
     <nav class="tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
