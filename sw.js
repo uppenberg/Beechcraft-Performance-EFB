@@ -9,6 +9,9 @@ const ASSETS = [
   './js/app.js',
   './data/airports.json',
   './data/se-ltl.xlsx',
+  './data/se-kvl.xlsx',
+  './data/se-mju.xlsx',
+  './data/B190.xlsx',
   'https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js',
   'https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js'
 ];

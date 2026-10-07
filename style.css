@@ -130,7 +130,44 @@ input, select {
   inset: 0 auto 0 0;
   width: 0;
   background: rgba(210, 153, 34, 0.3);
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.runway-used-distance.is-exceeded {
+  background: rgba(248, 81, 73, 0.45);
+}
+
+.runway-exceedance-card {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.runway-exceedance-card.is-exceeded {
+  background: rgba(248, 81, 73, 0.15);
+  border-color: #f85149;
+}
+
+.runway-exceedance-card.is-within-limits {
+  background: rgba(46, 160, 67, 0.12);
+  border-color: rgba(46, 160, 67, 0.5);
+}
+
+.runway-exceedance-status {
+  color: #8b949e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.runway-exceedance-card.is-exceeded .runway-exceedance-status {
+  color: #ff7b72;
+}
+
+.runway-exceedance-card.is-within-limits .runway-exceedance-status {
+  color: #3fb950;
 }
 
 /* Tröskelmarkering fylld över banans hela bredd */
@@ -319,6 +356,89 @@ input, select {
   font-size: 14px;
 }
 
+.aircraft-change-dialog {
+  width: min(520px, calc(100vw - 56px));
+  padding: 0;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 3px solid #f85149;
+  border-radius: 12px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8);
+}
+
+.aircraft-change-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.aircraft-change-warning {
+  padding: 28px 28px 20px;
+  text-align: center;
+}
+
+.aircraft-change-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  color: #fff;
+  background: #da3633;
+  border: 4px solid #ff7b72;
+  border-radius: 50%;
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.aircraft-change-label {
+  margin: 0 0 6px;
+  color: #ff7b72;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.aircraft-change-warning h2 {
+  margin: 0 0 14px;
+  color: #ff7b72;
+  font-size: clamp(30px, 8vw, 42px);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.aircraft-change-warning > p:last-child {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.aircraft-change-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px 20px;
+}
+
+.aircraft-change-actions button {
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.aircraft-change-cancel {
+  color: #fff;
+  background: #30363d;
+  border: 1px solid #6e7681;
+}
+
+.aircraft-change-confirm {
+  color: #fff;
+  background: #da3633;
+  border: 1px solid #ff7b72;
+}
+
 .check-updates-button {
   width: 100%;
   padding: 9px 10px;
@@ -334,6 +454,63 @@ input, select {
   opacity: 0.7;
 }
 
+.app-update-dialog {
+  width: min(420px, calc(100vw - 56px));
+  padding: 24px;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 2px solid #2ea043;
+  border-radius: 10px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8);
+}
+
+.app-update-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.app-update-dialog h2 {
+  margin: 0 0 10px;
+  color: #3fb950;
+  font-size: 20px;
+}
+
+.app-update-dialog p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.app-update-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.app-update-actions button {
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.app-update-later {
+  color: #c9d1d9;
+  background: #21262d;
+  border: 1px solid #30363d;
+}
+
+.app-update-install {
+  color: #fff;
+  background: #238636;
+  border: 1px solid #2ea043;
+}
+
+@media (max-width: 480px) {
+  .app-update-actions {
+    flex-direction: column-reverse;
+  }
+}
+
 .update-status {
   margin: 9px 0 0;
   color: #8b949e;
@@ -342,6 +519,18 @@ input, select {
 }
 
 @media (max-width: 480px) {
+  .aircraft-change-warning {
+    padding: 22px 18px 16px;
+  }
+
+  .aircraft-change-warning > p:last-child {
+    font-size: 15px;
+  }
+
+  .aircraft-change-actions {
+    flex-direction: column-reverse;
+  }
+
   .app-header {
     flex-wrap: wrap;
     gap: 8px;
