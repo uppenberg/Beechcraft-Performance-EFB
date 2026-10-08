@@ -154,9 +154,9 @@
 </head>
 <body>
     <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
-        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT Performance <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
+        <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT BE20/B190 PERFORMANCE <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
-            <label for="global-registration" style="font-size: 12px; color: #8b949e;">Reg:</label>
+            <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
             <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
                 <option value="SE-LTL" selected>SE-LTL (BE20)</option>
                 <option value="SE-KVL">SE-KVL (BE20)</option>
@@ -175,6 +175,7 @@
                     <h2>Settings</h2>
                     <button id="check-updates-button" class="check-updates-button" type="button">Check for updates</button>
                     <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
+                    <button id="open-help-button" class="check-updates-button" type="button" style="margin-top: 8px;">User Guide</button>
                 </div>
             </div>
         </div>
@@ -198,6 +199,286 @@
         <div class="app-update-actions">
             <button id="app-update-later" class="app-update-later" type="button">Later</button>
             <button id="app-update-install" class="app-update-install" type="button">Install update</button>
+        </div>
+    </dialog>
+
+    <!-- Help / User Guide Dialog -->
+    <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-dialog-title">
+        <div class="help-dialog-inner">
+            <div class="help-dialog-header">
+                <h2 id="help-dialog-title">User Guide — Beechcraft Performance EFB</h2>
+                <button class="help-close-btn" id="help-close-btn" type="button" aria-label="Close user guide">&#x2715;</button>
+            </div>
+
+            <div class="help-toc">
+                <strong>Contents</strong>
+                <a href="#help-overview">Overview</a>
+                <a href="#help-reg">Aircraft Registration</a>
+                <a href="#help-takeoff">Take-off Tab</a>
+                <a href="#help-landing">Landing Tab</a>
+                <a href="#help-metar">METAR &amp; Weather</a>
+                <a href="#help-runway">Runway Visualization</a>
+                <a href="#help-rwcc">Runway Condition Code</a>
+                <a href="#help-eop">Engine Out Procedure</a>
+                <a href="#help-pitfalls">Common Pitfalls</a>
+                <a href="#help-limits">Limitations &amp; Disclaimer</a>
+            </div>
+
+            <div class="help-body">
+
+                <section id="help-overview">
+                    <h3>Overview</h3>
+                    <p>The Beechcraft Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong> and <strong>Beechcraft 1900C (B190)</strong>. All calculations are performed locally in the browser using the aircraft's verified performance engine — no data is sent to any server.</p>
+                    <p>The app operates fully offline once installed as a PWA (Progressive Web App). Performance data is based on EASA Performance Class A regulations.</p>
+                    <div class="help-note help-note--info">
+                        <strong>&#128225; Internet required for:</strong> Fetching live METAR data and checking for app updates. All performance calculations work without an internet connection.
+                    </div>
+                </section>
+
+                <section id="help-reg">
+                    <h3>Aircraft Registration</h3>
+                    <p>Located in the top header, the <strong>Reg</strong> dropdown selects which aircraft's performance data is loaded. Each registration has its own performance data except for the B190 which shares same performance data.</p>
+                    <table class="help-table">
+                        <thead><tr><th>Registration</th><th>Type</th><th>Workbook</th></tr></thead>
+                        <tbody>
+                            <tr><td>SE-LTL</td><td>King Air 200 (BE20)</td><td>SE-LTL Performance Data</td></tr>
+                            <tr><td>SE-KVL</td><td>King Air 200 (BE20)</td><td>SE-KVL Performance Data</td></tr>
+                            <tr><td>SE-MJU</td><td>King Air 200 (BE20)</td><td>SE-MJU Performance Data</td></tr>
+                            <tr><td>SE-MJV</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
+                            <tr><td>SE-MHU</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="help-note help-note--warn">
+                        <strong>&#9888;&#65039; Type change warning:</strong> Switching between BE20 and B190 triggers a confirmation dialog. This is intentional — the two types have different performance envelopes, mass limits and flap configurations. Accidentally using the wrong type's data is a serious safety risk.
+                    </div>
+                    <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
+                </section>
+
+                <section id="help-takeoff">
+                    <h3>Take-off Tab</h3>
+                    <p>Calculates EASA Performance Class A take-off distances and associated speeds for the selected aircraft, airport, runway and conditions.</p>
+
+                    <h4>Airport &amp; Weather Card</h4>
+                    <dl class="help-dl">
+                        <dt>ICAO</dt>
+                        <dd>Type the 4-letter ICAO code of the departure airport. An autocomplete list appears — only airports in the built-in database are available. Press Enter or tap a suggestion to confirm.</dd>
+
+                        <dt>RWY</dt>
+                        <dd>Select the intended take-off runway from the dropdown. Only runways with performance data for the selected airport are shown.</dd>
+
+                        <dt>Intersection</dt>
+                        <dd>Appears only when the runway has a defined intersection departure point. Selecting an intersection uses the reduced TORA/TODA/ASDA for that intersection.</dd>
+
+                        <dt>METAR</dt>
+                        <dd>Displays the most recently fetched METAR. Colour coding:
+                            <ul>
+                                <li><span style="color:#3fb950">Green</span> — less than 35 minutes old</li>
+                                <li><span style="color:#d29922">Amber</span> — 35–60 minutes old (use with caution)</li>
+                                <li><span style="color:#f85149">Red</span> — unavailable or older than 60 minutes</li>
+                            </ul>
+                            When a valid METAR loads, Wind Dir, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
+                        </dd>
+
+                        <dt>Wind Dir (°)</dt>
+                        <dd>Wind direction in degrees magnetic from the METAR or entered manually. Used to compute headwind/tailwind and crosswind components.</dd>
+
+                        <dt>Wind Spd (kt)</dt>
+                        <dd>Mean wind speed in knots. If the METAR reports a gust, only the mean speed is inserted — consider entering the gust value manually for a conservative crosswind assessment.</dd>
+
+                        <dt>OAT °C</dt>
+                        <dd>Outside Air Temperature at aerodrome elevation. Affects density altitude and all performance distances.</dd>
+
+                        <dt>QNH (hPa)</dt>
+                        <dd>Altimeter setting in hPa. </dd>
+                    </dl>
+
+                    <h4>Setup &amp; Mass Card</h4>
+                    <dl class="help-dl">
+                        <dt>Take-off Mass (lbs)</dt>
+                        <dd>Use the slider to set planned take-off mass. Ranges: BE20 9,200–12,500 lbs | B190 10,000–16,600 lbs. The mass is displayed above the slider and updates live.</dd>
+
+                        <dt>Flaps setting</dt>
+                        <dd>
+                            <ul>
+                                <li><strong>Flaps Up</strong> — standard configuration (all types)</li>
+                                <li><strong>Approach</strong> — all types; typically used when field length is limiting</li>
+                                <li><strong>Take-off</strong> — B190 only; intermediate setting between Up and Approach</li>
+                            </ul>
+                            Different flap settings yield different V-speeds and distances.
+                        </dd>
+
+                        <dt>Take-off technique (B190 only)</dt>
+                        <dd><strong>Static T/O power</strong> (brakes held, full power set before brake release) or <strong>Rolling take off</strong>. Affects TOR, TOD and ASD.</dd>
+
+                        <dt>Engine Anti-Ice</dt>
+                        <dd>ON or OFF. Enabling anti-ice reduces available power, however if max torque can be achieved with engine anti-ice ON, this setting can still be OFF. Increasing all distances and reducing OEI climb gradient. Icing conditions may mandate ON.</dd>
+
+                        <dt>Runway Condition Code (RWCC)</dt>
+                        <dd>
+                            <table class="help-table" style="margin-top:6px">
+                                <thead><tr><th>Code</th><th>Surface condition</th></tr></thead>
+                                <tbody>
+                                    <tr><td>6</td><td>Dry (baseline)</td></tr>
+                                    <tr><td>5</td><td>Wet / Damp / Frost</td></tr>
+                                    <tr><td>4</td><td>Standing water / Slush / Wet snow</td></tr>
+                                    <tr><td>3</td><td>Dry or wet snow on compacted snow</td></tr>
+                                    <tr><td>2</td><td>Compacted snow</td></tr>
+                                    <tr><td>1</td><td>Ice (worst performance)</td></tr>
+                                </tbody>
+                            </table>
+                            Use the most conservative applicable code. Always obtain the current code from ATIS/SNOWTAM/ATC. Actual contaminant type and depth is not used in the takeoff calculations — only the RWCC is used to determine performance penalties (factors are verified).
+                        </dd>
+                    </dl>
+
+                    <h4>Take-off Result Cards</h4>
+                    <dl class="help-dl">
+                        <dt>V1 / VR / V2</dt>
+                        <dd>Decision speed, rotation speed and take-off safety speed (KIAS). Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
+
+                        <dt>Takeoff distances</dt>
+                        <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed.</dd>
+
+                        <dt>Climb gradient OEI / Req</dt>
+                        <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
+
+                        <dt>WIND | XW (XWLimit)</dt>
+                        <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red = crosswind/tailwind limit exceeded. A tailwind always increases distances.</dd>
+
+                        <dt>EMG RETURN — VREF / LD</dt>
+                        <dd>Reference speeds and distances for an emergency return landing on the departure runway. UP = flaps up, DOWN = flaps down. Use to verify an emergency return is feasible given the available LDA.</dd>
+                    </dl>
+
+                    <h4>EASA Class A Checklist</h4>
+                    <p>Five compliance items checked automatically:</p>
+                    <ol>
+                        <li><strong>TOR ≤ TORA</strong></li>
+                        <li><strong>ASD ≤ ASDA</strong></li>
+                        <li><strong>TOD ≤ TODA</strong></li>
+                        <li><strong>Single value of V1</strong></li>
+                        <li><strong>Wet/contaminated runway mass limit</strong></li>
+                    </ol>
+                    <p>Any <span style="color:#f85149">FAIL</span> means the take-off must not proceed as planned — reduce mass, select another runway, or wait for improved conditions.</p>
+                </section>
+
+                <section id="help-landing">
+                    <h3>Landing Tab</h3>
+                    <p>Calculates required landing distances under EASA CAT rules.</p>
+
+                    <h4>Airport &amp; Weather Card</h4>
+                    <p>Identical fields to the Take-off tab, but for the destination airport and arrival conditions. The landing ICAO/runway are stored independently from the take-off values.</p>
+
+                    <h4>Setup &amp; Mass Card</h4>
+                    <dl class="help-dl">
+                        <dt>Landing Mass (lbs)</dt>
+                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database)</dd>
+
+                        <dt>Flaps setting</dt>
+                        <dd><strong>UP</strong> or <strong>DOWN</strong>. Both Vref and distance are calculated for both settings simultaneously. The selected setting determines which distance is compared against LDA in the exceedance card.</dd>
+
+                        <dt>Runway Condition Code (RWCC)</dt>
+                        <dd>Same GRF code applied to the landing runway. A lower code significantly increases required landing distance.</dd>
+                    </dl>
+
+                    <h4>Landing Result Cards</h4>
+                    <dl class="help-dl">
+                        <dt>VREF / FLAPS [setting]</dt>
+                        <dd>Reference landing speed for the selected flap setting.</dd>
+
+                        <dt>Landing distance</dt>
+                        <dd><span style="color:#3fb950">Within limits</span> or <span style="color:#f85149">Exceeded</span> vs LDA. If flaps UP is exceeded, try flaps DOWN. If both exceed, the approach must not be commenced.</dd>
+
+                        <dt>Missed App Climb gradient OEI</dt>
+                        <dd>OEI missed approach climb gradient. EASA minimum is <strong>2.5%</strong>. If below, the card turns red — an instrument approach may not be legal. Check the specific procedure minima and Operations Manual.</dd>
+                    </dl>
+                </section>
+
+                <section id="help-metar">
+                    <h3>METAR &amp; Weather Input</h3>
+                    <p>METARs are fetched automatically when a new airport is selected, and on demand via the <strong>Update</strong> button. Two sources are tried in sequence: NOAA Aviation Weather Centre and a Google Apps Script proxy.</p>
+                    <div class="help-note help-note--warn">
+                        <strong>&#9888;&#65039; Manual override:</strong> Manually edited weather fields (Wind Dir, Wind Spd, OAT, QNH) will be overwritten by the next METAR fetch. Re-enter them afterwards if needed.
+                    </div>
+                    <ul>
+                        <li><strong>Gusts:</strong> Only mean wind speed is extracted. Enter the gust speed manually for a conservative crosswind check.</li>
+                        <li><strong>VRB winds:</strong> Treated as 0° direction — assess crosswind manually.</li>
+                        <li><strong>US METARs:</strong> Altimeter in inches (A-prefix) is auto-converted to hPa.</li>
+                        <li><strong>Age limit:</strong> METARs older than 60 minutes are rejected. For actual operations always verify with the latest ATIS/D-ATIS.</li>
+                    </ul>
+                </section>
+
+                <section id="help-runway">
+                    <h3>Runway Visualization</h3>
+                    <p>A schematic runway graphic appears in both tabs:</p>
+                    <ul>
+                        <li>The <strong>coloured bar</strong> inside the runway shows the worst-case calculated distance as a proportion of the available runway (TORA / LDA).</li>
+                        <li><strong>Markers</strong> (take-off only) indicate TOR, TOD and ASD distances to scale. The value is shown in the marker label.</li>
+                        <li>The bar turns <span style="color:#f85149">red</span> when any distance exceeds the limit.</li>
+                        <li>Landing shows two markers: amber (flaps UP distance) and green (flaps DOWN distance).</li>
+                    </ul>
+                    <div class="help-note help-note--info">
+                        The visualization is a schematic aid only. Always use the numerical values for operational decisions.
+                    </div>
+                </section>
+
+                <section id="help-rwcc">
+                    <h3>Runway Condition Code (GRF/RWCC)</h3>
+                    <p>The Global Reporting Format defines 6 runway condition codes. Obtain the current code from ATIS, SNOWTAM or ATC.</p>
+                </section>
+
+                <section id="help-eop">
+                    <h3>Engine Out Procedure Card</h3>
+                    <p>Shown at the top of the Take-off tab for the selected runway:</p>
+                    <dl class="help-dl">
+                        <dt>Min Cloud Base (ft)</dt>
+                        <dd>Minimum cloud base for the engine-out escape route to be executed safely. "–" means no minimum is defined in the database — check the SOP/AFM.</dd>
+
+                        <dt>Escape Route</dt>
+                        <dd>Published engine-out routing after V1 for the selected runway. May include headings, altitudes or waypoints. <strong>Brief this before every departure.</strong></dd>
+                    </dl>
+                </section>
+
+                <section id="help-pitfalls">
+                    <h3>Common Pitfalls &amp; Errors</h3>
+                    <dl class="help-dl">
+                        <dt>All results show "–" or "FAIL"</dt>
+                        <dd>The performance database has not loaded yet, or no valid ICAO/runway combination is selected. Ensure a valid airport and runway are set and wait for results to populate.</dd>
+
+                        <dt>METAR shows red immediately</dt>
+                        <dd>Airport not found in NOAA's database, or no internet. Enter weather values manually.</dd>
+
+                        <dt>V1 shows "–" but other speeds appear</dt>
+                        <dd>Mass or conditions may be outside the performance table range. Try reducing mass, or verify that OAT and QNH are within bounds.</dd>
+
+                        <dt>Crosswind shows "–"</dt>
+                        <dd>Wind direction or speed is not set. Fetch a METAR or enter values manually.</dd>
+
+                        <dt>Climb gradient shows "–"</dt>
+                        <dd>The minimum OEI climb gradient is empty for this runway. Verify the required gradient manually from the applicable SID or obstacle clearance procedure.</dd>
+
+                        <dt>Aircraft type change warning</dt>
+                        <dd>You are switching between BE20 and B190. Confirm only if intentional. The entire workbook is replaced and all previously calculated values change.</dd>
+
+                        <dt>App shows old data after an update</dt>
+                        <dd>Settings &#x2192; Check for updates &#x2192; Install update. On iOS, close and re-launch the app after updating.</dd>
+                    </dl>
+                </section>
+
+                <section id="help-limits">
+                    <h3>Limitations &amp; Disclaimer</h3>
+                    <ul>
+                        <li>This app is a <strong>planning aid</strong> and does not replace the AFM, company Operations Manual or EASA regulations.</li>
+                        <li>Always cross-check critical values with the official AFM charts.</li>
+                        <li>The airport database is maintained manually and may not reflect the latest AIRAC. Verify runway data against current AIP/NOTAM.</li>
+                        <li>METAR data is fetched from third-party sources — accuracy and availability cannot be guaranteed.</li>
+                        <li>The pilot in command bears full responsibility for all go/no-go decisions.</li>
+                    </ul>
+                </section>
+
+            </div><!-- .help-body -->
+
+            <div class="help-dialog-footer">
+                <button class="help-close-btn-footer" id="help-close-btn-footer" type="button">Close</button>
+            </div>
         </div>
     </dialog>
 

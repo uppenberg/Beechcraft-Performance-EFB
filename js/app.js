@@ -337,6 +337,10 @@ function setupSettingsMenu() {
   const updateDialog = document.getElementById('app-update-dialog');
   const installUpdateButton = document.getElementById('app-update-install');
   const laterUpdateButton = document.getElementById('app-update-later');
+  const helpDialog = document.getElementById('help-dialog');
+  const openHelpButton = document.getElementById('open-help-button');
+  const helpCloseBtn = document.getElementById('help-close-btn');
+  const helpCloseBtnFooter = document.getElementById('help-close-btn-footer');
 
   if (!toggle || !panel || !updateButton) return;
 
@@ -359,6 +363,36 @@ function setupSettingsMenu() {
       toggle.setAttribute('aria-expanded', 'false');
       toggle.focus();
     }
+  });
+
+  // Help dialog
+  function openHelpDialog() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    if (helpDialog && typeof helpDialog.showModal === 'function') {
+      helpDialog.showModal();
+    }
+  }
+
+  function closeHelpDialog() {
+    helpDialog?.close();
+  }
+
+  openHelpButton?.addEventListener('click', openHelpDialog);
+  helpCloseBtn?.addEventListener('click', closeHelpDialog);
+  helpCloseBtnFooter?.addEventListener('click', closeHelpDialog);
+  helpDialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeHelpDialog();
+  });
+
+  // TOC links — scroll within dialog instead of following href anchors
+  helpDialog?.querySelectorAll('.help-toc a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = helpDialog.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 
   updateButton.addEventListener('click', checkForAppUpdate);
