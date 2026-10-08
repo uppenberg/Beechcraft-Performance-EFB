@@ -352,7 +352,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="100" value="12500" oninput="handleTakeoffMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -384,8 +384,8 @@
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Engine Anti-Ice</td>
                             <td style="padding: 10px 0;">
                                 <select class="form-control" id="to-anti-ice" onchange="updateEngineCellVal('takeoff', 'antiIce', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
-                                    <option value="OFF">OFF</option>
-                                    <option value="ON" selected>ON</option>
+                                    <option value="OFF" selected>OFF</option>
+                                    <option value="ON">ON</option>
                                 </select>
                             </td>
                         </tr>
@@ -565,7 +565,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="100" value="12500" oninput="handleLandingMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">

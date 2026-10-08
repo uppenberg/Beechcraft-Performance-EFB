@@ -1630,8 +1630,8 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
-  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad);
-  const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to);
+  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad, false);
+  const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false);
   updateClimbCheckCard(reqVal, oeiVal);
 
   safeSetText('check-tor-val', getTakeoffOutput('tor'));
