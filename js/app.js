@@ -154,12 +154,12 @@ const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = {
 const TAKEOFF_RESULT_COLUMN_BY_FLAPS = { UP: 'C', TAKE: 'D', APP: 'E' };
 const MASS_SLIDER_RANGES_BY_TYPE = {
   BE20: {
-    takeoff: { min: 9200, max: 12500 },
-    landing: { min: 9000, max: 12500 },
+    takeoff: { min: 9200, max: 12500, default: 12500 },
+    landing: { min: 9000, max: 12500, default: 12500 },
   },
   B190: {
-    takeoff: { min: 10000, max: 16600 },
-    landing: { min: 10000, max: 16100 },
+    takeoff: { min: 10000, max: 16600, default: 16600 },
+    landing: { min: 10000, max: 16600, default: 16100 },
   },
 };
 let pendingRegistrationChange = null;
@@ -187,7 +187,7 @@ function configureMassSliders(registration) {
 
     slider.min = String(range.min);
     slider.max = String(range.max);
-    slider.value = String(Math.min(range.max, Math.max(range.min, Number(slider.value))));
+    slider.value = String(range.default);
     const valueLabel = document.getElementById(`${prefix}-mass-val`);
     if (valueLabel) valueLabel.textContent = slider.value;
   });
