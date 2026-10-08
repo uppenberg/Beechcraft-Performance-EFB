@@ -1,6 +1,6 @@
 {
-  "name": "King Air 200 Performance EFB",
-  "short_name": "BE20 EFB",
+  "name": "BEECHCRAFT BE20/B190 PERFORMANCE",
+"short_name": "BE20/B190 PERF",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#090d16",
