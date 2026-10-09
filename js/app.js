@@ -5,6 +5,7 @@ const airportSelection = {
   ldg: { icao: '', runway: '', intersection: '' },
 };
 const runwaySuggestions = { to: null, ldg: null };
+let runwaySuggestionRefreshTimer = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
 
@@ -153,12 +154,12 @@ const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = {
 const TAKEOFF_RESULT_COLUMN_BY_FLAPS = { UP: 'C', TAKE: 'D', APP: 'E' };
 const MASS_SLIDER_RANGES_BY_TYPE = {
   BE20: {
-    takeoff: { min: 9200, max: 12500 },
-    landing: { min: 9000, max: 12500 },
+    takeoff: { min: 9200, max: 12500, default: 12500 },
+    landing: { min: 9000, max: 12500, default: 12500 },
   },
   B190: {
-    takeoff: { min: 10000, max: 16600 },
-    landing: { min: 10000, max: 16100 },
+    takeoff: { min: 10000, max: 16600, default: 16600 },
+    landing: { min: 10000, max: 16600, default: 16100 },
   },
 };
 let pendingRegistrationChange = null;
@@ -186,7 +187,7 @@ function configureMassSliders(registration) {
 
     slider.min = String(range.min);
     slider.max = String(range.max);
-    slider.value = String(Math.min(range.max, Math.max(range.min, Number(slider.value))));
+    slider.value = String(range.default);
     const valueLabel = document.getElementById(`${prefix}-mass-val`);
     if (valueLabel) valueLabel.textContent = slider.value;
   });
@@ -336,6 +337,10 @@ function setupSettingsMenu() {
   const updateDialog = document.getElementById('app-update-dialog');
   const installUpdateButton = document.getElementById('app-update-install');
   const laterUpdateButton = document.getElementById('app-update-later');
+  const helpDialog = document.getElementById('help-dialog');
+  const openHelpButton = document.getElementById('open-help-button');
+  const helpCloseBtn = document.getElementById('help-close-btn');
+  const helpCloseBtnFooter = document.getElementById('help-close-btn-footer');
 
   if (!toggle || !panel || !updateButton) return;
 
@@ -358,6 +363,36 @@ function setupSettingsMenu() {
       toggle.setAttribute('aria-expanded', 'false');
       toggle.focus();
     }
+  });
+
+  // Help dialog
+  function openHelpDialog() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    if (helpDialog && typeof helpDialog.showModal === 'function') {
+      helpDialog.showModal();
+    }
+  }
+
+  function closeHelpDialog() {
+    helpDialog?.close();
+  }
+
+  openHelpButton?.addEventListener('click', openHelpDialog);
+  helpCloseBtn?.addEventListener('click', closeHelpDialog);
+  helpCloseBtnFooter?.addEventListener('click', closeHelpDialog);
+  helpDialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeHelpDialog();
+  });
+
+  // TOC links — scroll within dialog instead of following href anchors
+  helpDialog?.querySelectorAll('.help-toc a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      const target = helpDialog.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 
   updateButton.addEventListener('click', checkForAppUpdate);
@@ -943,12 +978,20 @@ function updateRunwaySuggestion(prefix, message, suggestion = null) {
       option.className = 'runway-suggestion-option';
 
       const label = document.createElement('strong');
+      label.className = 'runway-suggestion-status';
+      const takeoffAvailability = prefix === 'to'
+        ? evaluateTakeoffRunwayAvailability(airport)
+        : null;
       label.textContent = prefix === 'ldg'
         ? 'Full runway LDA available'
         : airport.Intersection
-          ? `Intersection ${airport.Intersection} available`
-          : 'Full runway available';
+          ? `Intersection ${airport.Intersection} ${takeoffAvailability.available ? 'available' : `unavailable — ${takeoffAvailability.reasons.join(', ')}`}`
+          : `Full runway ${takeoffAvailability.available ? 'available' : `unavailable — ${takeoffAvailability.reasons.join(', ')}`}`;
       option.appendChild(label);
+      if (takeoffAvailability) {
+        label.classList.toggle('is-available', takeoffAvailability.available);
+        label.classList.toggle('is-unavailable', !takeoffAvailability.available);
+      }
 
       const distanceList = document.createElement('p');
       distanceList.className = 'runway-suggestion-distances';
@@ -970,12 +1013,20 @@ function updateRunwaySuggestion(prefix, message, suggestion = null) {
         : (airport.Intersection || '');
       const isSelected = selection.runway === suggestion.runway &&
         (selection.intersection || '') === selectedIntersection;
-      selectButton.textContent = isSelected
-        ? `Selected — ${buttonLabel.replace(/^Use /, '')}`
-        : buttonLabel;
-      selectButton.disabled = isSelected;
+      selectButton.textContent = takeoffAvailability && !takeoffAvailability.available
+        ? 'Unavailable for current conditions'
+        : isSelected
+          ? `Selected — ${buttonLabel.replace(/^Use /, '')}`
+          : buttonLabel;
+      selectButton.disabled = isSelected || Boolean(
+        takeoffAvailability && !takeoffAvailability.available
+      );
       selectButton.setAttribute('aria-pressed', String(isSelected));
       selectButton.addEventListener('click', () => {
+        if (prefix === 'to' && !evaluateTakeoffRunwayAvailability(airport).available) {
+          refreshRunwaySuggestionSelection(prefix);
+          return;
+        }
         if (!applySuggestedRunway(suggestion.runway, airport.Intersection || '', prefix)) return;
         const currentSelection = airportSelection[prefix];
         const intersectionLabel = currentSelection.intersection
@@ -1001,6 +1052,15 @@ function refreshRunwaySuggestionSelection(prefix) {
     `METAR suggests RWY ${suggestion.runway} (${Math.round(suggestion.headwind)} kt headwind). Verify before use.`,
     suggestion
   );
+}
+
+function scheduleTakeoffSuggestionRefresh() {
+  if (!runwaySuggestions.to) return;
+  window.clearTimeout(runwaySuggestionRefreshTimer);
+  runwaySuggestionRefreshTimer = window.setTimeout(() => {
+    runwaySuggestionRefreshTimer = null;
+    refreshRunwaySuggestionSelection('to');
+  }, 150);
 }
 
 function suggestRunwayFromMetar(metarText, prefix) {
@@ -1172,6 +1232,93 @@ function airportCellValue(value) {
   return Number.isFinite(number) ? number : text;
 }
 
+function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
+  let value = airport ? airportCellValue(airport[dataField]) : null;
+  if (prefix === 'to' && ['C19', 'C20', 'C21'].includes(cellRef) &&
+      typeof value === 'number') {
+    value -= 10;
+  }
+  return value;
+}
+
+function evaluateTakeoffRunwayAvailability(airport) {
+  if (!hfInstance) {
+    return { available: false, reasons: ['Performance calculator unavailable'] };
+  }
+
+  const requiredFields = Object.keys(CELL_MAPPING.airport.inputs).filter((field) =>
+    !OPTIONAL_AIRPORT_DATA_FIELDS.includes(field)
+  );
+  if (requiredFields.some((field) => airportCellValue(airport[field]) === null)) {
+    return { available: false, reasons: ['Airport data incomplete'] };
+  }
+
+  const config = CELL_MAPPING.takeoff;
+  const sheet = hfInstance.getSheetId(config.sheetName);
+  const candidateValues = new Map([[config.inputs.airportAndRwy, 'Custom airport']]);
+  Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE.to).forEach(([dataField, cellRef]) => {
+    candidateValues.set(
+      cellRef,
+      getAirportLookupCellValue(airport, 'to', dataField, cellRef)
+    );
+  });
+
+  const savedCells = [...candidateValues].map(([cellRef]) => {
+    const position = parseCellRef(cellRef);
+    if (!position) throw new Error(`Invalid takeoff airport lookup cell reference: ${cellRef}`);
+    return {
+      cellRef,
+      position,
+      value: hfInstance.getCellValue({ sheet, col: position.col, row: position.row }),
+    };
+  });
+
+  try {
+    [...candidateValues].forEach(([cellRef, value], index) => {
+      const { position } = savedCells[index];
+      hfInstance.setCellContents(
+        { sheet, col: position.col, row: position.row },
+        [[value]]
+      );
+    });
+
+    const distanceChecks = [
+      { label: 'TOR', limitName: 'TORA', output: getTakeoffOutput('tor', false), limit: getOutputVal(config.sheetName, 'C20', false) },
+      { label: 'TOD', limitName: 'TODA', output: getTakeoffOutput('tod', false), limit: getOutputVal(config.sheetName, 'C21', false) },
+      { label: 'ASD', limitName: 'ASDA', output: getTakeoffOutput('asd', false), limit: getOutputVal(config.sheetName, 'C19', false) },
+    ];
+    const reasons = distanceChecks.flatMap((check) => {
+      const result = exceedsDistanceLimit(check.output, check.limit);
+      if (result === null) return [`${check.label}/${check.limitName} performance unavailable`];
+      return result ? [`${check.label} exceeds ${check.limitName}`] : [];
+    });
+
+    const actualClimbGradient = finiteDistance(
+      getOutputVal(config.sheetName, config.outputs.climbGrad, false)
+    );
+    const requiredClimbGradient = finiteDistance(
+      getOutputVal(config.sheetName, config.outputs.req_climb_grad_to, false)
+    );
+    if (actualClimbGradient === null || requiredClimbGradient === null) {
+      reasons.push('OEI climb gradient unavailable');
+    } else if (actualClimbGradient < requiredClimbGradient) {
+      reasons.push('OEI climb gradient below minimum');
+    }
+
+    return { available: reasons.length === 0, reasons };
+  } catch (error) {
+    console.error(`Could not evaluate takeoff performance for runway ${airport.RWY}:`, error);
+    return { available: false, reasons: ['Performance check unavailable'] };
+  } finally {
+    savedCells.forEach(({ position, value }) => {
+      hfInstance.setCellContents(
+        { sheet, col: position.col, row: position.row },
+        [[value]]
+      );
+    });
+  }
+}
+
 function updateCustomAirportData(airport, prefix) {
   if (!hfInstance) return;
 
@@ -1189,11 +1336,7 @@ function updateCustomAirportData(airport, prefix) {
     Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE[prefix]).forEach(([dataField, cellRef]) => {
       const position = parseCellRef(cellRef);
       if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
-      let value = airport ? airportCellValue(airport[dataField]) : null;
-      if (prefix === 'to' && ['C19', 'C20', 'C21'].includes(cellRef) &&
-          typeof value === 'number') {
-        value -= 10;
-      }
+      const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
       hfInstance.setCellContents(
         { sheet, col: position.col, row: position.row },
         [[value]]
@@ -1521,8 +1664,8 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
-  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad);
-  const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to);
+  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad, false);
+  const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false);
   updateClimbCheckCard(reqVal, oeiVal);
 
   safeSetText('check-tor-val', getTakeoffOutput('tor'));
@@ -1581,6 +1724,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
     getOutputVal(ldg.sheetName, ldg.outputs.ldgDistDown, false),
     getOutputVal(ldg.sheetName, ldg.outputs.lda, false)
   );
+  scheduleTakeoffSuggestionRefresh();
 }
 
 function updateBadgeStatus(elementId, val1, val2, conditionFn) {
