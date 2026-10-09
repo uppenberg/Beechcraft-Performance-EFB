@@ -228,7 +228,7 @@
 
                 <section id="help-overview">
                     <h3>Overview</h3>
-                    <p>The Beechcraft Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong> and <strong>Beechcraft 1900C (B190)</strong>. All calculations are performed locally in the browser using the aircraft's verified performance engine — no data is sent to any server.</p>
+                    <p>The Beechcraft Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong> and <strong>Beechcraft 1900C (B190)</strong>. All calculations are performed locally on the unit using the aircraft's verified performance engine — no data is sent to any server.</p>
                     <p>The app operates fully offline once installed as a PWA (Progressive Web App). Performance data is based on EASA Performance Class A regulations.</p>
                     <div class="help-note help-note--info">
                         <strong>&#128225; Internet required for:</strong> Fetching live METAR data and checking for app updates. All performance calculations work without an internet connection.
@@ -295,7 +295,7 @@
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
                         <dt>Take-off Mass (lbs)</dt>
-                        <dd>Use the slider to set planned take-off mass. Ranges: BE20 9,200–12,500 lbs | B190 10,000–16,600 lbs. The mass is displayed above the slider and updates live.</dd>
+                        <dd>Use the slider to set planned take-off mass. Ranges: BE20 9,200–12,500 lbs | B190 10,000–16,600 lbs. The mass is displayed above the slider and updates live. Change its touch target size under Settings.</dd>
 
                         <dt>Flaps setting</dt>
                         <dd>
@@ -370,7 +370,7 @@
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
                         <dt>Landing Mass (lbs)</dt>
-                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database)</dd>
+                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database) Change its touch target size under Settings.</dd>
 
                         <dt>Flaps setting</dt>
                         <dd><strong>UP</strong> or <strong>DOWN</strong>. Both Vref and distance are calculated for both settings simultaneously. The selected setting determines which distance is compared against LDA in the exceedance card.</dd>
@@ -633,7 +633,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range mass-slider" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -846,7 +846,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range mass-slider" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
