@@ -1,4 +1,4 @@
-// Increment the cache version for every published app release.
+// Increment the cache version for every published app release. Tested and working version of HyperFormula is 3.5.0, SheetJS (xlsx): v0.20.3
 importScripts('./version.js');
 const CACHE_NAME = `be20-efb-v${self.APP_VERSION}`;
 const ASSETS = [
@@ -6,6 +6,8 @@ const ASSETS = [
   './style.css',
   './version.js',
   './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
   './js/app.js',
   './data/airports.json',
   './data/se-ltl.xlsx',
@@ -19,7 +21,9 @@ const ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
+      .then((cache) =>
+        cache.addAll(ASSETS.map((asset) => new Request(asset, { cache: 'reload' })))
+      )
       .catch(async (error) => {
         await caches.delete(CACHE_NAME);
         throw error;

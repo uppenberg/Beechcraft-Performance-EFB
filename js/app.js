@@ -1780,8 +1780,16 @@ function takeoffLimitsOk() {
 
   const actualClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.climbGrad, false));
   const requiredClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false));
-  if (actualClimb !== null && requiredClimb !== null && requiredClimb > actualClimb) return false;
-  return true;
+// Om någon av uppgifterna saknas kan vi inte garantera säkerheten -> underkänn
+if (actualClimb === null || requiredClimb === null) {
+  return false; 
+}
+// Om det krävs mer än flygplanet klarar av -> underkänn
+if (requiredClimb > actualClimb) {
+  return false;
+}
+// Först om båda finns OCH flygplanet klarar kravet -> godkänn
+return true;
 }
 
 // Finds the highest mass (50 lbs steps) that satisfies all take-off limits for the

@@ -805,7 +805,7 @@
       "ASDA [m](E6)": "2395",
       "LDA [m](F6)": "2004.0",
       "Slope [%](G6)": "0.1",
-      "RWYHDG [°](H6)": "",
+      "RWYHDG [°](H6)": "183",
       "min climb gradient OEI(I6)": "3.3",
       "min cloudbase(K6)": "",
       "Routing(L6)": ""
@@ -820,7 +820,7 @@
       "ASDA [m](E6)": "2451",
       "LDA [m](F6)": "2395.0",
       "Slope [%](G6)": "-0.1",
-      "RWYHDG [°](H6)": "",
+      "RWYHDG [°](H6)": "3",
       "min climb gradient OEI(I6)": "3.3",
       "min cloudbase(K6)": "1500.0",
       "Routing(L6)": "Min vis: 1500m\nClimb STRAIGHT ahead to D 2.0 TC DME. Turn RIGHT to intercept and follow R-020 TRO.\nAt D 4.0 TRO DME turn LEFT to intercept and follow KV QDM 315.\nAt KV turn LEFT to intercept and follow KV QDR 312 climbing to 5000 ft. Request vectors."

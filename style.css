@@ -123,7 +123,7 @@ input, select {
   bottom: 10px;
   left: calc(10px + var(--runway-end-margin));
   right: calc(10px + var(--runway-end-margin));
-  background: #21262d;
+  background: #15181d;
   overflow: visible;
 }
 
