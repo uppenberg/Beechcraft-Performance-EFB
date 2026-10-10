@@ -1315,7 +1315,7 @@ function evaluateTakeoffRunwayAvailability(airport) {
     });
 
     const actualClimbGradient = finiteDistance(
-      getOutputVal(config.sheetName, config.outputs.climbGrad, false)
+      getTakeoffOutput('climbGrad', false)
     );
     const requiredClimbGradient = finiteDistance(
       getOutputVal(config.sheetName, config.outputs.req_climb_grad_to, false)
@@ -1516,7 +1516,7 @@ function getTakeoffOutput(outputKey, roundNumber = true) {
   const column = TAKEOFF_RESULT_COLUMN_BY_FLAPS[
     document.getElementById('to-flaps')?.value || 'UP'
   ];
-  const selectedCellRef = ['tor', 'tod', 'asd', 'v1', 'vr', 'v2'].includes(outputKey)
+  const selectedCellRef = ['tor', 'tod', 'asd', 'v1', 'vr', 'v2', 'climbGrad'].includes(outputKey)
     ? `${column || 'C'}${cellRef.match(/\d+$/)?.[0]}`
     : cellRef;
   return getOutputVal(config.sheetName, selectedCellRef, roundNumber);
@@ -1692,7 +1692,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
-  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad, false);
+  const reqVal = getTakeoffOutput('climbGrad', false);
   const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false);
   updateClimbCheckCard(reqVal, oeiVal);
 
@@ -1778,7 +1778,7 @@ function takeoffLimitsOk() {
   if (finiteDistance(getTakeoffOutput('v1', false)) === null) return false;
   if (!checkContaminationLogic()) return false;
 
-  const actualClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.climbGrad, false));
+  const actualClimb = finiteDistance(getTakeoffOutput('climbGrad', false));
   const requiredClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false));
 // Om någon av uppgifterna saknas kan vi inte garantera säkerheten -> underkänn
 if (actualClimb === null || requiredClimb === null) {
