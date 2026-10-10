@@ -50,12 +50,20 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
+    (async () => {
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) return cachedResponse;
+
+      try {
+        const response = await fetch(event.request);
+        return response;
+      } catch (error) {
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          const offlinePage = await caches.match('./index.html');
+          if (offlinePage) return offlinePage;
         }
-      });
-    })
+        throw error;
+      }
+    })()
   );
 });

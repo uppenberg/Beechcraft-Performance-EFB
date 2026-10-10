@@ -156,6 +156,7 @@
     <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
         <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT BE20/B190 PERFORMANCE <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
+            <a class="open-foreflight-button" href="foreflight://" aria-label="Open ForeFlight app">Open ForeFlight</a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
             <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
                 <option value="SE-LTL" selected>SE-LTL (BE20)</option>
@@ -276,10 +277,10 @@
                                 <li><span style="color:#d29922">Amber</span> — 35–60 minutes old (use with caution)</li>
                                 <li><span style="color:#f85149">Red</span> — unavailable or older than 60 minutes</li>
                             </ul>
-                            When a valid METAR loads, Wind Dir, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
+                            When a valid METAR loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
                         </dd>
 
-                        <dt>Wind Dir (°)</dt>
+                        <dt>Wind Direction (°)</dt>
                         <dd>Wind direction in degrees magnetic from the METAR or entered manually. Used to compute headwind/tailwind and crosswind components.</dd>
 
                         <dt>Wind Spd (kt)</dt>
@@ -396,7 +397,7 @@
                     <h3>METAR &amp; Weather Input</h3>
                     <p>METARs are fetched automatically when a new airport is selected, and on demand via the <strong>Update</strong> button. Two sources are tried in sequence: NOAA Aviation Weather Centre and a Google Apps Script proxy.</p>
                     <div class="help-note help-note--warn">
-                        <strong>&#9888;&#65039; Manual override:</strong> Manually edited weather fields (Wind Dir, Wind Spd, OAT, QNH) will be overwritten by the next METAR fetch. Re-enter them afterwards if needed.
+                        <strong>&#9888;&#65039; Manual override:</strong> Manually edited weather fields (Wind Direction, Wind Spd, OAT, QNH) will be overwritten by the next METAR fetch. Re-enter them afterwards if needed.
                     </div>
                     <ul>
                         <li><strong>Gusts:</strong> Only mean wind speed is extracted. Enter the gust speed manually for a conservative crosswind check.</li>
@@ -592,7 +593,7 @@
                         
 <!-- Wind Direction (C6) -->
 <tr style="border-bottom: 1px solid #21262d;">
-    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
     <td style="padding: 8px 0;">
         <input type="number" class="form-control" id="to-wind-dir" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windDir', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
@@ -634,6 +635,15 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
                                 <input type="range" class="form-range mass-slider" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)">
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 0 0 10px;">
+                                <div id="max-to-mass-card" class="runway-exceedance-card" role="status" aria-live="polite" style="text-align: left;">
+                                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Max take-off mass, current setup</div>
+                                    <div id="max-to-mass-val" style="font-size: 16px; font-weight: 700; color: #fff;">-</div>
+                                    <div id="max-to-mass-margin" style="font-size: 11px; color: #8b949e; margin-top: 2px;"></div>
+                                </div>
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -753,7 +763,7 @@
                 <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
                     <div style="font-size: 12px; font-weight: 700; color: #fff;">
-                        <span id="res-ldg-hwtw">-</span> | <span id="res-ldg-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit">-</span>)</span>
+                        <span id="res-ldg-hwtw-kpi">-</span> | <span id="res-ldg-xw-kpi">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit-kpi">-</span>)</span>
                     </div>
                 </div>
                 <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
@@ -816,7 +826,7 @@
                         </tr>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
                             <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">

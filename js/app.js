@@ -856,11 +856,26 @@ function switchTab(tabName, event) {
   }
 }
 
+let airportIndexSource = null;
+let airportIndex = new Map();
+let airportIcaoCodes = [];
+
+function ensureAirportIndex() {
+  if (airportIndexSource === globalData.airports) return;
+  airportIndexSource = globalData.airports;
+  airportIndex = new Map();
+  globalData.airports.forEach((airport) => {
+    const key = airport.ICAO.trim().toUpperCase();
+    if (!airportIndex.has(key)) airportIndex.set(key, []);
+    airportIndex.get(key).push(airport);
+  });
+  airportIcaoCodes = [...airportIndex.keys()].sort();
+}
+
 function getAirportRows(icao) {
   if (!icao) return [];
-  return globalData.airports.filter((airport) =>
-    airport.ICAO.trim().toUpperCase() === icao.trim().toUpperCase()
-  );
+  ensureAirportIndex();
+  return airportIndex.get(icao.trim().toUpperCase()) || [];
 }
 
 function getRunwayRows(icao, runway) {
@@ -1135,8 +1150,8 @@ function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
 }
 
 function getAirportIcaoCodes() {
-  return [...new Set(globalData.airports.map((airport) => airport.ICAO.trim().toUpperCase()))]
-    .sort();
+  ensureAirportIndex();
+  return airportIcaoCodes;
 }
 
 function hideAirportIcaoSuggestions(inputId) {
@@ -1155,10 +1170,16 @@ function showAirportIcaoSuggestions(value, inputId) {
   if (!suggestions) return;
 
   const query = value.trim().toUpperCase();
-  const exactMatch = getAirportIcaoCodes().includes(query);
-  const matches = query && !exactMatch
-    ? getAirportIcaoCodes().filter((icao) => icao.startsWith(query)).slice(0, 8)
-    : [];
+  const codes = getAirportIcaoCodes();
+  const matches = [];
+  if (query && !getAirportRows(query).length) {
+    for (const icao of codes) {
+      if (icao.startsWith(query)) {
+        matches.push(icao);
+        if (matches.length === 8) break;
+      }
+    }
+  }
 
   suggestions.replaceChildren();
   input.removeAttribute('aria-activedescendant');
@@ -1328,19 +1349,21 @@ function updateCustomAirportData(airport, prefix) {
     const sheet = hfInstance.getSheetId(config.sheetName);
     const airportKeyPosition = parseCellRef(config.inputs.airportAndRwy);
     if (!airportKeyPosition) throw new Error(`Invalid ${sheetType} airport cell reference.`);
-    hfInstance.setCellContents(
-      { sheet, col: airportKeyPosition.col, row: airportKeyPosition.row },
-      [[airport ? 'Custom airport' : '']]
-    );
-
-    Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE[prefix]).forEach(([dataField, cellRef]) => {
-      const position = parseCellRef(cellRef);
-      if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
-      const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
+    hfInstance.batch(() => {
       hfInstance.setCellContents(
-        { sheet, col: position.col, row: position.row },
-        [[value]]
+        { sheet, col: airportKeyPosition.col, row: airportKeyPosition.row },
+        [[airport ? 'Custom airport' : '']]
       );
+
+      Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE[prefix]).forEach(([dataField, cellRef]) => {
+        const position = parseCellRef(cellRef);
+        if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
+        const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
+        hfInstance.setCellContents(
+          { sheet, col: position.col, row: position.row },
+          [[value]]
+        );
+      });
     });
 
     const requiredFields = prefix === 'to'
@@ -1375,6 +1398,7 @@ function handleAirportIcaoInput(value, prefix = 'to') {
     return;
   }
 
+  const hadAirportData = Boolean(selection.runway);
   selection.icao = icao;
   selection.runway = '';
   selection.intersection = '';
@@ -1386,7 +1410,8 @@ function handleAirportIcaoInput(value, prefix = 'to') {
   }
   clearAirportMetar(prefix);
   updateRunwaySuggestion(prefix, '');
-  updateCustomAirportData(null, prefix);
+  // Only recalculate the workbook when airport data actually has to be cleared
+  if (hadAirportData || icao === '') updateCustomAirportData(null, prefix);
 
   const airportExists = /^[A-Z0-9]{4}$/.test(icao) && getAirportRows(icao).length > 0;
   if (/^[A-Z0-9]{4}$/.test(icao) && !airportExists) {
@@ -1637,6 +1662,9 @@ const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
 
   // Kör vindkontrollen för landning
   updateWindCheckCardLdg(ldgHwTw, ldgXw, ldgXwLimit);
+safeSetText('res-ldg-hwtw-kpi', ldgHwTw);
+safeSetText('res-ldg-xw-kpi', ldgXw);
+safeSetText('res-ldg-xwlimit-kpi', ldgXwLimit);
 
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
@@ -1725,6 +1753,82 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
     getOutputVal(ldg.sheetName, ldg.outputs.lda, false)
   );
   scheduleTakeoffSuggestionRefresh();
+  scheduleMaxTakeoffMassUpdate();
+}
+
+let maxTakeoffMassTimer = null;
+function scheduleMaxTakeoffMassUpdate() {
+  window.clearTimeout(maxTakeoffMassTimer);
+  maxTakeoffMassTimer = window.setTimeout(() => {
+    maxTakeoffMassTimer = null;
+    updateMaxTakeoffMass();
+  }, 120);
+}
+
+function takeoffLimitsOk() {
+  const to = CELL_MAPPING.takeoff;
+  const within = (distance, limit) => {
+    const d = finiteDistance(distance);
+    const l = finiteDistance(limit);
+    return d !== null && l !== null && d <= l;
+  };
+  if (!within(getTakeoffOutput('tor', false), getOutputVal(to.sheetName, to.outputs.tora, false))) return false;
+  if (!within(getTakeoffOutput('asd', false), getOutputVal(to.sheetName, to.outputs.asda, false))) return false;
+  if (!within(getTakeoffOutput('tod', false), getOutputVal(to.sheetName, to.outputs.toda, false))) return false;
+  if (finiteDistance(getTakeoffOutput('v1', false)) === null) return false;
+  if (!checkContaminationLogic()) return false;
+
+  const actualClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.climbGrad, false));
+  const requiredClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false));
+  if (actualClimb !== null && requiredClimb !== null && requiredClimb > actualClimb) return false;
+  return true;
+}
+
+// Finds the highest mass (50 lbs steps) that satisfies all take-off limits for the
+// current setup, without changing the mass selected by the user.
+function updateMaxTakeoffMass() {
+  const valueElement = document.getElementById('max-to-mass-val');
+  const slider = document.getElementById('to-mass');
+  if (!valueElement || !slider || !hfInstance) return;
+
+  const config = CELL_MAPPING.takeoff;
+  const sheetId = hfInstance.getSheetId(config.sheetName);
+  const pos = parseCellRef(config.inputs.mass);
+  if (!pos) return;
+  const address = { sheet: sheetId, col: pos.col, row: pos.row };
+  const step = Number(slider.step) || 50;
+  const min = Number(slider.min);
+  const max = Number(slider.max);
+  const selectedMass = Number(slider.value);
+
+  let result = null;
+  try {
+    const setMass = (mass) => hfInstance.setCellContents(address, [[mass]]);
+    const lastIndex = Math.floor((max - min) / step);
+    const okAt = (index) => { setMass(min + index * step); return takeoffLimitsOk(); };
+    for (let index = lastIndex; index >= 0; index--) {
+      if (okAt(index)) { result = min + index * step; break; }
+    }
+  } catch (e) {
+    console.error('Max take-off mass calculation failed:', e);
+  } finally {
+    hfInstance.setCellContents(address, [[selectedMass]]);
+  }
+
+  const card = document.getElementById('max-to-mass-card');
+  const marginElement = document.getElementById('max-to-mass-margin');
+  valueElement.textContent = result === null ? 'None' : `${result} lbs`;
+  if (marginElement) {
+    marginElement.textContent = result === null
+      ? 'No mass in range meets all limits'
+      : selectedMass <= result
+        ? `Selected mass OK (${result - selectedMass} lbs margin)`
+        : `Selected mass exceeds by ${selectedMass - result} lbs`;
+  }
+  if (card) {
+    card.classList.toggle('is-exceeded', result === null || selectedMass > result);
+    card.classList.toggle('is-within-limits', result !== null && selectedMass <= result);
+  }
 }
 
 function updateBadgeStatus(elementId, val1, val2, conditionFn) {
@@ -2066,6 +2170,14 @@ function updateRunwayExceedanceCard(cardId, statusId, checks) {
             : 'Within limits';
 }
 
+// Largest distance/runway ratio that still fits inside the free space after the runway end
+function getRunwayMaxRatio(runwayStrip) {
+    const container = runwayStrip?.parentElement;
+    if (!runwayStrip || !container || runwayStrip.clientWidth <= 0) return 1;
+    const margin = parseFloat(getComputedStyle(container).getPropertyValue('--runway-end-margin')) || 0;
+    return 1 + Math.max(margin - 4, 0) / runwayStrip.clientWidth;
+}
+
 function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     const exceeded = [
         exceedsDistanceLimit(tor, tora),
@@ -2078,11 +2190,12 @@ function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
+    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
+    const maxRatio = getRunwayMaxRatio(runwayStrip);
     const getRatio = (val) => {
         const num = parseFloat(val) || 0;
-        return Math.min(Math.max(num / toraNum, 0), 1);
+        return Math.min(Math.max(num / toraNum, 0), maxRatio);
     };
-    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
     const maxDistance = Math.max(
         parseFloat(tor) || 0,
         parseFloat(tod) || 0,
@@ -2135,7 +2248,7 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     const activeMarker = currentFlaps === 'UP' ? markerUp : markerDown;
     const distanceRatio = Math.min(
         Math.max((parseFloat(activeDistance) || 0) / ldaNum, 0),
-        1
+        getRunwayMaxRatio(runwayStrip)
     );
 
     if (activeMarker) {
