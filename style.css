@@ -105,13 +105,13 @@ input, select {
 /* --- Banprofil-stilar (Dina ursprungliga klassnamn) --- */
 .runway-container {
   position: relative;
-  background: #4444447c;
+  background: #acabab7c;
   border: 2px solid #30363d;
   border-radius: 6px;
-  height: 68px;
+  height: 100px;
   /* Free space outside each runway end so distances beyond the runway stay visible. Increase to zoom the runway out. */
   --runway-end-margin: 36px;
-  margin: 20px 0 40px 0;
+  margin: 4px 0 24px 0;
   overflow: visible; /* Viktigt för att rutorna som sticker ut ska synas */
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
@@ -119,8 +119,9 @@ input, select {
 /* Banans asfalt */
 .runway-strip {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
+  top: 50%;
+  height: 48px;
+  transform: translateY(-50%);
   left: calc(10px + var(--runway-end-margin));
   right: calc(10px + var(--runway-end-margin));
   background: #15181d;
@@ -175,8 +176,8 @@ input, select {
 /* Tröskelmarkering fylld över banans hela bredd */
 .runway-threshold-left {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
+  top: 26px;
+  bottom: 26px;
   left: calc(10px + var(--runway-end-margin));
   width: 32px;
   background: repeating-linear-gradient(
@@ -218,7 +219,7 @@ input, select {
 }
 
 .runway-tdz-1 {
-  top: calc(50% - 15px);
+  top: calc(50% - 16px);
 }
 
 .runway-tdz-2 {
@@ -228,8 +229,8 @@ input, select {
 /* Markörer och färgmatchade etikett-rutor */
 .runway-marker {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
+  top: 26px;
+  bottom: 26px;
   width: 3px;
   transition: left 0.3s ease;
   z-index: 10;
@@ -252,13 +253,13 @@ input, select {
 
 /* Färgmatchning per markör (med separata positioner för att inte krocka) */
 #tor-marker { background: #3fb950; }
-#tor-marker::after { background: #3fb950; bottom: -28px; }
+#tor-marker::after { background: #3fb950; bottom: -18px; }
 
 #tod-marker { background: #58a6ff; }
-#tod-marker::after { background: #58a6ff; top: -26px; }
+#tod-marker::after { background: #58a6ff; top: -20px; }
 
 #asd-marker { background: #f85149; }
-#asd-marker::after { background: #f85149; bottom: -50px; }
+#asd-marker::after { background: #f85149; bottom: -18px; }
 
 #ldg-dist-marker { background: #a371f7; }
 #ldg-dist-marker::after { background-color: #d29922 !important; color: #000000 !important;}
