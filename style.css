@@ -45,19 +45,15 @@ h1, h2, h3 {
 }
 
 select.needs-selection {
-    background: #5c3b00;
-    border-color: #ffb020;
-    color: #ffe2a8;
-    animation: needs-selection-pulse 1.6s ease-in-out infinite;
+    background-color: #5c3b00 !important;
+    border-color: #ffb020 !important;
+    color: #ffe2a8 !important;
+    transition: background-color 0.5s, border-color 0.5s;
 }
 
-@keyframes needs-selection-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 176, 32, 0.6); }
-    50% { box-shadow: 0 0 0 4px rgba(255, 176, 32, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    select.needs-selection { animation: none; }
+select.needs-selection.blink-on {
+    background-color: #a86a00 !important;
+    border-color: #fff0c2 !important;
 }
 
 .tab-content {

@@ -1021,6 +1021,12 @@ function updateRunwayVisualizationTitle() {
     : 'Runway visualization';
 }
 
+setInterval(() => {
+  document.querySelectorAll('select.needs-selection').forEach((select) => {
+    select.classList.toggle('blink-on');
+  });
+}, 700);
+
 function syncAirportControls() {
   ['to', 'ldg'].forEach((prefix) => {
     const selection = airportSelection[prefix];
