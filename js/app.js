@@ -1040,6 +1040,7 @@ function syncAirportControls() {
       ));
       runways.forEach((runway) => runwaySelect.appendChild(new Option(runway, runway)));
       runwaySelect.value = runways.includes(selection.runway) ? selection.runway : '';
+      runwaySelect.classList.toggle('needs-selection', runways.length > 0 && !runwaySelect.value);
     }
 
     const runwayRows = getRunwayRows(icao, selection.runway);
