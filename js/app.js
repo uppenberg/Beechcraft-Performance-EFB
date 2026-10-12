@@ -2014,12 +2014,18 @@ window.confirmAircraftTypeChange = confirmAircraftTypeChange;
 document.addEventListener('DOMContentLoaded', init);
 
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
-async function fetchMetarText(url, sourceName) {
+async function fetchMetarText(targetUrl, sourceName) {
+  // Om det är en NOAA-länk, skicka den via allorigins-proxyn för att undvika CORS
+  let finalUrl = targetUrl;
+  if (targetUrl.includes('aviationweather.gov')) {
+    finalUrl = `/api/reports/metar?${encodeURIComponent(targetUrl.replace('aviationweather.gov',"" ))}`;
+  }
+
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 sekunder
 
   try {
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(finalUrl, { signal: controller.signal });
     if (!response.ok) {
       throw new Error(`${sourceName} returned HTTP ${response.status}`);
     }
@@ -2102,10 +2108,12 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
     }
 
     const noaaUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
-    const proxyUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
-    const metarSources = window.location.hostname.includes('github.io')
-      ? [{ url: proxyUrl, name: 'Apps Script proxy' }, { url: noaaUrl, name: 'NOAA AWC' }]
-      : [{ url: noaaUrl, name: 'NOAA AWC' }, { url: proxyUrl, name: 'Apps Script proxy' }];
+    const appsScriptUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
+    
+    const metarSources = [
+      { url: noaaUrl, name: 'AllOrigins Proxy' },
+      { url: appsScriptUrl, name: 'Google Apps Script' }
+    ];
     let validatedMetar;
     let sourceName = metarSources[0].name;
 

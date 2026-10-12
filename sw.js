@@ -51,8 +51,16 @@ self.addEventListener('activate', (event) => {
     ])
   );
 });
-
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  // Om anropet INTE går till vår egen server (t.ex. AllOrigins eller Aviation Weather),
+  // låt webbläsaren sköta det direkt utan att Service Workern lägger sig i.
+  if (url.origin !== location.origin) {
+    return;
+  }
+
+  // För egna filer: kör cache- och offline-logik
   event.respondWith(
     (async () => {
       const cachedResponse = await caches.match(event.request);

@@ -1,0 +1,8 @@
+[[redirects]]
+  from = "/api/reports/metar"
+  to = "https://aviationweather.gov/api/data/metar"
+  status = 200
+  force = true
+
+  [redirects.headers]
+    "User-Agent" = "din-app/0.1"
