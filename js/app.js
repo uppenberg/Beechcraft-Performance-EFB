@@ -2016,16 +2016,12 @@ document.addEventListener('DOMContentLoaded', init);
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
 async function fetchMetarText(targetUrl, sourceName) {
   // Om det är en NOAA-länk, skicka den via allorigins-proxyn för att undvika CORS
-  let finalUrl = targetUrl;
-  if (targetUrl.includes('aviationweather.gov')) {
-    finalUrl = `/api/reports/metar?${encodeURIComponent(targetUrl.replace('aviationweather.gov',"" ))}`;
-  }
-
+  
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 sekunder
 
   try {
-    const response = await fetch(finalUrl, { signal: controller.signal });
+    const response = await fetch(targetUrl, { signal: controller.signal });
     if (!response.ok) {
       throw new Error(`${sourceName} returned HTTP ${response.status}`);
     }
@@ -2107,7 +2103,7 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
       displaySpan.style.color = "#8b949e";
     }
 
-    const noaaUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
+    const noaaUrl = `/api/reports/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
     const appsScriptUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
     
     const metarSources = [
