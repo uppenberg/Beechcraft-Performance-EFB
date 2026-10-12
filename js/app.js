@@ -8,6 +8,15 @@ const runwaySuggestions = { to: null, ldg: null };
 let runwaySuggestionRefreshTimer = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
+const PERSISTED_FORM_STATE_KEY = 'performance_form_state_v1';
+const AIRPORT_CONTROL_IDS = new Set([
+  'to-airport-icao',
+  'to-airport-rwy',
+  'to-airport-intersection',
+  'ldg-airport-icao',
+  'ldg-airport-rwy',
+  'ldg-airport-intersection',
+]);
 
 const CELL_MAPPING = {
   airport: {
@@ -312,8 +321,13 @@ async function init() {
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
     setupEventListeners();
+    restorePersistedFormState();
+    const savedTab = localStorage.getItem('selected_tab');
+    switchTab(savedTab === 'landing' ? 'landing' : 'takeoff');
     ['to', 'ldg'].forEach((prefix) => {
-      if (getAirportRows(airportSelection[prefix].icao).length) fetchMetarForAirport(prefix);
+      if (getAirportRows(airportSelection[prefix].icao).length) {
+        fetchMetarForAirport(prefix);
+      }
     });
     const antiIceSelect = document.getElementById('to-anti-ice');
     if (antiIceSelect) {
@@ -619,7 +633,94 @@ async function loadAirportDatabase() {
 
 // 3. Dummy för eventlyssnare så den inte kraschar
 function setupEventListeners() {
-  // Lägg till eventlyssnare här om det behövs
+  const persistFormChange = (event) => {
+    const control = event.target;
+    if (!(control instanceof HTMLInputElement || control instanceof HTMLSelectElement) ||
+        !control.id || !control.closest('main') || AIRPORT_CONTROL_IDS.has(control.id)) return;
+    persistFormState();
+  };
+  document.addEventListener('input', persistFormChange);
+  document.addEventListener('change', persistFormChange);
+}
+
+function getPersistedFormState() {
+  const savedState = localStorage.getItem(PERSISTED_FORM_STATE_KEY);
+  if (!savedState) return {};
+
+  try {
+    const parsedState = JSON.parse(savedState);
+    return parsedState && typeof parsedState === 'object' && !Array.isArray(parsedState)
+      ? parsedState
+      : {};
+  } catch (error) {
+    console.warn('Could not read saved performance inputs:', error);
+    return {};
+  }
+}
+
+function persistFormState() {
+  const formState = {};
+  document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
+    if (!AIRPORT_CONTROL_IDS.has(control.id)) formState[control.id] = control.value;
+  });
+  localStorage.setItem(PERSISTED_FORM_STATE_KEY, JSON.stringify(formState));
+}
+
+function restorePersistedFormState() {
+  const formState = getPersistedFormState();
+  document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
+    if (AIRPORT_CONTROL_IDS.has(control.id) ||
+        !Object.prototype.hasOwnProperty.call(formState, control.id) ||
+        typeof formState[control.id] !== 'string') return;
+
+    const savedValue = formState[control.id];
+    if (control instanceof HTMLSelectElement &&
+        ![...control.options].some((option) => option.value === savedValue)) return;
+
+    control.value = savedValue;
+    control.dispatchEvent(new Event(control instanceof HTMLSelectElement ? 'change' : 'input', {
+      bubbles: true,
+    }));
+  });
+  return formState;
+}
+
+function metarStorageKey(prefix, icao) {
+  return `saved_metar_${prefix}_${icao}`;
+}
+
+function saveMetar(prefix, icao, metar) {
+  localStorage.setItem(metarStorageKey(prefix, icao), JSON.stringify({
+    text: metar.text,
+    ageMinutes: metar.ageMinutes,
+    savedAt: Date.now(),
+  }));
+}
+
+function restoreSavedMetar(prefix) {
+  const icao = airportSelection[prefix].icao;
+  if (!/^[A-Z0-9]{4}$/.test(icao) || !getAirportRows(icao).length) return;
+
+  const savedMetar = localStorage.getItem(metarStorageKey(prefix, icao));
+  if (!savedMetar) return;
+
+  try {
+    const metar = JSON.parse(savedMetar);
+    if (typeof metar.text !== 'string' || !Number.isFinite(metar.ageMinutes) ||
+        !Number.isFinite(metar.savedAt)) {
+      throw new Error('Saved METAR has an invalid format.');
+    }
+
+    const ageMinutes = metar.ageMinutes + (Date.now() - metar.savedAt) / 60000;
+    const displaySpan = document.getElementById(`${prefix}-metar-display`);
+    if (!displaySpan) return;
+    displaySpan.textContent = metar.text;
+    displaySpan.style.color = ageMinutes >= 60 ? '#f85149'
+      : ageMinutes >= 35 ? '#d29922'
+        : '#3fb950';
+  } catch (error) {
+    console.warn(`Could not restore saved METAR for ${icao}:`, error);
+  }
 }
 
 function populateAirportSelects() {
@@ -654,6 +755,7 @@ function populateAirportSelects() {
   ['to', 'ldg'].forEach((prefix) =>
     updateCustomAirportData(getSelectedAirportRecord(prefix), prefix)
   );
+  ['to', 'ldg'].forEach(restoreSavedMetar);
 }
 
 // Convert a SheetJS worksheet without losing formulas
@@ -813,6 +915,9 @@ function isFormulaIdentifierCharacter(char) {
 
 // Byt mellan flikar
 function switchTab(tabName, event) {
+  if (tabName !== 'takeoff' && tabName !== 'landing') return;
+  localStorage.setItem('selected_tab', tabName);
+
   document.querySelectorAll('.page').forEach(page => {
     page.style.display = 'none';
     page.classList.remove('active');
@@ -849,10 +954,12 @@ function switchTab(tabName, event) {
     );
   }
   
-  if (event && event.currentTarget) {
-    event.currentTarget.classList.add('active');
-    event.currentTarget.style.background = '#21262d';
-    event.currentTarget.style.color = '#fff';
+  const activeButton = event?.currentTarget ||
+    document.querySelectorAll('.tab-btn')[tabName === 'takeoff' ? 0 : 1];
+  if (activeButton) {
+    activeButton.classList.add('active');
+    activeButton.style.background = '#21262d';
+    activeButton.style.color = '#fff';
   }
 }
 
@@ -1409,6 +1516,7 @@ function handleAirportIcaoInput(value, prefix = 'to') {
     showAirportIcaoSuggestions(icao, inputId);
   }
   clearAirportMetar(prefix);
+  restoreSavedMetar(prefix);
   updateRunwaySuggestion(prefix, '');
   // Only recalculate the workbook when airport data actually has to be cleared
   if (hadAirportData || icao === '') updateCustomAirportData(null, prefix);
@@ -1976,7 +2084,7 @@ function clearAirportMetar(prefix) {
   }
 }
 
-async function fetchMetarForAirport(prefix) {
+async function fetchMetarForAirport(prefix, populateWeather = true) {
   if (!hfInstance) return;
   const icaoCode = airportSelection[prefix].icao;
   const displaySpan = document.getElementById(`${prefix}-metar-display`);
@@ -1988,7 +2096,7 @@ async function fetchMetarForAirport(prefix) {
       return;
     }
 
-    if (displaySpan) {
+    if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-')) {
       displaySpan.textContent = "Downloading METAR...";
       displaySpan.style.color = "#8b949e";
     }
@@ -2014,21 +2122,30 @@ async function fetchMetarForAirport(prefix) {
 
     if (displaySpan) {
       displaySpan.textContent = validatedMetar.text;
-      displaySpan.style.color = validatedMetar.ageMinutes >= 35 ? '#d29922' : '#3fb950';
+      displaySpan.style.color = validatedMetar.ageMinutes >= 60 ? '#f85149'
+        : validatedMetar.ageMinutes >= 35 ? '#d29922'
+          : '#3fb950';
     }
+    saveMetar(prefix, icaoCode, validatedMetar);
     suggestRunwayFromMetar(validatedMetar.text, prefix);
-    if (prefix === 'to') {
-      parseAndPopulateMetarData(validatedMetar.text);
-    } else {
-      parseAndPopulateLandingMetarData(validatedMetar.text);
+    if (populateWeather) {
+      if (prefix === 'to') {
+        parseAndPopulateMetarData(validatedMetar.text);
+      } else {
+        parseAndPopulateLandingMetarData(validatedMetar.text);
+      }
+      persistFormState();
     }
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
     if (airportSelection[prefix].icao !== icaoCode) return;
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR could not be retrieved.');
-    if (displaySpan) {
+    if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-' ||
+        displaySpan.textContent === 'Downloading METAR...')) {
       displaySpan.textContent = "METAR unavailable or invalid from both sources";
       displaySpan.style.color = "#f85149";
+    } else if (displaySpan) {
+      displaySpan.style.color = '#f85149';
     }
   }
 }
