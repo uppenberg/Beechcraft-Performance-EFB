@@ -8,6 +8,15 @@ const runwaySuggestions = { to: null, ldg: null };
 let runwaySuggestionRefreshTimer = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
+const PERSISTED_FORM_STATE_KEY = 'performance_form_state_v1';
+const AIRPORT_CONTROL_IDS = new Set([
+  'to-airport-icao',
+  'to-airport-rwy',
+  'to-airport-intersection',
+  'ldg-airport-icao',
+  'ldg-airport-rwy',
+  'ldg-airport-intersection',
+]);
 
 const CELL_MAPPING = {
   airport: {
@@ -312,8 +321,13 @@ async function init() {
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
     setupEventListeners();
+    restorePersistedFormState();
+    const savedTab = localStorage.getItem('selected_tab');
+    switchTab(savedTab === 'landing' ? 'landing' : 'takeoff');
     ['to', 'ldg'].forEach((prefix) => {
-      if (getAirportRows(airportSelection[prefix].icao).length) fetchMetarForAirport(prefix);
+      if (getAirportRows(airportSelection[prefix].icao).length) {
+        fetchMetarForAirport(prefix);
+      }
     });
     const antiIceSelect = document.getElementById('to-anti-ice');
     if (antiIceSelect) {
@@ -619,7 +633,94 @@ async function loadAirportDatabase() {
 
 // 3. Dummy för eventlyssnare så den inte kraschar
 function setupEventListeners() {
-  // Lägg till eventlyssnare här om det behövs
+  const persistFormChange = (event) => {
+    const control = event.target;
+    if (!(control instanceof HTMLInputElement || control instanceof HTMLSelectElement) ||
+        !control.id || !control.closest('main') || AIRPORT_CONTROL_IDS.has(control.id)) return;
+    persistFormState();
+  };
+  document.addEventListener('input', persistFormChange);
+  document.addEventListener('change', persistFormChange);
+}
+
+function getPersistedFormState() {
+  const savedState = localStorage.getItem(PERSISTED_FORM_STATE_KEY);
+  if (!savedState) return {};
+
+  try {
+    const parsedState = JSON.parse(savedState);
+    return parsedState && typeof parsedState === 'object' && !Array.isArray(parsedState)
+      ? parsedState
+      : {};
+  } catch (error) {
+    console.warn('Could not read saved performance inputs:', error);
+    return {};
+  }
+}
+
+function persistFormState() {
+  const formState = {};
+  document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
+    if (!AIRPORT_CONTROL_IDS.has(control.id)) formState[control.id] = control.value;
+  });
+  localStorage.setItem(PERSISTED_FORM_STATE_KEY, JSON.stringify(formState));
+}
+
+function restorePersistedFormState() {
+  const formState = getPersistedFormState();
+  document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
+    if (AIRPORT_CONTROL_IDS.has(control.id) ||
+        !Object.prototype.hasOwnProperty.call(formState, control.id) ||
+        typeof formState[control.id] !== 'string') return;
+
+    const savedValue = formState[control.id];
+    if (control instanceof HTMLSelectElement &&
+        ![...control.options].some((option) => option.value === savedValue)) return;
+
+    control.value = savedValue;
+    control.dispatchEvent(new Event(control instanceof HTMLSelectElement ? 'change' : 'input', {
+      bubbles: true,
+    }));
+  });
+  return formState;
+}
+
+function metarStorageKey(prefix, icao) {
+  return `saved_metar_${prefix}_${icao}`;
+}
+
+function saveMetar(prefix, icao, metar) {
+  localStorage.setItem(metarStorageKey(prefix, icao), JSON.stringify({
+    text: metar.text,
+    ageMinutes: metar.ageMinutes,
+    savedAt: Date.now(),
+  }));
+}
+
+function restoreSavedMetar(prefix) {
+  const icao = airportSelection[prefix].icao;
+  if (!/^[A-Z0-9]{4}$/.test(icao) || !getAirportRows(icao).length) return;
+
+  const savedMetar = localStorage.getItem(metarStorageKey(prefix, icao));
+  if (!savedMetar) return;
+
+  try {
+    const metar = JSON.parse(savedMetar);
+    if (typeof metar.text !== 'string' || !Number.isFinite(metar.ageMinutes) ||
+        !Number.isFinite(metar.savedAt)) {
+      throw new Error('Saved METAR has an invalid format.');
+    }
+
+    const ageMinutes = metar.ageMinutes + (Date.now() - metar.savedAt) / 60000;
+    const displaySpan = document.getElementById(`${prefix}-metar-display`);
+    if (!displaySpan) return;
+    displaySpan.textContent = metar.text;
+    displaySpan.style.color = ageMinutes >= 60 ? '#f85149'
+      : ageMinutes >= 35 ? '#d29922'
+        : '#3fb950';
+  } catch (error) {
+    console.warn(`Could not restore saved METAR for ${icao}:`, error);
+  }
 }
 
 function populateAirportSelects() {
@@ -654,6 +755,7 @@ function populateAirportSelects() {
   ['to', 'ldg'].forEach((prefix) =>
     updateCustomAirportData(getSelectedAirportRecord(prefix), prefix)
   );
+  ['to', 'ldg'].forEach(restoreSavedMetar);
 }
 
 // Convert a SheetJS worksheet without losing formulas
@@ -813,6 +915,9 @@ function isFormulaIdentifierCharacter(char) {
 
 // Byt mellan flikar
 function switchTab(tabName, event) {
+  if (tabName !== 'takeoff' && tabName !== 'landing') return;
+  localStorage.setItem('selected_tab', tabName);
+
   document.querySelectorAll('.page').forEach(page => {
     page.style.display = 'none';
     page.classList.remove('active');
@@ -849,18 +954,35 @@ function switchTab(tabName, event) {
     );
   }
   
-  if (event && event.currentTarget) {
-    event.currentTarget.classList.add('active');
-    event.currentTarget.style.background = '#21262d';
-    event.currentTarget.style.color = '#fff';
+  const activeButton = event?.currentTarget ||
+    document.querySelectorAll('.tab-btn')[tabName === 'takeoff' ? 0 : 1];
+  if (activeButton) {
+    activeButton.classList.add('active');
+    activeButton.style.background = '#21262d';
+    activeButton.style.color = '#fff';
   }
+}
+
+let airportIndexSource = null;
+let airportIndex = new Map();
+let airportIcaoCodes = [];
+
+function ensureAirportIndex() {
+  if (airportIndexSource === globalData.airports) return;
+  airportIndexSource = globalData.airports;
+  airportIndex = new Map();
+  globalData.airports.forEach((airport) => {
+    const key = airport.ICAO.trim().toUpperCase();
+    if (!airportIndex.has(key)) airportIndex.set(key, []);
+    airportIndex.get(key).push(airport);
+  });
+  airportIcaoCodes = [...airportIndex.keys()].sort();
 }
 
 function getAirportRows(icao) {
   if (!icao) return [];
-  return globalData.airports.filter((airport) =>
-    airport.ICAO.trim().toUpperCase() === icao.trim().toUpperCase()
-  );
+  ensureAirportIndex();
+  return airportIndex.get(icao.trim().toUpperCase()) || [];
 }
 
 function getRunwayRows(icao, runway) {
@@ -1135,8 +1257,8 @@ function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
 }
 
 function getAirportIcaoCodes() {
-  return [...new Set(globalData.airports.map((airport) => airport.ICAO.trim().toUpperCase()))]
-    .sort();
+  ensureAirportIndex();
+  return airportIcaoCodes;
 }
 
 function hideAirportIcaoSuggestions(inputId) {
@@ -1155,10 +1277,16 @@ function showAirportIcaoSuggestions(value, inputId) {
   if (!suggestions) return;
 
   const query = value.trim().toUpperCase();
-  const exactMatch = getAirportIcaoCodes().includes(query);
-  const matches = query && !exactMatch
-    ? getAirportIcaoCodes().filter((icao) => icao.startsWith(query)).slice(0, 8)
-    : [];
+  const codes = getAirportIcaoCodes();
+  const matches = [];
+  if (query && !getAirportRows(query).length) {
+    for (const icao of codes) {
+      if (icao.startsWith(query)) {
+        matches.push(icao);
+        if (matches.length === 8) break;
+      }
+    }
+  }
 
   suggestions.replaceChildren();
   input.removeAttribute('aria-activedescendant');
@@ -1294,7 +1422,7 @@ function evaluateTakeoffRunwayAvailability(airport) {
     });
 
     const actualClimbGradient = finiteDistance(
-      getOutputVal(config.sheetName, config.outputs.climbGrad, false)
+      getTakeoffOutput('climbGrad', false)
     );
     const requiredClimbGradient = finiteDistance(
       getOutputVal(config.sheetName, config.outputs.req_climb_grad_to, false)
@@ -1328,19 +1456,21 @@ function updateCustomAirportData(airport, prefix) {
     const sheet = hfInstance.getSheetId(config.sheetName);
     const airportKeyPosition = parseCellRef(config.inputs.airportAndRwy);
     if (!airportKeyPosition) throw new Error(`Invalid ${sheetType} airport cell reference.`);
-    hfInstance.setCellContents(
-      { sheet, col: airportKeyPosition.col, row: airportKeyPosition.row },
-      [[airport ? 'Custom airport' : '']]
-    );
-
-    Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE[prefix]).forEach(([dataField, cellRef]) => {
-      const position = parseCellRef(cellRef);
-      if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
-      const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
+    hfInstance.batch(() => {
       hfInstance.setCellContents(
-        { sheet, col: position.col, row: position.row },
-        [[value]]
+        { sheet, col: airportKeyPosition.col, row: airportKeyPosition.row },
+        [[airport ? 'Custom airport' : '']]
       );
+
+      Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE[prefix]).forEach(([dataField, cellRef]) => {
+        const position = parseCellRef(cellRef);
+        if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
+        const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
+        hfInstance.setCellContents(
+          { sheet, col: position.col, row: position.row },
+          [[value]]
+        );
+      });
     });
 
     const requiredFields = prefix === 'to'
@@ -1375,6 +1505,7 @@ function handleAirportIcaoInput(value, prefix = 'to') {
     return;
   }
 
+  const hadAirportData = Boolean(selection.runway);
   selection.icao = icao;
   selection.runway = '';
   selection.intersection = '';
@@ -1385,8 +1516,10 @@ function handleAirportIcaoInput(value, prefix = 'to') {
     showAirportIcaoSuggestions(icao, inputId);
   }
   clearAirportMetar(prefix);
+  restoreSavedMetar(prefix);
   updateRunwaySuggestion(prefix, '');
-  updateCustomAirportData(null, prefix);
+  // Only recalculate the workbook when airport data actually has to be cleared
+  if (hadAirportData || icao === '') updateCustomAirportData(null, prefix);
 
   const airportExists = /^[A-Z0-9]{4}$/.test(icao) && getAirportRows(icao).length > 0;
   if (/^[A-Z0-9]{4}$/.test(icao) && !airportExists) {
@@ -1491,7 +1624,7 @@ function getTakeoffOutput(outputKey, roundNumber = true) {
   const column = TAKEOFF_RESULT_COLUMN_BY_FLAPS[
     document.getElementById('to-flaps')?.value || 'UP'
   ];
-  const selectedCellRef = ['tor', 'tod', 'asd', 'v1', 'vr', 'v2'].includes(outputKey)
+  const selectedCellRef = ['tor', 'tod', 'asd', 'v1', 'vr', 'v2', 'climbGrad'].includes(outputKey)
     ? `${column || 'C'}${cellRef.match(/\d+$/)?.[0]}`
     : cellRef;
   return getOutputVal(config.sheetName, selectedCellRef, roundNumber);
@@ -1637,6 +1770,9 @@ const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
 
   // Kör vindkontrollen för landning
   updateWindCheckCardLdg(ldgHwTw, ldgXw, ldgXwLimit);
+safeSetText('res-ldg-hwtw-kpi', ldgHwTw);
+safeSetText('res-ldg-xw-kpi', ldgXw);
+safeSetText('res-ldg-xwlimit-kpi', ldgXwLimit);
 
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
@@ -1664,7 +1800,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
-  const reqVal = getOutputVal(to.sheetName, to.outputs.climbGrad, false);
+  const reqVal = getTakeoffOutput('climbGrad', false);
   const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false);
   updateClimbCheckCard(reqVal, oeiVal);
 
@@ -1725,6 +1861,90 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
     getOutputVal(ldg.sheetName, ldg.outputs.lda, false)
   );
   scheduleTakeoffSuggestionRefresh();
+  scheduleMaxTakeoffMassUpdate();
+}
+
+let maxTakeoffMassTimer = null;
+function scheduleMaxTakeoffMassUpdate() {
+  window.clearTimeout(maxTakeoffMassTimer);
+  maxTakeoffMassTimer = window.setTimeout(() => {
+    maxTakeoffMassTimer = null;
+    updateMaxTakeoffMass();
+  }, 120);
+}
+
+function takeoffLimitsOk() {
+  const to = CELL_MAPPING.takeoff;
+  const within = (distance, limit) => {
+    const d = finiteDistance(distance);
+    const l = finiteDistance(limit);
+    return d !== null && l !== null && d <= l;
+  };
+  if (!within(getTakeoffOutput('tor', false), getOutputVal(to.sheetName, to.outputs.tora, false))) return false;
+  if (!within(getTakeoffOutput('asd', false), getOutputVal(to.sheetName, to.outputs.asda, false))) return false;
+  if (!within(getTakeoffOutput('tod', false), getOutputVal(to.sheetName, to.outputs.toda, false))) return false;
+  if (finiteDistance(getTakeoffOutput('v1', false)) === null) return false;
+  if (!checkContaminationLogic()) return false;
+
+  const actualClimb = finiteDistance(getTakeoffOutput('climbGrad', false));
+  const requiredClimb = finiteDistance(getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false));
+// Om någon av uppgifterna saknas kan vi inte garantera säkerheten -> underkänn
+if (actualClimb === null || requiredClimb === null) {
+  return false; 
+}
+// Om det krävs mer än flygplanet klarar av -> underkänn
+if (requiredClimb > actualClimb) {
+  return false;
+}
+// Först om båda finns OCH flygplanet klarar kravet -> godkänn
+return true;
+}
+
+// Finds the highest mass (50 lbs steps) that satisfies all take-off limits for the
+// current setup, without changing the mass selected by the user.
+function updateMaxTakeoffMass() {
+  const valueElement = document.getElementById('max-to-mass-val');
+  const slider = document.getElementById('to-mass');
+  if (!valueElement || !slider || !hfInstance) return;
+
+  const config = CELL_MAPPING.takeoff;
+  const sheetId = hfInstance.getSheetId(config.sheetName);
+  const pos = parseCellRef(config.inputs.mass);
+  if (!pos) return;
+  const address = { sheet: sheetId, col: pos.col, row: pos.row };
+  const step = Number(slider.step) || 50;
+  const min = Number(slider.min);
+  const max = Number(slider.max);
+  const selectedMass = Number(slider.value);
+
+  let result = null;
+  try {
+    const setMass = (mass) => hfInstance.setCellContents(address, [[mass]]);
+    const lastIndex = Math.floor((max - min) / step);
+    const okAt = (index) => { setMass(min + index * step); return takeoffLimitsOk(); };
+    for (let index = lastIndex; index >= 0; index--) {
+      if (okAt(index)) { result = min + index * step; break; }
+    }
+  } catch (e) {
+    console.error('Max take-off mass calculation failed:', e);
+  } finally {
+    hfInstance.setCellContents(address, [[selectedMass]]);
+  }
+
+  const card = document.getElementById('max-to-mass-card');
+  const marginElement = document.getElementById('max-to-mass-margin');
+  valueElement.textContent = result === null ? 'None' : `${result} lbs`;
+  if (marginElement) {
+    marginElement.textContent = result === null
+      ? 'No mass in range meets all limits'
+      : selectedMass <= result
+        ? `Selected mass OK (${result - selectedMass} lbs margin)`
+        : `Selected mass exceeds by ${selectedMass - result} lbs`;
+  }
+  if (card) {
+    card.classList.toggle('is-exceeded', result === null || selectedMass > result);
+    card.classList.toggle('is-within-limits', result !== null && selectedMass <= result);
+  }
 }
 
 function updateBadgeStatus(elementId, val1, val2, conditionFn) {
@@ -1864,7 +2084,7 @@ function clearAirportMetar(prefix) {
   }
 }
 
-async function fetchMetarForAirport(prefix) {
+async function fetchMetarForAirport(prefix, populateWeather = true) {
   if (!hfInstance) return;
   const icaoCode = airportSelection[prefix].icao;
   const displaySpan = document.getElementById(`${prefix}-metar-display`);
@@ -1876,7 +2096,7 @@ async function fetchMetarForAirport(prefix) {
       return;
     }
 
-    if (displaySpan) {
+    if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-')) {
       displaySpan.textContent = "Downloading METAR...";
       displaySpan.style.color = "#8b949e";
     }
@@ -1902,21 +2122,30 @@ async function fetchMetarForAirport(prefix) {
 
     if (displaySpan) {
       displaySpan.textContent = validatedMetar.text;
-      displaySpan.style.color = validatedMetar.ageMinutes >= 35 ? '#d29922' : '#3fb950';
+      displaySpan.style.color = validatedMetar.ageMinutes >= 60 ? '#f85149'
+        : validatedMetar.ageMinutes >= 35 ? '#d29922'
+          : '#3fb950';
     }
+    saveMetar(prefix, icaoCode, validatedMetar);
     suggestRunwayFromMetar(validatedMetar.text, prefix);
-    if (prefix === 'to') {
-      parseAndPopulateMetarData(validatedMetar.text);
-    } else {
-      parseAndPopulateLandingMetarData(validatedMetar.text);
+    if (populateWeather) {
+      if (prefix === 'to') {
+        parseAndPopulateMetarData(validatedMetar.text);
+      } else {
+        parseAndPopulateLandingMetarData(validatedMetar.text);
+      }
+      persistFormState();
     }
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
     if (airportSelection[prefix].icao !== icaoCode) return;
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR could not be retrieved.');
-    if (displaySpan) {
+    if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-' ||
+        displaySpan.textContent === 'Downloading METAR...')) {
       displaySpan.textContent = "METAR unavailable or invalid from both sources";
       displaySpan.style.color = "#f85149";
+    } else if (displaySpan) {
+      displaySpan.style.color = '#f85149';
     }
   }
 }
@@ -2066,6 +2295,14 @@ function updateRunwayExceedanceCard(cardId, statusId, checks) {
             : 'Within limits';
 }
 
+// Largest distance/runway ratio that still fits inside the free space after the runway end
+function getRunwayMaxRatio(runwayStrip) {
+    const container = runwayStrip?.parentElement;
+    if (!runwayStrip || !container || runwayStrip.clientWidth <= 0) return 1;
+    const margin = parseFloat(getComputedStyle(container).getPropertyValue('--runway-end-margin')) || 0;
+    return 1 + Math.max(margin - 4, 0) / runwayStrip.clientWidth;
+}
+
 function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     const exceeded = [
         exceedsDistanceLimit(tor, tora),
@@ -2078,11 +2315,12 @@ function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     const toraNum = parseFloat(tora) || 0;
     if (toraNum <= 0) return;
 
+    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
+    const maxRatio = getRunwayMaxRatio(runwayStrip);
     const getRatio = (val) => {
         const num = parseFloat(val) || 0;
-        return Math.min(Math.max(num / toraNum, 0), 1);
+        return Math.min(Math.max(num / toraNum, 0), maxRatio);
     };
-    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
     const maxDistance = Math.max(
         parseFloat(tor) || 0,
         parseFloat(tod) || 0,
@@ -2135,7 +2373,7 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     const activeMarker = currentFlaps === 'UP' ? markerUp : markerDown;
     const distanceRatio = Math.min(
         Math.max((parseFloat(activeDistance) || 0) / ldaNum, 0),
-        1
+        getRunwayMaxRatio(runwayStrip)
     );
 
     if (activeMarker) {

@@ -105,11 +105,13 @@ input, select {
 /* --- Banprofil-stilar (Dina ursprungliga klassnamn) --- */
 .runway-container {
   position: relative;
-  background: #161b22;
+  background: #acabab7c;
   border: 2px solid #30363d;
   border-radius: 6px;
-  height: 68px;
-  margin: 20px 0 40px 0;
+  height: 100px;
+  /* Free space outside each runway end so distances beyond the runway stay visible. Increase to zoom the runway out. */
+  --runway-end-margin: 36px;
+  margin: 4px 0 24px 0;
   overflow: visible; /* Viktigt för att rutorna som sticker ut ska synas */
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
@@ -117,24 +119,25 @@ input, select {
 /* Banans asfalt */
 .runway-strip {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  background: #21262d;
-  overflow: hidden;
+  top: 50%;
+  height: 48px;
+  transform: translateY(-50%);
+  left: calc(10px + var(--runway-end-margin));
+  right: calc(10px + var(--runway-end-margin));
+  background: #15181d;
+  overflow: visible;
 }
 
 .runway-used-distance {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background: rgba(210, 153, 34, 0.3);
+  background: rgba(44, 253, 2, 0.3);
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
 .runway-used-distance.is-exceeded {
-  background: rgba(248, 81, 73, 0.45);
+  background: rgba(255, 13, 0, 0.726);
 }
 
 .runway-exceedance-card {
@@ -173,9 +176,9 @@ input, select {
 /* Tröskelmarkering fylld över banans hela bredd */
 .runway-threshold-left {
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
+  top: 26px;
+  bottom: 26px;
+  left: calc(10px + var(--runway-end-margin));
   width: 32px;
   background: repeating-linear-gradient(
     to bottom,
@@ -191,8 +194,8 @@ input, select {
 .runway-centerline {
   position: absolute;
   top: 50%;
-  left: 48px;
-  right: 10px;
+  left: calc(48px + var(--runway-end-margin));
+  right: calc(10px + var(--runway-end-margin));
   height: 4px;
   background: repeating-linear-gradient(
     to right,
@@ -212,11 +215,11 @@ input, select {
   height: 6px;
   background: #f0f0ed;
   z-index: 3;
-  left: 99px;
+  left: calc(99px + var(--runway-end-margin));
 }
 
 .runway-tdz-1 {
-  top: calc(50% - 15px);
+  top: calc(50% - 16px);
 }
 
 .runway-tdz-2 {
@@ -226,8 +229,8 @@ input, select {
 /* Markörer och färgmatchade etikett-rutor */
 .runway-marker {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
+  top: 26px;
+  bottom: 26px;
   width: 3px;
   transition: left 0.3s ease;
   z-index: 10;
@@ -250,13 +253,13 @@ input, select {
 
 /* Färgmatchning per markör (med separata positioner för att inte krocka) */
 #tor-marker { background: #3fb950; }
-#tor-marker::after { background: #3fb950; bottom: -28px; }
+#tor-marker::after { background: #3fb950; bottom: -18px; }
 
 #tod-marker { background: #58a6ff; }
-#tod-marker::after { background: #58a6ff; top: -26px; }
+#tod-marker::after { background: #58a6ff; top: -20px; }
 
 #asd-marker { background: #f85149; }
-#asd-marker::after { background: #f85149; bottom: -50px; }
+#asd-marker::after { background: #f85149; bottom: -18px; }
 
 #ldg-dist-marker { background: #a371f7; }
 #ldg-dist-marker::after { background-color: #d29922 !important; color: #000000 !important;}
@@ -279,6 +282,27 @@ input, select {
 
 .global-reg {
   position: relative;
+}
+
+.open-foreflight-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 6px 12px;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.open-foreflight-button:hover {
+  color: #fff;
+  background: #21262d;
 }
 
 .settings-menu {
@@ -356,6 +380,61 @@ input, select {
   margin: 0 0 12px;
   color: #fff;
   font-size: 14px;
+}
+
+.mass-slider {
+  /* Ändra height för touchytan och --mass-slider-thumb-size för den runda knoppen. */
+  --mass-slider-thumb-size: 32px;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  margin: 0;
+  padding: 0 calc(var(--mass-slider-thumb-size) / 2);
+  -webkit-appearance: none;
+  appearance: none;
+  accent-color: var(--accent, #00d2ff);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mass-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #30363d;
+  border-radius: 999px;
+}
+
+.mass-slider::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: var(--mass-slider-thumb-size);
+  height: var(--mass-slider-thumb-size);
+  margin-top: calc((8px - var(--mass-slider-thumb-size)) / 2);
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--accent, #00d2ff);
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+.mass-slider::-moz-range-track {
+  height: 8px;
+  background: #30363d;
+  border-radius: 999px;
+}
+
+.mass-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: var(--mass-slider-thumb-size);
+  height: var(--mass-slider-thumb-size);
+  background: var(--accent, #00d2ff);
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+.mass-slider:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 .aircraft-change-dialog {
@@ -535,6 +614,11 @@ input, select {
 
   .global-reg {
     width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .open-foreflight-button {
+    flex: 1 1 auto;
   }
 
   .global-reg .settings-menu {

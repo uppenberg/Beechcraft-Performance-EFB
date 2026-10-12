@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <script src="./version.js"></script>
-    <!-- SheetJS (xlsx) och HyperFormula via CDN -->
-    <script crossorigin="anonymous" src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js"></script>
+    <!-- SheetJS (xlsx) och HyperFormula via CDN -- Tested working version of HyperFormula is 3.5.0, SheetJS (xlsx): v0.20.3 -->
+    <script crossorigin="anonymous" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/hyperformula@3.5.0/dist/hyperformula.full.min.js"></script>
     <style>
       /* iPad Mini & Touch Optimeringar */
       body {
@@ -156,6 +156,7 @@
     <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
         <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT BE20/B190 PERFORMANCE <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
+            <a class="open-foreflight-button" href="foreflightmobile://" aria-label="Open ForeFlight app">Open ForeFlight</a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
             <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
                 <option value="SE-LTL" selected>SE-LTL (BE20)</option>
@@ -228,8 +229,9 @@
 
                 <section id="help-overview">
                     <h3>Overview</h3>
-                    <p>The Beechcraft Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong> and <strong>Beechcraft 1900C (B190)</strong>. All calculations are performed locally in the browser using the aircraft's verified performance engine — no data is sent to any server.</p>
+                    <p>The Beechcraft Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong> and <strong>Beechcraft 1900C (B190)</strong>. All calculations are performed locally on the unit using the aircraft's verified performance engine — no data is sent to any server.</p>
                     <p>The app operates fully offline once installed as a PWA (Progressive Web App). Performance data is based on EASA Performance Class A regulations.</p>
+                    <p>Your last-used tab, form inputs, airport selections and most recently fetched METARs are saved locally and restored on your next visit.</p>
                     <div class="help-note help-note--info">
                         <strong>&#128225; Internet required for:</strong> Fetching live METAR data and checking for app updates. All performance calculations work without an internet connection.
                     </div>
@@ -276,10 +278,10 @@
                                 <li><span style="color:#d29922">Amber</span> — 35–60 minutes old (use with caution)</li>
                                 <li><span style="color:#f85149">Red</span> — unavailable or older than 60 minutes</li>
                             </ul>
-                            When a valid METAR loads, Wind Dir, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
+                            When a valid METAR loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
                         </dd>
 
-                        <dt>Wind Dir (°)</dt>
+                        <dt>Wind Direction (°)</dt>
                         <dd>Wind direction in degrees magnetic from the METAR or entered manually. Used to compute headwind/tailwind and crosswind components.</dd>
 
                         <dt>Wind Spd (kt)</dt>
@@ -295,7 +297,7 @@
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
                         <dt>Take-off Mass (lbs)</dt>
-                        <dd>Use the slider to set planned take-off mass. Ranges: BE20 9,200–12,500 lbs | B190 10,000–16,600 lbs. The mass is displayed above the slider and updates live.</dd>
+                        <dd>Use the slider to set planned take-off mass. Ranges: BE20 9,200–12,500 lbs | B190 10,000–16,600 lbs. The mass is displayed above the slider and updates live. Change its touch target size under Settings.</dd>
 
                         <dt>Flaps setting</dt>
                         <dd>
@@ -370,7 +372,7 @@
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
                         <dt>Landing Mass (lbs)</dt>
-                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database)</dd>
+                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database) Change its touch target size under Settings.</dd>
 
                         <dt>Flaps setting</dt>
                         <dd><strong>UP</strong> or <strong>DOWN</strong>. Both Vref and distance are calculated for both settings simultaneously. The selected setting determines which distance is compared against LDA in the exceedance card.</dd>
@@ -396,7 +398,7 @@
                     <h3>METAR &amp; Weather Input</h3>
                     <p>METARs are fetched automatically when a new airport is selected, and on demand via the <strong>Update</strong> button. Two sources are tried in sequence: NOAA Aviation Weather Centre and a Google Apps Script proxy.</p>
                     <div class="help-note help-note--warn">
-                        <strong>&#9888;&#65039; Manual override:</strong> Manually edited weather fields (Wind Dir, Wind Spd, OAT, QNH) will be overwritten by the next METAR fetch. Re-enter them afterwards if needed.
+                        <strong>&#9888;&#65039; Manual override:</strong> Manually edited weather fields (Wind Direction, Wind Spd, OAT, QNH) will be overwritten by the next METAR fetch. Re-enter them afterwards if needed.
                     </div>
                     <ul>
                         <li><strong>Gusts:</strong> Only mean wind speed is extracted. Enter the gust speed manually for a conservative crosswind check.</li>
@@ -552,7 +554,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="to-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'to')" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="to-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'to')" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <div class="icao-suggestions" id="to-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>
@@ -592,30 +594,30 @@
                         
 <!-- Wind Direction (C6) -->
 <tr style="border-bottom: 1px solid #21262d;">
-    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
+    <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
     <td style="padding: 8px 0;">
-        <input type="number" class="form-control" id="to-wind-dir" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windDir', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-wind-dir" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windDir', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- Wind Speed (C7) -->
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
     <td style="padding: 8px 0;">
-        <input type="number" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- OAT (C8) -->
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
     <td style="padding: 8px 0;">
-        <input type="number" class="form-control" id="to-oat" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'oat', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-oat" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'oat', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- QNH (C9) -->
 <tr>
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
     <td style="padding: 8px 0;">
-        <input type="number" class="form-control" id="to-qnh" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'qnh', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-qnh" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'qnh', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
                     </table>
@@ -633,7 +635,16 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range mass-slider" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)">
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #21262d;">
+                            <td colspan="2" style="padding: 0 0 10px;">
+                                <div id="max-to-mass-card" class="runway-exceedance-card" role="status" aria-live="polite" style="text-align: left;">
+                                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Max take-off mass, current setup</div>
+                                    <div id="max-to-mass-val" style="font-size: 16px; font-weight: 700; color: #fff;">-</div>
+                                    <div id="max-to-mass-margin" style="font-size: 11px; color: #8b949e; margin-top: 2px;"></div>
+                                </div>
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -690,7 +701,7 @@
             <!-- Startbana / Take-off vy -->
             <div class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
               <h3 id="takeoff-runway-visualization-title">Runway visualization</h3>
-              <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div>
+             <!-- <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div> -->
               
               <div class="runway-container">
                 <div class="runway-threshold-left"></div>
@@ -753,7 +764,7 @@
                 <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
                     <div style="font-size: 12px; font-weight: 700; color: #fff;">
-                        <span id="res-ldg-hwtw">-</span> | <span id="res-ldg-xw">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit">-</span>)</span>
+                        <span id="res-ldg-hwtw-kpi">-</span> | <span id="res-ldg-xw-kpi">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit-kpi">-</span>)</span>
                     </div>
                 </div>
                 <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
@@ -784,7 +795,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="ldg-airport-icao" type="text" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'ldg')" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="ldg-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'ldg')" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <div class="icao-suggestions" id="ldg-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>
@@ -816,20 +827,20 @@
                         </tr>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Dir:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-dir" oninput="handleManualWeatherInput('landing', 'windDir', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-spd" oninput="handleWeather('landing', 'windSpeed', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-spd" oninput="handleManualWeatherInput('landing', 'windSpeed', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-oat" oninput="handleWeather('landing', 'oat', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-oat" oninput="handleManualWeatherInput('landing', 'oat', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-qnh" oninput="handleWeather('landing', 'qnh', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-qnh" oninput="handleManualWeatherInput('landing', 'qnh', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                     </table>
                 </div>
@@ -846,7 +857,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)" style="display: block; box-sizing: border-box; width: 100%; accent-color: var(--accent, #00d2ff); height: 24px;">
+                                <input type="range" class="form-range mass-slider" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">

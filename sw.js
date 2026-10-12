@@ -1,4 +1,4 @@
-// Increment the cache version for every published app release.
+// Increment the cache version for every published app release. Tested and working version of HyperFormula is 3.5.0, SheetJS (xlsx): v0.20.3
 importScripts('./version.js');
 const CACHE_NAME = `be20-efb-v${self.APP_VERSION}`;
 const ASSETS = [
@@ -6,20 +6,24 @@ const ASSETS = [
   './style.css',
   './version.js',
   './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
   './js/app.js',
   './data/airports.json',
   './data/se-ltl.xlsx',
   './data/se-kvl.xlsx',
   './data/se-mju.xlsx',
   './data/B190.xlsx',
-  'https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js',
-  'https://cdn.jsdelivr.net/npm/hyperformula@latest/dist/hyperformula.full.min.js'
+  'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js',
+  'https://cdn.jsdelivr.net/npm/hyperformula@3.5.0/dist/hyperformula.full.min.js',
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
+      .then((cache) =>
+        cache.addAll(ASSETS.map((asset) => new Request(asset, { cache: 'reload' })))
+      )
       .catch(async (error) => {
         await caches.delete(CACHE_NAME);
         throw error;
@@ -50,12 +54,20 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
+    (async () => {
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) return cachedResponse;
+
+      try {
+        const response = await fetch(event.request);
+        return response;
+      } catch (error) {
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          const offlinePage = await caches.match('./index.html');
+          if (offlinePage) return offlinePage;
         }
-      });
-    })
+        throw error;
+      }
+    })()
   );
 });
