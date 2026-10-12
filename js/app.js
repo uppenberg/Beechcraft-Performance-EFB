@@ -2104,11 +2104,10 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
 
     const noaaUrl = `/api/reports/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
     const appsScriptUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
-    
     const workerUrl = `https://metar-proxy.uppenberg1.workers.dev/?icao=${encodeURIComponent(icaoCode)}`;
 
     const metarSources = [
-      { url: workerUrl, name: 'Cloudflare Worker' }
+      { url: workerUrl, name: 'Cloudflare Worker' },
       { url: noaaUrl, name: 'Netlify Proxy' },
       { url: appsScriptUrl, name: 'Google Apps Script' },
       
