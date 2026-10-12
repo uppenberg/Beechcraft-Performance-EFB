@@ -2015,7 +2015,6 @@ document.addEventListener('DOMContentLoaded', init);
 
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
 async function fetchMetarText(targetUrl, sourceName) {
-  // Om det är en NOAA-länk, skicka den via allorigins-proxyn för att undvika CORS
   
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 sekunder
@@ -2107,7 +2106,7 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
     const appsScriptUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
     
     const metarSources = [
-      { url: noaaUrl, name: 'AllOrigins Proxy' },
+      { url: noaaUrl, name: 'Netlify Proxy' },
       { url: appsScriptUrl, name: 'Google Apps Script' }
     ];
     let validatedMetar;
