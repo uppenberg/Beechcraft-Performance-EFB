@@ -828,19 +828,19 @@
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleWeather('landing', 'windDir', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-dir" oninput="handleManualWeatherInput('landing', 'windDir', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-spd" oninput="handleWeather('landing', 'windSpeed', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-wind-spd" oninput="handleManualWeatherInput('landing', 'windSpeed', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-oat" oninput="handleWeather('landing', 'oat', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-oat" oninput="handleManualWeatherInput('landing', 'oat', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
-                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-qnh" oninput="handleWeather('landing', 'qnh', this.value)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></td>
+                            <td style="padding: 8px 0;"><input type="number" class="form-control" id="ldg-qnh" oninput="handleManualWeatherInput('landing', 'qnh', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                     </table>
                 </div>
