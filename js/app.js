@@ -1784,7 +1784,9 @@ safeSetText('res-ldg-xwlimit-kpi', ldgXwLimit);
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
-  safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+  if (document.activeElement?.id !== 'to-oat') {
+    safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+  }
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
 
   safeSetText('res-to-v1', getTakeoffOutput('v1'));
