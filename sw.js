@@ -10,12 +10,12 @@ const ASSETS = [
   './icon-512.png',
   './js/app.js',
   './data/airports.json',
+  './data/lib/xlsx.full.min.js',
+  './data/lib/hyperformula.full.min.js',
   './data/se-ltl.xlsx',
   './data/se-kvl.xlsx',
   './data/se-mju.xlsx',
   './data/B190.xlsx',
-  'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js',
-  'https://cdn.jsdelivr.net/npm/hyperformula@3.5.0/dist/hyperformula.full.min.js',
 ];
 
 self.addEventListener('install', (event) => {
