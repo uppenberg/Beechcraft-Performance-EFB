@@ -156,7 +156,14 @@
     <header class="app-header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #21262d; margin-bottom: 12px;">
         <h1 style="font-size: 18px; margin: 0; color: #fff;">BEECHCRAFT BE20/B190 PERFORMANCE <span id="app-version" style="font-size: 0.7rem; color: #7f8c8d; font-weight: normal;"></span></h1>
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
-            <a class="open-foreflight-button" href="foreflightmobile://" aria-label="Open ForeFlight app">Open ForeFlight</a>
+            <a class="open-foreflight-button" href="foreflightmobile://" aria-label="Open ForeFlight app">
+                <svg class="foreflight-mark" viewBox="0 0 32 32" aria-hidden="true">
+                    <polygon points="16,1 18.5,10.2 23.5,3.5 21,12.4 29.5,8 23.2,15 31,16 23.2,17 29.5,24 21,19.6 23.5,28.5 18.5,21.8 16,31 13.5,21.8 8.5,28.5 11,19.6 2.5,24 8.8,17 1,16 8.8,15 2.5,8 11,12.4 8.5,3.5 13.5,10.2"></polygon>
+                    <circle cx="16" cy="16" r="6.6" fill="#fff"></circle>
+                    <path d="M16 8.8c-1.1 0-1.9.9-1.9 2v4.6l-5 2.8v1.4l5-1.3v2.6l-1.5 1.2v1.2l3.4-1 3.4 1v-1.2l-1.5-1.2v-2.6l5 1.3v-1.4l-5-2.8v-4.6c0-1.1-.8-2-1.9-2Z"></path>
+                </svg>
+                <span>ForeFlight</span>
+            </a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
             <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
                 <option value="SE-LTL" selected>SE-LTL (BE20)</option>
