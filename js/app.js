@@ -1021,6 +1021,12 @@ function updateRunwayVisualizationTitle() {
     : 'Runway visualization';
 }
 
+setInterval(() => {
+  document.querySelectorAll('select.needs-selection').forEach((select) => {
+    select.classList.toggle('blink-on');
+  });
+}, 700);
+
 function syncAirportControls() {
   ['to', 'ldg'].forEach((prefix) => {
     const selection = airportSelection[prefix];
@@ -1040,6 +1046,7 @@ function syncAirportControls() {
       ));
       runways.forEach((runway) => runwaySelect.appendChild(new Option(runway, runway)));
       runwaySelect.value = runways.includes(selection.runway) ? selection.runway : '';
+      runwaySelect.classList.toggle('needs-selection', runways.length > 0 && !runwaySelect.value);
     }
 
     const runwayRows = getRunwayRows(icao, selection.runway);
@@ -1777,7 +1784,9 @@ safeSetText('res-ldg-xwlimit-kpi', ldgXwLimit);
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
   safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
-  safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+  if (document.activeElement?.id !== 'to-oat') {
+    safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+  }
   safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
 
   safeSetText('res-to-v1', getTakeoffOutput('v1'));
@@ -2014,12 +2023,13 @@ window.confirmAircraftTypeChange = confirmAircraftTypeChange;
 document.addEventListener('DOMContentLoaded', init);
 
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
-async function fetchMetarText(url, sourceName) {
+async function fetchMetarText(targetUrl, sourceName) {
+  
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 sekunder
 
   try {
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(targetUrl, { signal: controller.signal });
     if (!response.ok) {
       throw new Error(`${sourceName} returned HTTP ${response.status}`);
     }
@@ -2101,21 +2111,31 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
       displaySpan.style.color = "#8b949e";
     }
 
-    const noaaUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
-    const proxyUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
-    const metarSources = window.location.hostname.includes('github.io')
-      ? [{ url: proxyUrl, name: 'Apps Script proxy' }, { url: noaaUrl, name: 'NOAA AWC' }]
-      : [{ url: noaaUrl, name: 'NOAA AWC' }, { url: proxyUrl, name: 'Apps Script proxy' }];
-    let validatedMetar;
-    let sourceName = metarSources[0].name;
+    const noaaUrl = `/api/reports/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
+    const appsScriptUrl = `https://script.google.com/macros/s/AKfycbzfUIgEmCV4kCVnD1hK6rD8aWnurtyNvQQt6towRzG6QWA07-0iRZ5aZ5ctJIhBY_98YA/exec?icao=${encodeURIComponent(icaoCode)}`;
+    const workerUrl = `https://metar-proxy.uppenberg1.workers.dev/?icao=${encodeURIComponent(icaoCode)}`;
 
-    try {
-      validatedMetar = validateMetar(await fetchMetarText(metarSources[0].url, metarSources[0].name), icaoCode);
-    } catch (primaryError) {
-      console.warn(`${metarSources[0].name} failed; trying ${metarSources[1].name}:`, primaryError);
-      sourceName = metarSources[1].name;
-      validatedMetar = validateMetar(await fetchMetarText(metarSources[1].url, sourceName), icaoCode);
+    const metarSources = [
+      { url: workerUrl, name: 'Cloudflare Worker' },
+      { url: noaaUrl, name: 'Netlify Proxy' },
+      { url: appsScriptUrl, name: 'Google Apps Script' },
+      
+    ];
+    let validatedMetar;
+    let sourceName;
+    let lastError;
+
+    for (const source of metarSources) {
+      try {
+        validatedMetar = validateMetar(await fetchMetarText(source.url, source.name), icaoCode);
+        sourceName = source.name;
+        break;
+      } catch (sourceError) {
+        lastError = sourceError;
+        console.warn(`${source.name} failed:`, sourceError);
+      }
     }
+    if (!validatedMetar) throw lastError;
 
     if (airportSelection[prefix].icao !== icaoCode) return;
     console.info(`METAR hämtad från ${sourceName}.`);
@@ -2142,7 +2162,7 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR could not be retrieved.');
     if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-' ||
         displaySpan.textContent === 'Downloading METAR...')) {
-      displaySpan.textContent = "METAR unavailable or invalid from both sources";
+      displaySpan.textContent = "METAR unavailable or invalid from all sources";
       displaySpan.style.color = "#f85149";
     } else if (displaySpan) {
       displaySpan.style.color = '#f85149';

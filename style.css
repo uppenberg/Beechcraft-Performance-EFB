@@ -37,9 +37,23 @@ h1, h2, h3 {
 }
 
 .tab-btn.active {
-    background: #0066cc;
+    background: #1a85ff;
     color: #fff;
-    border-color: #0055aa;
+    font-weight: 700;
+    border-color: #8cc4ff;
+    box-shadow: 0 0 0 2px rgba(140, 196, 255, 0.35);
+}
+
+select.needs-selection {
+    background-color: #5c3b00 !important;
+    border-color: #ffb020 !important;
+    color: #ffe2a8 !important;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+
+select.needs-selection.blink-on {
+    background-color: #a86a00 !important;
+    border-color: #fff0c2 !important;
 }
 
 .tab-content {
@@ -290,19 +304,35 @@ input, select {
   align-items: center;
   justify-content: center;
   min-height: 36px;
-  padding: 6px 12px;
-  color: #c9d1d9;
-  background: #161b22;
-  border: 1px solid #30363d;
+  gap: 6px;
+  padding: 5px 9px;
+  color: #fff;
+  background: #0969da;
+  border: 1px solid #388bfd;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
   text-decoration: none;
   white-space: nowrap;
 }
 
+.foreflight-mark {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  fill: currentColor;
+}
+
 .open-foreflight-button:hover {
   color: #fff;
-  background: #21262d;
+  background: #1f6feb;
+}
+
+.open-foreflight-button:focus-visible {
+  outline: 2px solid #58a6ff;
+  outline-offset: 2px;
 }
 
 .settings-menu {
