@@ -1,0 +1,18 @@
+{
+  "file": "data/c56x/takeoff-dry-flaps15.js",
+  "defaultTag": "off",
+  "tags": {
+    "off": {
+      "template": "takeoffFieldLength_Dry_Flaps15_{alt}ft",
+      "alt0": "takeoffFieldLength_Dry_Flaps15_SeaLevel",
+      "alts": {
+        "5000": "takeoffFieldLengthDry_Flaps15_5000ft",
+        "6000": "takeoffFieldLengthDry_Flaps15_6000ft"
+      }
+    },
+    "on": {
+      "template": "takeoffFieldLength_Dry_Flaps15_{alt}ft_AntiIceOn",
+      "alt0": "takeoffFieldLength_Dry_Flaps15_SeaLevel_AntiIceOn"
+    }
+  }
+}
