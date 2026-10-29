@@ -77,6 +77,38 @@ function interpolateC56xGradientTable(rows, distanceFt, distanceKey, correctionK
     );
 }
 
+function getC56xV1GradientAdjustment(adjustments, slopePercent) {
+    if (!Number.isFinite(slopePercent)) return null;
+    if (Math.abs(slopePercent) < 0.000001) return 0;
+
+    const parseAdjustment = (value) => {
+        if (typeof value !== 'string') return null;
+        const match = value.match(/^(?:V1\s*)?([+-])\s*(\d+(?:\.\d+)?)$/i);
+        if (!match) return null;
+        const magnitude = Number(match[2]);
+        return Number.isFinite(magnitude)
+            ? (match[1] === '-' ? -magnitude : magnitude)
+            : null;
+    };
+
+    if (slopePercent > 0) {
+        const step = [0.5, 1, 1.5, 2].find((value) => slopePercent <= value);
+        if (!step) return null;
+        const adjustment = adjustments?.uphill?.[`${step.toFixed(1)}%`] ??
+            adjustments?.[`uphill${String(step).replace('.', '_')}pct`];
+        return parseAdjustment(adjustment);
+    }
+
+    const downhillSlope = Math.abs(slopePercent);
+    if (downhillSlope > 2) return null;
+    if (downhillSlope < 1) return 0;
+    const step = downhillSlope <= 1 ? 1 : 2;
+    const key = `-${step}%`;
+    const adjustment = adjustments?.downhillShaded?.[key] ??
+        adjustments?.[`downhillShaded_${step}pct`];
+    return parseAdjustment(adjustment);
+}
+
 function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7) {
     if (!Number.isFinite(distanceFt) || !Number.isFinite(slopePercent)) return null;
     if (Math.abs(slopePercent) < 0.000001) return distanceFt;
@@ -400,6 +432,7 @@ function getC56xTakeoffSpeeds({
     oatC,
     headwindKnots,
     runwayConditionCode,
+    runwaySlopePercent = 0,
     reverserStatus = 'AVAILABLE',
     antiIce = 'ON',
     flaps = 7,
@@ -546,7 +579,34 @@ function getC56xTakeoffSpeeds({
     const vr = interpolateAtAltitude('vr');
     const v2 = interpolateAtAltitude('v2');
     if (![v1, vr, v2].every(Number.isFinite)) return null;
-    return { v1, vr, v2 };
+
+    const adjustments = useWetTable
+        ? flaps === 7
+            ? antiIce === 'OFF'
+                ? takeoffGradientAdjustment_wet_reversers_Flaps7_AntiIceOff.v1Adjustments
+                : takeoffGradientAdjustment_reversers_wet_Flaps7_AntiIceOn.v1Adjustments
+            : reverserStatus === 'INOP'
+                ? antiIce === 'OFF'
+                    ? v1Adjustments_Wet_Flaps15_AntiIceOff
+                    : v1Adjustments_Wet_Flaps15_AntiIceOn
+                : antiIce === 'OFF'
+                    ? v1Adjustments_Wet_WithReversers_Flaps15_AntiIceOff
+                    : v1Adjustments_WetWithReversers_Flaps15_AntiIceOn
+        : flaps === 7
+            ? antiIce === 'OFF'
+                ? v1Adjustments
+                : v1Adjustments_AntiIceOn
+            : antiIce === 'OFF'
+                ? v1Adjustments_Dry_Flaps15_AntiIceOff
+                : v1Adjustments_Dry_Flaps15_AntiIceOn;
+    const v1Adjustment = getC56xV1GradientAdjustment(adjustments, runwaySlopePercent);
+    if (v1Adjustment === null) return null;
+    return {
+        v1: v1 + v1Adjustment,
+        vr,
+        v2,
+        v1CorrectionKnots: v1Adjustment,
+    };
 }
 
 function getC56xSecondSegmentClimbGradient({
@@ -595,13 +655,16 @@ function getC56xSecondSegmentClimbGradient({
         { knots: 20, key: 'wind20' },
         { knots: 30, key: 'wind30' },
     ];
-    return interpolateC56xTakeoffAxis(
+    const adjustedWeightLb = weightLb <= 19323
+        ? weightLb * 1.035
+        : weightLb;
+    const gradient = interpolateC56xTakeoffAxis(
         altitudeTables,
         pressureAltitudeFt,
         (table) => table.altitudeFt,
         (altitudeTable) => interpolateC56xTakeoffAxis(
             altitudeTable.rows,
-            weightLb,
+            adjustedWeightLb,
             (row) => row.weight,
             (weightRow) => interpolateC56xTakeoffAxis(
                 weightRow.temperatures,
@@ -616,4 +679,6 @@ function getC56xSecondSegmentClimbGradient({
             )
         )
     );
+    if (gradient === null || weightLb <= 19323) return gradient;
+    return gradient - 1.2;
 }

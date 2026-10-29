@@ -1,3 +1,4 @@
+//Figure 4-14
 const takeoffFieldLength_Dry_Flaps7_0ft = [
     {
         weight: 20000,
@@ -1925,7 +1926,7 @@ const takeoffFieldLength_Dry_Flaps7_6000ft_Complete = [
     }
 ];
 
-//AFM 4-76 figure 4-15 upp till 6000ft
+//Figure 4-15
 const takeoffFieldLength_Dry_Flaps7_AntiIceOn_0ft = [
     {
         weight: 20000,

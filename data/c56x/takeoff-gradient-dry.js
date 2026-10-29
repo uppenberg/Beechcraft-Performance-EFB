@@ -680,5 +680,3 @@ const takeoffFieldLengthGradient_Dry_Flaps15_AntiIceOff = [
     { baseFieldLength: 15000, uphill: { "2.0%": null, "1.5%": null, "1.0%": null, "0.5%": null }, downhillShaded: { "-1%": 13650, "-2%": 12300 }, downhillNonShaded: { "-1%": 13250, "-2%": 12000 } }
 ];
 
-
-// Dry runway anti ice off,afm 4-44, figure 4-14 data inlagd för upp till 6000ft PA

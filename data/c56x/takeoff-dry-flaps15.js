@@ -1,3 +1,4 @@
+//Figure 4-18
 const takeoffFieldLength_Dry_Flaps15_SeaLevel = [
     {
         weight: 20000,
@@ -1918,7 +1919,7 @@ const takeoffFieldLengthDry_Flaps15_6000ft = [
     ]
   }
 ];
-
+//Figure 4-19
 const takeoffFieldLength_Dry_Flaps15_SeaLevel_AntiIceOn = [
   {
     weight: 20000,

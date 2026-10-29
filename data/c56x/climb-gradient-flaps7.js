@@ -1,3 +1,4 @@
+//Figure 4-36
 const secondSegmentClimbGradient_flaps7_anti_ice_off = [
 {
     altitudeFt: 0,
@@ -1565,7 +1566,7 @@ const secondSegmentClimbGradient_flaps7_anti_ice_off = [
     ]
   }
 ];
-
+//Figure 4-37
 const secondSegmentClimbGradient_flaps7_anti_ice_on = [
   {
     altitudeFt: 0,

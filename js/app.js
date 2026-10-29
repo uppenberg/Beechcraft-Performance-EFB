@@ -361,6 +361,8 @@ async function init() {
       await loadC56xPerformanceData();
       document.getElementById('landing-tab-button')?.setAttribute('hidden', '');
       document.getElementById('page-landing')?.setAttribute('hidden', '');
+      const c56xPerformance = document.getElementById('c56x-takeoff-performance');
+      if (c56xPerformance) c56xPerformance.hidden = false;
       [
         'card-engine-out',
         'card-emergency-return',
@@ -368,14 +370,15 @@ async function init() {
         'takeoff-performance-checklist',
       ].forEach((id) => {
         const element = document.getElementById(id);
-        if (element) element.hidden = true;
+        if (element) {
+          element.hidden = true;
+          element.style.display = 'none';
+        }
       });
       const futureInputsNote = document.getElementById('c56x-future-inputs-note');
       if (futureInputsNote) futureInputsNote.hidden = false;
       const maxMassTitle = document.getElementById('max-to-mass-title');
-      if (maxMassTitle) {
-        maxMassTitle.textContent = 'Max take-off mass — climb limit only';
-      }
+      if (maxMassTitle) maxMassTitle.textContent = 'Max take-off mass, current setup';
 
       globalData.airports = await loadAirportDatabase();
       populateAirportSelects();
@@ -772,7 +775,10 @@ function getPersistedFormState() {
 function persistFormState() {
   const formState = {};
   document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
-    if (!AIRPORT_CONTROL_IDS.has(control.id)) formState[control.id] = control.value;
+    if (AIRPORT_CONTROL_IDS.has(control.id)) return;
+    formState[control.id] = control instanceof HTMLInputElement && control.type === 'checkbox'
+      ? String(control.checked)
+      : control.value;
   });
   localStorage.setItem(getPersistedFormStateKey(), JSON.stringify(formState));
 }
@@ -788,10 +794,16 @@ function restorePersistedFormState() {
     if (control instanceof HTMLSelectElement &&
         ![...control.options].some((option) => option.value === savedValue)) return;
 
-    control.value = savedValue;
-    control.dispatchEvent(new Event(control instanceof HTMLSelectElement ? 'change' : 'input', {
-      bubbles: true,
-    }));
+    const isCheckbox = control instanceof HTMLInputElement && control.type === 'checkbox';
+    if (isCheckbox) {
+      control.checked = savedValue === 'true';
+    } else {
+      control.value = savedValue;
+    }
+    control.dispatchEvent(new Event(
+      control instanceof HTMLSelectElement || isCheckbox ? 'change' : 'input',
+      { bubbles: true }
+    ));
   });
   return formState;
 }
@@ -1822,6 +1834,7 @@ function handleTakeoffAntiIce(val) {
 
 function handleTakeoffReversers(val) {
   if (isC56xSelected()) {
+    updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
 }
@@ -2109,13 +2122,20 @@ function updateC56xPerformanceCards({
   );
 }
 
-function updateC56xTakeoffDistanceCard(distanceM, failedLimits = [], limitsAvailable = true) {
+function updateC56xTakeoffDistanceCard(
+  distanceM,
+  failedLimits = [],
+  limitsAvailable = true,
+  unavailableStatus = 'Awaiting performance'
+) {
   const card = document.getElementById('takeoff-exceedance-card');
   const status = document.getElementById('takeoff-exceedance-status');
   if (!card || !status) return;
   if (!Number.isFinite(distanceM)) {
-    status.textContent = 'Awaiting performance';
-    card.classList.remove('is-exceeded', 'is-within-limits');
+    status.textContent = unavailableStatus;
+    const invalidConfig = unavailableStatus.includes('Invalid config');
+    card.classList.toggle('is-exceeded', invalidConfig);
+    card.classList.remove('is-within-limits');
     return;
   }
   status.textContent = `TKOF ${distanceM.toLocaleString('en-US')} m · ` +
@@ -2126,59 +2146,167 @@ function updateC56xTakeoffDistanceCard(distanceM, failedLimits = [], limitsAvail
   card.classList.toggle('is-within-limits', failedLimits.length === 0 && limitsAvailable);
 }
 
+function setC56xChecklistBadge(elementId, result) {
+  const badge = document.getElementById(elementId);
+  if (!badge) return;
+  const styles = result === true
+    ? { text: 'OK', background: 'rgba(46, 160, 67, 0.15)', color: '#3fb950' }
+    : result === false
+      ? { text: 'FAIL', background: 'rgba(248, 81, 73, 0.15)', color: '#f85149' }
+      : { text: 'N/A', background: 'rgba(139, 148, 158, 0.15)', color: '#8b949e' };
+  badge.textContent = styles.text;
+  badge.style.background = styles.background;
+  badge.style.color = styles.color;
+}
+
+function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
+  if (!Number.isFinite(slopePercent) || !Number.isFinite(correctionKnots)) {
+    return 'V1 correction applied: unavailable';
+  }
+  const correction = `${correctionKnots > 0 ? '+' : ''}${correctionKnots} kt`;
+  if (Math.abs(slopePercent) < 0.000001) {
+    return `V1 correction applied: ${correction} · level runway`;
+  }
+  if (slopePercent > 0) {
+    const afmStep = [0.5, 1, 1.5, 2].find((step) => slopePercent <= step);
+    if (!afmStep) return 'V1 correction unavailable · slope exceeds published range';
+    return `V1 correction applied: ${correction} · ${slopePercent}% uphill (AFM ${afmStep}% step)`;
+  }
+  const downhillSlope = Math.abs(slopePercent);
+  if (downhillSlope < 1) {
+    return `V1 correction applied: 0 kt · ${slopePercent}% downhill (below 1%)`;
+  }
+  const afmStep = downhillSlope <= 1 ? 1 : 2;
+  return `V1 correction applied: ${correction} · ${slopePercent}% downhill (SHADED ${afmStep}% step)`;
+}
+
+function getC56xWetRunwayMassLimit({
+  qnhHpa,
+  fieldElevationFt,
+  oatC,
+  windDirectionDeg,
+  windSpeedKnots,
+  runwayHeadingDeg,
+  runwaySlopePercent,
+  reverserStatus,
+  antiIce,
+  flaps,
+  runwayLimitsM,
+}) {
+  if (!runwayLimitsM.every(Number.isFinite)) return null;
+  const slider = document.getElementById('to-mass');
+  const minMass = Number(slider?.min);
+  const maxMass = Number(slider?.max);
+  const step = Number(slider?.step) || 50;
+  if (!Number.isFinite(minMass) || !Number.isFinite(maxMass) || step <= 0) return null;
+
+  const availableDistanceM = Math.min(...runwayLimitsM);
+  for (let weightLb = maxMass; weightLb >= minMass; weightLb -= step) {
+    const result = getC56xTakeoffFieldLengths({
+      qnhHpa,
+      fieldElevationFt,
+      oatC,
+      weightLb,
+      windDirectionDeg,
+      windSpeedKnots,
+      runwayHeadingDeg,
+      runwaySlopePercent,
+      runwayConditionCode: '5',
+      reverserStatus,
+      antiIce,
+      flaps,
+    });
+    const requiredDistanceFt = result?.wetRequiredDistanceFt;
+    if (Number.isFinite(requiredDistanceFt) &&
+        requiredDistanceFt * 0.3048 <= availableDistanceM) {
+      return weightLb;
+    }
+  }
+  return null;
+}
+
 function updateC56xTakeoffFieldLength() {
   const card = document.getElementById('c56x-takeoff-distance-card');
   if (!card) return;
 
+  const section = document.getElementById('c56x-takeoff-performance');
   const registration = document.getElementById('global-registration')?.value;
   if (AIRCRAFT_TYPE_BY_REGISTRATION[registration] !== 'C56X') {
-    card.hidden = true;
+    if (section) section.hidden = true;
     return;
   }
-  card.hidden = false;
+  if (section) section.hidden = false;
 
-  const dryElement = document.getElementById('c56x-dry-distance');
-  const wetChartElement = document.getElementById('c56x-wet-chart-distance');
-  const wetElement = document.getElementById('c56x-wet-distance');
-  const titleElement = document.getElementById('c56x-field-length-title');
-  const wetChartLabelElement = document.getElementById('c56x-wet-chart-label');
-  const selectedElement = document.getElementById('c56x-selected-distance');
   const toraStatusElement = document.getElementById('c56x-tora-status');
   const todaStatusElement = document.getElementById('c56x-toda-status');
   const asdaStatusElement = document.getElementById('c56x-asda-status');
-  const limitStatusElement = document.getElementById('c56x-runway-limit-status');
-  const noteElement = document.getElementById('c56x-distance-note');
+  const v1Element = document.getElementById('c56x-v1-check');
+  const v1CorrectionElement = document.getElementById('c56x-v1-correction');
+  const dryCompareElement = document.getElementById('c56x-compare-dry');
+  const wetCompareElement = document.getElementById('c56x-compare-wet');
+  const massLimitLabelElement = document.getElementById('c56x-wet-mass-limit-label');
+  const runwayConditionCode = document.getElementById('to-rwcc')?.value;
   const antiIce = document.getElementById('to-anti-ice')?.value || 'OFF';
   const reverserStatus = document.getElementById('to-reversers')?.value || 'AVAILABLE';
   const flaps = Number(document.getElementById('to-flaps')?.value);
-  if (titleElement) {
-    titleElement.textContent = `C56X take-off field length · Flaps ${flaps} · Anti-ice ${antiIce}`;
-  }
-  if (wetChartLabelElement) {
-    wetChartLabelElement.textContent =
-      `Wet chart · RWCC 5 · Anti-ice ${antiIce} · reversers ${reverserStatus === 'AVAILABLE' ? 'Available' : 'INOP'}:`;
+  const formatDistance = (distanceFt) => {
+    const feet = Math.ceil(distanceFt);
+    const metres = Math.ceil(distanceFt * 0.3048);
+    return `${feet.toLocaleString('en-US')} ft (${metres.toLocaleString('en-US')} m)`;
+  };
+  const setDistanceComparison = (dryDistanceFt, wetDistanceFt, conditionCode) => {
+    const dryAvailable = Number.isFinite(dryDistanceFt);
+    const wetAvailable = Number.isFinite(wetDistanceFt);
+    const dryIsSelected = conditionCode === '6' ||
+      (dryAvailable && (!wetAvailable || dryDistanceFt >= wetDistanceFt));
+    if (dryCompareElement) {
+      dryCompareElement.textContent = dryAvailable
+        ? formatDistance(dryDistanceFt)
+        : 'Not available';
+      dryCompareElement.style.fontWeight = dryAvailable && dryIsSelected ? '700' : '400';
+    }
+    if (wetCompareElement) {
+      wetCompareElement.textContent = conditionCode === '6'
+        ? 'Not applicable'
+        : wetAvailable ? formatDistance(wetDistanceFt) : 'Not available';
+      wetCompareElement.style.fontWeight =
+        wetAvailable && conditionCode !== '6' &&
+        (!dryAvailable || wetDistanceFt >= dryDistanceFt)
+          ? '700'
+          : '400';
+    }
+  };
+  if (massLimitLabelElement) {
+    massLimitLabelElement.firstChild.textContent = runwayConditionCode === '6'
+        ? '5. Dry runway: '
+        : '5. Wet/Contam runway mass limit check: ';
   }
   const setUnavailable = (reason, resetPerformanceCards = true) => {
-    if (dryElement) dryElement.textContent = 'Not available';
-    if (wetChartElement) wetChartElement.textContent = 'Not available';
-    if (wetElement) wetElement.textContent = 'Not available';
-    if (selectedElement) selectedElement.textContent = 'Not available';
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
     if (todaStatusElement) todaStatusElement.textContent = 'Not available';
     if (asdaStatusElement) asdaStatusElement.textContent = 'Not available';
-    if (limitStatusElement) limitStatusElement.textContent = reason;
-    if (noteElement) {
-      noteElement.textContent =
-        'Supported for Flaps 7° and 15° within published C56X chart ranges; no extrapolation.';
-    }
+    if (v1Element) v1Element.textContent = 'Not available';
+    if (v1CorrectionElement) v1CorrectionElement.textContent = 'V1 correction applied: unavailable';
+    ['c56x-badge-tora', 'c56x-badge-toda', 'c56x-badge-asda',
+      'c56x-badge-v1', 'c56x-badge-mass-limit'].forEach(
+      (id) => setC56xChecklistBadge(id, null)
+    );
+    setDistanceComparison(null, null, runwayConditionCode);
+    updateC56xTakeoffDistanceCard(null, [], true, reason);
     card.classList.add('is-exceeded');
     card.classList.remove('is-within-limits');
     renderC56xTakeoffChart(null, null, null, null);
     if (resetPerformanceCards) {
       updateC56xPerformanceCards();
-      updateC56xTakeoffDistanceCard(null);
     }
   };
+
+  if (Number(runwayConditionCode) >= 1 && Number(runwayConditionCode) <= 5 &&
+      reverserStatus === 'INOP') {
+    const reason = 'No data · Invalid config (RWCC 1–5 requires reversers available).';
+    setUnavailable(reason);
+    return;
+  }
 
   const airport = getSelectedAirportRecord('to');
   if (!airport) {
@@ -2196,7 +2324,6 @@ function updateC56xTakeoffFieldLength() {
   const oatC = Number(document.getElementById('to-oat')?.value);
   const windSpeedKnots = Number(document.getElementById('to-wind-spd')?.value);
   const windDirectionDeg = Number(document.getElementById('to-wind-dir')?.value);
-  const runwayConditionCode = document.getElementById('to-rwcc')?.value;
   const weightLb = Number(document.getElementById('to-mass')?.value);
   const requiredInputs = [
     fieldElevationFt,
@@ -2241,15 +2368,17 @@ function updateC56xTakeoffFieldLength() {
 
   const supportedSetup = (flaps === 7 || flaps === 15) &&
     (antiIce === 'ON' || antiIce === 'OFF');
+  let speeds = null;
   try {
     const pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, fieldElevationFt);
-    const speeds = supportedSetup
+    speeds = supportedSetup
       ? getC56xTakeoffSpeeds({
         pressureAltitudeFt,
         weightLb,
         oatC,
         headwindKnots,
         runwayConditionCode,
+        runwaySlopePercent,
         reverserStatus,
         antiIce,
         flaps,
@@ -2324,30 +2453,11 @@ function updateC56xTakeoffFieldLength() {
     return;
   }
 
-  const formatDistance = (distanceFt) => {
-    const feet = Math.ceil(distanceFt);
-    const metres = Math.ceil(distanceFt * 0.3048);
-    return `${feet.toLocaleString('en-US')} ft (${metres.toLocaleString('en-US')} m)`;
-  };
-  if (dryElement) dryElement.textContent = formatDistance(result.dryDistanceFt);
-  const wetUnavailableReason = reverserStatus === 'INOP' && flaps === 7
-    ? 'Not available — Flaps 7 wet data without reversers is not available'
-    : 'Not available';
-  if (wetChartElement) {
-    wetChartElement.textContent = result.wetChartDistanceFt === null
-      ? wetUnavailableReason
-      : formatDistance(result.wetChartDistanceFt);
-  }
-  if (wetElement) {
-    wetElement.textContent = result.wetRequiredDistanceFt === null
-      ? wetUnavailableReason
-      : formatDistance(result.wetRequiredDistanceFt);
-  }
-  if (selectedElement) {
-    selectedElement.textContent = Number.isFinite(result.selectedDistanceFt)
-      ? formatDistance(result.selectedDistanceFt)
-      : wetUnavailableReason;
-  }
+  setDistanceComparison(
+    result.dryDistanceFt,
+    result.wetChartDistanceFt,
+    runwayConditionCode
+  );
   if (!Number.isFinite(result.selectedDistanceFt)) {
     const reason = reverserStatus === 'INOP' && flaps === 7
       ? 'Wet RWCC 5 Flaps 7 data without reversers is not available.'
@@ -2355,48 +2465,93 @@ function updateC56xTakeoffFieldLength() {
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
     if (todaStatusElement) todaStatusElement.textContent = 'Not available';
     if (asdaStatusElement) asdaStatusElement.textContent = 'Not available';
-    if (limitStatusElement) limitStatusElement.textContent = reason;
-    if (noteElement) {
-      noteElement.textContent =
-        reverserStatus === 'INOP' && flaps === 7
-          ? 'Dry distance is available. Wet Flaps 7 AFM data without reversers is not available.'
-          : 'Dry distance is available, but wet field length is not published for this setup.';
-    }
+    ['c56x-badge-tora', 'c56x-badge-toda', 'c56x-badge-asda',
+      'c56x-badge-mass-limit'].forEach(
+      (id) => setC56xChecklistBadge(id, null)
+    );
     card.classList.add('is-exceeded');
     card.classList.remove('is-within-limits');
-    updateC56xTakeoffDistanceCard(null);
+    updateC56xTakeoffDistanceCard(null, [], true, reason);
     renderC56xTakeoffChart(null, toraM, todaM, asdaM);
     return;
   }
 
   const selectedDistanceM = Math.ceil(result.selectedDistanceFt * 0.3048);
+  if (v1Element) {
+    v1Element.textContent = Number.isFinite(speeds?.v1)
+      ? `${Math.round(speeds.v1)} kt`
+      : 'Not available';
+  }
+  if (v1CorrectionElement) {
+    v1CorrectionElement.textContent = getC56xV1CorrectionLabel(
+      runwaySlopePercent,
+      speeds?.v1CorrectionKnots
+    );
+  }
+  setC56xChecklistBadge('c56x-badge-v1', Number.isFinite(speeds?.v1));
+
+  const runwayLimitsM = [toraM, todaM, asdaM];
+  if (runwayConditionCode === '5') {
+    let wetRunwayMassLimitLb = null;
+    let wetMassLimitCalculationFailed = false;
+    if (Number.isFinite(result.wetRequiredDistanceFt) &&
+        runwayLimitsM.every(Number.isFinite)) {
+      try {
+        wetRunwayMassLimitLb = getC56xWetRunwayMassLimit({
+          qnhHpa,
+          fieldElevationFt,
+          oatC,
+          windDirectionDeg,
+          windSpeedKnots,
+          runwayHeadingDeg,
+          runwaySlopePercent,
+          reverserStatus,
+          antiIce,
+          flaps,
+          runwayLimitsM,
+        });
+      } catch (error) {
+        wetMassLimitCalculationFailed = true;
+        console.error('C56X wet runway mass limit calculation failed:', error);
+      }
+    }
+    setC56xChecklistBadge(
+      'c56x-badge-mass-limit',
+      Number.isFinite(wetRunwayMassLimitLb)
+        ? weightLb <= wetRunwayMassLimitLb
+        : result.wetRequiredDistanceFt === null || wetMassLimitCalculationFailed
+          ? null
+          : runwayLimitsM.every(Number.isFinite) ? false : null
+    );
+  } else {
+    setC56xChecklistBadge(
+      'c56x-badge-mass-limit',
+      runwayConditionCode === '6' ? true : null
+    );
+  }
+
   const runwayLimitChecks = [
-    { element: toraStatusElement, label: 'TORA', limit: toraM },
-    { element: todaStatusElement, label: 'TODA', limit: todaM },
-    { element: asdaStatusElement, label: 'ASDA', limit: asdaM },
+    { element: toraStatusElement, badgeId: 'c56x-badge-tora', label: 'TORA', limit: toraM },
+    { element: todaStatusElement, badgeId: 'c56x-badge-toda', label: 'TODA', limit: todaM },
+    { element: asdaStatusElement, badgeId: 'c56x-badge-asda', label: 'ASDA', limit: asdaM },
   ];
   const failedLimits = [];
   let hasUnavailableLimit = false;
-  runwayLimitChecks.forEach(({ element, label, limit }) => {
+  runwayLimitChecks.forEach(({ element, badgeId, label, limit }) => {
     if (!Number.isFinite(limit) || limit < 0) {
       hasUnavailableLimit = true;
       if (element) element.textContent = 'Unavailable';
+      setC56xChecklistBadge(badgeId, null);
       return;
     }
     const isWithinLimit = selectedDistanceM <= limit;
     if (!isWithinLimit) failedLimits.push(label);
     if (element) {
       element.textContent = `${selectedDistanceM.toLocaleString('en-US')} m / ` +
-        `${Math.round(limit).toLocaleString('en-US')} m · ${isWithinLimit ? 'OK' : 'EXCEEDED'}`;
+        `${Math.round(limit).toLocaleString('en-US')} m`;
     }
+    setC56xChecklistBadge(badgeId, isWithinLimit);
   });
-  if (limitStatusElement) {
-    limitStatusElement.textContent = failedLimits.length
-      ? `TKOF exceeds ${failedLimits.join(', ')}`
-      : hasUnavailableLimit
-        ? 'Some runway limits are unavailable'
-        : 'TKOF is within TORA, TODA and ASDA';
-  }
   card.classList.toggle('is-exceeded', failedLimits.length > 0);
   card.classList.toggle('is-within-limits', failedLimits.length === 0 && !hasUnavailableLimit);
   updateC56xTakeoffDistanceCard(
@@ -2405,12 +2560,6 @@ function updateC56xTakeoffFieldLength() {
     !hasUnavailableLimit
   );
   renderC56xTakeoffChart(selectedDistanceM, toraM, todaM, asdaM);
-  if (noteElement) {
-    const windLabel = result.headwindKnots < 0 ? 'tailwind' : 'headwind';
-    noteElement.textContent = `PA ${Math.round(result.pressureAltitudeFt).toLocaleString('en-US')} ft · ` +
-      `${windLabel} component ${Math.abs(result.headwindKnots).toFixed(1)} kt · ` +
-      'AFM chart values; verify against the approved AFM and operating limitations.';
-  }
 }
 
 // Finds the highest mass (50 lbs steps) that satisfies all take-off limits for the
@@ -2434,42 +2583,150 @@ function updateMaxTakeoffMass() {
     const qnhHpa = Number(qnhInput?.value);
     const oatC = Number(oatInput?.value);
     const antiIce = document.getElementById('to-anti-ice')?.value || 'OFF';
+    const flaps = Number(document.getElementById('to-flaps')?.value);
+    const runwayConditionCode = document.getElementById('to-rwcc')?.value;
+    const reverserStatus = document.getElementById('to-reversers')?.value || 'AVAILABLE';
+    const runwayHeadingDeg = airportCellValue(airport?.['RWYHDG [°](H6)']);
+    const runwaySlopePercent = airportCellValue(airport?.['Slope [%](G6)']);
+    const runwayLimitsM = [
+      airportCellValue(airport?.['TORA [m] (C6)']),
+      airportCellValue(airport?.['TODA [m](D6)']),
+      airportCellValue(airport?.['ASDA [m](E6)']),
+    ];
+    const windSpeedInput = document.getElementById('to-wind-spd');
+    const windDirectionInput = document.getElementById('to-wind-dir');
+    const windSpeedKnots = Number(windSpeedInput?.value);
+    const windDirectionDeg = Number(windDirectionInput?.value);
+    const windInputsValid = Number.isFinite(windSpeedKnots) && windSpeedKnots >= 0 &&
+      Boolean(String(windSpeedInput?.value ?? '').trim()) &&
+      (windSpeedKnots === 0 ||
+        (Number.isFinite(windDirectionDeg) &&
+         String(windDirectionInput?.value ?? '').trim()));
     const selectedMass = Number(slider.value);
-    let result = null;
+    const minMass = Number(slider.min);
+    const maxSliderMass = Number(slider.max);
+    const step = Number(slider.step) || 50;
+    let maxMass = null;
+    let takeoffDistanceAtMaxMassM = null;
+    let pressureAltitudeFt = null;
+    let climbLimitLb = null;
+    const shortestRunwayLimitM = Math.min(...runwayLimitsM);
     let unavailableReason = 'Select an airport and runway to load aerodrome elevation.';
 
     if (typeof elevationValue === 'number') {
       if (!String(qnhInput?.value ?? '').trim() || !String(oatInput?.value ?? '').trim() ||
-          !Number.isFinite(qnhHpa) || !Number.isFinite(oatC) || qnhHpa <= 0) {
-        unavailableReason = 'Enter valid QNH and OAT values, or load them from METAR.';
+          !Number.isFinite(qnhHpa) || !Number.isFinite(oatC) || qnhHpa <= 0 ||
+          !Number.isFinite(runwayHeadingDeg) || !Number.isFinite(runwaySlopePercent) ||
+          !runwayLimitsM.every((limit) => Number.isFinite(limit) && limit >= 0) ||
+          !windInputsValid || !Number.isFinite(minMass) ||
+          !Number.isFinite(maxSliderMass) ||
+          step <= 0 || !['5', '6'].includes(runwayConditionCode) ||
+          ![7, 15].includes(flaps) || !['ON', 'OFF'].includes(antiIce) ||
+          !['AVAILABLE', 'INOP'].includes(reverserStatus)) {
+        unavailableReason = Number(runwayConditionCode) >= 1 &&
+          Number(runwayConditionCode) <= 5 && reverserStatus === 'INOP'
+          ? 'Invalid config: RWCC 1–5 requires reversers available.'
+          : 'Enter valid weather, runway limits and C56X take-off configuration values.';
       } else {
         try {
-          result = getC56xMaxTakeoffWeight({
+          pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, elevationValue);
+          const climbResult = getC56xMaxTakeoffWeight({
             qnhHpa,
             fieldElevationFt: elevationValue,
             oatC,
-            flaps: Number(document.getElementById('to-flaps')?.value),
+            flaps,
             antiIce,
           });
-          unavailableReason = result.maxTakeoffWeightLb === null
+          climbLimitLb = climbResult.maxTakeoffWeightLb;
+          unavailableReason = climbLimitLb === null
             ? 'Conditions are outside the available C56X climb-limit data.'
             : '';
+          const requiredGradient = airportCellValue(
+            airport['min climb gradient OEI(I6)']
+          );
+          if (climbLimitLb !== null && Number.isFinite(requiredGradient)) {
+            const lastIndex = Math.floor(
+              (Math.min(maxSliderMass, climbLimitLb) - minMass) / step
+            );
+            const headwindKnots = windSpeedKnots === 0
+              ? 0
+              : windSpeedKnots * Math.cos(
+                (((windDirectionDeg - runwayHeadingDeg + 540) % 360) - 180) *
+                  Math.PI / 180
+              );
+            for (let index = lastIndex; index >= 0; index--) {
+              const candidateMass = minMass + index * step;
+              const fieldLengths = getC56xTakeoffFieldLengths({
+                qnhHpa,
+                fieldElevationFt: elevationValue,
+                oatC,
+                weightLb: candidateMass,
+                windDirectionDeg,
+                windSpeedKnots,
+                runwayHeadingDeg,
+                runwaySlopePercent,
+                runwayConditionCode,
+                reverserStatus,
+                antiIce,
+                flaps,
+              });
+              const selectedDistanceM = Number.isFinite(fieldLengths?.selectedDistanceFt)
+                ? Math.ceil(fieldLengths.selectedDistanceFt * 0.3048)
+                : null;
+              if (selectedDistanceM === null || selectedDistanceM > shortestRunwayLimitM) {
+                continue;
+              }
+              const speeds = getC56xTakeoffSpeeds({
+                pressureAltitudeFt,
+                weightLb: candidateMass,
+                oatC,
+                headwindKnots,
+                runwayConditionCode,
+                runwaySlopePercent,
+                reverserStatus,
+                antiIce,
+                flaps,
+              });
+              const secondSegmentGradient = getC56xSecondSegmentClimbGradient({
+                pressureAltitudeFt,
+                weightLb: candidateMass,
+                oatC,
+                headwindKnots,
+                flaps,
+                antiIce,
+              });
+              if (Number.isFinite(speeds?.v1) &&
+                  Number.isFinite(secondSegmentGradient) &&
+                  secondSegmentGradient >= requiredGradient) {
+                maxMass = candidateMass;
+                takeoffDistanceAtMaxMassM = selectedDistanceM;
+                break;
+              }
+            }
+            if (maxMass === null && !unavailableReason) {
+              unavailableReason = 'No mass in range meets all current take-off limits.';
+            }
+          } else if (climbLimitLb !== null) {
+            unavailableReason = 'Required runway climb gradient is unavailable.';
+          }
         } catch (error) {
           console.error('Max C56X take-off mass calculation failed:', error);
-          unavailableReason = 'Could not calculate the C56X climb limit. Check the entered values.';
+          unavailableReason = 'Could not calculate the C56X current-setup mass limit.';
         }
       }
     }
 
-    const maxMass = result?.maxTakeoffWeightLb ?? null;
     valueElement.textContent = maxMass === null
       ? 'Not available'
       : `${maxMass.toLocaleString('en-US')} lbs`;
     if (marginElement) {
       marginElement.textContent = maxMass === null
         ? unavailableReason
-        : `PA ${Math.round(result.pressureAltitudeFt).toLocaleString('en-US')} ft · ` +
+        : `PA ${Math.round(pressureAltitudeFt).toLocaleString('en-US')} ft · ` +
           `Anti-ice ${antiIce} · ` +
+          `TKOF at max ${takeoffDistanceAtMaxMassM.toLocaleString('en-US')} m / ` +
+          `${shortestRunwayLimitM.toLocaleString('en-US')} m runway limit · ` +
+          `Climb limit ${climbLimitLb.toLocaleString('en-US')} lbs · ` +
           (selectedMass <= maxMass
             ? `Selected mass OK (${(maxMass - selectedMass).toLocaleString('en-US')} lbs margin)`
             : `Selected mass exceeds by ${(selectedMass - maxMass).toLocaleString('en-US')} lbs`);
@@ -3050,7 +3307,6 @@ function updateClimbCheckCard(actualValue, reqValue) {
     const actualSpan = document.getElementById('res-to-oei');
     const reqSpan = document.getElementById('res-to-req');
     const cardContainer = document.getElementById('card-climb-check');
-
     if (isNaN(actualNum) || isNaN(reqNum)) {
         actualSpan.textContent = "-";
         reqSpan.textContent = "-";

@@ -344,13 +344,13 @@
                     <h4>Take-off Result Cards</h4>
                     <dl class="help-dl">
                         <dt>V1 / VR / V2</dt>
-                        <dd>Decision speed, rotation speed and take-off safety speed (KIAS). Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
+                        <dd>Decision speed, rotation speed and take-off safety speed (KIAS). For C56X, V1 includes the runway-gradient correction; the next more conservative published slope step is used where applicable, and downhill uses the SHADED correction. Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
 
                         <dt>Takeoff distances</dt>
                         <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed.</dd>
 
                         <dt>Climb gradient OEI / Req</dt>
-                        <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
+                        <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). For C56X, the AFM correction for turning climb up to 15° bank is applied: take-off mass is multiplied by 1.035 at or below 19,323 lbs; above that, 1.2 percentage points are subtracted from the gradient. If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
 
                         <dt>WIND | XW (XWLimit)</dt>
                         <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red = crosswind/tailwind limit exceeded. A tailwind always increases distances.</dd>
@@ -661,22 +661,6 @@
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
-                            <td colspan="2" style="padding: 0 0 10px;">
-                                <div id="c56x-takeoff-distance-card" class="runway-exceedance-card" role="status" aria-live="polite" hidden style="text-align: left;">
-                                    <div id="c56x-field-length-title" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">C56X take-off field length</div>
-                                    <div style="font-size: 11px; color: #c9d1d9;">Dry chart · RWCC 6 · reverser status does not affect dry distance: <strong id="c56x-dry-distance">-</strong></div>
-                                    <div style="font-size: 11px; color: #c9d1d9;"><span id="c56x-wet-chart-label">Wet chart · RWCC 5 · reversers Available:</span> <strong id="c56x-wet-chart-distance">-</strong></div>
-                                    <div style="font-size: 11px; color: #c9d1d9;">Wet required · max of dry/wet: <strong id="c56x-wet-distance">-</strong></div>
-                                    <div style="font-size: 12px; color: #fff; margin-top: 4px;">Selected condition: <strong id="c56x-selected-distance">-</strong></div>
-                                    <div style="font-size: 11px; color: #c9d1d9; margin-top: 4px;">TKOF vs TORA: <strong id="c56x-tora-status">-</strong></div>
-                                    <div style="font-size: 11px; color: #c9d1d9;">TKOF vs TODA: <strong id="c56x-toda-status">-</strong></div>
-                                    <div style="font-size: 11px; color: #c9d1d9;">TKOF vs ASDA: <strong id="c56x-asda-status">-</strong></div>
-                                    <div id="c56x-runway-limit-status" style="font-size: 11px; color: #8b949e; margin-top: 2px;">Awaiting performance</div>
-                                    <div id="c56x-distance-note" style="font-size: 10px; color: #8b949e; margin-top: 4px;">AFM chart values; verify against the approved AFM and operating limitations.</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
                             <td style="padding: 10px 0;">
                                 <select class="form-control" id="to-flaps" onchange="handleTakeoffFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
@@ -787,6 +771,35 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>5. Wet/Contam runway mass limit check:</span>
                     <span id="badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                </div>
+            </div>
+
+            <div id="c56x-takeoff-performance" hidden>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">C56X Take-Off Performance</h2>
+                    <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">C56X AFM</span>
+                </div>
+                <div id="c56x-takeoff-distance-card" class="runway-exceedance-card" role="status" aria-live="polite" style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                        <span>1. TKOF vs TORA [<strong id="c56x-tora-status" style="color: #fff;">-</strong>]:</span>
+                        <span id="c56x-badge-tora" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                        <span>2. TKOF vs TODA [<strong id="c56x-toda-status" style="color: #fff;">-</strong>]:</span>
+                        <span id="c56x-badge-toda" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                        <span>3. TKOF vs ASDA [<strong id="c56x-asda-status" style="color: #fff;">-</strong>]:</span>
+                        <span id="c56x-badge-asda" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                        <span>4. Single value of V1 used (<strong id="c56x-v1-check" style="color: #fff;">-</strong>): <span id="c56x-v1-correction">V1 correction applied: -</span></span>
+                        <span id="c56x-badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · Wet <strong id="c56x-compare-wet">-</strong></span>
+                        <span id="c56x-badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
+                    </div>
                 </div>
             </div>
         </section>

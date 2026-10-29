@@ -1,3 +1,4 @@
+//Figure 4-38
 const secondSegmentClimbGradient_flaps15_anti_ice_off = [
   {
     altitudeFt: 0,
