@@ -1,5001 +1,2655 @@
 const secondSegmentClimbGradient_flaps7_anti_ice_off = [
-  {
+{
     altitudeFt: 0,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 0, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 20, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 25, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 30, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.2 },
-          { temp: 35, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 40, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.3, wind30: 3.5 }
+        data: [
+          { temp: -25, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -20, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -15, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -10, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -5, windKnots: { "-10": 5.7, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 0, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 5, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 10, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 15, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 20, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 25, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 30, windKnots: { "-10": 4.5, "0": 5.1, "10": 5.4, "20": 5.6, "30": 5.9 } },
+          { temp: 35, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.3, "20": 4.5, "30": 4.7 } },
+          { temp: 40, windKnots: { "-10": 2.6, "0": 3.0, "10": 3.2, "20": 3.3, "30": 3.5 } },
+          { temp: 45, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.1, "20": 2.2, "30": 2.3 } },
+          { temp: 50, windKnots: { "-10": 0.8, "0": 1.0, "10": 1.1, "20": 1.2, "30": 1.3 } },
+          { temp: 54, windKnots: { "-10": 0.2, "0": 0.4, "10": 0.4, "20": 0.4, "30": 0.5 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -30, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -25, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -20, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -15, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -10, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: -5, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 0, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 5, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 10, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 15, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 20, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: 25, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 30, windMinus10: 4.0, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 35, windMinus10: 3.4, wind0: 3.8, wind10: 4.0, wind20: 4.3, wind30: 4.5 },
-          { temp: 40, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.4, wind30: 3.6 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: -20, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: -15, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: -10, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: -5, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 0, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 5, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 10, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 15, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 20, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.1 } },
+          { temp: 25, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: 30, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 35, windKnots: { "-10": 3.9, "0": 4.4, "10": 4.7, "20": 4.9, "30": 5.1 } },
+          { temp: 40, windKnots: { "-10": 2.9, "0": 3.4, "10": 3.5, "20": 3.7, "30": 3.9 } },
+          { temp: 45, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.4, "20": 2.6, "30": 2.7 } },
+          { temp: 50, windKnots: { "-10": 1.1, "0": 1.3, "10": 1.4, "20": 1.5, "30": 1.6 } },
+          { temp: 54, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.7, "20": 0.7, "30": 0.8 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -30, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -25, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -20, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -10, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -5, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 0, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 5, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 10, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 15, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 20, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 30, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 35, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 40, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: -20, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: -15, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: -10, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: -5, windKnots: { "-10": 6.5, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: 0, windKnots: { "-10": 6.5, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: 5, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 10, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 15, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 20, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 25, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: 30, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: 35, windKnots: { "-10": 4.2, "0": 4.8, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 40, windKnots: { "-10": 3.3, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.4 } },
+          { temp: 45, windKnots: { "-10": 2.3, "0": 2.7, "10": 2.8, "20": 2.9, "30": 3.1 } },
+          { temp: 50, windKnots: { "-10": 1.4, "0": 1.6, "10": 1.7, "20": 1.8, "30": 2.0 } },
+          { temp: 54, windKnots: { "-10": 0.7, "0": 0.9, "10": 1.0, "20": 1.1, "30": 1.1 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -30, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -20, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -10, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: -5, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 0, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 5, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 10, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 15, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 25, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 30, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 35, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 40, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.3 } },
+          { temp: -20, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.3 } },
+          { temp: -15, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: -10, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: -5, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: 0, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: 5, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: 10, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.8, "30": 9.2 } },
+          { temp: 15, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: 20, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: 25, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 30, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.1, "30": 7.4 } },
+          { temp: 35, windKnots: { "-10": 4.6, "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1 } },
+          { temp: 40, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.3, "20": 4.6, "30": 4.8 } },
+          { temp: 45, windKnots: { "-10": 2.6, "0": 3.0, "10": 3.2, "20": 3.3, "30": 3.5 } },
+          { temp: 50, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.1, "20": 2.2, "30": 2.3 } },
+          { temp: 54, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -30, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -25, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 0, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 10, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 15, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 20, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 25, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 30, windMinus10: 4.4, wind0: 5.0, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 35, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 40, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.3, "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: -20, windKnots: { "-10": 7.3, "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: -15, windKnots: { "-10": 7.4, "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: -10, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: -5, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: 0, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.8 } },
+          { temp: 5, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.9 } },
+          { temp: 10, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.8 } },
+          { temp: 15, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.8 } },
+          { temp: 20, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.8 } },
+          { temp: 25, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: 30, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: 35, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 40, windKnots: { "-10": 4.0, "0": 4.6, "10": 4.8, "20": 5.0, "30": 5.3 } },
+          { temp: 45, windKnots: { "-10": 2.9, "0": 3.4, "10": 3.6, "20": 3.8, "30": 4.0 } },
+          { temp: 50, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.4, "20": 2.6, "30": 2.7 } },
+          { temp: 54, windKnots: { "-10": 1.3, "0": 1.6, "10": 1.7, "20": 1.8, "30": 1.9 } }
         ]
       },
-      {
+    {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -30, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -25, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -20, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -15, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -10, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: -5, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: 0, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: 5, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: 10, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: 15, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-          { temp: 20, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 25, windMinus10: 5.3, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 30, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.9, wind30: 6.2 },
-          { temp: 35, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 40, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -30, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -25, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -20, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -15, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -10, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -5, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 0, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 5, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 10, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 15, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 25, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 30, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: 35, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 40, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.8, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -20, windKnots: { "-10": 7.8, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -15, windKnots: { "-10": 7.8, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -10, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -5, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: 0, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: 5, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: 10, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 9.9, "30": 10.5 } },
+          { temp: 15, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 9.9, "30": 10.4 } },
+          { temp: 20, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 9.9, "30": 10.4 } },
+          { temp: 25, windKnots: { "-10": 7.6, "0": 8.6, "10": 9.1, "20": 9.5, "30": 10.0 } },
+          { temp: 30, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 35, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.2 } },
+          { temp: 40, windKnots: { "-10": 4.4, "0": 5.0, "10": 5.2, "20": 5.5, "30": 5.8 } },
+          { temp: 45, windKnots: { "-10": 3.3, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.4 } },
+          { temp: 50, windKnots: { "-10": 2.3, "0": 2.7, "10": 2.8, "20": 3.0, "30": 3.2 } },
+          { temp: 54, windKnots: { "-10": 1.6, "0": 1.9, "10": 2.0, "20": 2.1, "30": 2.3 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -30, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -25, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -20, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -15, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -10, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -5, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 0, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 5, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 10, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 15, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 20, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.4, wind30: 8.8 },
-          { temp: 25, windMinus10: 5.8, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 30, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-          { temp: 35, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 40, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -30, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -25, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -20, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -15, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -10, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: -5, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 0, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 5, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 10, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 15, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 20, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: 25, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 30, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 35, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 40, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 }
+        data: [
+          { temp: -25, windKnots: { "-10": 8.8, "0": 10.2, "10": 10.7, "20": 11.3, "30": 12.0 } },
+          { temp: -20, windKnots: { "-10": 8.8, "0": 10.2, "10": 10.7, "20": 11.3, "30": 12.0 } },
+          { temp: -15, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 12.0 } },
+          { temp: -10, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: -5, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 0, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 5, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 10, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 15, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 20, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: 25, windKnots: { "-10": 8.6, "0": 9.8, "10": 10.3, "20": 10.8, "30": 11.4 } },
+          { temp: 30, windKnots: { "-10": 7.5, "0": 8.5, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 35, windKnots: { "-10": 6.3, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 40, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 45, windKnots: { "-10": 4.1, "0": 4.7, "10": 4.9, "20": 5.2, "30": 5.5 } },
+          { temp: 50, windKnots: { "-10": 3.0, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 54, windKnots: { "-10": 2.3, "0": 2.7, "10": 2.8, "20": 3.0, "30": 3.2 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -30, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -25, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -20, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -15, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -10, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: -5, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: 0, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: 5, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: 10, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: 15, windMinus10: 8.0, wind0: 9.1, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-          { temp: 20, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.5 },
-          { temp: 25, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.4 },
-          { temp: 30, windMinus10: 5.3, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 35, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 40, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -30, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -25, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -20, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -15, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -10, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: -5, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: 0, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: 5, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: 10, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: 15, windMinus10: 8.3, wind0: 9.5, wind10: 10.0, wind20: 10.6, wind30: 11.2 },
-          { temp: 20, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 25, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: 30, windMinus10: 5.6, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 35, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 40, windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 }
+        data: [
+          { temp: -25, windKnots: { "-10": 10.0, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: -20, windKnots: { "-10": 10.0, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: -15, windKnots: { "-10": 10.0, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: -10, windKnots: { "-10": 10.0, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: -5, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: 0, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6 } },
+          { temp: 5, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.6 } },
+          { temp: 10, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.5 } },
+          { temp: 15, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.5 } },
+          { temp: 20, windKnots: { "-10": 10.1, "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.5 } },
+          { temp: 25, windKnots: { "-10": 9.8, "0": 11.2, "10": 11.8, "20": 12.4, "30": 13.1 } },
+          { temp: 30, windKnots: { "-10": 8.6, "0": 9.8, "10": 10.3, "20": 10.8, "30": 11.4 } },
+          { temp: 35, windKnots: { "-10": 7.4, "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.8 } },
+          { temp: 40, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: 45, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 50, windKnots: { "-10": 3.8, "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1 } },
+          { temp: 54, windKnots: { "-10": 3.0, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.2 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -30, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -25, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -20, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -15, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -10, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: -5, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: 0, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: 5, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: 10, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: 15, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.1, wind30: 11.7 },
-          { temp: 20, windMinus10: 7.7, wind0: 8.8, wind10: 9.3, wind20: 9.8, wind30: 10.4 },
-          { temp: 25, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.6, wind30: 9.1 },
-          { temp: 30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 35, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 40, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.2 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -30, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -25, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -20, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -15, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -10, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: -5, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: 0, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: 5, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: 10, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: 15, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.6, wind30: 12.2 },
-          { temp: 20, windMinus10: 8.1, wind0: 9.2, wind10: 9.7, wind20: 10.3, wind30: 10.8 },
-          { temp: 25, windMinus10: 7.1, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 30, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: 35, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 40, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 }
+        data: [
+          { temp: -25, windKnots: { "-10": 11.3, "0": 13.1, "10": 13.9, "20": 14.7, "30": 15.6 } },
+          { temp: -20, windKnots: { "-10": 11.3, "0": 13.1, "10": 13.9, "20": 14.7, "30": 15.6 } },
+          { temp: -15, windKnots: { "-10": 11.3, "0": 13.1, "10": 13.9, "20": 14.6, "30": 15.5 } },
+          { temp: -10, windKnots: { "-10": 11.4, "0": 13.1, "10": 13.9, "20": 14.6, "30": 15.5 } },
+          { temp: -5, windKnots: { "-10": 11.4, "0": 13.2, "10": 13.9, "20": 14.6, "30": 15.5 } },
+          { temp: 0, windKnots: { "-10": 11.4, "0": 13.2, "10": 13.9, "20": 14.6, "30": 15.5 } },
+          { temp: 5, windKnots: { "-10": 11.4, "0": 13.2, "10": 13.8, "20": 14.6, "30": 15.4 } },
+          { temp: 10, windKnots: { "-10": 11.5, "0": 13.2, "10": 13.8, "20": 14.6, "30": 15.4 } },
+          { temp: 15, windKnots: { "-10": 11.5, "0": 13.2, "10": 13.8, "20": 14.6, "30": 15.4 } },
+          { temp: 20, windKnots: { "-10": 11.5, "0": 13.2, "10": 13.8, "20": 14.6, "30": 15.4 } },
+          { temp: 25, windKnots: { "-10": 11.2, "0": 12.8, "10": 13.4, "20": 14.2, "30": 14.9 } },
+          { temp: 30, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2 } },
+          { temp: 35, windKnots: { "-10": 8.5, "0": 9.8, "10": 10.3, "20": 10.9, "30": 11.5 } },
+          { temp: 40, windKnots: { "-10": 7.2, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: 45, windKnots: { "-10": 5.9, "0": 6.8, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: 50, windKnots: { "-10": 4.7, "0": 5.5, "10": 5.7, "20": 6.1, "30": 6.4 } },
+          { temp: 54, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.8, "20": 5.0, "30": 5.3 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -30, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -25, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -20, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -15, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -10, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: -5, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: 0, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: 5, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: 10, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: 15, windMinus10: 9.5, wind0: 10.8, wind10: 11.4, wind20: 12.1, wind30: 12.8 },
-          { temp: 20, windMinus10: 8.4, wind0: 9.6, wind10: 10.2, wind20: 10.8, wind30: 11.3 },
-          { temp: 25, windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 30, windMinus10: 6.4, wind0: 7.2, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-          { temp: 35, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 40, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.4, wind30: 5.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 12.8, "0": 14.9, "10": 15.8, "20": 16.8, "30": 17.8 } },
+          { temp: -20, windKnots: { "-10": 12.8, "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8 } },
+          { temp: -15, windKnots: { "-10": 12.9, "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8 } },
+          { temp: -10, windKnots: { "-10": 12.9, "0": 15.0, "10": 15.8, "20": 16.7, "30": 17.7 } },
+          { temp: -5, windKnots: { "-10": 12.9, "0": 15.0, "10": 15.8, "20": 16.7, "30": 17.7 } },
+          { temp: 0, windKnots: { "-10": 12.9, "0": 15.0, "10": 15.8, "20": 16.7, "30": 17.7 } },
+          { temp: 5, windKnots: { "-10": 13.0, "0": 15.0, "10": 15.8, "20": 16.7, "30": 17.7 } },
+          { temp: 10, windKnots: { "-10": 13.0, "0": 15.0, "10": 15.8, "20": 16.6, "30": 17.6 } },
+          { temp: 15, windKnots: { "-10": 13.0, "0": 15.0, "10": 15.8, "20": 16.6, "30": 17.6 } },
+          { temp: 20, windKnots: { "-10": 13.0, "0": 15.0, "10": 15.8, "20": 16.6, "30": 17.6 } },
+          { temp: 25, windKnots: { "-10": 12.7, "0": 14.6, "10": 15.4, "20": 16.2, "30": 17.2 } },
+          { temp: 30, windKnots: { "-10": 11.3, "0": 13.0, "10": 13.7, "20": 14.4, "30": 15.2 } },
+          { temp: 35, windKnots: { "-10": 9.9, "0": 11.4, "10": 12.0, "20": 12.6, "30": 13.4 } },
+          { temp: 40, windKnots: { "-10": 8.5, "0": 9.8, "10": 10.3, "20": 10.9, "30": 11.5 } },
+          { temp: 45, windKnots: { "-10": 7.1, "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6 } },
+          { temp: 50, windKnots: { "-10": 5.8, "0": 6.7, "10": 7.0, "20": 7.4, "30": 7.9 } },
+          { temp: 54, windKnots: { "-10": 4.9, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.7 } }
         ]
       }
     ]
   },
   {
     altitudeFt: 1000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -30, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -25, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -20, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -15, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -10, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -5, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 0, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 5, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 10, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 15, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 20, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: 25, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 30, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 35, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.6, wind30: 3.8 },
-          { temp: 40, windMinus10: 2.2, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 }
+        data: [
+          { temp: -25, windKnots: { "-10": 5.5, "0": 6.3, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -20, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -15, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -10, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 0, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 10, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 15, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 20, windKnots: { "-10": 5.6, "0": 6.3, "10": 6.6, "20": 6.9, "30": 7.2 } },
+          { temp: 25, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.7, "20": 6.0, "30": 6.3 } },
+          { temp: 30, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.7, "20": 4.9, "30": 5.2 } },
+          { temp: 35, windKnots: { "-10": 3.1, "0": 3.5, "10": 3.7, "20": 3.8, "30": 4.0 } },
+          { temp: 40, windKnots: { "-10": 2.1, "0": 2.4, "10": 2.6, "20": 2.7, "30": 2.9 } },
+          { temp: 45, windKnots: { "-10": 1.2, "0": 1.4, "10": 1.5, "20": 1.6, "30": 1.7 } },
+          { temp: 50, windKnots: { "-10": 0.4, "0": 0.5, "10": 0.6, "20": 0.7, "30": 0.8 } },
+          { temp: 52, windKnots: { "-10": 0.1, "0": 0.2, "10": 0.2, "20": 0.3, "30": 0.3 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 0, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 15, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 20, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 30, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 35, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 40, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 3.0, wind30: 3.1 }
+        data: [
+          { temp: -25, windKnots: { "-10": 5.9, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -20, windKnots: { "-10": 5.9, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -15, windKnots: { "-10": 5.9, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -10, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: 0, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: 5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: 10, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 15, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 20, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.4, "30": 7.7 } },
+          { temp: 25, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.1, "20": 6.4, "30": 6.8 } },
+          { temp: 30, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 35, windKnots: { "-10": 3.4, "0": 3.9, "10": 4.0, "20": 4.2, "30": 4.5 } },
+          { temp: 40, windKnots: { "-10": 2.4, "0": 2.8, "10": 2.9, "20": 3.1, "30": 3.2 } },
+          { temp: 45, windKnots: { "-10": 1.4, "0": 1.7, "10": 1.8, "20": 1.9, "30": 2.0 } },
+          { temp: 50, windKnots: { "-10": 0.6, "0": 0.8, "10": 0.9, "20": 0.9, "30": 1.0 } },
+          { temp: 52, windKnots: { "-10": 0.3, "0": 0.5, "10": 0.5, "20": 0.6, "30": 0.6 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -30, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -25, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -20, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -15, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -10, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: -5, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 0, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 5, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 10, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 20, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 25, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 30, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 35, windMinus10: 3.0, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 40, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.1, wind30: 3.2 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -20, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -15, windKnots: { "-10": 6.3, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -10, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 0, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 10, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 15, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 20, windKnots: { "-10": 6.4, "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.3 } },
+          { temp: 25, windKnots: { "-10": 5.6, "0": 6.3, "10": 6.6, "20": 6.9, "30": 7.3 } },
+          { temp: 30, windKnots: { "-10": 4.6, "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1 } },
+          { temp: 35, windKnots: { "-10": 3.7, "0": 4.2, "10": 4.4, "20": 4.7, "30": 4.9 } },
+          { temp: 40, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.3, "20": 3.5, "30": 3.6 } },
+          { temp: 45, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.1, "20": 2.3, "30": 2.4 } },
+          { temp: 50, windKnots: { "-10": 0.9, "0": 1.1, "10": 1.2, "20": 1.2, "30": 1.3 } },
+          { temp: 52, windKnots: { "-10": 0.6, "0": 0.7, "10": 0.8, "20": 0.9, "30": 0.9 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -15, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: -5, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 0, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 5, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 10, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.9 },
-          { temp: 20, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 25, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 30, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 35, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 40, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.7, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: -20, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: -15, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: -10, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: -5, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 0, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 5, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 10, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 15, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 8.9 } },
+          { temp: 20, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.0, "20": 8.4, "30": 8.9 } },
+          { temp: 25, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.4, "30": 7.8 } },
+          { temp: 30, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 35, windKnots: { "-10": 4.1, "0": 4.7, "10": 4.9, "20": 5.1, "30": 5.4 } },
+          { temp: 40, windKnots: { "-10": 3.1, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 45, windKnots: { "-10": 2.0, "0": 2.4, "10": 2.5, "20": 2.6, "30": 2.8 } },
+          { temp: 50, windKnots: { "-10": 1.2, "0": 1.4, "10": 1.5, "20": 1.6, "30": 1.7 } },
+          { temp: 52, windKnots: { "-10": 0.9, "0": 1.0, "10": 1.1, "20": 1.2, "30": 1.3 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -30, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -25, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -15, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -10, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 0, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 10, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 15, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 20, windMinus10: 5.3, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 25, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 30, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 35, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.2, wind30: 4.4 },
-          { temp: 40, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.2, "0": 8.2, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: -20, windKnots: { "-10": 7.2, "0": 8.2, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: -15, windKnots: { "-10": 7.2, "0": 8.2, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: -10, windKnots: { "-10": 7.2, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: -5, windKnots: { "-10": 7.2, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: 0, windKnots: { "-10": 7.2, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: 5, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.5 } },
+          { temp: 10, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.5 } },
+          { temp: 15, windKnots: { "-10": 7.3, "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.5 } },
+          { temp: 20, windKnots: { "-10": 7.2, "0": 8.2, "10": 8.6, "20": 9.0, "30": 9.5 } },
+          { temp: 25, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 30, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 35, windKnots: { "-10": 4.5, "0": 5.1, "10": 5.3, "20": 5.6, "30": 5.9 } },
+          { temp: 40, windKnots: { "-10": 3.4, "0": 3.9, "10": 4.1, "20": 4.3, "30": 4.5 } },
+          { temp: 45, windKnots: { "-10": 2.4, "0": 2.7, "10": 2.9, "20": 3.0, "30": 3.2 } },
+          { temp: 50, windKnots: { "-10": 1.5, "0": 1.7, "10": 1.8, "20": 1.9, "30": 2.1 } },
+          { temp: 52, windKnots: { "-10": 1.1, "0": 1.4, "10": 1.5, "20": 1.6, "30": 1.6 } }
         ]
       },
-      {
+    {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -30, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -10, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -5, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 0, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 5, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 10, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 15, windMinus10: 6.3, wind0: 7.1, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-          { temp: 20, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: 25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 30, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 35, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 40, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -30, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -25, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -20, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -15, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -10, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: -5, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: 0, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: 5, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: 10, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: 15, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: 20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 25, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 35, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 40, windMinus10: 2.8, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.6, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.3 } },
+          { temp: -20, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.3 } },
+          { temp: -15, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: -10, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: -5, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 0, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 5, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 10, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 15, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 20, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.6, "30": 10.1 } },
+          { temp: 25, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 30, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 35, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 40, windKnots: { "-10": 3.8, "0": 4.3, "10": 4.5, "20": 4.8, "30": 5.0 } },
+          { temp: 45, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.3, "20": 3.4, "30": 3.6 } },
+          { temp: 50, windKnots: { "-10": 1.8, "0": 2.1, "10": 2.2, "20": 2.3, "30": 2.5 } },
+          { temp: 52, windKnots: { "-10": 1.4, "0": 1.7, "10": 1.8, "20": 1.9, "30": 2.0 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -30, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -25, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -20, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -15, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -10, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: -5, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 0, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 5, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 10, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 15, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.6, wind30: 9.1 },
-          { temp: 20, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 25, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 35, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 40, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.6, wind30: 3.8 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -30, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -25, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -20, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -15, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -10, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -5, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 0, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 5, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 10, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 15, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 8.9, wind30: 9.4 },
-          { temp: 20, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 25, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 30, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.2 },
-          { temp: 35, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 40, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 }
+        data: [
+          { temp: -25, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.1, "30": 11.7 } },
+          { temp: -20, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.1, "30": 11.7 } },
+          { temp: -15, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.1, "30": 11.7 } },
+          { temp: -10, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.1, "30": 11.7 } },
+          { temp: -5, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.7 } },
+          { temp: 0, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 5, windKnots: { "-10": 8.8, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 10, windKnots: { "-10": 8.8, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 15, windKnots: { "-10": 8.8, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 20, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.4, "20": 11.0, "30": 11.5 } },
+          { temp: 25, windKnots: { "-10": 7.9, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.4 } },
+          { temp: 30, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 35, windKnots: { "-10": 5.7, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 40, windKnots: { "-10": 4.6, "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1 } },
+          { temp: 45, windKnots: { "-10": 3.4, "0": 3.9, "10": 4.1, "20": 4.4, "30": 4.6 } },
+          { temp: 50, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.4 } },
+          { temp: 52, windKnots: { "-10": 2.1, "0": 2.4, "10": 2.6, "20": 2.7, "30": 2.9 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -30, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -25, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -20, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -15, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -10, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: -5, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: 0, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: 5, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: 10, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: 15, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 20, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 25, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.5 },
-          { temp: 30, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 35, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 40, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.2 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -30, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -25, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -20, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -15, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -10, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: -5, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: 0, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: 5, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: 10, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-          { temp: 15, windMinus10: 7.6, wind0: 8.6, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-          { temp: 20, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 25, windMinus10: 5.8, wind0: 6.6, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 30, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 35, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 40, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 }
+        data: [
+          { temp: -25, windKnots: { "-10": 9.8, "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: -20, windKnots: { "-10": 9.8, "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: -15, windKnots: { "-10": 9.8, "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: -10, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: -5, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: 0, windKnots: { "-10": 9.9, "0": 11.4, "10": 11.9, "20": 12.6, "30": 13.3 } },
+          { temp: 5, windKnots: { "-10": 9.9, "0": 11.4, "10": 11.9, "20": 12.6, "30": 13.2 } },
+          { temp: 10, windKnots: { "-10": 9.9, "0": 11.4, "10": 11.9, "20": 12.5, "30": 13.2 } },
+          { temp: 15, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2 } },
+          { temp: 20, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2 } },
+          { temp: 25, windKnots: { "-10": 9.0, "0": 10.3, "10": 10.8, "20": 11.3, "30": 11.9 } },
+          { temp: 30, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.4, "20": 9.9, "30": 10.4 } },
+          { temp: 35, windKnots: { "-10": 6.7, "0": 7.7, "10": 8.1, "20": 8.5, "30": 8.9 } },
+          { temp: 40, windKnots: { "-10": 5.5, "0": 6.3, "10": 6.6, "20": 7.0, "30": 7.3 } },
+          { temp: 45, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.7 } },
+          { temp: 50, windKnots: { "-10": 3.2, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.4 } },
+          { temp: 52, windKnots: { "-10": 2.8, "0": 3.3, "10": 3.5, "20": 3.7, "30": 3.9 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -30, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -25, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -20, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -15, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -10, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: -5, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: 0, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: 5, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: 10, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.6, wind30: 11.1 },
-          { temp: 15, windMinus10: 7.9, wind0: 9.0, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-          { temp: 20, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 8.9, wind30: 9.4 },
-          { temp: 25, windMinus10: 6.1, wind0: 6.9, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 30, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 35, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.4, wind30: 5.7 },
-          { temp: 40, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -30, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -25, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -20, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -15, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -10, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -5, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 0, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 5, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 10, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 15, windMinus10: 8.3, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: 20, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 25, windMinus10: 6.4, wind0: 7.2, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 30, windMinus10: 5.4, wind0: 6.2, wind10: 6.5, wind20: 6.9, wind30: 7.3 },
-          { temp: 35, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 40, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 11.1, "0": 12.9, "10": 13.6, "20": 14.4, "30": 15.2 } },
+          { temp: -20, windKnots: { "-10": 11.1, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.2 } },
+          { temp: -15, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.2 } },
+          { temp: -10, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.2 } },
+          { temp: -5, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.2 } },
+          { temp: 0, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.1 } },
+          { temp: 5, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.1 } },
+          { temp: 10, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.1 } },
+          { temp: 15, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.5, "20": 14.2, "30": 15.0 } },
+          { temp: 20, windKnots: { "-10": 11.3, "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.0 } },
+          { temp: 25, windKnots: { "-10": 10.3, "0": 11.7, "10": 12.3, "20": 13.0, "30": 13.7 } },
+          { temp: 30, windKnots: { "-10": 9.1, "0": 10.4, "10": 10.9, "20": 11.5, "30": 12.1 } },
+          { temp: 35, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 9.9, "30": 10.5 } },
+          { temp: 40, windKnots: { "-10": 6.5, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 45, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.3, "20": 6.6, "30": 7.0 } },
+          { temp: 50, windKnots: { "-10": 4.1, "0": 4.7, "10": 5.0, "20": 5.3, "30": 5.6 } },
+          { temp: 52, windKnots: { "-10": 3.7, "0": 4.3, "10": 4.5, "20": 4.7, "30": 5.0 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -30, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -25, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -20, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -15, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -10, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: -5, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: 0, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: 5, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: 10, windMinus10: 9.1, wind0: 10.3, wind10: 10.9, wind20: 11.5, wind30: 12.2 },
-          { temp: 15, windMinus10: 8.7, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 20, windMinus10: 7.7, wind0: 8.7, wind10: 9.2, wind20: 9.8, wind30: 10.3 },
-          { temp: 25, windMinus10: 6.7, wind0: 7.6, wind10: 8.0, wind20: 8.5, wind30: 9.0 },
-          { temp: 30, windMinus10: 5.7, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 35, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 40, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 }
+        data: [
+          { temp: -25, windKnots: { "-10": 12.6, "0": 14.7, "10": 15.5, "20": 16.4, "30": 17.4 } },
+          { temp: -20, windKnots: { "-10": 12.6, "0": 14.7, "10": 15.5, "20": 16.4, "30": 17.4 } },
+          { temp: -15, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.6, "20": 16.4, "30": 17.4 } },
+          { temp: -10, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.5, "20": 16.4, "30": 17.4 } },
+          { temp: -5, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.5, "20": 16.3, "30": 17.3 } },
+          { temp: 0, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.5, "20": 16.3, "30": 17.3 } },
+          { temp: 5, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.5, "20": 16.3, "30": 17.3 } },
+          { temp: 10, windKnots: { "-10": 12.7, "0": 14.7, "10": 15.5, "20": 16.3, "30": 17.3 } },
+          { temp: 15, windKnots: { "-10": 12.8, "0": 14.7, "10": 15.4, "20": 16.3, "30": 17.2 } },
+          { temp: 20, windKnots: { "-10": 12.8, "0": 14.7, "10": 15.3, "20": 16.2, "30": 17.2 } },
+          { temp: 25, windKnots: { "-10": 11.7, "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.8 } },
+          { temp: 30, windKnots: { "-10": 10.4, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: 35, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.1, "20": 11.7, "30": 12.3 } },
+          { temp: 40, windKnots: { "-10": 7.7, "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.4 } },
+          { temp: 45, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.6, "20": 8.0, "30": 8.5 } },
+          { temp: 50, windKnots: { "-10": 5.1, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: 52, windKnots: { "-10": 4.7, "0": 5.4, "10": 5.7, "20": 6.0, "30": 6.3 } }
         ]
       }
     ]
   },
   {
     altitudeFt: 2000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -30, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -25, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -20, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -15, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -10, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: -5, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 0, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 5, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 10, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 25, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 30, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 35, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 40, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.6 }
+        data: [
+          { temp: -25, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -20, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -15, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -10, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -5, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 0, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 5, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1 } },
+          { temp: 10, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.0 } },
+          { temp: 15, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.0 } },
+          { temp: 20, windKnots: { "-10": 5.0, "0": 5.7, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: 25, windKnots: { "-10": 4.2, "0": 4.7, "10": 5.0, "20": 5.2, "30": 5.5 } },
+          { temp: 30, windKnots: { "-10": 3.4, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.4 } },
+          { temp: 35, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.4 } },
+          { temp: 40, windKnots: { "-10": 1.6, "0": 1.8, "10": 1.9, "20": 2.0, "30": 2.2 } },
+          { temp: 45, windKnots: { "-10": 0.7, "0": 0.8, "10": 0.9, "20": 0.9, "30": 1.0 } },
+          { temp: 50, windKnots: { "-10": -0.1, "0": 0.0, "10": 0.0, "20": 0.1, "30": 0.1 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -30, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -25, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -20, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -15, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -10, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -5, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 0, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 5, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 10, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 25, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 30, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.3 },
-          { temp: 35, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 40, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -20, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -15, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -10, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -5, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: 0, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: 5, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 10, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 15, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 20, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.0 } },
+          { temp: 25, windKnots: { "-10": 4.5, "0": 5.1, "10": 5.4, "20": 5.6, "30": 6.0 } },
+          { temp: 30, windKnots: { "-10": 3.7, "0": 4.2, "10": 4.4, "20": 4.6, "30": 4.9 } },
+          { temp: 35, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.4, "20": 3.6, "30": 3.7 } },
+          { temp: 40, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.4, "30": 2.5 } },
+          { temp: 45, windKnots: { "-10": 0.9, "0": 1.1, "10": 1.2, "20": 1.3, "30": 1.3 } },
+          { temp: 50, windKnots: { "-10": 0.2, "0": 0.3, "10": 0.3, "20": 0.4, "30": 0.4 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -30, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -25, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -20, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 0, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 15, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 20, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.8, wind30: 6.1 },
-          { temp: 25, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.2 },
-          { temp: 30, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 35, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 40, windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -20, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -15, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -10, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -5, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: 0, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: 5, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 10, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 15, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 20, windKnots: { "-10": 5.8, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: 25, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 30, windKnots: { "-10": 4.0, "0": 4.6, "10": 4.8, "20": 5.1, "30": 5.3 } },
+          { temp: 35, windKnots: { "-10": 3.1, "0": 3.6, "10": 3.8, "20": 4.0, "30": 4.2 } },
+          { temp: 40, windKnots: { "-10": 2.2, "0": 2.5, "10": 2.6, "20": 2.8, "30": 2.9 } },
+          { temp: 45, windKnots: { "-10": 1.2, "0": 1.4, "10": 1.5, "20": 1.6, "30": 1.7 } },
+          { temp: 50, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.7, "20": 0.8, "30": 0.9 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 0, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 15, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 20, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 25, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-          { temp: 30, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 35, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 40, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 }
+        data: [
+          { temp: -25, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -20, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -15, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -10, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -5, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 0, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 5, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.7 } },
+          { temp: 10, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 15, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 20, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.0 } },
+          { temp: 25, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 30, windKnots: { "-10": 4.4, "0": 5.0, "10": 5.3, "20": 5.5, "30": 5.8 } },
+          { temp: 35, windKnots: { "-10": 3.5, "0": 4.0, "10": 4.2, "20": 4.4, "30": 4.6 } },
+          { temp: 40, windKnots: { "-10": 2.5, "0": 2.8, "10": 3.0, "20": 3.1, "30": 3.3 } },
+          { temp: 45, windKnots: { "-10": 1.5, "0": 1.8, "10": 1.9, "20": 2.0, "30": 2.1 } },
+          { temp: 50, windKnots: { "-10": 0.8, "0": 0.9, "10": 1.0, "20": 1.1, "30": 1.2 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -30, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -25, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -20, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -15, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -10, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -5, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 0, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 5, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 10, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 15, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 20, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 25, windMinus10: 4.2, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 30, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 35, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 40, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: -20, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: -15, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: -10, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: -5, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: 0, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: 5, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.8, "30": 9.3 } },
+          { temp: 10, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.8, "30": 9.2 } },
+          { temp: 15, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.8, "30": 9.2 } },
+          { temp: 20, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 25, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: 30, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.7, "20": 6.0, "30": 6.3 } },
+          { temp: 35, windKnots: { "-10": 3.8, "0": 4.4, "10": 4.6, "20": 4.8, "30": 5.1 } },
+          { temp: 40, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.4, "20": 3.6, "30": 3.8 } },
+          { temp: 45, windKnots: { "-10": 1.8, "0": 2.1, "10": 2.2, "20": 2.3, "30": 2.5 } },
+          { temp: 50, windKnots: { "-10": 1.1, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } }
         ]
       },
-      {
+    {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -30, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -25, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -20, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -15, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -10, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: -5, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 0, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 5, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 10, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 20, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 25, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 30, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 35, windMinus10: 2.9, wind0: 3.3, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 40, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -30, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -10, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -5, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 0, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 5, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 10, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 15, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 20, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 25, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 30, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.1 },
-          { temp: 35, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 40, windMinus10: 2.3, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.1 }
+        data: [
+          { temp: -25, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.5, "30": 10.0 } },
+          { temp: -20, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.5, "30": 10.0 } },
+          { temp: -15, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.5, "30": 10.0 } },
+          { temp: -10, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.5, "30": 10.0 } },
+          { temp: -5, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.5, "30": 10.0 } },
+          { temp: 0, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 5, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 10, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 15, windKnots: { "-10": 7.5, "0": 8.6, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 20, windKnots: { "-10": 7.1, "0": 8.0, "10": 8.4, "20": 8.8, "30": 9.3 } },
+          { temp: 25, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.0 } },
+          { temp: 30, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 35, windKnots: { "-10": 4.2, "0": 4.8, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 40, windKnots: { "-10": 3.2, "0": 3.6, "10": 3.8, "20": 4.0, "30": 4.2 } },
+          { temp: 45, windKnots: { "-10": 2.1, "0": 2.4, "10": 2.6, "20": 2.7, "30": 2.9 } },
+          { temp: 50, windKnots: { "-10": 1.3, "0": 1.5, "10": 1.6, "20": 1.7, "30": 1.8 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -30, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -25, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -20, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -15, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -10, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -5, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 0, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 5, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 10, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 15, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 20, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 25, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 30, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 35, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.3 },
-          { temp: 40, windMinus10: 2.4, wind0: 2.8, wind10: 2.9, wind20: 3.1, wind30: 3.3 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -30, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -25, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -20, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -15, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -10, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: -5, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: 0, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: 5, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: 10, windMinus10: 7.0, wind0: 7.9, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-          { temp: 15, windMinus10: 6.4, wind0: 7.2, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 20, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: 25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 30, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 35, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 40, windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.4 }
+        data: [
+          { temp: -25, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.8, "30": 11.4 } },
+          { temp: -20, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.8, "30": 11.4 } },
+          { temp: -15, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.8, "30": 11.4 } },
+          { temp: -10, windKnots: { "-10": 8.5, "0": 9.8, "10": 10.2, "20": 10.8, "30": 11.4 } },
+          { temp: -5, windKnots: { "-10": 8.5, "0": 9.8, "10": 10.2, "20": 10.8, "30": 11.3 } },
+          { temp: 0, windKnots: { "-10": 8.5, "0": 9.8, "10": 10.2, "20": 10.8, "30": 11.3 } },
+          { temp: 5, windKnots: { "-10": 8.6, "0": 9.8, "10": 10.2, "20": 10.7, "30": 11.3 } },
+          { temp: 10, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3 } },
+          { temp: 15, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.2 } },
+          { temp: 20, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.6 } },
+          { temp: 25, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.4, "20": 8.9, "30": 9.3 } },
+          { temp: 30, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.3, "20": 7.6, "30": 8.0 } },
+          { temp: 35, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7 } },
+          { temp: 40, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.7, "20": 5.0, "30": 5.2 } },
+          { temp: 45, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.4, "20": 3.6, "30": 3.8 } },
+          { temp: 50, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.4, "20": 2.6, "30": 2.7 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -30, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -25, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -20, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -15, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -10, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: -5, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 0, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 5, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 10, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 15, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 25, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 35, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 40, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.5 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -30, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -25, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -20, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -15, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -10, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: -5, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: 0, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: 5, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: 10, windMinus10: 7.6, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.2 },
-          { temp: 15, windMinus10: 6.9, wind0: 7.8, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: 20, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: 25, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: 30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 35, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 40, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 }
+        data: [
+          { temp: -25, windKnots: { "-10": 9.6, "0": 11.1, "10": 11.6, "20": 12.3, "30": 13.0 } },
+          { temp: -20, windKnots: { "-10": 9.6, "0": 11.1, "10": 11.6, "20": 12.3, "30": 13.0 } },
+          { temp: -15, windKnots: { "-10": 9.6, "0": 11.1, "10": 11.6, "20": 12.3, "30": 13.0 } },
+          { temp: -10, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.3, "30": 13.0 } },
+          { temp: -5, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.3, "30": 12.9 } },
+          { temp: 0, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9 } },
+          { temp: 5, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9 } },
+          { temp: 10, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9 } },
+          { temp: 15, windKnots: { "-10": 9.7, "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.8 } },
+          { temp: 20, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: 25, windKnots: { "-10": 8.2, "0": 9.3, "10": 9.8, "20": 10.2, "30": 10.8 } },
+          { temp: 30, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: 35, windKnots: { "-10": 6.0, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: 40, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 45, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.4, "20": 4.6, "30": 4.8 } },
+          { temp: 50, windKnots: { "-10": 2.8, "0": 3.3, "10": 3.5, "20": 3.7, "30": 3.9 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -30, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -25, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -20, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -15, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -10, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: -5, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: 0, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: 5, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: 10, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.1, wind30: 10.6 },
-          { temp: 15, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: 20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 25, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: 30, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.9, wind30: 6.2 },
-          { temp: 35, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 40, windMinus10: 2.9, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -30, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -25, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -20, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -15, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -10, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: -5, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: 0, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: 5, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: 10, windMinus10: 8.2, wind0: 9.4, wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-          { temp: 15, windMinus10: 7.5, wind0: 8.6, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: 20, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 25, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 30, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 35, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.2 },
-          { temp: 40, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 }
+        data: [
+          { temp: -25, windKnots: { "-10": 10.9, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.9 } },
+          { temp: -20, windKnots: { "-10": 10.9, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.8 } },
+          { temp: -15, windKnots: { "-10": 10.9, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.8 } },
+          { temp: -10, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.8 } },
+          { temp: -5, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.8 } },
+          { temp: 0, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.7 } },
+          { temp: 5, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.7 } },
+          { temp: 10, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.2, "20": 13.9, "30": 14.7 } },
+          { temp: 15, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.2, "20": 13.9, "30": 14.7 } },
+          { temp: 20, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: 25, windKnots: { "-10": 9.4, "0": 10.7, "10": 11.3, "20": 11.8, "30": 12.5 } },
+          { temp: 30, windKnots: { "-10": 8.3, "0": 9.4, "10": 9.9, "20": 10.5, "30": 11.1 } },
+          { temp: 35, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: 40, windKnots: { "-10": 5.8, "0": 6.6, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 45, windKnots: { "-10": 4.5, "0": 5.2, "10": 5.4, "20": 5.7, "30": 6.1 } },
+          { temp: 50, windKnots: { "-10": 3.7, "0": 4.3, "10": 4.5, "20": 4.7, "30": 5.0 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -30, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -25, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -20, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -15, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -10, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: -5, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 0, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 5, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 10, windMinus10: 8.6, wind0: 9.8, wind10: 10.4, wind20: 11.0, wind30: 11.6 },
-          { temp: 15, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 10.0, wind30: 10.6 },
-          { temp: 20, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: 25, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 30, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 35, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 40, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 }
+        data: [
+          { temp: -25, windKnots: { "-10": 12.4, "0": 14.4, "10": 15.2, "20": 16.0, "30": 17.0 } },
+          { temp: -20, windKnots: { "-10": 12.4, "0": 14.4, "10": 15.2, "20": 16.0, "30": 17.0 } },
+          { temp: -15, windKnots: { "-10": 12.4, "0": 14.4, "10": 15.2, "20": 16.0, "30": 17.0 } },
+          { temp: -10, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.2, "20": 16.0, "30": 17.0 } },
+          { temp: -5, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.2, "20": 16.0, "30": 16.9 } },
+          { temp: 0, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.2, "20": 16.0, "30": 16.9 } },
+          { temp: 5, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.1, "20": 15.9, "30": 16.9 } },
+          { temp: 10, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.1, "20": 15.9, "30": 16.8 } },
+          { temp: 15, windKnots: { "-10": 12.5, "0": 14.4, "10": 15.1, "20": 15.9, "30": 16.8 } },
+          { temp: 20, windKnots: { "-10": 12.0, "0": 13.8, "10": 14.5, "20": 15.2, "30": 16.1 } },
+          { temp: 25, windKnots: { "-10": 10.8, "0": 12.4, "10": 13.0, "20": 13.7, "30": 14.4 } },
+          { temp: 30, windKnots: { "-10": 9.6, "0": 11.0, "10": 11.5, "20": 12.1, "30": 12.8 } },
+          { temp: 35, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.1 } },
+          { temp: 40, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.3 } },
+          { temp: 45, windKnots: { "-10": 5.5, "0": 6.4, "10": 6.7, "20": 7.1, "30": 7.5 } },
+          { temp: 50, windKnots: { "-10": 4.7, "0": 5.4, "10": 5.7, "20": 6.0, "30": 6.3 } }
         ]
       }
     ]
   },
   {
     altitudeFt: 3000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -20, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -15, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -10, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: -5, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: 0, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: 5, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-          { temp: 10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 20, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 25, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 30, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.4, wind30: 3.6 },
-          { temp: 35, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 40, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 }
+        data: [
+          { temp: -30, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.2, "20": 6.6, "30": 6.9 } },
+          { temp: -25, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.2, "20": 6.6, "30": 6.9 } },
+          { temp: -20, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: -15, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: -10, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: -5, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 0, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.5, "30": 6.9 } },
+          { temp: 5, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: 10, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 15, windKnots: { "-10": 5.2, "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7 } },
+          { temp: 20, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.6 } },
+          { temp: 25, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.2, "20": 4.4, "30": 4.7 } },
+          { temp: 30, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.3, "20": 3.5, "30": 3.7 } },
+          { temp: 35, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.5, "30": 2.6 } },
+          { temp: 40, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } },
+          { temp: 45, windKnots: { "-10": .2, "0": .3, "10": .4, "20": .4, "30": .5 } },
+          { temp: 48, windKnots: { "-10": -.2, "0": -.2, "10": -.1, "20": -.1, "30": -.1 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -5, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 0, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 5, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 10, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 20, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 25, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 30, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.7 },
-          { temp: 35, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 40, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 }
+        data: [
+          { temp: -30, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -25, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -20, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -15, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -10, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 0, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 10, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 15, windKnots: { "-10": 5.5, "0": 6.3, "10": 6.5, "20": 6.8, "30": 7.2 } },
+          { temp: 20, windKnots: { "-10": 4.7, "0": 5.3, "10": 5.6, "20": 5.8, "30": 6.1 } },
+          { temp: 25, windKnots: { "-10": 3.9, "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1 } },
+          { temp: 30, windKnots: { "-10": 3.1, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 35, windKnots: { "-10": 2.2, "0": 2.6, "10": 2.7, "20": 2.8, "30": 3.0 } },
+          { temp: 40, windKnots: { "-10": 1.3, "0": 1.5, "10": 1.6, "20": 1.7, "30": 1.8 } },
+          { temp: 45, windKnots: { "-10": .5, "0": .6, "10": .7, "20": .7, "30": .8 } },
+          { temp: 48, windKnots: { "-10": 0.0, "0": .1, "10": .1, "20": .2, "30": .2 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -10, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: -5, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 0, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 5, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 10, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: 15, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 20, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 25, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 30, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 35, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 40, windMinus10: 1.7, wind0: 1.9, wind10: 2.1, wind20: 2.2, wind30: 2.3 }
+        data: [
+          { temp: -30, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: -25, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: -20, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: -15, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: -10, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: -5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: 0, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: 5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: 10, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 15, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 20, windKnots: { "-10": 5.1, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 25, windKnots: { "-10": 4.3, "0": 4.8, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 30, windKnots: { "-10": 3.4, "0": 3.9, "10": 4.1, "20": 4.3, "30": 4.5 } },
+          { temp: 35, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.4 } },
+          { temp: 40, windKnots: { "-10": 1.6, "0": 1.9, "10": 2.0, "20": 2.1, "30": 2.2 } },
+          { temp: 45, windKnots: { "-10": .7, "0": .9, "10": 1.0, "20": 1.0, "30": 1.1 } },
+          { temp: 48, windKnots: { "-10": .3, "0": .4, "10": .4, "20": .5, "30": .5 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -30, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -25, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -20, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -15, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -10, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: -5, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: 0, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: 5, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: 10, windMinus10: 5.4, wind0: 6.2, wind10: 6.5, wind20: 6.9, wind30: 7.3 },
-          { temp: 15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.3, wind30: 5.6 },
-          { temp: 25, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 30, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 35, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 40, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 }
+        data: [
+          { temp: -30, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.5 } },
+          { temp: -25, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.5 } },
+          { temp: -20, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.5 } },
+          { temp: -15, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: -10, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: -5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: 0, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: 5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 10, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 15, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.5, "20": 7.8, "30": 8.2 } },
+          { temp: 20, windKnots: { "-10": 5.5, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 25, windKnots: { "-10": 4.6, "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.0 } },
+          { temp: 30, windKnots: { "-10": 3.8, "0": 4.3, "10": 4.5, "20": 4.7, "30": 5.0 } },
+          { temp: 35, windKnots: { "-10": 2.9, "0": 3.3, "10": 3.4, "20": 3.6, "30": 3.8 } },
+          { temp: 40, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.4, "30": 2.6 } },
+          { temp: 45, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } },
+          { temp: 48, windKnots: { "-10": .5, "0": .7, "10": .7, "20": .8, "30": .9 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 0, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: 15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 20, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 25, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 30, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 35, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 40, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.4 }
+        data: [
+          { temp: -30, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.1 } },
+          { temp: -25, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.1 } },
+          { temp: -20, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -15, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -10, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -5, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 0, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 5, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 10, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.1, "20": 8.5, "30": 9.0 } },
+          { temp: 15, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.0, "20": 8.4, "30": 8.8 } },
+          { temp: 20, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 25, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.2, "30": 6.6 } },
+          { temp: 30, windKnots: { "-10": 4.2, "0": 4.7, "10": 4.9, "20": 5.2, "30": 5.5 } },
+          { temp: 35, windKnots: { "-10": 3.2, "0": 3.7, "10": 3.8, "20": 4.0, "30": 4.2 } },
+          { temp: 40, windKnots: { "-10": 2.2, "0": 2.5, "10": 2.7, "20": 2.8, "30": 3.0 } },
+          { temp: 45, windKnots: { "-10": 1.3, "0": 1.5, "10": 1.6, "20": 1.7, "30": 1.8 } },
+          { temp: 48, windKnots: { "-10": .8, "0": 1.0, "10": 1.1, "20": 1.1, "30": 1.2 } }
         ]
       },
       {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -30, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -25, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -20, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -15, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -10, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -5, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 0, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 5, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 15, windMinus10: 5.1, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 20, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 25, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 30, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 35, windMinus10: 2.5, wind0: 2.9, wind10: 3.1, wind20: 3.2, wind30: 3.4 },
-          { temp: 40, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -30, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -25, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -20, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -15, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -10, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: -5, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: 0, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: 5, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.3 },
-          { temp: 10, windMinus10: 6.0, wind0: 6.8, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 15, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: 20, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 25, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 30, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 35, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.5 },
-          { temp: 40, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 }
+        data: [
+          { temp: -30, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: -25, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: -20, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: -15, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: -10, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7 } },
+          { temp: -5, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.6 } },
+          { temp: 0, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.6 } },
+          { temp: 5, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: 10, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6 } },
+          { temp: 15, windKnots: { "-10": 7.2, "0": 8.2, "10": 8.6, "20": 9.0, "30": 9.4 } },
+          { temp: 20, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.3 } },
+          { temp: 25, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 30, windKnots: { "-10": 4.5, "0": 5.2, "10": 5.4, "20": 5.7, "30": 6.0 } },
+          { temp: 35, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.3, "20": 4.5, "30": 4.7 } },
+          { temp: 40, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.1, "20": 3.2, "30": 3.4 } },
+          { temp: 45, windKnots: { "-10": 1.6, "0": 1.9, "10": 2.0, "20": 2.1, "30": 2.2 } },
+          { temp: 48, windKnots: { "-10": 1.1, "0": 1.3, "10": 1.4, "20": 1.5, "30": 1.6 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -30, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -20, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -10, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: -5, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 0, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 5, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 10, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 15, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.4 },
-          { temp: 20, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 25, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 30, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 35, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 40, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -30, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -25, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: -5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: 0, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: 5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: 10, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: 15, windMinus10: 5.8, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 20, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 25, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 30, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 35, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 40, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 }
+        data: [
+          { temp: -30, windKnots: { "-10": 8.2, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.1 } },
+          { temp: -25, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.1 } },
+          { temp: -20, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: -15, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: -10, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: -5, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: 0, windKnots: { "-10": 8.3, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: 5, windKnots: { "-10": 8.3, "0": 9.5, "10": 9.9, "20": 10.4, "30": 11.0 } },
+          { temp: 10, windKnots: { "-10": 8.3, "0": 9.5, "10": 9.9, "20": 10.4, "30": 10.9 } },
+          { temp: 15, windKnots: { "-10": 8.2, "0": 9.3, "10": 9.8, "20": 10.3, "30": 10.8 } },
+          { temp: 20, windKnots: { "-10": 7.3, "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.5 } },
+          { temp: 25, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.3 } },
+          { temp: 30, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.1 } },
+          { temp: 35, windKnots: { "-10": 4.3, "0": 5.0, "10": 5.2, "20": 5.5, "30": 5.8 } },
+          { temp: 40, windKnots: { "-10": 3.3, "0": 3.8, "10": 3.9, "20": 4.1, "30": 4.4 } },
+          { temp: 45, windKnots: { "-10": 2.3, "0": 2.7, "10": 2.8, "20": 2.9, "30": 3.1 } },
+          { temp: 48, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.2, "20": 2.3, "30": 2.4 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -30, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -25, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -20, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -15, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -10, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: -5, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: 0, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: 5, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-          { temp: 10, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.6, wind30: 9.1 },
-          { temp: 15, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.1 },
-          { temp: 20, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: 25, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 30, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 35, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 40, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 3.0 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -30, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -25, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -20, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -15, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -10, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: -5, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: 0, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: 5, windMinus10: 7.2, wind0: 8.2, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-          { temp: 10, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.5 },
-          { temp: 15, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 20, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: 25, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 30, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 35, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 40, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 }
+        data: [
+          { temp: -30, windKnots: { "-10": 9.4, "0": 10.8, "10": 11.3, "20": 12.0, "30": 12.7 } },
+          { temp: -25, windKnots: { "-10": 9.4, "0": 10.8, "10": 11.3, "20": 12.0, "30": 12.6 } },
+          { temp: -20, windKnots: { "-10": 9.4, "0": 10.8, "10": 11.3, "20": 12.0, "30": 12.6 } },
+          { temp: -15, windKnots: { "-10": 9.4, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6 } },
+          { temp: -10, windKnots: { "-10": 9.4, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6 } },
+          { temp: -5, windKnots: { "-10": 9.5, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6 } },
+          { temp: 0, windKnots: { "-10": 9.5, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6 } },
+          { temp: 5, windKnots: { "-10": 9.5, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.5 } },
+          { temp: 10, windKnots: { "-10": 9.5, "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.5 } },
+          { temp: 15, windKnots: { "-10": 9.4, "0": 10.7, "10": 11.2, "20": 11.7, "30": 12.3 } },
+          { temp: 20, windKnots: { "-10": 8.4, "0": 9.5, "10": 10.0, "20": 10.5, "30": 11.0 } },
+          { temp: 25, windKnots: { "-10": 7.4, "0": 8.4, "10": 8.8, "20": 9.2, "30": 9.7 } },
+          { temp: 30, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 35, windKnots: { "-10": 5.2, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 40, windKnots: { "-10": 4.1, "0": 4.7, "10": 4.9, "20": 5.2, "30": 5.5 } },
+          { temp: 45, windKnots: { "-10": 3.0, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 48, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.4 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -30, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -25, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -20, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -15, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -10, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: -5, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: 0, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: 5, windMinus10: 7.5, wind0: 8.5, wind10: 9.1, wind20: 9.6, wind30: 10.1 },
-          { temp: 10, windMinus10: 7.3, wind0: 8.3, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 15, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.6 },
-          { temp: 25, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 30, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-          { temp: 35, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 40, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -30, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -25, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -20, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -15, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -10, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: -5, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: 0, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: 5, windMinus10: 7.8, wind0: 8.9, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-          { temp: 10, windMinus10: 7.7, wind0: 8.7, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-          { temp: 15, windMinus10: 6.8, wind0: 7.7, wind10: 8.2, wind20: 8.7, wind30: 9.1 },
-          { temp: 20, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 25, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 35, windMinus10: 3.4, wind0: 3.8, wind10: 4.0, wind20: 4.3, wind30: 4.5 },
-          { temp: 40, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.4 }
+        data: [
+          { temp: -30, windKnots: { "-10": 10.6, "0": 12.3, "10": 12.9, "20": 13.7, "30": 14.5 } },
+          { temp: -25, windKnots: { "-10": 10.7, "0": 12.3, "10": 12.9, "20": 13.7, "30": 14.5 } },
+          { temp: -20, windKnots: { "-10": 10.7, "0": 12.3, "10": 12.9, "20": 13.7, "30": 14.4 } },
+          { temp: -15, windKnots: { "-10": 10.7, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4 } },
+          { temp: -10, windKnots: { "-10": 10.7, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4 } },
+          { temp: -5, windKnots: { "-10": 10.7, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4 } },
+          { temp: 0, windKnots: { "-10": 10.8, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4 } },
+          { temp: 5, windKnots: { "-10": 10.8, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.3 } },
+          { temp: 10, windKnots: { "-10": 10.8, "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.3 } },
+          { temp: 15, windKnots: { "-10": 10.7, "0": 12.2, "10": 12.8, "20": 13.4, "30": 14.1 } },
+          { temp: 20, windKnots: { "-10": 9.6, "0": 11.0, "10": 11.5, "20": 12.1, "30": 12.7 } },
+          { temp: 25, windKnots: { "-10": 8.5, "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3 } },
+          { temp: 30, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.4, "30": 9.9 } },
+          { temp: 35, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.3 } },
+          { temp: 40, windKnots: { "-10": 5.0, "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7 } },
+          { temp: 45, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.7, "20": 5.0, "30": 5.3 } },
+          { temp: 48, windKnots: { "-10": 3.3, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.4 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -30, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -25, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -20, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -15, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -10, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: -5, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: 0, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: 5, windMinus10: 8.2, wind0: 9.3, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-          { temp: 10, windMinus10: 8.0, wind0: 9.1, wind10: 9.7, wind20: 10.2, wind30: 10.8 },
-          { temp: 15, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 20, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.4 },
-          { temp: 25, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 35, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 40, windMinus10: 2.6, wind0: 3.0, wind10: 3.1, wind20: 3.3, wind30: 3.5 }
+        data: [
+          { temp: -30, windKnots: { "-10": 12.1, "0": 14.0, "10": 14.8, "20": 15.7, "30": 16.6 } },
+          { temp: -25, windKnots: { "-10": 12.1, "0": 14.0, "10": 14.8, "20": 15.7, "30": 16.6 } },
+          { temp: -20, windKnots: { "-10": 12.2, "0": 14.0, "10": 14.8, "20": 15.6, "30": 16.6 } },
+          { temp: -15, windKnots: { "-10": 12.2, "0": 14.1, "10": 14.8, "20": 15.6, "30": 16.6 } },
+          { temp: -10, windKnots: { "-10": 12.2, "0": 14.1, "10": 14.8, "20": 15.6, "30": 16.5 } },
+          { temp: -5, windKnots: { "-10": 12.2, "0": 14.1, "10": 14.8, "20": 15.6, "30": 16.5 } },
+          { temp: 0, windKnots: { "-10": 12.2, "0": 14.1, "10": 14.8, "20": 15.6, "30": 16.5 } },
+          { temp: 5, windKnots: { "-10": 12.2, "0": 14.1, "10": 14.8, "20": 15.6, "30": 16.5 } },
+          { temp: 10, windKnots: { "-10": 12.2, "0": 14.0, "10": 14.8, "20": 15.5, "30": 16.4 } },
+          { temp: 15, windKnots: { "-10": 12.1, "0": 13.9, "10": 14.6, "20": 15.4, "30": 16.2 } },
+          { temp: 20, windKnots: { "-10": 11.0, "0": 12.6, "10": 13.3, "20": 14.0, "30": 14.7 } },
+          { temp: 25, windKnots: { "-10": 9.9, "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2 } },
+          { temp: 30, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 35, windKnots: { "-10": 7.4, "0": 8.5, "10": 8.9, "20": 9.4, "30": 9.9 } },
+          { temp: 40, windKnots: { "-10": 6.1, "0": 7.0, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: 45, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.9, "20": 6.3, "30": 6.6 } },
+          { temp: 48, windKnots: { "-10": 4.2, "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.7 } }
         ]
       }
     ]
   },
   {
     altitudeFt: 4000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -30, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -25, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -20, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -15, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -10, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -5, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: 0, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: 5, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: 10, windMinus10: 4.4, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 15, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 20, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 25, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 30, windMinus10: 2.4, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 35, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.5 },
-          { temp: 40, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 }
+        data: [
+          { temp: -30, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: -25, windKnots: { "-10": 5.0, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: -20, windKnots: { "-10": 5.1, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: -15, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: -10, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: -5, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 0, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 5, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 10, windKnots: { "-10": 5.1, "0": 5.7, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 15, windKnots: { "-10": 4.5, "0": 5.1, "10": 5.3, "20": 5.5, "30": 5.8 } },
+          { temp: 20, windKnots: { "-10": 3.7, "0": 4.2, "10": 4.4, "20": 4.6, "30": 4.8 } },
+          { temp: 25, windKnots: { "-10": 3.0, "0": 3.4, "10": 3.5, "20": 3.7, "30": 3.9 } },
+          { temp: 30, windKnots: { "-10": 2.2, "0": 2.5, "10": 2.7, "20": 2.8, "30": 3.0 } },
+          { temp: 35, windKnots: { "-10": 1.4, "0": 1.6, "10": 1.7, "20": 1.8, "30": 1.9 } },
+          { temp: 40, windKnots: { "-10": 0.5, "0": 0.7, "10": 0.7, "20": 0.8, "30": 0.9 } },
+          { temp: 45, windKnots: { "-10": -0.2, "0": -0.1, "10": -0.1, "20": -0.1, "30": -0.1 } },
+          { temp: 46, windKnots: { "-10": -0.4, "0": -0.3, "10": -0.3, "20": -0.3, "30": -0.3 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -30, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -25, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -20, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -15, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -5, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 0, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 5, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.2 },
-          { temp: 15, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.4 },
-          { temp: 20, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 25, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 30, windMinus10: 2.4, wind0: 2.8, wind10: 2.9, wind20: 3.1, wind30: 3.3 },
-          { temp: 35, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 40, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 }
+        data: [
+          { temp: -30, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.8, "30": 7.1 } },
+          { temp: -25, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.8, "30": 7.1 } },
+          { temp: -20, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.4, "20": 6.8, "30": 7.1 } },
+          { temp: -15, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -10, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: -5, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 0, windKnots: { "-10": 5.5, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 5, windKnots: { "-10": 5.5, "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1 } },
+          { temp: 10, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.0 } },
+          { temp: 15, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.7, "20": 6.0, "30": 6.3 } },
+          { temp: 20, windKnots: { "-10": 4.1, "0": 4.6, "10": 4.8, "20": 5.0, "30": 5.3 } },
+          { temp: 25, windKnots: { "-10": 3.3, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.3 } },
+          { temp: 30, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.3 } },
+          { temp: 35, windKnots: { "-10": 1.7, "0": 1.9, "10": 2.0, "20": 2.1, "30": 2.3 } },
+          { temp: 40, windKnots: { "-10": 0.8, "0": 1.0, "10": 1.0, "20": 1.1, "30": 1.2 } },
+          { temp: 45, windKnots: { "-10": 0, "0": 0.1, "10": 0.2, "20": 0.2, "30": 0.2 } },
+          { temp: 46, windKnots: { "-10": -0.1, "0": -0.1, "10": 0, "20": 0.1, "30": 0.1 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -30, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -25, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -20, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -15, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -10, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: -5, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 0, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 5, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 10, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: 15, windMinus10: 4.2, wind0: 4.8, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 20, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 25, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 30, windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 35, windMinus10: 1.9, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 },
-          { temp: 40, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 }
+        data: [
+          { temp: -30, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -25, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: -20, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -15, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -10, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: -5, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 0, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 5, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.5 } },
+          { temp: 10, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.8, "20": 7.2, "30": 7.5 } },
+          { temp: 15, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 20, windKnots: { "-10": 4.4, "0": 5.0, "10": 5.2, "20": 5.5, "30": 5.7 } },
+          { temp: 25, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.3, "20": 4.5, "30": 4.7 } },
+          { temp: 30, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.4, "20": 3.6, "30": 3.7 } },
+          { temp: 35, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.4, "20": 2.5, "30": 2.6 } },
+          { temp: 40, windKnots: { "-10": 1.1, "0": 1.3, "10": 1.4, "20": 1.4, "30": 1.5 } },
+          { temp: 45, windKnots: { "-10": 0.3, "0": 0.4, "10": 0.4, "20": 0.5, "30": 0.5 } },
+          { temp: 46, windKnots: { "-10": 0.1, "0": 0.2, "10": 0.2, "20": 0.3, "30": 0.3 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -30, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -25, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -20, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -15, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -10, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -5, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 0, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 5, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.6 },
-          { temp: 15, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 20, windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 25, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.3 },
-          { temp: 30, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 35, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 40, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 }
+        data: [
+          { temp: -30, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -25, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -20, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -15, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.2 } },
+          { temp: -10, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.1 } },
+          { temp: -5, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.1 } },
+          { temp: 0, windKnots: { "-10": 6.3, "0": 7.1, "10": 7.4, "20": 7.8, "30": 8.1 } },
+          { temp: 5, windKnots: { "-10": 6.2, "0": 7.1, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 10, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 15, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.6, "20": 7.0, "30": 7.3 } },
+          { temp: 20, windKnots: { "-10": 4.8, "0": 5.4, "10": 5.7, "20": 5.9, "30": 6.2 } },
+          { temp: 25, windKnots: { "-10": 4.0, "0": 4.5, "10": 4.7, "20": 5.0, "30": 5.2 } },
+          { temp: 30, windKnots: { "-10": 3.2, "0": 3.6, "10": 3.8, "20": 4.0, "30": 4.2 } },
+          { temp: 35, windKnots: { "-10": 2.3, "0": 2.6, "10": 2.7, "20": 2.9, "30": 3.0 } },
+          { temp: 40, windKnots: { "-10": 1.4, "0": 1.6, "10": 1.7, "20": 1.8, "30": 1.9 } },
+          { temp: 45, windKnots: { "-10": 0.5, "0": 0.7, "10": 0.7, "20": 0.8, "30": 0.9 } },
+          { temp: 46, windKnots: { "-10": 0.3, "0": 0.4, "10": 0.5, "20": 0.5, "30": 0.6 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -30, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -25, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -20, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -15, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -10, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: -5, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 0, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 5, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 10, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 20, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 25, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 30, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 35, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 40, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 }
+        data: [
+          { temp: -30, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.8 } },
+          { temp: -25, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -20, windKnots: { "-10": 6.6, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -15, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -10, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: -5, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 0, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 5, windKnots: { "-10": 6.7, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 10, windKnots: { "-10": 6.7, "0": 7.5, "10": 7.9, "20": 8.2, "30": 8.6 } },
+          { temp: 15, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.2, "20": 7.5, "30": 7.9 } },
+          { temp: 20, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.4, "30": 6.8 } },
+          { temp: 25, windKnots: { "-10": 4.4, "0": 5.0, "10": 5.2, "20": 5.4, "30": 5.7 } },
+          { temp: 30, windKnots: { "-10": 3.5, "0": 4.0, "10": 4.2, "20": 4.4, "30": 4.6 } },
+          { temp: 35, windKnots: { "-10": 2.6, "0": 3.0, "10": 3.1, "20": 3.3, "30": 3.5 } },
+          { temp: 40, windKnots: { "-10": 1.7, "0": 1.9, "10": 2.0, "20": 2.2, "30": 2.3 } },
+          { temp: 45, windKnots: { "-10": 0.8, "0": 1.0, "10": 1.1, "20": 1.1, "30": 1.2 } },
+          { temp: 46, windKnots: { "-10": 0.6, "0": 0.8, "10": 0.9, "20": 0.9, "30": 1.0 } }
         ]
       },
       {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -30, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -25, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -20, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 0, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 10, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 15, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 20, windMinus10: 4.0, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 25, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 30, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 },
-          { temp: 35, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 40, windMinus10: 1.5, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 0, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 10, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 20, windMinus10: 4.2, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 25, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 30, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 35, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.9, wind30: 3.0 },
-          { temp: 40, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 }
+        data: [
+          { temp: -30, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: -25, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: -20, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: -15, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: -10, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: -5, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: 0, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: 5, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.3 } },
+          { temp: 10, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.4, "20": 8.8, "30": 9.3 } },
+          { temp: 15, windKnots: { "-10": 6.5, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: 20, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 25, windKnots: { "-10": 4.8, "0": 5.4, "10": 5.7, "20": 5.9, "30": 6.2 } },
+          { temp: 30, windKnots: { "-10": 3.9, "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1 } },
+          { temp: 35, windKnots: { "-10": 2.9, "0": 3.4, "10": 3.5, "20": 3.7, "30": 3.9 } },
+          { temp: 40, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.4, "20": 2.6, "30": 2.7 } },
+          { temp: 45, windKnots: { "-10": 1.1, "0": 1.3, "10": 1.4, "20": 1.5, "30": 1.6 } },
+          { temp: 46, windKnots: { "-10": 0.9, "0": 1.1, "10": 1.2, "20": 1.3, "30": 1.4 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -15, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: -5, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 0, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 5, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 10, windMinus10: 5.7, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 20, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 25, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 30, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 35, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 3.0, wind30: 3.1 },
-          { temp: 40, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -30, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -25, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -15, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -10, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: -5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: 0, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: 5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.5 },
-          { temp: 10, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 15, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 20, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 25, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 30, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 4.0, wind30: 4.2 },
-          { temp: 35, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.1, wind30: 3.2 },
-          { temp: 40, windMinus10: 1.7, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.3 }
+        data: [
+          { temp: -30, windKnots: { "-10": 8.0, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: -25, windKnots: { "-10": 8.0, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: -20, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: -15, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: -10, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: -5, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: 0, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.2, "30": 10.7 } },
+          { temp: 5, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.1, "30": 10.6 } },
+          { temp: 10, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.6 } },
+          { temp: 15, windKnots: { "-10": 7.3, "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.7 } },
+          { temp: 20, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: 25, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 30, windKnots: { "-10": 4.7, "0": 5.3, "10": 5.6, "20": 5.9, "30": 6.2 } },
+          { temp: 35, windKnots: { "-10": 3.7, "0": 4.3, "10": 4.4, "20": 4.6, "30": 4.9 } },
+          { temp: 40, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.2, "20": 3.4, "30": 3.6 } },
+          { temp: 45, windKnots: { "-10": 1.8, "0": 2.1, "10": 2.2, "20": 2.3, "30": 2.4 } },
+          { temp: 46, windKnots: { "-10": 1.6, "0": 1.8, "10": 1.9, "20": 2.1, "30": 2.2 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -30, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -10, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: -5, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 0, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 5, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 10, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 15, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 20, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 25, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 30, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 35, windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 40, windMinus10: 1.8, wind0: 2.0, wind10: 2.2, wind20: 2.3, wind30: 2.4 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -30, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -25, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -20, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -15, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -10, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: -5, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: 0, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: 5, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.7, wind30: 9.2 },
-          { temp: 10, windMinus10: 6.4, wind0: 7.2, wind10: 7.7, wind20: 8.1, wind30: 8.6 },
-          { temp: 15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 20, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 25, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.5 },
-          { temp: 30, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 35, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.3, wind30: 3.5 },
-          { temp: 40, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 }
+        data: [
+          { temp: -30, windKnots: { "-10": 9.1, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.3 } },
+          { temp: -25, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.3 } },
+          { temp: -20, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: -15, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: -10, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: -5, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: 0, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: 5, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: 10, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.5, "30": 12.1 } },
+          { temp: 15, windKnots: { "-10": 8.6, "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.2 } },
+          { temp: 20, windKnots: { "-10": 7.6, "0": 8.6, "10": 9.0, "20": 9.5, "30": 9.9 } },
+          { temp: 25, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.9, "20": 8.2, "30": 8.7 } },
+          { temp: 30, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: 35, windKnots: { "-10": 4.5, "0": 5.2, "10": 5.4, "20": 5.7, "30": 6.0 } },
+          { temp: 40, windKnots: { "-10": 3.5, "0": 4.0, "10": 4.2, "20": 4.4, "30": 4.6 } },
+          { temp: 45, windKnots: { "-10": 2.5, "0": 2.9, "10": 3.0, "20": 3.2, "30": 3.4 } },
+          { temp: 46, windKnots: { "-10": 2.3, "0": 2.6, "10": 2.8, "20": 2.9, "30": 3.1 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -30, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -25, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -20, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -15, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -10, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: -5, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 0, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 5, windMinus10: 7.1, wind0: 8.1, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-          { temp: 10, windMinus10: 6.6, wind0: 7.6, wind10: 8.0, wind20: 8.5, wind30: 8.9 },
-          { temp: 15, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 20, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 25, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 30, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 35, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 40, windMinus10: 1.9, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -30, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -25, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -20, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -15, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -10, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: -5, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: 0, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: 5, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.5, wind30: 10.0 },
-          { temp: 10, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: 15, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.8, wind30: 8.2 },
-          { temp: 20, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 25, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 30, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 35, windMinus10: 2.9, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 40, windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.7 }
+        data: [
+          { temp: -30, windKnots: { "-10": 10.4, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.1 } },
+          { temp: -25, windKnots: { "-10": 10.4, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.1 } },
+          { temp: -20, windKnots: { "-10": 10.4, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: -15, windKnots: { "-10": 10.4, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: -10, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: -5, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: 0, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.3, "30": 14.0 } },
+          { temp: 5, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.2, "30": 13.9 } },
+          { temp: 10, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.5, "20": 13.2, "30": 13.9 } },
+          { temp: 15, windKnots: { "-10": 9.8, "0": 11.2, "10": 11.7, "20": 12.3, "30": 13.0 } },
+          { temp: 20, windKnots: { "-10": 8.7, "0": 10.0, "10": 10.4, "20": 11.0, "30": 11.5 } },
+          { temp: 25, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2 } },
+          { temp: 30, windKnots: { "-10": 6.6, "0": 7.6, "10": 8.0, "20": 8.4, "30": 8.8 } },
+          { temp: 35, windKnots: { "-10": 5.5, "0": 6.3, "10": 6.6, "20": 6.9, "30": 7.3 } },
+          { temp: 40, windKnots: { "-10": 4.4, "0": 5.0, "10": 5.3, "20": 5.5, "30": 5.8 } },
+          { temp: 45, windKnots: { "-10": 3.3, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.5 } },
+          { temp: 46, windKnots: { "-10": 3.1, "0": 3.6, "10": 3.8, "20": 4.0, "30": 4.2 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -30, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -25, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -20, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -15, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -10, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: -5, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: 0, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: 5, windMinus10: 7.8, wind0: 8.8, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-          { temp: 10, windMinus10: 7.3, wind0: 8.3, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-          { temp: 15, windMinus10: 6.4, wind0: 7.3, wind10: 7.7, wind20: 8.2, wind30: 8.6 },
-          { temp: 20, windMinus10: 5.6, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 25, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: 30, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 35, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 40, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 }
+        data: [
+          { temp: -30, windKnots: { "-10": 11.9, "0": 13.7, "10": 14.4, "20": 15.3, "30": 16.2 } },
+          { temp: -25, windKnots: { "-10": 11.9, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: -20, windKnots: { "-10": 11.9, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: -15, windKnots: { "-10": 11.9, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: -10, windKnots: { "-10": 11.9, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: -5, windKnots: { "-10": 12.0, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: 0, windKnots: { "-10": 12.0, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1 } },
+          { temp: 5, windKnots: { "-10": 12.0, "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.0 } },
+          { temp: 10, windKnots: { "-10": 12.0, "0": 13.7, "10": 14.4, "20": 15.1, "30": 15.9 } },
+          { temp: 15, windKnots: { "-10": 11.2, "0": 12.9, "10": 13.5, "20": 14.2, "30": 15.0 } },
+          { temp: 20, windKnots: { "-10": 10.1, "0": 11.5, "10": 12.1, "20": 12.7, "30": 13.4 } },
+          { temp: 25, windKnots: { "-10": 9.0, "0": 10.3, "10": 10.8, "20": 11.3, "30": 11.9 } },
+          { temp: 30, windKnots: { "-10": 7.8, "0": 9.0, "10": 9.4, "20": 9.9, "30": 10.4 } },
+          { temp: 35, windKnots: { "-10": 6.6, "0": 7.6, "10": 8.0, "20": 8.4, "30": 8.8 } },
+          { temp: 40, windKnots: { "-10": 5.4, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.2 } },
+          { temp: 45, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.2, "20": 5.4, "30": 5.7 } },
+          { temp: 46, windKnots: { "-10": 4.0, "0": 4.6, "10": 4.9, "20": 5.1, "30": 5.4 } }
         ]
       }
     ]
-  },
+  },        
   {
     altitudeFt: 5000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -30, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -25, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -20, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -10, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: -5, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 0, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 5, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 10, windMinus10: 4.0, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 15, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 20, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.1 },
-          { temp: 25, windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 30, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 35, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.1 },
-          { temp: 40, windMinus10: 1.0, wind0: 1.2, wind10: 1.2, wind20: 1.3, wind30: 1.4 }
+        data: [
+          { temp: -35, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: -30, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: -25, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: -20, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: -15, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: -10, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.9, "20": 6.1, "30": 6.4 } },
+          { temp: -5, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.9, "20": 6.1, "30": 6.4 } },
+          { temp: 0, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.9, "20": 6.1, "30": 6.3 } },
+          { temp: 5, windKnots: { "-10": 4.9, "0": 5.5, "10": 5.8, "20": 6.0, "30": 6.3 } },
+          { temp: 10, windKnots: { "-10": 4.6, "0": 5.2, "10": 5.5, "20": 5.7, "30": 6.0 } },
+          { temp: 15, windKnots: { "-10": 3.9, "0": 4.4, "10": 4.6, "20": 4.8, "30": 5.0 } },
+          { temp: 20, windKnots: { "-10": 3.1, "0": 3.6, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 25, windKnots: { "-10": 2.4, "0": 2.8, "10": 2.9, "20": 3.0, "30": 3.2 } },
+          { temp: 30, windKnots: { "-10": 1.7, "0": 1.9, "10": 2.0, "20": 2.1, "30": 2.2 } },
+          { temp: 35, windKnots: { "-10": 0.9, "0": 1.1, "10": 1.1, "20": 1.2, "30": 1.3 } },
+          { temp: 40, windKnots: { "-10": 0.1, "0": 0.2, "10": 0.2, "20": 0.3, "30": 0.3 } },
+          { temp: 44, windKnots: { "-10": -0.5, "0": -0.5, "10": -0.5, "20": -0.4, "30": -0.4 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -30, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -25, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -20, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -15, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -10, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: -5, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 0, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 5, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 10, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 15, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 20, windMinus10: 3.1, wind0: 3.5, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 25, windMinus10: 2.6, wind0: 3.0, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 30, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 35, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 40, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.4 }
+        data: [
+          { temp: -35, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: -30, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: -25, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: -20, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: -15, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: -10, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: -5, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 0, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 5, windKnots: { "-10": 5.3, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8 } },
+          { temp: 10, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.4 } },
+          { temp: 15, windKnots: { "-10": 4.2, "0": 4.7, "10": 5.0, "20": 5.2, "30": 5.4 } },
+          { temp: 20, windKnots: { "-10": 3.5, "0": 3.9, "10": 4.1, "20": 4.3, "30": 4.5 } },
+          { temp: 25, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.2, "20": 3.4, "30": 3.6 } },
+          { temp: 30, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.4, "20": 2.5, "30": 2.6 } },
+          { temp: 35, windKnots: { "-10": 1.1, "0": 1.4, "10": 1.4, "20": 1.5, "30": 1.6 } },
+          { temp: 40, windKnots: { "-10": 0.4, "0": 0.5, "10": 0.6, "20": 0.6, "30": 0.7 } },
+          { temp: 44, windKnots: { "-10": -0.3, "0": -0.2, "10": -0.2, "20": -0.2, "30": -0.2 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -30, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -20, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -10, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -5, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 0, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 5, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 10, windMinus10: 4.3, wind0: 4.9, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 15, windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 20, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 25, windMinus10: 2.7, wind0: 3.1, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 30, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 35, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 40, windMinus10: 1.1, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 }
+        data: [
+          { temp: -35, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.4 } },
+          { temp: -30, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: -25, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: -20, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: -15, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: -10, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: -5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 0, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 5, windKnots: { "-10": 5.6, "0": 6.4, "10": 6.7, "20": 7.0, "30": 7.3 } },
+          { temp: 10, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 15, windKnots: { "-10": 4.6, "0": 5.2, "10": 5.4, "20": 5.6, "30": 5.9 } },
+          { temp: 20, windKnots: { "-10": 3.8, "0": 4.3, "10": 4.5, "20": 4.7, "30": 4.9 } },
+          { temp: 25, windKnots: { "-10": 3.0, "0": 3.5, "10": 3.6, "20": 3.8, "30": 4.0 } },
+          { temp: 30, windKnots: { "-10": 2.2, "0": 2.6, "10": 2.7, "20": 2.8, "30": 3.0 } },
+          { temp: 35, windKnots: { "-10": 1.4, "0": 1.7, "10": 1.8, "20": 1.9, "30": 2.0 } },
+          { temp: 40, windKnots: { "-10": 0.6, "0": 0.8, "10": 0.8, "20": 0.9, "30": 1.0 } },
+          { temp: 44, windKnots: { "-10": 0, "0": 0.1, "10": 0.1, "20": 0.2, "30": 0.2 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -30, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -25, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -20, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -15, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -10, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -5, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 0, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 5, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 15, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 20, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 25, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 },
-          { temp: 30, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 35, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.3 },
-          { temp: 40, windMinus10: 1.1, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.5 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -30, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -25, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -20, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -15, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -10, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: -5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9 } },
+          { temp: 0, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 5, windKnots: { "-10": 6.0, "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 10, windKnots: { "-10": 5.8, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: 15, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 20, windKnots: { "-10": 4.2, "0": 4.7, "10": 4.9, "20": 5.2, "30": 5.4 } },
+          { temp: 25, windKnots: { "-10": 3.4, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.4 } },
+          { temp: 30, windKnots: { "-10": 2.6, "0": 2.9, "10": 3.1, "20": 3.2, "30": 3.4 } },
+          { temp: 35, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.1, "20": 2.2, "30": 2.3 } },
+          { temp: 40, windKnots: { "-10": 0.9, "0": 1.1, "10": 1.1, "20": 1.2, "30": 1.3 } },
+          { temp: 44, windKnots: { "-10": 0.2, "0": 0.3, "10": 0.3, "20": 0.4, "30": 0.4 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -30, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -25, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -20, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -15, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -10, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -5, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 0, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 5, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 15, windMinus10: 4.0, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 20, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 25, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 30, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 35, windMinus10: 1.7, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.3 },
-          { temp: 40, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.5 } },
+          { temp: -30, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -25, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: -20, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: -15, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: -10, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: -5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.7, "20": 8.0, "30": 8.4 } },
+          { temp: 0, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 5, windKnots: { "-10": 6.4, "0": 7.3, "10": 7.6, "20": 8.0, "30": 8.4 } },
+          { temp: 10, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.3, "20": 7.7, "30": 8.0 } },
+          { temp: 15, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 20, windKnots: { "-10": 4.5, "0": 5.1, "10": 5.4, "20": 5.6, "30": 5.9 } },
+          { temp: 25, windKnots: { "-10": 3.7, "0": 4.2, "10": 4.4, "20": 4.6, "30": 4.9 } },
+          { temp: 30, windKnots: { "-10": 2.9, "0": 3.3, "10": 3.5, "20": 3.6, "30": 3.8 } },
+          { temp: 35, windKnots: { "-10": 2.0, "0": 2.4, "10": 2.5, "20": 2.6, "30": 2.7 } },
+          { temp: 40, windKnots: { "-10": 1.2, "0": 1.4, "10": 1.5, "20": 1.6, "30": 1.7 } },
+          { temp: 44, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.7, "20": 0.7, "30": 0.8 } }
         ]
       },
       {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -30, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -25, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -20, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -15, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -10, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: -5, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 0, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 5, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-          { temp: 10, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: 15, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 20, windMinus10: 3.6, wind0: 4.0, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 25, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 30, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 35, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.4 },
-          { temp: 40, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.6 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -30, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -25, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -20, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -15, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -10, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: -5, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 0, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 5, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 15, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 20, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 25, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 30, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-          { temp: 35, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 40, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.1 } },
+          { temp: -30, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -25, windKnots: { "-10": 6.8, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -20, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -15, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -10, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: -5, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 0, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 5, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.2, "20": 8.6, "30": 9.0 } },
+          { temp: 10, windKnots: { "-10": 6.6, "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6 } },
+          { temp: 15, windKnots: { "-10": 5.8, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: 20, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 25, windKnots: { "-10": 4.1, "0": 4.7, "10": 4.9, "20": 5.1, "30": 5.4 } },
+          { temp: 30, windKnots: { "-10": 3.2, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.3 } },
+          { temp: 35, windKnots: { "-10": 2.4, "0": 2.7, "10": 2.9, "20": 3.0, "30": 3.2 } },
+          { temp: 40, windKnots: { "-10": 1.5, "0": 1.7, "10": 1.8, "20": 2.0, "30": 2.1 } },
+          { temp: 44, windKnots: { "-10": 0.8, "0": 1.0, "10": 1.0, "20": 1.1, "30": 1.2 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 0, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 10, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.8 },
-          { temp: 15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 20, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 25, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 30, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 35, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 },
-          { temp: 40, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -30, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -25, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -20, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -15, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -10, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -5, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 0, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 5, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 10, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 15, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 20, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 25, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 30, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 35, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 40, windMinus10: 1.4, wind0: 1.6, wind10: 1.6, wind20: 1.7, wind30: 1.8 }
+        data: [
+          { temp: -35, windKnots: { "-10": 7.8, "0": 8.9, "10": 9.4, "20": 9.9, "30": 10.4 } },
+          { temp: -30, windKnots: { "-10": 7.8, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.4 } },
+          { temp: -25, windKnots: { "-10": 7.8, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.4 } },
+          { temp: -20, windKnots: { "-10": 7.8, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.4 } },
+          { temp: -15, windKnots: { "-10": 7.9, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.3 } },
+          { temp: -10, windKnots: { "-10": 7.9, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.3 } },
+          { temp: -5, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.4, "20": 9.8, "30": 10.3 } },
+          { temp: 0, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.4, "20": 9.8, "30": 10.3 } },
+          { temp: 5, windKnots: { "-10": 7.9, "0": 8.9, "10": 9.4, "20": 9.8, "30": 10.3 } },
+          { temp: 10, windKnots: { "-10": 7.6, "0": 8.6, "10": 9.0, "20": 9.4, "30": 9.9 } },
+          { temp: 15, windKnots: { "-10": 6.8, "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7 } },
+          { temp: 20, windKnots: { "-10": 5.8, "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6 } },
+          { temp: 25, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.9, "20": 6.1, "30": 6.5 } },
+          { temp: 30, windKnots: { "-10": 4.0, "0": 4.6, "10": 4.8, "20": 5.0, "30": 5.3 } },
+          { temp: 35, windKnots: { "-10": 3.1, "0": 3.5, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 40, windKnots: { "-10": 2.2, "0": 2.5, "10": 2.6, "20": 2.8, "30": 2.9 } },
+          { temp: 44, windKnots: { "-10": 1.4, "0": 1.6, "10": 1.7, "20": 1.9, "30": 2.0 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -30, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -25, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -20, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -10, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -5, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 0, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 5, windMinus10: 6.2, wind0: 7.0, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 10, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 20, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 25, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 30, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 },
-          { temp: 35, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 40, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -30, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -20, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -10, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: -5, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 0, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 5, windMinus10: 6.4, wind0: 7.3, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-          { temp: 10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 15, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 20, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 25, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 30, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 35, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 40, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 }
+        data: [
+          { temp: -35, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: -30, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: -25, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: -20, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9 } },
+          { temp: -15, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.8 } },
+          { temp: -10, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.8 } },
+          { temp: -5, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.8 } },
+          { temp: 0, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8 } },
+          { temp: 5, windKnots: { "-10": 9.0, "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8 } },
+          { temp: 10, windKnots: { "-10": 8.7, "0": 9.9, "10": 10.4, "20": 10.9, "30": 11.4 } },
+          { temp: 15, windKnots: { "-10": 7.7, "0": 8.8, "10": 9.2, "20": 9.6, "30": 10.1 } },
+          { temp: 20, windKnots: { "-10": 6.8, "0": 7.7, "10": 8.1, "20": 8.5, "30": 8.9 } },
+          { temp: 25, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 30, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 35, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.7, "20": 4.9, "30": 5.2 } },
+          { temp: 40, windKnots: { "-10": 2.9, "0": 3.4, "10": 3.5, "20": 3.7, "30": 3.9 } },
+          { temp: 44, windKnots: { "-10": 2.1, "0": 2.4, "10": 2.6, "20": 2.7, "30": 2.9 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -30, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -25, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -20, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -15, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -10, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: -5, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 0, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 5, windMinus10: 6.7, wind0: 7.6, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-          { temp: 10, windMinus10: 6.0, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 15, windMinus10: 5.2, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: 20, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.1 },
-          { temp: 25, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.1 },
-          { temp: 30, windMinus10: 3.0, wind0: 3.4, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 35, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 40, windMinus10: 1.5, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -30, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -25, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -20, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -15, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -10, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: -5, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: 0, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: 5, windMinus10: 7.0, wind0: 8.0, wind10: 8.5, wind20: 9.0, wind30: 9.4 },
-          { temp: 10, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 8.0, wind30: 8.4 },
-          { temp: 15, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-          { temp: 20, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: 25, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 30, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 35, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 40, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.1, wind30: 2.2 }
+        data: [
+          { temp: -35, windKnots: { "-10": 10.1, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.7 } },
+          { temp: -30, windKnots: { "-10": 10.1, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.7 } },
+          { temp: -25, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: -20, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: -15, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: -10, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: -5, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: 0, windKnots: { "-10": 10.2, "0": 11.7, "10": 12.3, "20": 12.9, "30": 13.6 } },
+          { temp: 5, windKnots: { "-10": 10.3, "0": 11.7, "10": 12.2, "20": 12.9, "30": 13.5 } },
+          { temp: 10, windKnots: { "-10": 10.0, "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.1 } },
+          { temp: 15, windKnots: { "-10": 8.9, "0": 10.2, "10": 10.6, "20": 11.2, "30": 11.7 } },
+          { temp: 20, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.4, "20": 9.9, "30": 10.4 } },
+          { temp: 25, windKnots: { "-10": 6.8, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1 } },
+          { temp: 30, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.4, "30": 7.8 } },
+          { temp: 35, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4 } },
+          { temp: 40, windKnots: { "-10": 3.8, "0": 4.3, "10": 4.5, "20": 4.8, "30": 5.0 } },
+          { temp: 44, windKnots: { "-10": 2.9, "0": 3.3, "10": 3.5, "20": 3.7, "30": 3.9 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -30, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -25, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -20, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -15, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -10, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: -5, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 0, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 5, windMinus10: 7.3, wind0: 8.4, wind10: 8.9, wind20: 9.4, wind30: 9.9 },
-          { temp: 10, windMinus10: 6.5, wind0: 7.4, wind10: 7.9, wind20: 8.3, wind30: 8.8 },
-          { temp: 15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 20, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 25, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: 30, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 35, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 40, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 }
+        data: [
+          { temp: -35, windKnots: { "-10": 11.6, "0": 13.3, "10": 14.1, "20": 14.9, "30": 15.7 } },
+          { temp: -30, windKnots: { "-10": 11.6, "0": 13.4, "10": 14.1, "20": 14.8, "30": 15.7 } },
+          { temp: -25, windKnots: { "-10": 11.6, "0": 13.4, "10": 14.1, "20": 14.8, "30": 15.7 } },
+          { temp: -20, windKnots: { "-10": 11.6, "0": 13.4, "10": 14.1, "20": 14.8, "30": 15.6 } },
+          { temp: -15, windKnots: { "-10": 11.6, "0": 13.4, "10": 14.1, "20": 14.8, "30": 15.6 } },
+          { temp: -10, windKnots: { "-10": 11.7, "0": 13.4, "10": 14.1, "20": 14.8, "30": 15.6 } },
+          { temp: -5, windKnots: { "-10": 11.7, "0": 13.4, "10": 14.0, "20": 14.8, "30": 15.6 } },
+          { temp: 0, windKnots: { "-10": 11.7, "0": 13.4, "10": 14.0, "20": 14.8, "30": 15.6 } },
+          { temp: 5, windKnots: { "-10": 11.7, "0": 13.4, "10": 14.0, "20": 14.8, "30": 15.6 } },
+          { temp: 10, windKnots: { "-10": 11.4, "0": 13.0, "10": 13.7, "20": 14.4, "30": 15.1 } },
+          { temp: 15, windKnots: { "-10": 10.3, "0": 11.7, "10": 12.3, "20": 13.0, "30": 13.6 } },
+          { temp: 20, windKnots: { "-10": 9.2, "0": 10.5, "10": 11.0, "20": 11.6, "30": 12.2 } },
+          { temp: 25, windKnots: { "-10": 8.1, "0": 9.3, "10": 9.7, "20": 10.2, "30": 10.8 } },
+          { temp: 30, windKnots: { "-10": 7.0, "0": 8.0, "10": 8.4, "20": 8.8, "30": 9.3 } },
+          { temp: 35, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.1, "20": 7.5, "30": 7.8 } },
+          { temp: 40, windKnots: { "-10": 4.8, "0": 5.5, "10": 5.7, "20": 6.0, "30": 6.4 } },
+          { temp: 44, windKnots: { "-10": 3.8, "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1 } }
         ]
       }
     ]
   },
   {
     altitudeFt: 6000,
-    data: [
+    weights: [
       {
         weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -15, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -5, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 0, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 5, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.4 },
-          { temp: 10, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 15, windMinus10: 3.1, wind0: 3.5, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 20, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 25, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 30, windMinus10: 1.7, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.3 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 40, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 }
+        data: [
+          { temp: -35, windKnots: { "-10": 4.9, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -30, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -25, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -20, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -15, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -10, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: -5, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: 0, windKnots: { "-10": 5.0, "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5 } },
+          { temp: 5, windKnots: { "-10": 4.8, "0": 5.4, "10": 5.6, "20": 5.8, "30": 6.1 } },
+          { temp: 10, windKnots: { "-10": 4.0, "0": 4.5, "10": 4.7, "20": 4.9, "30": 5.2 } },
+          { temp: 15, windKnots: { "-10": 3.3, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.3 } },
+          { temp: 20, windKnots: { "-10": 2.6, "0": 2.9, "10": 3.1, "20": 3.2, "30": 3.4 } },
+          { temp: 25, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.4, "30": 2.5 } },
+          { temp: 30, windKnots: { "-10": 1.2, "0": 1.4, "10": 1.5, "20": 1.5, "30": 1.6 } },
+          { temp: 35, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.6, "20": 0.7, "30": 0.8 } },
+          { temp: 40, windKnots: { "-10": -0.3, "0": -0.2, "10": -0.2, "20": -0.2, "30": -0.2 } },
+          { temp: 42, windKnots: { "-10": -0.6, "0": -0.6, "10": -0.6, "20": -0.6, "30": -0.6 } }
         ]
       },
       {
         weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -25, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 0, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 5, windMinus10: 4.2, wind0: 4.8, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 10, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 15, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 20, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 25, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.3, wind30: 2.4 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.7 },
-          { temp: 40, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 }
+        data: [
+          { temp: -35, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 7.0 } },
+          { temp: -30, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: -25, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: -20, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: -15, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: -10, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: -5, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 0, windKnots: { "-10": 5.4, "0": 6.1, "10": 6.3, "20": 6.6, "30": 6.9 } },
+          { temp: 5, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 10, windKnots: { "-10": 4.4, "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.6 } },
+          { temp: 15, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.3, "20": 4.5, "30": 4.7 } },
+          { temp: 20, windKnots: { "-10": 2.9, "0": 3.3, "10": 3.4, "20": 3.6, "30": 3.8 } },
+          { temp: 25, windKnots: { "-10": 2.2, "0": 2.5, "10": 2.6, "20": 2.7, "30": 2.9 } },
+          { temp: 30, windKnots: { "-10": 1.4, "0": 1.7, "10": 1.8, "20": 1.9, "30": 2.0 } },
+          { temp: 35, windKnots: { "-10": 0.7, "0": 0.9, "10": 0.9, "20": 1.0, "30": 1.1 } },
+          { temp: 40, windKnots: { "-10": -0.1, "0": 0, "10": 0.1, "20": 0.1, "30": 0.2 } },
+          { temp: 42, windKnots: { "-10": -0.4, "0": -0.4, "10": -0.3, "20": -0.3, "30": -0.3 } }
         ]
       },
       {
         weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -30, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -25, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -20, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -15, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -10, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -5, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 0, windMinus10: 4.5, wind0: 5.1, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 5, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 10, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 15, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 20, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 25, windMinus10: 2.3, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.1 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.5 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 40, windMinus10: 0.8, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.1 }
+        data: [
+          { temp: -35, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: -30, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5 } },
+          { temp: -25, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: -20, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: -15, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: -10, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: -5, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: 0, windKnots: { "-10": 5.7, "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4 } },
+          { temp: 5, windKnots: { "-10": 5.5, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 10, windKnots: { "-10": 4.7, "0": 5.3, "10": 5.6, "20": 5.8, "30": 6.1 } },
+          { temp: 15, windKnots: { "-10": 3.9, "0": 4.5, "10": 4.7, "20": 4.9, "30": 5.1 } },
+          { temp: 20, windKnots: { "-10": 3.2, "0": 3.6, "10": 3.8, "20": 4.0, "30": 4.2 } },
+          { temp: 25, windKnots: { "-10": 2.5, "0": 2.8, "10": 3.0, "20": 3.1, "30": 3.3 } },
+          { temp: 30, windKnots: { "-10": 1.7, "0": 2.0, "10": 2.1, "20": 2.2, "30": 2.3 } },
+          { temp: 35, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.2, "20": 1.3, "30": 1.4 } },
+          { temp: 40, windKnots: { "-10": 0.2, "0": 0.3, "10": 0.3, "20": 0.4, "30": 0.4 } },
+          { temp: 42, windKnots: { "-10": -0.2, "0": -0.1, "10": -0.1, "20": 0, "30": 0 } }
         ]
       },
       {
         weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -30, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -25, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -20, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -15, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -10, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: -5, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 0, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 6.0, wind30: 6.3 },
-          { temp: 5, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 10, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 15, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 20, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 25, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.1, wind30: 3.2 },
-          { temp: 30, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 35, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 40, windMinus10: 0.9, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.2 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -30, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -25, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -20, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -15, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -10, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: -5, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: 0, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 8.0 } },
+          { temp: 5, windKnots: { "-10": 5.9, "0": 6.7, "10": 6.9, "20": 7.3, "30": 7.6 } },
+          { temp: 10, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 15, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 20, windKnots: { "-10": 3.6, "0": 4.1, "10": 4.2, "20": 4.4, "30": 4.6 } },
+          { temp: 25, windKnots: { "-10": 2.8, "0": 3.2, "10": 3.3, "20": 3.5, "30": 3.7 } },
+          { temp: 30, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.5, "20": 2.6, "30": 2.7 } },
+          { temp: 35, windKnots: { "-10": 1.3, "0": 1.5, "10": 1.6, "20": 1.7, "30": 1.8 } },
+          { temp: 40, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.7, "20": 0.7, "30": 0.8 } },
+          { temp: 42, windKnots: { "-10": 0.1, "0": 0.2, "10": 0.2, "20": 0.3, "30": 0.3 } }
         ]
       },
       {
         weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -30, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -20, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -15, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -10, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: -5, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 0, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.2, wind30: 6.5 },
-          { temp: 5, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 10, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 15, windMinus10: 3.6, wind0: 4.0, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 20, windMinus10: 3.0, wind0: 3.4, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 25, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 30, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 },
-          { temp: 35, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 40, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.1, wind30: 1.2 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.6 } },
+          { temp: -30, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: -25, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: -20, windKnots: { "-10": 6.5, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: -15, windKnots: { "-10": 6.6, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: -10, windKnots: { "-10": 6.6, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: -5, windKnots: { "-10": 6.6, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: 0, windKnots: { "-10": 6.6, "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5 } },
+          { temp: 5, windKnots: { "-10": 6.3, "0": 7.1, "10": 7.5, "20": 7.8, "30": 8.2 } },
+          { temp: 10, windKnots: { "-10": 5.5, "0": 6.2, "10": 6.5, "20": 6.8, "30": 7.1 } },
+          { temp: 15, windKnots: { "-10": 4.7, "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1 } },
+          { temp: 20, windKnots: { "-10": 3.9, "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1 } },
+          { temp: 25, windKnots: { "-10": 3.1, "0": 3.6, "10": 3.7, "20": 3.9, "30": 4.1 } },
+          { temp: 30, windKnots: { "-10": 2.4, "0": 2.7, "10": 2.8, "20": 3.0, "30": 3.1 } },
+          { temp: 35, windKnots: { "-10": 1.6, "0": 1.8, "10": 1.9, "20": 2.0, "30": 2.1 } },
+          { temp: 40, windKnots: { "-10": 0.9, "0": 1.0, "10": 1.0, "20": 1.1, "30": 1.1 } },
+          { temp: 42, windKnots: { "-10": 0.5, "0": 0.6, "10": 0.6, "20": 0.7, "30": 0.7 } }
         ]
       },
       {
         weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -20, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -10, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -5, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 0, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 5, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 15, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 5.0 },
-          { temp: 20, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 25, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 30, windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.7 },
-          { temp: 35, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 40, windMinus10: 0.9, wind0: 1.1, wind10: 1.1, wind20: 1.2, wind30: 1.3 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: -5, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 0, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 5, windMinus10: 5.0, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 15, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 20, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 25, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 30, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 35, windMinus10: 1.5, wind0: 1.7, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 40, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.2, wind30: 1.3 }
+        data: [
+          { temp: -35, windKnots: { "-10": 6.9, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -30, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -25, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -20, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -15, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -10, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2 } },
+          { temp: -5, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1 } },
+          { temp: 0, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1 } },
+          { temp: 5, windKnots: { "-10": 6.8, "0": 7.6, "10": 8.0, "20": 8.4, "30": 8.8 } },
+          { temp: 10, windKnots: { "-10": 5.9, "0": 6.7, "10": 7.0, "20": 7.3, "30": 7.7 } },
+          { temp: 15, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 20, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 25, windKnots: { "-10": 3.5, "0": 4.0, "10": 4.2, "20": 4.4, "30": 4.6 } },
+          { temp: 30, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.2, "20": 3.4, "30": 3.6 } },
+          { temp: 35, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.4, "30": 2.6 } },
+          { temp: 40, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } },
+          { temp: 42, windKnots: { "-10": 0.6, "0": 0.8, "10": 0.9, "20": 0.9, "30": 1.0 } }
         ]
       },
       {
         weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -10, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -5, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 0, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 5, windMinus10: 5.1, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 15, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: 20, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 25, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 },
-          { temp: 30, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 35, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 40, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.3 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -30, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -25, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -20, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: -5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: 0, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: 5, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 10, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: 15, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.5 },
-          { temp: 20, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 25, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 30, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.1 },
-          { temp: 35, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 40, windMinus10: 1.0, wind0: 1.2, wind10: 1.3, wind20: 1.3, wind30: 1.4 }
+        data: [
+          { temp: -35, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -30, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 10.0, "30": 10.5 } },
+          { temp: -25, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.5, "20": 9.9, "30": 10.5 } },
+          { temp: -20, windKnots: { "-10": 8.0, "0": 9.1, "10": 9.5, "20": 9.9, "30": 10.5 } },
+          { temp: -15, windKnots: { "-10": 8.0, "0": 9.1, "10": 9.5, "20": 9.9, "30": 10.5 } },
+          { temp: -10, windKnots: { "-10": 8.0, "0": 9.1, "10": 9.5, "20": 9.9, "30": 10.4 } },
+          { temp: -5, windKnots: { "-10": 8.0, "0": 9.1, "10": 9.5, "20": 9.9, "30": 10.4 } },
+          { temp: 0, windKnots: { "-10": 8.0, "0": 9.1, "10": 9.5, "20": 9.9, "30": 10.4 } },
+          { temp: 5, windKnots: { "-10": 7.8, "0": 8.8, "10": 9.2, "20": 9.6, "30": 10.1 } },
+          { temp: 10, windKnots: { "-10": 6.9, "0": 7.8, "10": 8.1, "20": 8.5, "30": 8.9 } },
+          { temp: 15, windKnots: { "-10": 5.1, "0": 5.8, "10": 6.0, "20": 6.3, "30": 6.6 } },
+          { temp: 20, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 25, windKnots: { "-10": 3.5, "0": 4.0, "10": 4.1, "20": 4.3, "30": 4.5 } },
+          { temp: 30, windKnots: { "-10": 2.7, "0": 3.1, "10": 3.2, "20": 3.4, "30": 3.6 } },
+          { temp: 35, windKnots: { "-10": 1.9, "0": 2.2, "10": 2.3, "20": 2.4, "30": 2.6 } },
+          { temp: 40, windKnots: { "-10": 1.0, "0": 1.2, "10": 1.3, "20": 1.4, "30": 1.5 } },
+          { temp: 42, windKnots: { "-10": 0.6, "0": 0.8, "10": 0.9, "20": 0.9, "30": 1.0 } }
         ]
       },
       {
         weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 0, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 5, windMinus10: 5.6, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 15, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 20, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 25, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 30, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 35, windMinus10: 1.7, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.3 },
-          { temp: 40, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.5 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -15, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -5, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: 0, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: 5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 10, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 20, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 25, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 30, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 35, windMinus10: 1.8, wind0: 2.0, wind10: 2.2, wind20: 2.3, wind30: 2.4 },
-          { temp: 40, windMinus10: 1.1, wind0: 1.3, wind10: 1.4, wind20: 1.4, wind30: 1.5 }
+        data: [
+          { temp: -35, windKnots: { "-10": 9.0, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -30, windKnots: { "-10": 9.0, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -25, windKnots: { "-10": 9.0, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -20, windKnots: { "-10": 9.1, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -15, windKnots: { "-10": 9.1, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -10, windKnots: { "-10": 9.1, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: -5, windKnots: { "-10": 9.1, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: 0, windKnots: { "-10": 9.1, "0": 10.3, "10": 10.8, "20": 11.4, "30": 12.0 } },
+          { temp: 5, windKnots: { "-10": 8.9, "0": 10.1, "10": 10.5, "20": 11.0, "30": 11.6 } },
+          { temp: 10, windKnots: { "-10": 7.9, "0": 9.0, "10": 9.4, "20": 9.9, "30": 10.3 } },
+          { temp: 15, windKnots: { "-10": 7.0, "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1 } },
+          { temp: 20, windKnots: { "-10": 6.1, "0": 6.9, "10": 7.2, "20": 7.6, "30": 7.9 } },
+          { temp: 25, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.1, "20": 6.4, "30": 6.8 } },
+          { temp: 30, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6 } },
+          { temp: 35, windKnots: { "-10": 3.4, "0": 3.8, "10": 4.0, "20": 4.2, "30": 4.5 } },
+          { temp: 40, windKnots: { "-10": 2.4, "0": 2.8, "10": 2.9, "20": 3.1, "30": 3.2 } },
+          { temp: 42, windKnots: { "-10": 2.0, "0": 2.3, "10": 2.4, "20": 2.5, "30": 2.7 } }
         ]
       },
       {
         weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -30, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -25, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -15, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -10, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: -5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 0, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 5, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-          { temp: 10, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-          { temp: 15, windMinus10: 4.7, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 20, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: 25, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.2, wind30: 4.4 },
-          { temp: 30, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 35, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 40, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -30, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -25, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: -5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 0, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 5, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.1, wind30: 8.5 },
-          { temp: 10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-          { temp: 15, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 20, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 25, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 30, windMinus10: 2.7, wind0: 3.1, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 35, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 },
-          { temp: 40, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 }
+        data: [
+          { temp: -35, windKnots: { "-10": 10.3, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.8 } },
+          { temp: -30, windKnots: { "-10": 10.3, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.8 } },
+          { temp: -25, windKnots: { "-10": 10.3, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.8 } },
+          { temp: -20, windKnots: { "-10": 10.3, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.7 } },
+          { temp: -15, windKnots: { "-10": 10.3, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.7 } },
+          { temp: -10, windKnots: { "-10": 10.4, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.7 } },
+          { temp: -5, windKnots: { "-10": 10.4, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.7 } },
+          { temp: 0, windKnots: { "-10": 10.4, "0": 11.8, "10": 12.4, "20": 13.0, "30": 13.7 } },
+          { temp: 5, windKnots: { "-10": 10.1, "0": 11.5, "10": 12.1, "20": 12.7, "30": 13.3 } },
+          { temp: 10, windKnots: { "-10": 9.1, "0": 10.4, "10": 10.9, "20": 11.4, "30": 12.0 } },
+          { temp: 15, windKnots: { "-10": 8.1, "0": 9.2, "10": 9.7, "20": 10.1, "30": 10.7 } },
+          { temp: 20, windKnots: { "-10": 7.1, "0": 8.1, "10": 8.5, "20": 8.9, "30": 9.4 } },
+          { temp: 25, windKnots: { "-10": 6.2, "0": 7.0, "10": 7.4, "20": 7.7, "30": 8.1 } },
+          { temp: 30, windKnots: { "-10": 5.2, "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9 } },
+          { temp: 35, windKnots: { "-10": 4.3, "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.6 } },
+          { temp: 40, windKnots: { "-10": 3.2, "0": 3.7, "10": 3.9, "20": 4.1, "30": 4.3 } },
+          { temp: 42, windKnots: { "-10": 2.7, "0": 3.2, "10": 3.3, "20": 3.5, "30": 3.7 } }
         ]
       },
       {
         weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -30, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -25, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -20, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -15, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -10, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: -5, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: 0, windMinus10: 6.9, wind0: 7.9, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-          { temp: 5, windMinus10: 6.6, wind0: 7.5, wind10: 8.0, wind20: 8.4, wind30: 8.9 },
-          { temp: 10, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-          { temp: 15, windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.5, wind30: 6.9 },
-          { temp: 20, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 25, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 30, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 35, windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 40, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.6, wind30: 1.7 }
-        ]
-      }
-    ]
-  },
-  {
-    altitudeFt: 7000,
-    data: [
-      {
-        weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -30, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -25, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -20, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -15, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -10, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: -5, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: 0, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-          { temp: 5, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 10, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.1, wind30: 4.3 },
-          { temp: 15, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 20, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 25, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 30, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 35, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.3 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.8 }
-        ]
-      },
-      {
-        weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -30, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -25, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -20, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -15, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -10, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: -5, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: 0, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: 5, windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 10, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 15, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 20, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 25, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 },
-          { temp: 30, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 35, windMinus10: 1.0, wind0: 1.2, wind10: 1.2, wind20: 1.3, wind30: 1.4 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.7, wind30: 0.8 }
-        ]
-      },
-      {
-        weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -15, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -5, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 0, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 5, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 10, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 15, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 20, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 25, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 30, windMinus10: 1.5, wind0: 1.7, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 35, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.4 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.8, wind30: 0.8 }
-        ]
-      },
-      {
-        weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -25, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 0, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 5, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 10, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 15, windMinus10: 3.0, wind0: 3.4, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 20, windMinus10: 2.5, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-          { temp: 25, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 30, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 35, windMinus10: 1.1, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.8, wind20: 0.8, wind30: 0.8 }
-        ]
-      },
-      {
-        weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -30, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -25, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -20, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -15, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -10, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -5, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 0, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 5, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 10, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 15, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 20, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.5 },
-          { temp: 25, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 30, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 35, windMinus10: 1.1, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.5 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.8, wind20: 0.8, wind30: 0.9 }
-        ]
-      },
-      {
-        weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -30, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -25, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -20, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -15, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -10, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: -5, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: 0, windMinus10: 4.7, wind0: 5.3, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-          { temp: 5, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 10, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.1 },
-          { temp: 15, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 20, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 25, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 30, windMinus10: 1.7, wind0: 1.9, wind10: 2.1, wind20: 2.2, wind30: 2.3 },
-          { temp: 35, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 40, windMinus10: 0.7, wind0: 0.8, wind10: 0.8, wind20: 0.9, wind30: 0.9 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -30, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -25, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -20, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -15, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -10, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: -5, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 0, windMinus10: 4.9, wind0: 5.5, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-          { temp: 5, windMinus10: 4.4, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 10, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 15, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 20, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 25, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 },
-          { temp: 35, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.6 },
-          { temp: 40, windMinus10: 0.7, wind0: 0.8, wind10: 0.8, wind20: 0.9, wind30: 0.9 }
-        ]
-      },
-      {
-        weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -30, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -25, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -20, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -15, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -10, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: -5, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 0, windMinus10: 5.1, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 5, windMinus10: 4.6, wind0: 5.2, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 10, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 15, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 20, windMinus10: 2.9, wind0: 3.3, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 25, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.5 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 40, windMinus10: 0.7, wind0: 0.8, wind10: 0.9, wind20: 0.9, wind30: 1.0 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -30, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -25, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -20, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -15, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -10, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: -5, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 0, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.7, wind30: 7.1 },
-          { temp: 5, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 15, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 20, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 25, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-          { temp: 30, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.6 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 40, windMinus10: 0.7, wind0: 0.8, wind10: 0.9, wind20: 1.0, wind30: 1.0 }
-        ]
-      },
-      {
-        weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -30, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -25, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -20, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -15, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -10, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: -5, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: 0, windMinus10: 5.5, wind0: 6.2, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-          { temp: 5, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 15, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 20, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.1, wind30: 4.3 },
-          { temp: 25, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 30, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.5, wind30: 2.7 },
-          { temp: 35, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 40, windMinus10: 0.8, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.0 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: -5, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 0, windMinus10: 5.7, wind0: 6.5, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-          { temp: 5, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 15, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 20, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 25, windMinus10: 2.7, wind0: 3.1, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 30, windMinus10: 2.1, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 35, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 40, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 }
-        ]
-      },
-      {
-        weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -30, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -25, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -20, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -15, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -10, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: -5, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 0, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 5, windMinus10: 5.4, wind0: 6.2, wind10: 6.5, wind20: 6.9, wind30: 7.3 },
-          { temp: 10, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 15, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.2, wind30: 5.5 },
-          { temp: 20, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: 25, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 30, windMinus10: 2.2, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 35, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 40, windMinus10: 0.8, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.1 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -30, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -25, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -20, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -15, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -10, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: -5, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 0, windMinus10: 6.2, wind0: 7.1, wind10: 7.5, wind20: 7.9, wind30: 8.3 },
-          { temp: 5, windMinus10: 5.7, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 10, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 15, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 20, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 25, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 30, windMinus10: 2.2, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 },
-          { temp: 35, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 40, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.1, wind30: 1.2 }
-        ]
-      },
-      {
-        weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -30, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -10, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: -5, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: 0, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.3, wind30: 8.7 },
-          { temp: 5, windMinus10: 5.9, wind0: 6.7, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 10, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 15, windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 20, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 25, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 30, windMinus10: 2.4, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 35, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 40, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.2, wind30: 1.2 }
-        ]
-      }
-    ]
-  },
-  {
-    altitudeFt: 8000,
-    data: [
-      {
-        weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -30, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -25, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -20, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -15, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -10, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: -5, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 0, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 5, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 10, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 15, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.1, wind30: 3.2 },
-          { temp: 20, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.5, wind30: 2.7 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 30, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 35, windMinus10: 0.8, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.0 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.4, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -30, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -25, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -20, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -15, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -10, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: -5, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 0, windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 5, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 10, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 15, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-          { temp: 20, windMinus10: 2.1, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 30, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.6 },
-          { temp: 35, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -30, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -25, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -20, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -15, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -10, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -5, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 0, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 5, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 10, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 15, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-          { temp: 20, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 25, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 },
-          { temp: 30, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 35, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.1, wind30: 1.1 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -30, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -25, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -20, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -15, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -10, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -5, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 0, windMinus10: 4.0, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.4 },
-          { temp: 5, windMinus10: 3.6, wind0: 4.0, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 10, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 4.0, wind30: 4.2 },
-          { temp: 15, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 20, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 25, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 },
-          { temp: 30, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.1 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -15, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -5, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 0, windMinus10: 4.1, wind0: 4.7, wind10: 5.0, wind20: 5.3, wind30: 5.6 },
-          { temp: 5, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 10, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 15, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 20, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 25, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.4 },
-          { temp: 30, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.1, wind30: 1.2 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -25, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 0, windMinus10: 4.3, wind0: 4.9, wind10: 5.2, wind20: 5.5, wind30: 5.8 },
-          { temp: 5, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 10, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 15, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 20, windMinus10: 2.4, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 25, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 30, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.2, wind30: 1.2 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -30, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -25, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -20, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -15, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -10, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -5, windMinus10: 4.5, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 0, windMinus10: 4.4, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 5, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 10, windMinus10: 3.4, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: 15, windMinus10: 2.9, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 20, windMinus10: 2.4, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 25, windMinus10: 1.9, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 },
-          { temp: 30, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.1, wind10: 1.1, wind20: 1.2, wind30: 1.3 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -30, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -25, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -20, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -15, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -10, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: -5, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.0, wind30: 6.4 },
-          { temp: 0, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 5, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 10, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 15, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 20, windMinus10: 2.5, wind0: 2.9, wind10: 3.1, wind20: 3.2, wind30: 3.4 },
-          { temp: 25, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 30, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 35, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.3 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -30, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -25, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -20, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -15, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -10, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: -5, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.3, wind30: 6.6 },
-          { temp: 0, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 5, windMinus10: 4.3, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 10, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 15, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.1, wind30: 4.3 },
-          { temp: 20, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 25, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 30, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 35, windMinus10: 1.0, wind0: 1.2, wind10: 1.2, wind20: 1.3, wind30: 1.4 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.6, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -30, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -25, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -20, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -15, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -10, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: -5, windMinus10: 5.1, wind0: 5.8, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-          { temp: 0, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.7, wind30: 6.0 },
-          { temp: 10, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-          { temp: 15, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 20, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 25, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 30, windMinus10: 1.6, wind0: 1.8, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 35, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.4 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.7, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -30, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -25, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -20, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -15, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -10, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: -5, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.2 },
-          { temp: 0, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-          { temp: 5, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 10, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-          { temp: 15, windMinus10: 3.4, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: 20, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.6, wind30: 3.8 },
-          { temp: 25, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.1 },
-          { temp: 30, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 },
-          { temp: 35, windMinus10: 1.1, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.7, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -30, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -25, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -20, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -15, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -10, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: -5, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.1, wind30: 7.5 },
-          { temp: 0, windMinus10: 5.4, wind0: 6.2, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-          { temp: 5, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 15, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.6, wind30: 4.8 },
-          { temp: 20, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 25, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.3, wind30: 2.4 },
-          { temp: 35, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: -5, windMinus10: 5.8, wind0: 6.6, wind10: 7.0, wind20: 7.4, wind30: 7.8 },
-          { temp: 0, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 5, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 15, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.1 },
-          { temp: 20, windMinus10: 3.1, wind0: 3.5, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 25, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-          { temp: 30, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.4, wind30: 2.5 },
-          { temp: 35, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.5, wind30: 1.6 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.7, wind30: 0.8 }
-        ]
-      },
-      {
-        weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -15, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: -5, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.2 },
-          { temp: 0, windMinus10: 5.9, wind0: 6.8, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-          { temp: 5, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 10, windMinus10: 4.6, wind0: 5.2, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 15, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 20, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.2, wind30: 4.4 },
-          { temp: 25, windMinus10: 2.6, wind0: 3.0, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 30, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 },
-          { temp: 35, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.8, wind30: 0.8 }
-        ]
-      }
-    ]
-  },
-  {
-    altitudeFt: 9000,
-    data: [
-      {
-        weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -30, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -25, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -20, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -15, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -10, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: -5, windMinus10: 3.5, wind0: 3.9, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-          { temp: 0, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 5, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 10, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 15, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 20, windMinus10: 1.7, wind0: 1.9, wind10: 2.1, wind20: 2.2, wind30: 2.3 },
-          { temp: 25, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 30, windMinus10: 0.9, wind0: 1.1, wind10: 1.1, wind20: 1.2, wind30: 1.3 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.3, wind0: 0.4, wind10: 0.4, wind20: 0.4, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -30, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -25, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -20, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -15, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -10, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: -5, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 0, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.5 },
-          { temp: 5, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 10, windMinus10: 2.5, wind0: 2.9, wind10: 3.1, wind20: 3.2, wind30: 3.4 },
-          { temp: 15, windMinus10: 2.2, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 20, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 },
-          { temp: 25, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.7, wind30: 1.8 },
-          { temp: 30, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.2, wind30: 1.3 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.7, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.4, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -30, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -25, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -20, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -15, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -10, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: -5, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 0, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 5, windMinus10: 3.0, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 10, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.5 },
-          { temp: 15, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 20, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.4 },
-          { temp: 25, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 30, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.4 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.8, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.4, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -30, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -25, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -20, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -15, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -10, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: -5, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 0, windMinus10: 3.6, wind0: 4.0, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 5, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 10, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 15, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 20, windMinus10: 1.9, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-          { temp: 25, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 30, windMinus10: 1.0, wind0: 1.2, wind10: 1.3, wind20: 1.3, wind30: 1.4 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.8, wind20: 0.8, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -30, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -25, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -20, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -15, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -10, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: -5, windMinus10: 3.9, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 0, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 4.9 },
-          { temp: 5, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 10, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 15, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 20, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 },
-          { temp: 25, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 30, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.8, wind20: 0.8, wind30: 0.9 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -30, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -25, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -20, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -15, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -10, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -5, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 0, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-          { temp: 5, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 10, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 15, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 20, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 30, windMinus10: 1.1, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 35, windMinus10: 0.7, wind0: 0.8, wind10: 0.8, wind20: 0.9, wind30: 0.9 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -15, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -5, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 0, windMinus10: 4.0, wind0: 4.5, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-          { temp: 5, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 10, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.9, wind30: 4.1 },
-          { temp: 15, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-          { temp: 20, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.8, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 30, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 35, windMinus10: 0.7, wind0: 0.8, wind10: 0.8, wind20: 0.9, wind30: 0.9 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -25, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 0, windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 5, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 10, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 15, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 20, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 25, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.3 },
-          { temp: 30, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.5, wind30: 1.6 },
-          { temp: 35, windMinus10: 0.7, wind0: 0.8, wind10: 0.9, wind20: 0.9, wind30: 1.0 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -30, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -25, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -20, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -15, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -5, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 0, windMinus10: 4.3, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 5, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.1 },
-          { temp: 10, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.2, wind30: 4.4 },
-          { temp: 15, windMinus10: 2.8, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 20, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 },
-          { temp: 25, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 },
-          { temp: 30, windMinus10: 1.3, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 35, windMinus10: 0.7, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.0 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -30, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -25, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -20, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -15, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -10, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: -5, windMinus10: 4.7, wind0: 5.4, wind10: 5.7, wind20: 6.1, wind30: 6.4 },
-          { temp: 0, windMinus10: 4.4, wind0: 5.0, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 5, windMinus10: 3.9, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 10, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 15, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 20, windMinus10: 2.3, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 25, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.5 },
-          { temp: 30, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.7 },
-          { temp: 35, windMinus10: 0.8, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.0 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -30, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -25, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -20, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -15, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -10, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: -5, windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-          { temp: 0, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 5, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 10, windMinus10: 3.5, wind0: 4.0, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-          { temp: 15, windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-          { temp: 20, windMinus10: 2.4, wind0: 2.8, wind10: 2.9, wind20: 3.1, wind30: 3.3 },
-          { temp: 25, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.6 },
-          { temp: 30, windMinus10: 1.4, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 35, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.6, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: -5, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.6, wind30: 6.9 },
-          { temp: 0, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.5 },
-          { temp: 5, windMinus10: 4.3, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 10, windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.7, wind30: 5.0 },
-          { temp: 15, windMinus10: 3.1, wind0: 3.5, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 20, windMinus10: 2.5, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-          { temp: 25, windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.5, wind30: 2.7 },
-          { temp: 30, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 35, windMinus10: 0.8, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.1 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.7, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -10, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: -5, windMinus10: 5.4, wind0: 6.1, wind10: 6.5, wind20: 6.9, wind30: 7.2 },
-          { temp: 0, windMinus10: 5.0, wind0: 5.7, wind10: 6.1, wind20: 6.4, wind30: 6.8 },
-          { temp: 5, windMinus10: 4.4, wind0: 5.1, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 10, windMinus10: 3.8, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.2 },
-          { temp: 15, windMinus10: 3.3, wind0: 3.7, wind10: 3.9, wind20: 4.2, wind30: 4.4 },
-          { temp: 20, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 25, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 30, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.1, wind30: 1.2 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -30, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -25, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -20, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: -5, windMinus10: 5.6, wind0: 6.4, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-          { temp: 0, windMinus10: 5.3, wind0: 6.0, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-          { temp: 5, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.3 },
-          { temp: 10, windMinus10: 4.0, wind0: 4.6, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-          { temp: 15, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 20, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.7 },
-          { temp: 25, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 30, windMinus10: 1.5, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 35, windMinus10: 0.9, wind0: 1.1, wind10: 1.1, wind20: 1.2, wind30: 1.2 },
-          { temp: 40, windMinus10: 0.6, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.8 }
-        ]
-      }
-    ]
-  },
-  {
-    altitudeFt: 10000,
-    data: [
-      {
-        weight: 20000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -30, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -25, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -20, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -15, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -10, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: -5, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 0, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 5, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-          { temp: 10, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 15, windMinus10: 1.8, wind0: 2.0, wind10: 2.2, wind20: 2.3, wind30: 2.4 },
-          { temp: 20, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 25, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 30, windMinus10: 0.7, wind0: 0.8, wind10: 0.9, wind20: 0.9, wind30: 1.0 },
-          { temp: 35, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 },
-          { temp: 40, windMinus10: 0.3, wind0: 0.4, wind10: 0.4, wind20: 0.4, wind30: 0.4 }
-        ]
-      },
-      {
-        weight: 19500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -30, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -25, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -20, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -15, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -10, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: -5, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 0, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 5, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.5 },
-          { temp: 10, windMinus10: 2.2, wind0: 2.5, wind10: 2.7, wind20: 2.8, wind30: 3.0 },
-          { temp: 15, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.4, wind30: 2.5 },
-          { temp: 20, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 25, windMinus10: 1.1, wind0: 1.3, wind10: 1.4, wind20: 1.4, wind30: 1.5 },
-          { temp: 30, windMinus10: 0.8, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.0 },
-          { temp: 35, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 },
-          { temp: 40, windMinus10: 0.3, wind0: 0.4, wind10: 0.4, wind20: 0.4, wind30: 0.4 }
-        ]
-      },
-      {
-        weight: 19000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -30, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -25, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -20, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -15, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -10, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: -5, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.6 },
-          { temp: 0, windMinus10: 3.0, wind0: 3.4, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 5, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 10, windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-          { temp: 15, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.6 },
-          { temp: 20, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 2.0, wind30: 2.1 },
-          { temp: 25, windMinus10: 1.2, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 30, windMinus10: 0.8, wind0: 0.9, wind10: 0.9, wind20: 1.0, wind30: 1.1 },
-          { temp: 35, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.5 },
-          { temp: 40, windMinus10: 0.3, wind0: 0.4, wind10: 0.4, wind20: 0.4, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 18500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -30, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -25, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -20, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -15, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -10, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: -5, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 0, windMinus10: 3.1, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-          { temp: 5, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 10, windMinus10: 2.4, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 15, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.6 },
-          { temp: 20, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 25, windMinus10: 1.2, wind0: 1.4, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 30, windMinus10: 0.8, wind0: 0.9, wind10: 1.0, wind20: 1.0, wind30: 1.1 },
-          { temp: 35, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.6 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.4, wind20: 0.4, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 18000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -30, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -25, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -20, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -15, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -10, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: -5, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 0, windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.4 },
-          { temp: 5, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 10, windMinus10: 2.4, wind0: 2.8, wind10: 2.9, wind20: 3.1, wind30: 3.3 },
-          { temp: 15, windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.7 },
-          { temp: 20, windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 25, windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 30, windMinus10: 0.8, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.1 },
-          { temp: 35, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.4, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 17500,
-        temperatures: [
-          { temp: -35, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -30, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -25, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -20, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -15, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -10, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: -5, windMinus10: 3.8, wind0: 4.3, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-          { temp: 0, windMinus10: 3.4, wind0: 3.8, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-          { temp: 5, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.8, wind30: 4.0 },
-          { temp: 10, windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.4 },
-          { temp: 15, windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-          { temp: 20, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 },
-          { temp: 25, windMinus10: 1.3, wind0: 1.5, wind10: 1.5, wind20: 1.6, wind30: 1.7 },
-          { temp: 30, windMinus10: 0.9, wind0: 1.0, wind10: 1.0, wind20: 1.1, wind30: 1.2 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 17000,
-        temperatures: [
-          { temp: -35, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -30, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -25, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -20, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -15, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -10, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: -5, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 0, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.4, wind30: 4.7 },
-          { temp: 5, windMinus10: 3.0, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 10, windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.3, wind30: 3.5 },
-          { temp: 15, windMinus10: 2.2, wind0: 2.5, wind10: 2.6, wind20: 2.8, wind30: 2.9 },
-          { temp: 20, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.2, wind30: 2.4 },
-          { temp: 25, windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 },
-          { temp: 30, windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.1, wind30: 1.2 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.4, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 16500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -30, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -25, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -20, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -15, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -10, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: -5, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 0, windMinus10: 3.6, wind0: 4.1, wind10: 4.4, wind20: 4.6, wind30: 4.9 },
-          { temp: 5, windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.3 },
-          { temp: 10, windMinus10: 2.7, wind0: 3.1, wind10: 3.3, wind20: 3.5, wind30: 3.7 },
-          { temp: 15, windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.1 },
-          { temp: 20, windMinus10: 1.8, wind0: 2.1, wind10: 2.2, wind20: 2.3, wind30: 2.5 },
-          { temp: 25, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 30, windMinus10: 0.9, wind0: 1.1, wind10: 1.1, wind20: 1.2, wind30: 1.3 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.6, wind30: 0.7 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.5 }
-        ]
-      },
-      {
-        weight: 16000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -30, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -25, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -20, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -15, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -10, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: -5, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 0, windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.8, wind30: 5.0 },
-          { temp: 5, windMinus10: 3.3, wind0: 3.7, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-          { temp: 10, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 15, windMinus10: 2.4, wind0: 2.7, wind10: 2.9, wind20: 3.0, wind30: 3.2 },
-          { temp: 20, windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.4, wind30: 2.6 },
-          { temp: 25, windMinus10: 1.4, wind0: 1.6, wind10: 1.7, wind20: 1.8, wind30: 1.9 },
-          { temp: 30, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.2, wind30: 1.3 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.6, wind30: 0.7 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.5, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 15500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -30, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -25, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -20, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -15, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: -5, windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-          { temp: 0, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.3 },
-          { temp: 5, windMinus10: 3.4, wind0: 3.9, wind10: 4.1, wind20: 4.4, wind30: 4.6 },
-          { temp: 10, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 4.0 },
-          { temp: 15, windMinus10: 2.5, wind0: 2.8, wind10: 3.0, wind20: 3.1, wind30: 3.3 },
-          { temp: 20, windMinus10: 2.0, wind0: 2.2, wind10: 2.4, wind20: 2.5, wind30: 2.7 },
-          { temp: 25, windMinus10: 1.5, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.0 },
-          { temp: 30, windMinus10: 1.0, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.4 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.7, wind30: 0.7 },
-          { temp: 40, windMinus10: 0.4, wind0: 0.5, wind10: 0.5, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 15000,
-        temperatures: [
-          { temp: -35, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -30, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -25, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -20, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -15, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: -5, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-          { temp: 0, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 5, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.8 },
-          { temp: 10, windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-          { temp: 15, windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-          { temp: 20, windMinus10: 2.1, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-          { temp: 30, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.3, wind30: 1.4 },
-          { temp: 35, windMinus10: 0.5, wind0: 0.6, wind10: 0.7, wind20: 0.7, wind30: 0.7 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 14500,
-        temperatures: [
-          { temp: -35, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -30, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -25, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -20, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -15, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -10, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: -5, windMinus10: 4.8, wind0: 5.4, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-          { temp: 0, windMinus10: 4.2, wind0: 4.8, wind10: 5.1, wind20: 5.4, wind30: 5.7 },
-          { temp: 5, windMinus10: 3.7, wind0: 4.2, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-          { temp: 10, windMinus10: 3.2, wind0: 3.6, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-          { temp: 15, windMinus10: 2.7, wind0: 3.0, wind10: 3.2, wind20: 3.4, wind30: 3.6 },
-          { temp: 20, windMinus10: 2.1, wind0: 2.4, wind10: 2.6, wind20: 2.7, wind30: 2.9 },
-          { temp: 25, windMinus10: 1.6, wind0: 1.8, wind10: 2.0, wind20: 2.1, wind30: 2.2 },
-          { temp: 30, windMinus10: 1.1, wind0: 1.2, wind10: 1.3, wind20: 1.4, wind30: 1.5 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.7, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.5, wind10: 0.6, wind20: 0.6, wind30: 0.6 }
-        ]
-      },
-      {
-        weight: 14000,
-        temperatures: [
-          { temp: -35, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -20, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -10, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: -5, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-          { temp: 0, windMinus10: 4.4, wind0: 5.0, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-          { temp: 5, windMinus10: 3.9, wind0: 4.4, wind10: 4.7, wind20: 5.0, wind30: 5.2 },
-          { temp: 10, windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.3, wind30: 4.5 },
-          { temp: 15, windMinus10: 2.8, wind0: 3.2, wind10: 3.4, wind20: 3.6, wind30: 3.8 },
-          { temp: 20, windMinus10: 2.2, wind0: 2.6, wind10: 2.7, wind20: 2.9, wind30: 3.0 },
-          { temp: 25, windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 },
-          { temp: 30, windMinus10: 1.1, wind0: 1.3, wind10: 1.4, wind20: 1.5, wind30: 1.5 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.7, wind20: 0.8, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.6, wind30: 0.7 }
-        ]
-      },
-      {
-        weight: 13500,
-        temperatures: [
-          { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: -5, windMinus10: 5.2, wind0: 5.9, wind10: 6.3, wind20: 6.7, wind30: 7.0 },
-          { temp: 0, windMinus10: 4.6, wind0: 5.3, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-          { temp: 5, windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.2, wind30: 5.5 },
-          { temp: 10, windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.5, wind30: 4.7 },
-          { temp: 15, windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-          { temp: 20, windMinus10: 2.3, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.2 },
-          { temp: 25, windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.3, wind30: 2.4 },
-          { temp: 30, windMinus10: 1.2, wind0: 1.4, wind10: 1.4, wind20: 1.5, wind30: 1.6 },
-          { temp: 35, windMinus10: 0.6, wind0: 0.7, wind10: 0.8, wind20: 0.8, wind30: 0.8 },
-          { temp: 40, windMinus10: 0.5, wind0: 0.6, wind10: 0.6, wind20: 0.7, wind30: 0.7 }
+        data: [
+          { temp: -35, windKnots: { "-10": 11.7, "0": 13.5, "10": 14.2, "20": 15.0, "30": 15.8 } },
+          { temp: -30, windKnots: { "-10": 11.7, "0": 13.5, "10": 14.2, "20": 15.0, "30": 15.8 } },
+          { temp: -25, windKnots: { "-10": 11.7, "0": 13.5, "10": 14.2, "20": 15.0, "30": 15.8 } },
+          { temp: -20, windKnots: { "-10": 11.8, "0": 13.5, "10": 14.2, "20": 15.0, "30": 15.8 } },
+          { temp: -15, windKnots: { "-10": 11.8, "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.8 } },
+          { temp: -10, windKnots: { "-10": 11.8, "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7 } },
+          { temp: -5, windKnots: { "-10": 11.8, "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7 } },
+          { temp: 0, windKnots: { "-10": 11.8, "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7 } },
+          { temp: 5, windKnots: { "-10": 11.6, "0": 13.2, "10": 13.9, "20": 14.6, "30": 15.3 } },
+          { temp: 10, windKnots: { "-10": 10.5, "0": 12.0, "10": 12.6, "20": 13.2, "30": 13.9 } },
+          { temp: 15, windKnots: { "-10": 9.4, "0": 10.7, "10": 11.3, "20": 11.8, "30": 12.5 } },
+          { temp: 20, windKnots: { "-10": 8.4, "0": 9.6, "10": 10.0, "20": 10.5, "30": 11.1 } },
+          { temp: 25, windKnots: { "-10": 7.3, "0": 8.4, "10": 8.8, "20": 9.2, "30": 9.7 } },
+          { temp: 30, windKnots: { "-10": 6.3, "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.4 } },
+          { temp: 35, windKnots: { "-10": 5.3, "0": 6.0, "10": 6.3, "20": 6.7, "30": 7.0 } },
+          { temp: 40, windKnots: { "-10": 4.1, "0": 4.8, "10": 5.0, "20": 5.3, "30": 5.5 } },
+          { temp: 42, windKnots: { "-10": 3.7, "0": 4.2, "10": 4.4, "20": 4.7, "30": 4.9 } }
         ]
       }
     ]
   }
 ];
-//AFM s478 4-454
 
 const secondSegmentClimbGradient_flaps7_anti_ice_on = [
-    {
-        altitudeFt: 0,
+  {
+    altitudeFt: 0,
+    weights: [
+      {
+        weight: 20000,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.6, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: -5,  windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: 0,   windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: 5,   windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.6 },
-                    { temp: 10,  windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.5 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.0, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -15, windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -10, windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: -5,  windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: 0,   windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: 5,   windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: 10,  windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.4, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-                    { temp: -30, windMinus10: 6.4, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.7 },
-                    { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -10, windMinus10: 6.9, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -5,  windMinus10: 6.9, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.5 },
-                    { temp: 0,   windMinus10: 6.9, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: 5,   windMinus10: 6.9, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: 10,  windMinus10: 7.0, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.8, wind0: 7.9, wind10: 8.3, wind20: 8.8, wind30: 9.3 },
-                    { temp: -30, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -25, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -20, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -15, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -10, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -5,  windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: 0,   windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: 5,   windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: 10,  windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.3, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.9 },
-                    { temp: -30, windMinus10: 7.3, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.9 },
-                    { temp: -25, windMinus10: 7.3, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-                    { temp: -20, windMinus10: 7.3, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-                    { temp: -15, windMinus10: 7.3, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-                    { temp: -10, windMinus10: 7.4, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.8 },
-                    { temp: -5,  windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.3, wind30: 9.8 },
-                    { temp: 0,   windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.3, wind30: 9.8 },
-                    { temp: 5,   windMinus10: 7.4, wind0: 8.4, wind10: 8.9, wind20: 9.3, wind30: 9.8 },
-                    { temp: 10,  windMinus10: 7.4, wind0: 8.4, wind10: 8.8, wind20: 9.3, wind30: 9.8 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.8, wind0: 8.9, wind10: 9.4, wind20: 10.0, wind30: 10.5 },
-                    { temp: -30, windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: -25, windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: -20, windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: -15, windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: -10, windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: -5,  windMinus10: 7.8, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: 0,   windMinus10: 7.9, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.5 },
-                    { temp: 5,   windMinus10: 7.9, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.4 },
-                    { temp: 10,  windMinus10: 7.9, wind0: 9.0, wind10: 9.4, wind20: 9.9, wind30: 10.4 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.8, wind0: 10.1, wind10: 10.7, wind20: 11.3, wind30: 12.0 },
-                    { temp: -30, windMinus10: 8.8, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 12.0 },
-                    { temp: -25, windMinus10: 8.8, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 12.0 },
-                    { temp: -20, windMinus10: 8.8, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: -15, windMinus10: 8.8, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: -10, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: -5,  windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: 0,   windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: 5,   windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: 10,  windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.9, wind0: 11.5, wind10: 12.2, wind20: 12.9, wind30: 13.7 },
-                    { temp: -30, windMinus10: 9.9, wind0: 11.5, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -25, windMinus10: 10.0, wind0: 11.5, wind10: 12.2, wind20: 12.8, wind30: 13.6 },
-                    { temp: -20, windMinus10: 10.0, wind0: 11.5, wind10: 12.2, wind20: 12.8, wind30: 13.6 },
-                    { temp: -15, windMinus10: 10.0, wind0: 11.5, wind10: 12.2, wind20: 12.8, wind30: 13.6 },
-                    { temp: -10, windMinus10: 10.0, wind0: 11.5, wind10: 12.2, wind20: 12.8, wind30: 13.6 },
-                    { temp: -5,  windMinus10: 10.0, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.6 },
-                    { temp: 0,   windMinus10: 10.1, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.5 },
-                    { temp: 5,   windMinus10: 10.1, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.5 },
-                    { temp: 10,  windMinus10: 10.1, wind0: 11.6, wind10: 12.1, wind20: 12.8, wind30: 13.5 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.2, wind0: 13.1, wind10: 13.8, wind20: 14.7, wind30: 15.6 },
-                    { temp: -30, windMinus10: 11.3, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.6 },
-                    { temp: -25, windMinus10: 11.3, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.6 },
-                    { temp: -20, windMinus10: 11.3, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.5 },
-                    { temp: -15, windMinus10: 11.3, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.5 },
-                    { temp: -10, windMinus10: 11.3, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.5 },
-                    { temp: -5,  windMinus10: 11.4, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.5 },
-                    { temp: 0,   windMinus10: 11.4, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.4 },
-                    { temp: 5,   windMinus10: 11.4, wind0: 13.1, wind10: 13.8, wind20: 14.6, wind30: 15.4 },
-                    { temp: 10,  windMinus10: 11.4, wind0: 13.1, wind10: 13.7, wind20: 14.6, wind30: 15.4 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 12.7, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.8 },
-                    { temp: -30, windMinus10: 12.8, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.8 },
-                    { temp: -25, windMinus10: 12.8, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.8 },
-                    { temp: -20, windMinus10: 12.8, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.8 },
-                    { temp: -15, windMinus10: 12.8, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.7 },
-                    { temp: -10, windMinus10: 12.9, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.7 },
-                    { temp: -5,  windMinus10: 12.9, wind0: 14.9, wind10: 15.8, wind20: 16.7, wind30: 17.7 },
-                    { temp: 0,   windMinus10: 12.9, wind0: 14.9, wind10: 15.8, wind20: 16.5, wind30: 17.7 },
-                    { temp: 5,   windMinus10: 12.9, wind0: 14.9, wind10: 15.7, wind20: 16.6, wind30: 17.6 },
-                    { temp: 10,  windMinus10: 12.9, wind0: 14.9, wind10: 15.7, wind20: 16.6, wind30: 17.6 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.6 } },
+          { temp: -30, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -25, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -20, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -15, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -10, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -5, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: 0, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: 5, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: 10, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.5, "-10": 5.7 } }
         ]
-    },
-    {
-        altitudeFt: 1000,
+      },
+      {
+        weight: 19500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-                    { temp: -30, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-                    { temp: -25, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-                    { temp: -20, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.4 },
-                    { temp: -15, windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -10, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -5,  windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: 0,   windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: 5,   windMinus10: 5.6, wind0: 6.4, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: 10,  windMinus10: 5.5, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.2 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -30, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -25, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -20, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -15, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -10, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -5,  windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: 0,   windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: 5,   windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: 10,  windMinus10: 5.9, wind0: 6.7, wind10: 7.0, wind20: 7.4, wind30: 7.7 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -30, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -25, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -20, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -15, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -10, windMinus10: 6.3, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -5,  windMinus10: 6.4, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 0,   windMinus10: 6.4, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 5,   windMinus10: 6.4, wind0: 7.2, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 10,  windMinus10: 6.3, wind0: 7.2, wind10: 7.5, wind20: 7.9, wind30: 8.3 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -30, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -25, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -20, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -15, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -10, windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: -5,  windMinus10: 6.8, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 9.0 },
-                    { temp: 0,   windMinus10: 6.8, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 8.9 },
-                    { temp: 5,   windMinus10: 6.7, wind0: 7.7, wind10: 8.1, wind20: 8.5, wind30: 8.9 },
-                    { temp: 10,  windMinus10: 6.7, wind0: 7.7, wind10: 8.0, wind20: 8.4, wind30: 8.8 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.1, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -30, windMinus10: 7.1, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -25, windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -20, windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -15, windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -10, windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.6 },
-                    { temp: -5,  windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.5 },
-                    { temp: 0,   windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.5 },
-                    { temp: 5,   windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.1, wind30: 9.5 },
-                    { temp: 10,  windMinus10: 7.2, wind0: 8.2, wind10: 8.6, wind20: 9.0, wind30: 9.4 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.3 },
-                    { temp: -30, windMinus10: 7.6, wind0: 8.7, wind10: 9.2, wind20: 9.7, wind30: 10.3 },
-                    { temp: -25, windMinus10: 7.6, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: -20, windMinus10: 7.6, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: -15, windMinus10: 7.6, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: -10, windMinus10: 7.7, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: -5,  windMinus10: 7.7, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: 0,   windMinus10: 7.7, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: 5,   windMinus10: 7.7, wind0: 8.8, wind10: 9.2, wind20: 9.7, wind30: 10.2 },
-                    { temp: 10,  windMinus10: 7.7, wind0: 8.7, wind10: 9.1, wind20: 9.6, wind30: 10.1 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.6, wind0: 9.9, wind10: 10.5, wind20: 11.0, wind30: 11.7 },
-                    { temp: -30, windMinus10: 8.6, wind0: 9.9, wind10: 10.5, wind20: 11.0, wind30: 11.7 },
-                    { temp: -25, windMinus10: 8.6, wind0: 9.9, wind10: 10.5, wind20: 11.0, wind30: 11.7 },
-                    { temp: -20, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.0, wind30: 11.7 },
-                    { temp: -15, windMinus10: 8.7, wind0: 9.9, wind10: 10.5, wind20: 11.0, wind30: 11.6 },
-                    { temp: -10, windMinus10: 8.7, wind0: 10.0, wind10: 10.5, wind20: 11.0, wind30: 11.6 },
-                    { temp: -5,  windMinus10: 8.7, wind0: 10.0, wind10: 10.5, wind20: 11.0, wind30: 11.6 },
-                    { temp: 0,   windMinus10: 8.7, wind0: 10.0, wind10: 10.5, wind20: 11.0, wind30: 11.6 },
-                    { temp: 5,   windMinus10: 8.7, wind0: 10.0, wind10: 10.5, wind20: 11.0, wind30: 11.6 },
-                    { temp: 10,  windMinus10: 8.7, wind0: 9.9, wind10: 10.4, wind20: 10.9, wind30: 11.5 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.7, wind0: 11.3, wind10: 11.9, wind20: 12.6, wind30: 13.3 },
-                    { temp: -30, windMinus10: 9.8, wind0: 11.3, wind10: 11.9, wind20: 12.6, wind30: 13.3 },
-                    { temp: -25, windMinus10: 9.8, wind0: 11.3, wind10: 11.9, wind20: 12.6, wind30: 13.3 },
-                    { temp: -20, windMinus10: 9.8, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.3 },
-                    { temp: -15, windMinus10: 9.8, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.3 },
-                    { temp: -10, windMinus10: 9.8, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.3 },
-                    { temp: -5,  windMinus10: 9.9, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.2 },
-                    { temp: 0,   windMinus10: 9.9, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.2 },
-                    { temp: 5,   windMinus10: 9.9, wind0: 11.3, wind10: 11.9, wind20: 12.5, wind30: 13.2 },
-                    { temp: 10,  windMinus10: 9.8, wind0: 11.3, wind10: 11.8, wind20: 12.4, wind30: 13.1 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.0, wind0: 12.8, wind10: 13.5, wind20: 14.3, wind30: 15.2 },
-                    { temp: -30, windMinus10: 11.1, wind0: 12.8, wind10: 13.5, wind20: 14.3, wind30: 15.2 },
-                    { temp: -25, windMinus10: 11.1, wind0: 12.8, wind10: 13.5, wind20: 14.3, wind30: 15.2 },
-                    { temp: -20, windMinus10: 11.1, wind0: 12.8, wind10: 13.5, wind20: 14.3, wind30: 15.2 },
-                    { temp: -15, windMinus10: 11.1, wind0: 12.8, wind10: 13.5, wind20: 14.3, wind30: 15.1 },
-                    { temp: -10, windMinus10: 11.1, wind0: 12.9, wind10: 13.5, wind20: 14.3, wind30: 15.1 },
-                    { temp: -5,  windMinus10: 11.2, wind0: 12.9, wind10: 13.5, wind20: 14.3, wind30: 15.1 },
-                    { temp: 0,   windMinus10: 11.2, wind0: 12.9, wind10: 13.5, wind20: 14.3, wind30: 15.2 },
-                    { temp: 5,   windMinus10: 11.2, wind0: 12.9, wind10: 13.5, wind20: 14.3, wind30: 15.1 },
-                    { temp: 10,  windMinus10: 11.2, wind0: 12.8, wind10: 13.5, wind20: 14.2, wind30: 15.0 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 12.5, wind0: 14.6, wind10: 15.5, wind20: 16.4, wind30: 17.4 },
-                    { temp: -30, windMinus10: 12.6, wind0: 14.6, wind10: 15.5, wind20: 16.4, wind30: 17.4 },
-                    { temp: -25, windMinus10: 12.6, wind0: 14.6, wind10: 15.5, wind20: 16.4, wind30: 17.4 },
-                    { temp: -20, windMinus10: 12.6, wind0: 14.6, wind10: 15.4, wind20: 16.4, wind30: 17.4 },
-                    { temp: -15, windMinus10: 12.6, wind0: 14.6, wind10: 15.4, wind20: 16.3, wind30: 17.3 },
-                    { temp: -10, windMinus10: 12.7, wind0: 14.6, wind10: 15.4, wind20: 16.3, wind30: 17.3 },
-                    { temp: -5,  windMinus10: 12.7, wind0: 14.7, wind10: 15.4, wind20: 16.3, wind30: 17.3 },
-                    { temp: 0,   windMinus10: 12.7, wind0: 14.7, wind10: 15.4, wind20: 16.3, wind30: 17.3 },
-                    { temp: 5,   windMinus10: 12.7, wind0: 14.7, wind10: 15.4, wind20: 16.3, wind30: 17.3 },
-                    { temp: 10,  windMinus10: 12.7, wind0: 14.6, wind10: 15.4, wind20: 16.2, wind30: 17.2 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 6.9, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6 } },
+          { temp: -30, windKnots: { "0": 6.9, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6 } },
+          { temp: -25, windKnots: { "0": 6.9, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: -20, windKnots: { "0": 6.9, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: -15, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: -10, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: -5, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: 0, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: 5, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: 10, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8.1, "-10": 6.1 } }
         ]
-    },
-    {
-        altitudeFt: 2000,
+      },
+      {
+        weight: 19000,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.3, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -10, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -5,  windMinus10: 5.4, wind0: 6.2, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: 0,   windMinus10: 5.4, wind0: 6.2, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: 5,   windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: 10,  windMinus10: 4.9, wind0: 5.6, wind10: 5.8, wind20: 6.1, wind30: 6.4 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.7, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -30, windMinus10: 5.7, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -25, windMinus10: 5.7, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -5,  windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 0,   windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 5,   windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.5 },
-                    { temp: 10,  windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.2 },
-                    { temp: -30, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.2 },
-                    { temp: -25, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.2 },
-                    { temp: -20, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -10, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -5,  windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: 0,   windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: 5,   windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.0 },
-                    { temp: 10,  windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.5, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -30, windMinus10: 6.5, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -25, windMinus10: 6.5, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -5,  windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: 0,   windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: 5,   windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: 10,  windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.9, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -30, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -25, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -20, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -15, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -10, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -5,  windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: 0,   windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: 5,   windMinus10: 7.0, wind0: 8.0, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: 10,  windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.2, wind30: 8.6 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 10.0 },
-                    { temp: -30, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 10.0 },
-                    { temp: -25, windMinus10: 7.4, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 10.0 },
-                    { temp: -20, windMinus10: 7.5, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: -15, windMinus10: 7.5, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: -10, windMinus10: 7.5, wind0: 8.5, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: -5,  windMinus10: 7.5, wind0: 8.6, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: 0,   windMinus10: 7.5, wind0: 8.6, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: 5,   windMinus10: 7.5, wind0: 8.5, wind10: 8.9, wind20: 9.3, wind30: 9.8 },
-                    { temp: 10,  windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.2 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.4, wind0: 9.7, wind10: 10.2, wind20: 10.8, wind30: 11.4 },
-                    { temp: -30, windMinus10: 8.4, wind0: 9.7, wind10: 10.2, wind20: 10.8, wind30: 11.4 },
-                    { temp: -25, windMinus10: 8.4, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.4 },
-                    { temp: -20, windMinus10: 8.5, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: -15, windMinus10: 8.5, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: -10, windMinus10: 8.5, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: -5,  windMinus10: 8.7, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: 0,   windMinus10: 8.7, wind0: 9.7, wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: 5,   windMinus10: 8.7, wind0: 9.7, wind10: 10.1, wind20: 10.6, wind30: 11.2 },
-                    { temp: 10,  windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.5, wind0: 11.0, wind10: 11.6, wind20: 12.3, wind30: 13.0 },
-                    { temp: -30, windMinus10: 9.6, wind0: 11.0, wind10: 11.6, wind20: 12.3, wind30: 13.0 },
-                    { temp: -25, windMinus10: 9.6, wind0: 11.0, wind10: 11.6, wind20: 12.3, wind30: 13.0 },
-                    { temp: -20, windMinus10: 9.6, wind0: 11.0, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: -15, windMinus10: 9.6, wind0: 11.0, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: -10, windMinus10: 9.6, wind0: 11.0, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: -5,  windMinus10: 9.6, wind0: 11.1, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: 0,   windMinus10: 9.7, wind0: 11.1, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: 5,   windMinus10: 9.6, wind0: 11.0, wind10: 11.5, wind20: 12.1, wind30: 12.8 },
-                    { temp: 10,  windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.5, wind30: 12.1 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.8, wind0: 12.5, wind10: 13.2, wind20: 14.0, wind30: 14.9 },
-                    { temp: -30, windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 14.0, wind30: 14.8 },
-                    { temp: -25, windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 14.0, wind30: 14.8 },
-                    { temp: -20, windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 14.0, wind30: 14.8 },
-                    { temp: -15, windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 14.0, wind30: 14.8 },
-                    { temp: -10, windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 14.0, wind30: 14.8 },
-                    { temp: -5,  windMinus10: 10.9, wind0: 12.6, wind10: 13.2, wind20: 13.9, wind30: 14.7 },
-                    { temp: 0,   windMinus10: 11.0, wind0: 12.6, wind10: 13.2, wind20: 13.9, wind30: 14.7 },
-                    { temp: 5,   windMinus10: 10.9, wind0: 12.5, wind10: 13.1, wind20: 13.8, wind30: 14.6 },
-                    { temp: 10,  windMinus10: 10.4, wind0: 11.9, wind10: 12.5, wind20: 13.2, wind30: 13.9 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 12.3, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 17.0 },
-                    { temp: -30, windMinus10: 12.3, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 17.0 },
-                    { temp: -25, windMinus10: 12.4, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 17.0 },
-                    { temp: -20, windMinus10: 12.4, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 17.0 },
-                    { temp: -15, windMinus10: 12.4, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 16.9 },
-                    { temp: -10, windMinus10: 12.4, wind0: 14.3, wind10: 15.1, wind20: 16.0, wind30: 16.9 },
-                    { temp: -5,  windMinus10: 12.4, wind0: 14.4, wind10: 15.1, wind20: 16.0, wind30: 16.9 },
-                    { temp: 0,   windMinus10: 12.5, wind0: 14.4, wind10: 15.1, wind20: 15.9, wind30: 16.9 },
-                    { temp: 5,   windMinus10: 12.4, wind0: 14.3, wind10: 15.0, wind20: 15.8, wind30: 16.8 },
-                    { temp: 10,  windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.1, wind30: 16.0 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7, "-10": 6.4 } },
+          { temp: -30, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7, "-10": 6.4 } },
+          { temp: -25, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.7, "-10": 6.4 } },
+          { temp: -20, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: -15, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: -10, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: -5, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: 0, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: 5, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } },
+          { temp: 10, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } }
         ]
-    },
-    {
-        altitudeFt: 3000,
+      },
+      {
+        weight: 18500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: -5,  windMinus10: 5.2, wind0: 6.0, wind10: 6.2, wind20: 6.5, wind30: 6.9 },
-                    { temp: 0,   windMinus10: 5.2, wind0: 6.0, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: 5,   windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: 10,  windMinus10: 4.4, wind0: 5.0, wind10: 5.2, wind20: 5.4, wind30: 5.7 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.5, wind0: 6.3, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: -30, windMinus10: 5.6, wind0: 6.3, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: -25, windMinus10: 5.6, wind0: 6.3, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: -20, windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: -5,  windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: 0,   windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: 5,   windMinus10: 5.1, wind0: 6.1, wind10: 6.3, wind20: 6.6, wind30: 7.0 },
-                    { temp: 10,  windMinus10: 4.7, wind0: 5.4, wind10: 5.6, wind20: 5.9, wind30: 6.2 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -30, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -25, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -20, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -15, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -10, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -5,  windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: 0,   windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: 5,   windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-                    { temp: 10,  windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.4, wind30: 6.7 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.3, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -30, windMinus10: 6.3, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -20, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -10, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -5,  windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 0,   windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 5,   windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.6, wind30: 8.0 },
-                    { temp: 10,  windMinus10: 5.5, wind0: 6.3, wind10: 6.5, wind20: 6.9, wind30: 7.2 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-                    { temp: -30, windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-                    { temp: -25, windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-                    { temp: -20, windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-                    { temp: -15, windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.6, wind30: 9.0 },
-                    { temp: -10, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -5,  windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: 0,   windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: 5,   windMinus10: 6.9, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: 10,  windMinus10: 5.9, wind0: 6.7, wind10: 7.0, wind20: 7.4, wind30: 7.8 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.2, wind0: 8.3, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-                    { temp: -30, windMinus10: 7.2, wind0: 8.3, wind10: 8.7, wind20: 9.2, wind30: 9.7 },
-                    { temp: -25, windMinus10: 7.2, wind0: 8.3, wind10: 8.7, wind20: 9.2, wind30: 9.6 },
-                    { temp: -20, windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.1, wind30: 9.6 },
-                    { temp: -15, windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.1, wind30: 9.6 },
-                    { temp: -10, windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.1, wind30: 9.6 },
-                    { temp: -5,  windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.1, wind30: 9.6 },
-                    { temp: 0,   windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.1, wind30: 9.6 },
-                    { temp: 5,   windMinus10: 7.0, wind0: 8.3, wind10: 8.7, wind20: 8.8, wind30: 9.2 },
-                    { temp: 10,  windMinus10: 6.4, wind0: 7.2, wind10: 7.6, wind20: 7.9, wind30: 8.3 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.2, wind0: 9.4, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-                    { temp: -30, windMinus10: 8.2, wind0: 9.4, wind10: 9.9, wind20: 10.5, wind30: 11.0 },
-                    { temp: -25, windMinus10: 8.2, wind0: 9.4, wind10: 9.9, wind20: 10.4, wind30: 11.0 },
-                    { temp: -20, windMinus10: 8.3, wind0: 9.4, wind10: 9.9, wind20: 10.4, wind30: 11.0 },
-                    { temp: -15, windMinus10: 8.3, wind0: 9.5, wind10: 9.9, wind20: 10.4, wind30: 11.0 },
-                    { temp: -10, windMinus10: 8.3, wind0: 9.5, wind10: 9.9, wind20: 10.4, wind30: 11.0 },
-                    { temp: -5,  windMinus10: 8.3, wind0: 9.5, wind10: 9.9, wind20: 10.4, wind30: 11.0 },
-                    { temp: 0,   windMinus10: 8.3, wind0: 9.5, wind10: 9.9, wind20: 10.0, wind30: 10.6 },
-                    { temp: 5,   windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-                    { temp: 10,  windMinus10: 7.3, wind0: 8.3, wind10: 8.7, wind20: 9.2, wind30: 9.7 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.3, wind0: 10.7, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -30, windMinus10: 9.3, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -25, windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -20, windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -15, windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -10, windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: -5,  windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.6 },
-                    { temp: 0,   windMinus10: 9.4, wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.5 },
-                    { temp: 5,   windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.5, wind30: 12.1 },
-                    { temp: 10,  windMinus10: 8.4, wind0: 9.6, wind10: 10.1, wind20: 10.6, wind30: 11.1 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.6, wind0: 12.2, wind10: 12.9, wind20: 13.6, wind30: 14.5 },
-                    { temp: -30, windMinus10: 10.6, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: -25, windMinus10: 10.6, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: -20, windMinus10: 10.7, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: -15, windMinus10: 10.7, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: -10, windMinus10: 10.7, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: -5,  windMinus10: 10.7, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.4 },
-                    { temp: 0,   windMinus10: 10.7, wind0: 12.3, wind10: 12.9, wind20: 13.6, wind30: 14.3 },
-                    { temp: 5,   windMinus10: 10.4, wind0: 11.9, wind10: 12.5, wind20: 13.2, wind30: 13.9 },
-                    { temp: 10,  windMinus10: 9.7, wind0: 11.1, wind10: 11.6, wind20: 12.2, wind30: 12.9 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 12.1, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.6 },
-                    { temp: -30, windMinus10: 12.1, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.6 },
-                    { temp: -25, windMinus10: 12.1, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.6 },
-                    { temp: -20, windMinus10: 12.2, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.5 },
-                    { temp: -15, windMinus10: 12.2, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.5 },
-                    { temp: -10, windMinus10: 12.2, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.5 },
-                    { temp: -5,  windMinus10: 12.2, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.5 },
-                    { temp: 0,   windMinus10: 12.2, wind0: 14.0, wind10: 14.8, wind20: 15.6, wind30: 16.4 },
-                    { temp: 5,   windMinus10: 11.9, wind0: 13.6, wind10: 14.3, wind20: 15.1, wind30: 16.0 },
-                    { temp: 10,  windMinus10: 11.1, wind0: 12.7, wind10: 13.4, wind20: 14.1, wind30: 14.9 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 7.9, "10": 8.3, "20": 8.8, "30": 9.3, "-10": 6.8 } },
+          { temp: -30, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: -25, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: -20, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: -15, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: -10, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: -5, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: 0, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: 5, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 6.9 } },
+          { temp: 10, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 7 } }
         ]
-    },
-    {
-        altitudeFt: 4000,
+      },
+      {
+        weight: 18000,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-                    { temp: -20, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.7 },
-                    { temp: -15, windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.1, wind30: 6.4 },
-                    { temp: -10, windMinus10: 5.1, wind0: 5.7, wind10: 6.0, wind20: 6.2, wind30: 6.4 },
-                    { temp: -5,  windMinus10: 5.1, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: 0,   windMinus10: 5.1, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: 5,   windMinus10: 4.5, wind0: 5.1, wind10: 5.4, wind20: 5.6, wind30: 5.9 },
-                    { temp: 10,  windMinus10: 3.7, wind0: 4.3, wind10: 4.5, wind20: 4.7, wind30: 4.9 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.8, wind30: 7.1 },
-                    { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -10, windMinus10: 5.4, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -5,  windMinus10: 5.4, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: 0,   windMinus10: 5.4, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: 5,   windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: 10,  windMinus10: 4.1, wind0: 4.6, wind10: 4.9, wind20: 5.1, wind30: 5.3 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.7, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -25, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -20, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -15, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -10, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -5,  windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 0,   windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 5,   windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.5, wind30: 6.9 },
-                    { temp: 10,  windMinus10: 4.4, wind0: 5.0, wind10: 5.3, wind20: 5.5, wind30: 5.8 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.1, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.2 },
-                    { temp: -30, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.2 },
-                    { temp: -25, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -20, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -10, windMinus10: 6.2, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -5,  windMinus10: 6.2, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: 0,   windMinus10: 6.2, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: 5,   windMinus10: 5.7, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: 10,  windMinus10: 4.8, wind0: 5.5, wind10: 5.7, wind20: 6.0, wind30: 6.3 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -30, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -25, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -5,  windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: 0,   windMinus10: 6.7, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: 5,   windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 7.9 },
-                    { temp: 10,  windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.9, wind30: 9.4 },
-                    { temp: -30, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: -25, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: -20, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: -15, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: -10, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: -5,  windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.9, wind30: 9.3 },
-                    { temp: 0,   windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: 5,   windMinus10: 6.5, wind0: 7.4, wind10: 7.8, wind20: 8.1, wind30: 8.5 },
-                    { temp: 10,  windMinus10: 5.6, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.4 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.0, wind0: 9.2, wind10: 9.6, wind20: 10.2, wind30: 10.7 },
-                    { temp: -30, windMinus10: 8.0, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-                    { temp: -25, windMinus10: 8.0, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-                    { temp: -20, windMinus10: 8.0, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-                    { temp: -15, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.7 },
-                    { temp: -10, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: -5,  windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: 0,   windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: 5,   windMinus10: 7.5, wind0: 8.5, wind10: 8.9, wind20: 9.4, wind30: 9.8 },
-                    { temp: 10,  windMinus10: 6.6, wind0: 7.5, wind10: 7.9, wind20: 8.2, wind30: 8.6 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.1, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.3 },
-                    { temp: -30, windMinus10: 9.1, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.3 },
-                    { temp: -25, windMinus10: 9.1, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: -20, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: -15, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: -10, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: -5,  windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: 0,   windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: 5,   windMinus10: 8.6, wind0: 9.8, wind10: 10.3, wind20: 10.8, wind30: 11.3 },
-                    { temp: 10,  windMinus10: 7.6, wind0: 8.7, wind10: 9.1, wind20: 9.5, wind30: 10.0 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.4, wind0: 11.9, wind10: 12.6, wind20: 13.3, wind30: 14.1 },
-                    { temp: -30, windMinus10: 10.4, wind0: 12.0, wind10: 12.6, wind20: 13.3, wind30: 14.0 },
-                    { temp: -25, windMinus10: 10.4, wind0: 12.0, wind10: 12.6, wind20: 13.3, wind30: 14.0 },
-                    { temp: -20, windMinus10: 10.4, wind0: 12.0, wind10: 12.6, wind20: 13.3, wind30: 14.0 },
-                    { temp: -15, windMinus10: 10.4, wind0: 12.0, wind10: 12.6, wind20: 13.3, wind30: 14.0 },
-                    { temp: -10, windMinus10: 10.5, wind0: 12.0, wind10: 12.6, wind20: 13.2, wind30: 14.0 },
-                    { temp: -5,  windMinus10: 10.5, wind0: 12.0, wind10: 12.6, wind20: 13.2, wind30: 14.0 },
-                    { temp: 0,   windMinus10: 10.5, wind0: 12.0, wind10: 12.6, wind20: 13.2, wind30: 13.9 },
-                    { temp: 5,   windMinus10: 9.8, wind0: 11.2, wind10: 11.8, wind20: 12.4, wind30: 13.1 },
-                    { temp: 10,  windMinus10: 8.8, wind0: 10.0, wind10: 10.5, wind20: 11.1, wind30: 11.7 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.8, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.2 },
-                    { temp: -30, windMinus10: 11.8, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.1 },
-                    { temp: -25, windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.1 },
-                    { temp: -20, windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.1 },
-                    { temp: -15, windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.1 },
-                    { temp: -10, windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.1 },
-                    { temp: -5,  windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.0 },
-                    { temp: 0,   windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.2, wind30: 16.0 },
-                    { temp: 5,   windMinus10: 11.3, wind0: 12.9, wind10: 13.6, wind20: 14.3, wind30: 15.1 },
-                    { temp: 10,  windMinus10: 10.1, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.6 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.9, "-10": 7.3 } },
+          { temp: -30, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.9, "-10": 7.3 } },
+          { temp: -25, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.9, "-10": 7.3 } },
+          { temp: -20, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.8, "-10": 7.3 } },
+          { temp: -15, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.8, "-10": 7.3 } },
+          { temp: -10, windKnots: { "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.8, "-10": 7.4 } },
+          { temp: -5, windKnots: { "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.8, "-10": 7.4 } },
+          { temp: 0, windKnots: { "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.8, "-10": 7.4 } },
+          { temp: 5, windKnots: { "0": 8.4, "10": 8.9, "20": 9.3, "30": 9.8, "-10": 7.4 } },
+          { temp: 10, windKnots: { "0": 8.4, "10": 8.8, "20": 9.3, "30": 9.8, "-10": 7.4 } }
         ]
-    },
-    {
-        altitudeFt: 5000,
+      },
+      {
+        weight: 17500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.4 },
-                    { temp: -30, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.4 },
-                    { temp: -25, windMinus10: 4.8, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.3 },
-                    { temp: -20, windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.3 },
-                    { temp: -15, windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.3 },
-                    { temp: -10, windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.3 },
-                    { temp: -5,  windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.0, wind30: 6.3 },
-                    { temp: 0,   windMinus10: 4.7, wind0: 5.3, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-                    { temp: 5,   windMinus10: 4.1, wind0: 4.6, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-                    { temp: 10,  windMinus10: 3.1, wind0: 3.6, wind10: 3.7, wind20: 3.9, wind30: 4.1 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -25, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -20, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -15, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -5,  windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.5 },
-                    { temp: 0,   windMinus10: 5.0, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.5 },
-                    { temp: 5,   windMinus10: 4.4, wind0: 5.0, wind10: 5.2, wind20: 5.5, wind30: 5.7 },
-                    { temp: 10,  windMinus10: 3.5, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.5 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -30, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -25, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -20, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -15, windMinus10: 5.6, wind0: 6.4, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -10, windMinus10: 5.6, wind0: 6.4, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: -5,  windMinus10: 5.6, wind0: 6.4, wind10: 6.6, wind20: 7.0, wind30: 7.3 },
-                    { temp: 0,   windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: 5,   windMinus10: 4.8, wind0: 5.4, wind10: 5.6, wind20: 5.9, wind30: 6.2 },
-                    { temp: 10,  windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.7, wind30: 5.0 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.9, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -30, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.9 },
-                    { temp: -25, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: -20, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: -15, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: -10, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: -5,  windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: 0,   windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.5 },
-                    { temp: 5,   windMinus10: 5.2, wind0: 5.8, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: 10,  windMinus10: 4.2, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.4 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -30, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -20, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -10, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -5,  windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: 0,   windMinus10: 6.2, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: 5,   windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.2 },
-                    { temp: 10,  windMinus10: 4.5, wind0: 5.2, wind10: 5.4, wind20: 5.7, wind30: 5.9 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -30, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -25, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -20, windMinus10: 6.8, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -15, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -10, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -5,  windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: 0,   windMinus10: 6.7, wind0: 7.6, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: 5,   windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: 10,  windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.5 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.4 },
-                    { temp: -30, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: -25, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: -20, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: -15, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: -10, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: -5,  windMinus10: 7.9, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.3 },
-                    { temp: 0,   windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.8, wind30: 10.2 },
-                    { temp: 5,   windMinus10: 6.9, wind0: 7.9, wind10: 8.2, wind20: 8.6, wind30: 9.1 },
-                    { temp: 10,  windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.3, wind30: 7.6 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: -30, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.3, wind30: 11.9 },
-                    { temp: -25, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.9 },
-                    { temp: -20, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -15, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -10, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -5,  windMinus10: 9.0, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: 0,   windMinus10: 9.0, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: 5,   windMinus10: 8.0, wind0: 9.2, wind10: 9.7, wind20: 10.2, wind30: 10.8 },
-                    { temp: 10,  windMinus10: 6.8, wind0: 7.8, wind10: 8.1, wind20: 8.5, wind30: 9.0 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.1, wind0: 11.6, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -30, windMinus10: 10.1, wind0: 11.6, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -25, windMinus10: 10.2, wind0: 11.6, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -20, windMinus10: 10.2, wind0: 11.6, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -15, windMinus10: 10.2, wind0: 11.7, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -10, windMinus10: 10.2, wind0: 11.7, wind10: 12.2, wind20: 12.9, wind30: 13.6 },
-                    { temp: -5,  windMinus10: 10.2, wind0: 11.7, wind10: 12.2, wind20: 12.9, wind30: 13.5 },
-                    { temp: 0,   windMinus10: 10.0, wind0: 11.4, wind10: 11.9, wind20: 12.5, wind30: 13.2 },
-                    { temp: 5,   windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.6, wind30: 12.2 },
-                    { temp: 10,  windMinus10: 7.9, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.5, wind0: 13.3, wind10: 14.0, wind20: 14.8, wind30: 15.7 },
-                    { temp: -30, windMinus10: 11.6, wind0: 13.3, wind10: 14.0, wind20: 14.8, wind30: 15.7 },
-                    { temp: -25, windMinus10: 11.6, wind0: 13.3, wind10: 14.0, wind20: 14.8, wind30: 15.6 },
-                    { temp: -20, windMinus10: 11.6, wind0: 13.3, wind10: 14.0, wind20: 14.8, wind30: 15.6 },
-                    { temp: -15, windMinus10: 11.6, wind0: 13.3, wind10: 14.0, wind20: 14.8, wind30: 15.6 },
-                    { temp: -10, windMinus10: 11.7, wind0: 13.4, wind10: 14.0, wind20: 14.8, wind30: 15.6 },
-                    { temp: -5,  windMinus10: 11.7, wind0: 13.4, wind10: 14.0, wind20: 14.8, wind30: 15.6 },
-                    { temp: 0,   windMinus10: 11.4, wind0: 13.1, wind10: 13.7, wind20: 14.4, wind30: 15.2 },
-                    { temp: 5,   windMinus10: 10.6, wind0: 12.1, wind10: 12.7, wind20: 13.4, wind30: 14.1 },
-                    { temp: 10,  windMinus10: 9.2, wind0: 10.6, wind10: 11.1, wind20: 11.7, wind30: 12.3 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 8.9, "10": 9.4, "20": 10, "30": 10.5, "-10": 7.8 } },
+          { temp: -30, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: -25, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: -20, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: -15, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: -10, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: -5, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.8 } },
+          { temp: 0, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.5, "-10": 7.9 } },
+          { temp: 5, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.4, "-10": 7.9 } },
+          { temp: 10, windKnots: { "0": 9, "10": 9.4, "20": 9.9, "30": 10.4, "-10": 7.9 } }
         ]
-    },
-    {
-        altitudeFt: 6000,
+      },
+      {
+        weight: 16500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -30, windMinus10: 4.9, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -25, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.4 },
-                    { temp: -20, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.4 },
-                    { temp: -15, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.1, wind30: 6.4 },
-                    { temp: -10, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.1, wind30: 6.4 },
-                    { temp: -5,  windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.1, wind30: 6.4 },
-                    { temp: 0,   windMinus10: 4.3, wind0: 4.9, wind10: 5.1, wind20: 5.4, wind30: 5.6 },
-                    { temp: 5,   windMinus10: 3.5, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-                    { temp: 10,  windMinus10: 2.6, wind0: 2.9, wind10: 3.1, wind20: 3.2, wind30: 3.4 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -30, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -25, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -20, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -15, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -10, windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -5,  windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: 0,   windMinus10: 4.7, wind0: 5.3, wind10: 5.5, wind20: 5.8, wind30: 6.1 },
-                    { temp: 5,   windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.7, wind30: 4.9 },
-                    { temp: 10,  windMinus10: 2.9, wind0: 3.3, wind10: 3.4, wind20: 3.6, wind30: 3.8 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.7, wind0: 6.4, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -30, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -25, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -15, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -10, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -5,  windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: 0,   windMinus10: 5.1, wind0: 5.7, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: 5,   windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-                    { temp: 10,  windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-                    { temp: -30, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-                    { temp: -25, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-                    { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-                    { temp: -15, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 8.0 },
-                    { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 7.9 },
-                    { temp: -5,  windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.5, wind30: 7.9 },
-                    { temp: 0,   windMinus10: 5.5, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: 5,   windMinus10: 4.5, wind0: 5.1, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-                    { temp: 10,  windMinus10: 3.6, wind0: 4.0, wind10: 4.2, wind20: 4.4, wind30: 4.6 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: -30, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: -25, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: -20, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: -15, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: -10, windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.4 },
-                    { temp: -5,  windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.4 },
-                    { temp: 0,   windMinus10: 5.9, wind0: 6.7, wind10: 6.9, wind20: 7.3, wind30: 7.7 },
-                    { temp: 5,   windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: 10,  windMinus10: 3.9, wind0: 4.4, wind10: 4.6, wind20: 4.9, wind30: 5.1 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -30, windMinus10: 6.9, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -25, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -20, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -15, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -10, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -5,  windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: 0,   windMinus10: 6.3, wind0: 7.1, wind10: 7.5, wind20: 7.8, wind30: 8.2 },
-                    { temp: 5,   windMinus10: 5.0, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: 10,  windMinus10: 4.3, wind0: 4.9, wind10: 5.1, wind20: 5.3, wind30: 5.6 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.5 },
-                    { temp: -30, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.5 },
-                    { temp: -25, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.5 },
-                    { temp: -20, windMinus10: 7.9, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -15, windMinus10: 8.0, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -10, windMinus10: 8.0, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -5,  windMinus10: 8.0, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: 0,   windMinus10: 7.3, wind0: 8.2, wind10: 8.6, wind20: 9.0, wind30: 9.5 },
-                    { temp: 5,   windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.1 },
-                    { temp: 10,  windMinus10: 5.1, wind0: 5.8, wind10: 6.1, wind20: 6.4, wind30: 6.7 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.0, wind0: 10.3, wind10: 10.8, wind20: 11.4, wind30: 12.0 },
-                    { temp: -30, windMinus10: 9.0, wind0: 10.3, wind10: 10.8, wind20: 11.4, wind30: 12.0 },
-                    { temp: -25, windMinus10: 9.0, wind0: 10.3, wind10: 10.8, wind20: 11.4, wind30: 12.0 },
-                    { temp: -20, windMinus10: 9.0, wind0: 10.3, wind10: 10.8, wind20: 11.4, wind30: 12.0 },
-                    { temp: -15, windMinus10: 9.1, wind0: 10.3, wind10: 10.8, wind20: 11.4, wind30: 11.9 },
-                    { temp: -10, windMinus10: 9.0, wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.9 },
-                    { temp: -5,  windMinus10: 8.3, wind0: 9.5,  wind10: 9.9,  wind20: 10.4, wind30: 10.9 },
-                    { temp: 0,   windMinus10: 7.2, wind0: 8.2,  wind10: 8.6,  wind20: 9.0,  wind30: 9.5 },
-                    { temp: 5,   windMinus10: 6.1, wind0: 6.9,  wind10: 7.2,  wind20: 7.6,  wind30: 8.0 },
-                    { temp: 10,  windMinus10: 5.1, wind0: 5.9,  wind10: 6.2,  wind20: 6.5,  wind30: 6.9 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -30, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -25, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -20, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -15, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -10, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -5,  windMinus10: 9.6,  wind0: 10.9, wind10: 11.4, wind20: 12.0, wind30: 12.6 },
-                    { temp: 0,   windMinus10: 8.4,  wind0: 9.6,  wind10: 10.0, wind20: 10.5, wind30: 11.1 },
-                    { temp: 5,   windMinus10: 7.2,  wind0: 8.2,  wind10: 8.6,  wind20: 9.0,  wind30: 9.5 },
-                    { temp: 10,  windMinus10: 6.1,  wind0: 6.9,  wind10: 7.2,  wind20: 7.6,  wind30: 8.0 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.7, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.8 },
-                    { temp: -30, windMinus10: 11.7, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.8 },
-                    { temp: -25, windMinus10: 11.8, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.8 },
-                    { temp: -20, windMinus10: 11.8, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.7 },
-                    { temp: -15, windMinus10: 11.9, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.7 },
-                    { temp: -10, windMinus10: 11.7, wind0: 13.4, wind10: 14.1, wind20: 14.8, wind30: 15.7 },
-                    { temp: -5,  windMinus10: 11.3, wind0: 12.9, wind10: 13.5, wind20: 14.3, wind30: 15.0 },
-                    { temp: 0,   windMinus10: 9.7,  wind0: 11.1, wind10: 11.6, wind20: 12.2, wind30: 12.9 },
-                    { temp: 5,   windMinus10: 8.1,  wind0: 9.3,  wind10: 9.7,  wind20: 10.2, wind30: 10.7 },
-                    { temp: 10,  windMinus10: 6.6,  wind0: 7.5,  wind10: 7.9,  wind20: 8.3,  wind30: 8.8 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 10.1, "10": 10.7, "20": 11.3, "30": 12, "-10": 8.8 } },
+          { temp: -30, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 12, "-10": 8.8 } },
+          { temp: -25, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 12, "-10": 8.8 } },
+          { temp: -20, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.8 } },
+          { temp: -15, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.8 } },
+          { temp: -10, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: -5, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: 0, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: 5, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: 10, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } }
         ]
-    },
-    {
-        altitudeFt: 7000,
+      },
+      {
+        weight: 15500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -20, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.4 },
-                    { temp: -15, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -10, windMinus10: 4.9, wind0: 5.6, wind10: 5.8, wind20: 6.1, wind30: 6.3 },
-                    { temp: -5,  windMinus10: 4.6, wind0: 5.2, wind10: 5.4, wind20: 5.6, wind30: 5.9 },
-                    { temp: 0,   windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.6, wind30: 4.8 },
-                    { temp: 5,   windMinus10: 2.9, wind0: 3.3, wind10: 3.4, wind20: 3.6, wind30: 3.7 },
-                    { temp: 10,  windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.7 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -20, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -10, windMinus10: 5.3, wind0: 6.0, wind10: 6.2, wind20: 6.5, wind30: 6.8 },
-                    { temp: -5,  windMinus10: 4.9, wind0: 5.6, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: 0,   windMinus10: 4.1, wind0: 4.6, wind10: 4.8, wind20: 5.0, wind30: 5.3 },
-                    { temp: 5,   windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-                    { temp: 10,  windMinus10: 2.3, wind0: 2.7, wind10: 2.7, wind20: 2.8, wind30: 2.9 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.5 },
-                    { temp: -30, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.2, wind30: 7.5 },
-                    { temp: -25, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-                    { temp: -20, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-                    { temp: -15, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.5 },
-                    { temp: -10, windMinus10: 5.7, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.3 },
-                    { temp: -5,  windMinus10: 5.3, wind0: 6.0, wind10: 6.3, wind20: 6.5, wind30: 6.9 },
-                    { temp: 0,   windMinus10: 4.4, wind0: 5.0, wind10: 5.2, wind20: 5.5, wind30: 5.7 },
-                    { temp: 5,   windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-                    { temp: 10,  windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.3, wind30: 3.5 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.1, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.0 },
-                    { temp: -30, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.0 },
-                    { temp: -25, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.7, wind30: 8.0 },
-                    { temp: -20, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.6, wind30: 8.0 },
-                    { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.6, wind30: 8.0 },
-                    { temp: -10, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.5, wind30: 7.8 },
-                    { temp: -5,  windMinus10: 5.7, wind0: 6.4, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: 0,   windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 5.9, wind30: 6.2 },
-                    { temp: 5,   windMinus10: 3.9, wind0: 4.4, wind10: 4.6, wind20: 4.8, wind30: 5.0 },
-                    { temp: 10,  windMinus10: 3.0, wind0: 3.4, wind10: 3.5, wind20: 3.7, wind30: 3.9 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -30, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -25, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -20, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -15, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -10, windMinus10: 6.5, wind0: 7.3, wind10: 7.7, wind20: 8.0, wind30: 8.4 },
-                    { temp: -5,  windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 7.9 },
-                    { temp: 0,   windMinus10: 5.2, wind0: 5.9, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: 5,   windMinus10: 4.2, wind0: 4.8, wind10: 5.0, wind20: 5.3, wind30: 5.5 },
-                    { temp: 10,  windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.1, wind30: 4.4 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.2 },
-                    { temp: -30, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.2 },
-                    { temp: -25, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.2 },
-                    { temp: -20, windMinus10: 7.0, wind0: 8.0, wind10: 8.4, wind20: 8.8, wind30: 9.2 },
-                    { temp: -15, windMinus10: 7.1, wind0: 8.0, wind10: 8.3, wind20: 8.7, wind30: 9.2 },
-                    { temp: -10, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.6, wind30: 9.0 },
-                    { temp: -5,  windMinus10: 6.6, wind0: 7.4, wind10: 7.8, wind20: 8.1, wind30: 8.5 },
-                    { temp: 0,   windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-                    { temp: 5,   windMinus10: 4.6, wind0: 5.3, wind10: 5.5, wind20: 5.7, wind30: 6.0 },
-                    { temp: 10,  windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.6, wind30: 4.8 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-                    { temp: -30, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-                    { temp: -25, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-                    { temp: -20, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.5 },
-                    { temp: -15, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 10.0, wind30: 10.4 },
-                    { temp: -10, windMinus10: 7.9, wind0: 9.0, wind10: 9.4, wind20: 9.8, wind30: 10.3 },
-                    { temp: -5,  windMinus10: 7.5, wind0: 8.5, wind10: 8.9, wind20: 9.3, wind30: 9.8 },
-                    { temp: 0,   windMinus10: 6.5, wind0: 7.4, wind10: 7.7, wind20: 8.1, wind30: 8.5 },
-                    { temp: 5,   windMinus10: 5.4, wind0: 6.1, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: 10,  windMinus10: 4.3, wind0: 4.9, wind10: 5.1, wind20: 5.3, wind30: 5.6 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.5, wind30: 12.0 },
-                    { temp: -30, windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.5, wind30: 12.0 },
-                    { temp: -25, windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.4, wind30: 12.0 },
-                    { temp: -20, windMinus10: 9.1, wind0: 10.4, wind10: 10.9, wind20: 11.4, wind30: 12.0 },
-                    { temp: -15, windMinus10: 9.2, wind0: 10.4, wind10: 10.9, wind20: 11.4, wind30: 12.0 },
-                    { temp: -10, windMinus10: 9.0, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -5,  windMinus10: 8.6, wind0: 9.8,  wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: 0,   windMinus10: 7.6, wind0: 8.6,  wind10: 9.0,  wind20: 9.4,  wind30: 9.9 },
-                    { temp: 5,   windMinus10: 6.5, wind0: 7.3,  wind10: 7.7,  wind20: 8.0,  wind30: 8.4 },
-                    { temp: 10,  windMinus10: 5.4, wind0: 6.1,  wind10: 6.4,  wind20: 6.7,  wind30: 7.1 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.4, wind0: 11.9, wind10: 12.5, wind20: 13.1, wind30: 13.8 },
-                    { temp: -30, windMinus10: 10.4, wind0: 11.9, wind10: 12.5, wind20: 13.1, wind30: 13.8 },
-                    { temp: -25, windMinus10: 10.4, wind0: 11.9, wind10: 12.5, wind20: 13.1, wind30: 13.8 },
-                    { temp: -20, windMinus10: 10.4, wind0: 11.9, wind10: 12.4, wind20: 13.1, wind30: 13.8 },
-                    { temp: -15, windMinus10: 10.4, wind0: 11.9, wind10: 12.4, wind20: 13.1, wind30: 13.7 },
-                    { temp: -10, windMinus10: 10.3, wind0: 11.7, wind10: 12.3, wind20: 12.9, wind30: 13.6 },
-                    { temp: -5,  windMinus10: 9.9,  wind0: 11.2, wind10: 11.8, wind20: 12.3, wind30: 13.0 },
-                    { temp: 0,   windMinus10: 8.7,  wind0: 9.9,  wind10: 10.4, wind20: 10.9, wind30: 11.5 },
-                    { temp: 5,   windMinus10: 7.6,  wind0: 8.5,  wind10: 9.0,  wind20: 9.5,  wind30: 9.9 },
-                    { temp: 10,  windMinus10: 6.4,  wind0: 7.3,  wind10: 7.6,  wind20: 8.0,  wind30: 8.4 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.8, wind0: 13.6, wind10: 14.3, wind20: 15.0, wind30: 15.9 },
-                    { temp: -30, windMinus10: 11.8, wind0: 13.6, wind10: 14.3, wind20: 15.0, wind30: 15.9 },
-                    { temp: -25, windMinus10: 11.9, wind0: 13.6, wind10: 14.3, wind20: 15.0, wind30: 15.8 },
-                    { temp: -20, windMinus10: 11.9, wind0: 13.6, wind10: 14.3, wind20: 15.0, wind30: 15.8 },
-                    { temp: -15, windMinus10: 11.9, wind0: 13.6, wind10: 14.3, wind20: 15.0, wind30: 15.7 },
-                    { temp: -10, windMinus10: 11.7, wind0: 13.4, wind10: 14.1, wind20: 14.8, wind30: 15.6 },
-                    { temp: -5,  windMinus10: 11.3, wind0: 12.9, wind10: 13.5, wind20: 14.2, wind30: 15.0 },
-                    { temp: 0,   windMinus10: 10.1, wind0: 11.5, wind10: 12.1, wind20: 12.7, wind30: 13.3 },
-                    { temp: 5,   windMinus10: 8.8,  wind0: 10.1, wind10: 10.6, wind20: 11.1, wind30: 11.7 },
-                    { temp: 10,  windMinus10: 7.5,  wind0: 8.6,  wind10: 9.0,  wind20: 9.4,  wind30: 10.0 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 11.5, "10": 12.2, "20": 12.9, "30": 13.7, "-10": 9.9 } },
+          { temp: -30, windKnots: { "0": 11.5, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 9.9 } },
+          { temp: -25, windKnots: { "0": 11.5, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10 } },
+          { temp: -20, windKnots: { "0": 11.5, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10 } },
+          { temp: -15, windKnots: { "0": 11.5, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10 } },
+          { temp: -10, windKnots: { "0": 11.5, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10 } },
+          { temp: -5, windKnots: { "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10 } },
+          { temp: 0, windKnots: { "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.5, "-10": 10.1 } },
+          { temp: 5, windKnots: { "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.5, "-10": 10.1 } },
+          { temp: 10, windKnots: { "0": 11.6, "10": 12.1, "20": 12.8, "30": 13.5, "-10": 10.1 } }
         ]
-    },
-    {
-        altitudeFt: 8000,
+      },
+      {
+        weight: 14500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -30, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -25, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -20, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.3, wind30: 6.6 },
-                    { temp: -15, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.4, wind30: 6.7 },
-                    { temp: -10, windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.7, wind30: 6.0 },
-                    { temp: -5,  windMinus10: 3.9, wind0: 4.5, wind10: 4.6, wind20: 4.9, wind30: 5.1 },
-                    { temp: 0,   windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-                    { temp: 5,   windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 3.0, wind30: 3.1 },
-                    { temp: 10,  windMinus10: 1.5, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.5, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -30, windMinus10: 5.5, wind0: 6.2, wind10: 6.5, wind20: 6.8, wind30: 7.1 },
-                    { temp: -25, windMinus10: 5.5, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.1 },
-                    { temp: -20, windMinus10: 5.5, wind0: 6.2, wind10: 6.4, wind20: 6.7, wind30: 7.0 },
-                    { temp: -15, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.1, wind30: 6.4 },
-                    { temp: -10, windMinus10: 4.3, wind0: 4.8, wind10: 5.1, wind20: 5.3, wind30: 5.5 },
-                    { temp: -5,  windMinus10: 3.5, wind0: 3.9, wind10: 4.1, wind20: 4.3, wind30: 4.5 },
-                    { temp: 0,   windMinus10: 2.6, wind0: 3.0, wind10: 3.1, wind20: 3.3, wind30: 3.4 },
-                    { temp: 5,   windMinus10: 1.8, wind0: 2.1, wind10: 2.3, wind20: 2.4, wind30: 2.5 },
-                    { temp: 10,  windMinus10: 1.0, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -30, windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -25, windMinus10: 5.9, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -20, windMinus10: 5.9, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: -15, windMinus10: 5.4, wind0: 6.1, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -10, windMinus10: 4.6, wind0: 5.2, wind10: 5.4, wind20: 5.7, wind30: 6.0 },
-                    { temp: -5,  windMinus10: 3.8, wind0: 4.3, wind10: 4.5, wind20: 4.7, wind30: 5.0 },
-                    { temp: 0,   windMinus10: 2.9, wind0: 3.3, wind10: 3.5, wind20: 3.7, wind30: 3.9 },
-                    { temp: 5,   windMinus10: 2.0, wind0: 2.3, wind10: 2.5, wind20: 2.6, wind30: 2.8 },
-                    { temp: 10,  windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.8 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.2, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -30, windMinus10: 6.3, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -25, windMinus10: 6.3, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -20, windMinus10: 6.3, wind0: 7.1, wind10: 7.4, wind20: 7.7, wind30: 8.1 },
-                    { temp: -15, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -10, windMinus10: 5.0, wind0: 5.6, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: -5,  windMinus10: 4.1, wind0: 4.7, wind10: 4.9, wind20: 5.1, wind30: 5.4 },
-                    { temp: 0,   windMinus10: 3.2, wind0: 3.7, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-                    { temp: 5,   windMinus10: 2.3, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.1 },
-                    { temp: 10,  windMinus10: 1.4, wind0: 1.7, wind10: 1.8, wind20: 1.9, wind30: 2.1 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.7, wind0: 7.5, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -30, windMinus10: 6.7, wind0: 7.6, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -25, windMinus10: 6.7, wind0: 7.6, wind10: 7.9, wind20: 8.3, wind30: 8.7 },
-                    { temp: -20, windMinus10: 6.7, wind0: 7.6, wind10: 7.9, wind20: 8.3, wind30: 8.6 },
-                    { temp: -15, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.6, wind30: 8.0 },
-                    { temp: -10, windMinus10: 5.4, wind0: 6.1, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -5,  windMinus10: 4.5, wind0: 5.1, wind10: 5.3, wind20: 5.6, wind30: 5.9 },
-                    { temp: 0,   windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: 5,   windMinus10: 2.6, wind0: 3.0, wind10: 3.2, wind20: 3.3, wind30: 3.6 },
-                    { temp: 10,  windMinus10: 1.7, wind0: 2.0, wind10: 2.1, wind20: 2.3, wind30: 2.4 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -30, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -25, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -20, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -15, windMinus10: 7.1, wind0: 8.1, wind10: 8.4, wind20: 8.8, wind30: 9.3 },
-                    { temp: -10, windMinus10: 6.6, wind0: 7.5, wind10: 7.8, wind20: 8.2, wind30: 8.6 },
-                    { temp: -5,  windMinus10: 5.9, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 0,   windMinus10: 4.9, wind0: 5.6, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: 5,   windMinus10: 4.0, wind0: 4.5, wind10: 4.7, wind20: 5.0, wind30: 5.2 },
-                    { temp: 10,  windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: -30, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: -25, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: -20, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.6 },
-                    { temp: -15, windMinus10: 8.1, wind0: 9.2, wind10: 9.6, wind20: 10.1, wind30: 10.5 },
-                    { temp: -10, windMinus10: 7.6, wind0: 8.6, wind10: 9.0, wind20: 9.4, wind30: 9.9 },
-                    { temp: -5,  windMinus10: 6.8, wind0: 7.7, wind10: 8.0, wind20: 8.4, wind30: 8.8 },
-                    { temp: 0,   windMinus10: 5.8, wind0: 6.6, wind10: 6.9, wind20: 7.2, wind30: 7.6 },
-                    { temp: 5,   windMinus10: 4.8, wind0: 5.5, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-                    { temp: 10,  windMinus10: 3.9, wind0: 4.4, wind10: 4.6, wind20: 4.8, wind30: 5.1 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -30, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -25, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -20, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -15, windMinus10: 9.2, wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -10, windMinus10: 8.7, wind0: 9.9,  wind10: 10.3, wind20: 10.8, wind30: 11.3 },
-                    { temp: -5,  windMinus10: 7.8, wind0: 8.9,  wind10: 9.3,  wind20: 9.7,  wind30: 10.2 },
-                    { temp: 0,   windMinus10: 6.8, wind0: 7.7,  wind10: 8.0,  wind20: 8.4,  wind30: 8.8 },
-                    { temp: 5,   windMinus10: 5.7, wind0: 6.5,  wind10: 6.8,  wind20: 7.1,  wind30: 7.5 },
-                    { temp: 10,  windMinus10: 4.7, wind0: 5.4,  wind10: 5.6,  wind20: 5.9,  wind30: 6.2 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.5, wind0: 12.0, wind10: 12.5, wind20: 13.2, wind30: 13.9 },
-                    { temp: -30, windMinus10: 10.5, wind0: 12.0, wind10: 12.5, wind20: 13.2, wind30: 13.9 },
-                    { temp: -25, windMinus10: 10.5, wind0: 12.0, wind10: 12.5, wind20: 13.2, wind30: 13.9 },
-                    { temp: -20, windMinus10: 10.5, wind0: 12.0, wind10: 12.5, wind20: 13.1, wind30: 13.8 },
-                    { temp: -15, windMinus10: 10.5, wind0: 12.0, wind10: 12.5, wind20: 13.1, wind30: 13.8 },
-                    { temp: -10, windMinus10: 10.0, wind0: 11.3, wind10: 11.8, wind20: 12.4, wind30: 13.0 },
-                    { temp: -5,  windMinus10: 9.0,  wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.8 },
-                    { temp: 0,   windMinus10: 7.9,  wind0: 9.0,  wind10: 9.4,  wind20: 9.9,  wind30: 10.4 },
-                    { temp: 5,   windMinus10: 6.8,  wind0: 7.7,  wind10: 8.1,  wind20: 8.5,  wind30: 8.9 },
-                    { temp: 10,  windMinus10: 5.7,  wind0: 6.5,  wind10: 6.8,  wind20: 7.2,  wind30: 7.5 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.9, wind0: 13.7, wind10: 14.4, wind20: 15.1, wind30: 16.0 },
-                    { temp: -30, windMinus10: 12.0, wind0: 13.7, wind10: 14.4, wind20: 15.1, wind30: 15.9 },
-                    { temp: -25, windMinus10: 12.0, wind0: 13.7, wind10: 14.4, wind20: 15.1, wind30: 15.9 },
-                    { temp: -20, windMinus10: 12.0, wind0: 13.7, wind10: 14.3, wind20: 15.1, wind30: 15.9 },
-                    { temp: -15, windMinus10: 12.0, wind0: 13.7, wind10: 14.3, wind20: 15.1, wind30: 15.9 },
-                    { temp: -10, windMinus10: 11.4, wind0: 13.0, wind10: 13.6, wind20: 14.3, wind30: 15.0 },
-                    { temp: -5,  windMinus10: 10.4, wind0: 11.9, wind10: 12.4, wind20: 13.1, wind30: 13.7 },
-                    { temp: 0,   windMinus10: 9.2,  wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: 5,   windMinus10: 8.0,  wind0: 9.1,  wind10: 9.5,  wind20: 10.0, wind30: 10.5 },
-                    { temp: 10,  windMinus10: 6.8,  wind0: 7.8,  wind10: 8.2,  wind20: 8.6,  wind30: 9.0 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 13.1, "10": 13.8, "20": 14.7, "30": 15.6, "-10": 11.2 } },
+          { temp: -30, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.6, "-10": 11.3 } },
+          { temp: -25, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.5, "-10": 11.3 } },
+          { temp: -20, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.5, "-10": 11.3 } },
+          { temp: -15, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.5, "-10": 11.3 } },
+          { temp: -10, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.5, "-10": 11.3 } },
+          { temp: -5, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.5, "-10": 11.4 } },
+          { temp: 0, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.4, "-10": 11.4 } },
+          { temp: 5, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.4, "-10": 11.4 } },
+          { temp: 10, windKnots: { "0": 13.1, "10": 13.8, "20": 14.6, "30": 15.4, "-10": 11.4 } }
         ]
-    },
-    {
-        altitudeFt: 9000,
+      },
+      {
+        weight: 13500,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -30, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -25, windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: -20, windMinus10: 5.0, wind0: 5.6, wind10: 5.9, wind20: 6.1, wind30: 6.4 },
-                    { temp: -15, windMinus10: 4.8, wind0: 5.4, wind10: 5.6, wind20: 5.9, wind30: 6.1 },
-                    { temp: -10, windMinus10: 4.1, wind0: 4.6, wind10: 4.8, wind20: 5.1, wind30: 5.3 },
-                    { temp: -5,  windMinus10: 3.3, wind0: 3.8, wind10: 3.9, wind20: 4.1, wind30: 4.3 },
-                    { temp: 0,   windMinus10: 2.5, wind0: 2.9, wind10: 3.0, wind20: 3.2, wind30: 3.3 },
-                    { temp: 5,   windMinus10: 1.8, wind0: 2.0, wind10: 2.1, wind20: 2.3, wind30: 2.4 },
-                    { temp: 10,  windMinus10: 1.1, wind0: 1.3, wind10: 1.3, wind20: 1.4, wind30: 1.5 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.4, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -30, windMinus10: 5.4, wind0: 6.1, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -25, windMinus10: 5.4, wind0: 6.1, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -20, windMinus10: 5.4, wind0: 6.0, wind10: 6.3, wind20: 6.6, wind30: 6.9 },
-                    { temp: -15, windMinus10: 5.2, wind0: 5.8, wind10: 6.1, wind20: 6.3, wind30: 6.6 },
-                    { temp: -10, windMinus10: 4.5, wind0: 5.0, wind10: 5.2, wind20: 5.5, wind30: 5.7 },
-                    { temp: -5,  windMinus10: 3.7, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: 0,   windMinus10: 2.9, wind0: 3.3, wind10: 3.4, wind20: 3.6, wind30: 3.7 },
-                    { temp: 5,   windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.6, wind30: 2.7 },
-                    { temp: 10,  windMinus10: 1.3, wind0: 1.5, wind10: 1.6, wind20: 1.7, wind30: 1.8 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.7, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -30, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -25, windMinus10: 5.8, wind0: 6.5, wind10: 6.8, wind20: 7.1, wind30: 7.4 },
-                    { temp: -20, windMinus10: 5.7, wind0: 6.5, wind10: 6.7, wind20: 7.0, wind30: 7.4 },
-                    { temp: -15, windMinus10: 5.5, wind0: 6.2, wind10: 6.5, wind20: 6.8, wind30: 7.1 },
-                    { temp: -10, windMinus10: 4.8, wind0: 5.4, wind10: 5.7, wind20: 5.9, wind30: 6.2 },
-                    { temp: -5,  windMinus10: 4.0, wind0: 4.5, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-                    { temp: 0,   windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 3.9, wind30: 4.1 },
-                    { temp: 5,   windMinus10: 2.4, wind0: 2.7, wind10: 2.8, wind20: 3.0, wind30: 3.1 },
-                    { temp: 10,  windMinus10: 1.6, wind0: 1.9, wind10: 2.0, wind20: 2.1, wind30: 2.2 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.1, wind0: 6.9, wind10: 7.3, wind20: 7.6, wind30: 8.0 },
-                    { temp: -30, windMinus10: 6.2, wind0: 6.9, wind10: 7.3, wind20: 7.6, wind30: 7.9 },
-                    { temp: -25, windMinus10: 6.2, wind0: 7.0, wind10: 7.3, wind20: 7.6, wind30: 7.9 },
-                    { temp: -20, windMinus10: 6.1, wind0: 6.9, wind10: 7.2, wind20: 7.6, wind30: 7.9 },
-                    { temp: -15, windMinus10: 5.9, wind0: 6.7, wind10: 7.0, wind20: 7.3, wind30: 7.6 },
-                    { temp: -10, windMinus10: 5.2, wind0: 5.9, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: -5,  windMinus10: 4.4, wind0: 4.9, wind10: 5.1, wind20: 5.4, wind30: 5.6 },
-                    { temp: 0,   windMinus10: 3.5, wind0: 4.0, wind10: 4.2, wind20: 4.4, wind30: 4.6 },
-                    { temp: 5,   windMinus10: 2.7, wind0: 3.1, wind10: 3.2, wind20: 3.4, wind30: 3.5 },
-                    { temp: 10,  windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.6, wind0: 7.4, wind10: 7.8, wind20: 8.1, wind30: 8.5 },
-                    { temp: -30, windMinus10: 6.6, wind0: 7.4, wind10: 7.8, wind20: 8.1, wind30: 8.5 },
-                    { temp: -25, windMinus10: 6.6, wind0: 7.4, wind10: 7.8, wind20: 8.1, wind30: 8.5 },
-                    { temp: -20, windMinus10: 6.4, wind0: 7.2, wind10: 7.5, wind20: 7.8, wind30: 8.2 },
-                    { temp: -15, windMinus10: 6.4, wind0: 7.2, wind10: 7.5, wind20: 7.8, wind30: 8.2 },
-                    { temp: -10, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.2 },
-                    { temp: -5,  windMinus10: 4.7, wind0: 5.4, wind10: 5.6, wind20: 5.8, wind30: 6.1 },
-                    { temp: 0,   windMinus10: 3.9, wind0: 4.4, wind10: 4.6, wind20: 4.8, wind30: 5.0 },
-                    { temp: 5,   windMinus10: 3.0, wind0: 3.4, wind10: 3.6, wind20: 3.8, wind30: 4.0 },
-                    { temp: 10,  windMinus10: 2.3, wind0: 2.6, wind10: 2.7, wind20: 2.8, wind30: 3.0 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -30, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -25, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -20, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.7, wind30: 9.1 },
-                    { temp: -15, windMinus10: 6.8, wind0: 7.7, wind10: 8.0, wind20: 8.4, wind30: 8.8 },
-                    { temp: -10, windMinus10: 6.1, wind0: 6.8, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: -5,  windMinus10: 5.2, wind0: 5.8, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: 0,   windMinus10: 4.3, wind0: 4.8, wind10: 5.0, wind20: 5.3, wind30: 5.5 },
-                    { temp: 5,   windMinus10: 3.4, wind0: 3.8, wind10: 4.0, wind20: 4.2, wind30: 4.4 },
-                    { temp: 10,  windMinus10: 2.6, wind0: 3.0, wind10: 3.1, wind20: 3.2, wind30: 3.4 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.0, wind0: 9.0, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -30, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -25, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -20, windMinus10: 8.0, wind0: 9.1, wind10: 9.5, wind20: 9.9, wind30: 10.4 },
-                    { temp: -15, windMinus10: 7.8, wind0: 8.8, wind10: 9.2, wind20: 9.6, wind30: 10.1 },
-                    { temp: -10, windMinus10: 7.0, wind0: 7.9, wind10: 8.3, wind20: 8.6, wind30: 9.0 },
-                    { temp: -5,  windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.5, wind30: 7.8 },
-                    { temp: 0,   windMinus10: 5.0, wind0: 5.7, wind10: 5.9, wind20: 6.2, wind30: 6.5 },
-                    { temp: 5,   windMinus10: 4.2, wind0: 4.7, wind10: 4.9, wind20: 5.2, wind30: 5.4 },
-                    { temp: 10,  windMinus10: 3.3, wind0: 3.8, wind10: 4.0, wind20: 4.1, wind30: 4.3 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 9.1, wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.9 },
-                    { temp: -30, windMinus10: 9.1, wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.9 },
-                    { temp: -25, windMinus10: 9.1, wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.9 },
-                    { temp: -20, windMinus10: 9.1, wind0: 10.3, wind10: 10.8, wind20: 11.3, wind30: 11.9 },
-                    { temp: -15, windMinus10: 8.9, wind0: 10.1, wind10: 10.6, wind20: 11.1, wind30: 11.6 },
-                    { temp: -10, windMinus10: 8.1, wind0: 9.1,  wind10: 9.5,  wind20: 10.0, wind30: 10.5 },
-                    { temp: -5,  windMinus10: 7.0, wind0: 8.0,  wind10: 8.3,  wind20: 8.7,  wind30: 9.1 },
-                    { temp: 0,   windMinus10: 6.0, wind0: 6.8,  wind10: 7.1,  wind20: 7.5,  wind30: 7.8 },
-                    { temp: 5,   windMinus10: 5.0, wind0: 5.7,  wind10: 6.0,  wind20: 6.3,  wind30: 6.6 },
-                    { temp: 10,  windMinus10: 4.1, wind0: 4.7,  wind10: 4.9,  wind20: 5.2,  wind30: 5.4 }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.3, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.7 },
-                    { temp: -30, windMinus10: 10.4, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.6 },
-                    { temp: -25, windMinus10: 10.4, wind0: 11.8, wind10: 12.4, wind20: 13.0, wind30: 13.6 },
-                    { temp: -20, windMinus10: 10.4, wind0: 11.8, wind10: 12.3, wind20: 12.9, wind30: 13.6 },
-                    { temp: -15, windMinus10: 10.2, wind0: 11.6, wind10: 12.1, wind20: 12.7, wind30: 13.3 },
-                    { temp: -10, windMinus10: 9.3,  wind0: 10.5, wind10: 11.0, wind20: 11.5, wind30: 12.1 },
-                    { temp: -5,  windMinus10: 8.2,  wind0: 9.3,  wind10: 9.7,  wind20: 10.2, wind30: 10.7 },
-                    { temp: 0,   windMinus10: 7.1,  wind0: 8.1,  wind10: 8.4,  wind20: 8.8,  wind30: 9.3 },
-                    { temp: 5,   windMinus10: 6.0,  wind0: 6.9,  wind10: 7.2,  wind20: 7.5,  wind30: 7.9 },
-                    { temp: 10,  windMinus10: 5.0,  wind0: 5.7,  wind10: 6.0,  wind20: 6.3,  wind30: 6.7 }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.8, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.7 },
-                    { temp: -30, windMinus10: 11.8, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.7 },
-                    { temp: -25, windMinus10: 11.8, wind0: 13.5, wind10: 14.2, wind20: 14.9, wind30: 15.7 },
-                    { temp: -20, windMinus10: 11.9, wind0: 13.5, wind10: 14.1, wind20: 14.9, wind30: 15.6 },
-                    { temp: -15, windMinus10: 11.6, wind0: 13.2, wind10: 13.9, wind20: 14.6, wind30: 15.3 },
-                    { temp: -10, windMinus10: 10.7, wind0: 12.1, wind10: 12.7, wind20: 13.3, wind30: 14.0 },
-                    { temp: -5,  windMinus10: 9.5,  wind0: 10.8, wind10: 11.3, wind20: 11.9, wind30: 12.5 },
-                    { temp: 0,   windMinus10: 8.3,  wind0: 9.5,  wind10: 9.9,  wind20: 10.4, wind30: 11.0 },
-                    { temp: 5,   windMinus10: 7.2,  wind0: 8.2,  wind10: 8.6,  wind20: 9.0,  wind30: 9.5 },
-                    { temp: 10,  windMinus10: 6.0,  wind0: 6.9,  wind10: 7.2,  wind20: 7.6,  wind30: 8.1 }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8, "-10": 12.7 } },
+          { temp: -30, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8, "-10": 12.8 } },
+          { temp: -25, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8, "-10": 12.8 } },
+          { temp: -20, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.8, "-10": 12.8 } },
+          { temp: -15, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.7, "-10": 12.8 } },
+          { temp: -10, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.7, "-10": 12.9 } },
+          { temp: -5, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.7, "-10": 12.9 } },
+          { temp: 0, windKnots: { "0": 14.9, "10": 15.8, "20": 16.7, "30": 17.7, "-10": 12.9 } },
+          { temp: 5, windKnots: { "0": 14.9, "10": 15.7, "20": 16.6, "30": 17.6, "-10": 12.9 } },
+          { temp: 10, windKnots: { "0": 14.9, "10": 15.7, "20": 16.6, "30": 17.6, "-10": 12.9 } }
         ]
-    },
-    {
-        altitudeFt: 10000,
+      }
+    ]
+  },
+  {
+    altitudeFt: 1000,
+    weights: [
+      {
+        weight: 20000,
         data: [
-            {
-                weight: 20000,
-                temperatures: [
-                    { temp: -35, windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: -30, windMinus10: 4.9, wind0: 5.5, wind10: 5.8, wind20: 6.1, wind30: 6.4 },
-                    { temp: -25, windMinus10: 4.9, wind0: 5.5, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-                    { temp: -20, windMinus10: 4.4, wind0: 4.9, wind10: 5.1, wind20: 5.4, wind30: 5.6 },
-                    { temp: -15, windMinus10: 3.7, wind0: 4.2, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: -10, windMinus10: 3.0, wind0: 3.4, wind10: 3.5, wind20: 3.7, wind30: 3.8 },
-                    { temp: -5,  windMinus10: 2.2, wind0: 2.6, wind10: 2.7, wind20: 2.8, wind30: 2.9 },
-                    { temp: 0,   windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-                    { temp: 5,   windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.2, wind30: 1.2 },
-                    { temp: 10,  windMinus10: 0.2, wind0: 0.3, wind10: 0.3, wind20: 0.4, wind30: 0.4 }
-                ]
-            },
-            {
-                weight: 19500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.2, wind0: 5.9, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: -30, windMinus10: 5.2, wind0: 5.9, wind10: 6.1, wind20: 6.4, wind30: 6.7 },
-                    { temp: -25, windMinus10: 4.9, wind0: 5.5, wind10: 5.7, wind20: 6.0, wind30: 6.3 },
-                    { temp: -20, windMinus10: 4.4, wind0: 4.9, wind10: 5.1, wind20: 5.4, wind30: 5.6 },
-                    { temp: -15, windMinus10: 3.7, wind0: 4.2, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: -10, windMinus10: 3.0, wind0: 3.4, wind10: 3.5, wind20: 3.7, wind30: 3.8 },
-                    { temp: -5,  windMinus10: 2.2, wind0: 2.6, wind10: 2.7, wind20: 2.8, wind30: 2.9 },
-                    { temp: 0,   windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.1 },
-                    { temp: 5,   windMinus10: 0.9, wind0: 1.0, wind10: 1.1, wind20: 1.2, wind30: 1.2 },
-                    { temp: 10,  windMinus10: 0.2, wind0: 0.3, wind10: 0.3, wind20: 0.4, wind30: 0.4 }
-                ]
-            },
-            {
-                weight: 19000,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-                    { temp: -30, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.3 },
-                    { temp: -25, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.9, wind30: 7.2 },
-                    { temp: -20, windMinus10: 5.1, wind0: 5.8, wind10: 6.0, wind20: 6.3, wind30: 6.5 },
-                    { temp: -15, windMinus10: 4.4, wind0: 4.9, wind10: 5.2, wind20: 5.4, wind30: 5.6 },
-                    { temp: -10, windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: -5,  windMinus10: 2.9, wind0: 3.2, wind10: 3.4, wind20: 3.5, wind30: 3.7 },
-                    { temp: 0,   windMinus10: 2.1, wind0: 2.4, wind10: 2.5, wind20: 2.7, wind30: 2.8 },
-                    { temp: 5,   windMinus10: 1.4, wind0: 1.6, wind10: 1.6, wind20: 1.8, wind30: 1.9 },
-                    { temp: 10,  windMinus10: 0.7, wind0: 0.8, wind10: 0.9, wind20: 0.9, wind30: 1.0 }
-                ]
-            },
-            {
-                weight: 18500,
-                temperatures: [
-                    { temp: -35, windMinus10: 5.9, wind0: 6.7, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: -30, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: -25, windMinus10: 6.0, wind0: 6.8, wind10: 7.1, wind20: 7.4, wind30: 7.8 },
-                    { temp: -20, windMinus10: 5.5, wind0: 6.2, wind10: 6.5, wind20: 6.8, wind30: 7.1 },
-                    { temp: -15, windMinus10: 4.8, wind0: 5.4, wind10: 5.6, wind20: 5.8, wind30: 6.1 },
-                    { temp: -10, windMinus10: 4.0, wind0: 4.5, wind10: 4.7, wind20: 4.9, wind30: 5.2 },
-                    { temp: -5,  windMinus10: 3.2, wind0: 3.6, wind10: 3.8, wind20: 4.0, wind30: 4.2 },
-                    { temp: 0,   windMinus10: 2.4, wind0: 2.8, wind10: 2.9, wind20: 3.1, wind30: 3.2 },
-                    { temp: 5,   windMinus10: 1.7, wind0: 1.9, wind10: 2.0, wind20: 2.2, wind30: 2.3 },
-                    { temp: 10,  windMinus10: 0.9, wind0: 1.1, wind10: 1.2, wind20: 1.3, wind30: 1.4 }
-                ]
-            },
-            {
-                weight: 18000,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -30, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -25, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.4 },
-                    { temp: -20, windMinus10: 6.0, wind0: 6.7, wind10: 7.0, wind20: 7.3, wind30: 7.6 },
-                    { temp: -15, windMinus10: 5.2, wind0: 5.8, wind10: 6.1, wind20: 6.3, wind30: 6.6 },
-                    { temp: -10, windMinus10: 4.4, wind0: 5.0, wind10: 5.2, wind20: 5.4, wind30: 5.6 },
-                    { temp: -5,  windMinus10: 3.6, wind0: 4.1, wind10: 4.3, wind20: 4.5, wind30: 4.7 },
-                    { temp: 0,   windMinus10: 2.8, wind0: 3.2, wind10: 3.3, wind20: 3.5, wind30: 3.6 },
-                    { temp: 5,   windMinus10: 2.0, wind0: 2.3, wind10: 2.4, wind20: 2.5, wind30: 2.7 },
-                    { temp: 10,  windMinus10: 1.2, wind0: 1.4, wind10: 1.5, wind20: 1.6, wind30: 1.7 }
-                ]
-            },
-            {
-                weight: 17500,
-                temperatures: [
-                    { temp: -35, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.5, wind30: 8.9 },
-                    { temp: -30, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.5, wind30: 8.9 },
-                    { temp: -25, windMinus10: 6.9, wind0: 7.8, wind10: 8.2, wind20: 8.5, wind30: 8.9 },
-                    { temp: -20, windMinus10: 6.4, wind0: 7.2, wind10: 7.5, wind20: 7.8, wind30: 8.2 },
-                    { temp: -15, windMinus10: 5.6, wind0: 6.3, wind10: 6.6, wind20: 6.8, wind30: 7.2 },
-                    { temp: -10, windMinus10: 4.8, wind0: 5.4, wind10: 5.6, wind20: 5.9, wind30: 6.1 },
-                    { temp: -5,  windMinus10: 3.9, wind0: 4.4, wind10: 4.6, wind20: 4.8, wind30: 5.1 },
-                    { temp: 0,   windMinus10: 3.1, wind0: 3.5, wind10: 3.7, wind20: 3.9, wind30: 4.1 },
-                    { temp: 5,   windMinus10: 2.3, wind0: 2.6, wind10: 2.8, wind20: 2.9, wind30: 3.1 },
-                    { temp: 10,  windMinus10: 1.6, wind0: 1.8, wind10: 1.9, wind20: 2.0, wind30: 2.2 }
-                ]
-            },
-            {
-                weight: 16500,
-                temperatures: [
-                    { temp: -35, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.7, wind30: 10.2 },
-                    { temp: -30, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.7, wind30: 10.2 },
-                    { temp: -25, windMinus10: 7.8, wind0: 8.9, wind10: 9.3, wind20: 9.7, wind30: 10.2 },
-                    { temp: -20, windMinus10: 7.3, wind0: 8.2, wind10: 8.6, wind20: 9.0, wind30: 9.4 },
-                    { temp: -15, windMinus10: 6.4, wind0: 7.3, wind10: 7.6, wind20: 8.0, wind30: 8.3 },
-                    { temp: -10, windMinus10: 5.5, wind0: 6.3, wind10: 6.5, wind20: 6.8, wind30: 7.2 },
-                    { temp: -5,  windMinus10: 4.6, wind0: 5.2, wind10: 5.5, wind20: 5.7, wind30: 6.0 },
-                    { temp: 0,   windMinus10: 3.7, wind0: 4.2, wind10: 4.4, wind20: 4.6, wind30: 4.8 },
-                    { temp: 5,   windMinus10: 2.8, wind0: 3.2, wind10: 3.3, wind30: 3.5, wind30: 3.7 },
-                    { temp: 10,  windMinus10: 1.9, wind0: 2.2, wind10: 2.3, wind20: 2.5, wind30: 2.6 }
-                ]
-            },
-            {
-                weight: 15500,
-                temperatures: [
-                    { temp: -35, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -30, windMinus10: 8.9, wind0: 10.2, wind10: 10.7, wind20: 11.2, wind30: 11.8 },
-                    { temp: -25, windMinus10: 8.9, wind0: 10.2, wind10: 10.6, wind20: 11.1, wind30: 11.7 },
-                    { temp: -20, windMinus10: 8.3, wind0: 9.5,  wind10: 9.9,  wind20: 10.4, wind30: 10.9 },
-                    { temp: -15, windMinus10: 7.3, wind0: 8.4,  wind10: 8.8,  wind20: 9.3,  wind30: 9.7  },
-                    { temp: -10, windMinus10: 6.4, wind0: 7.3,  wind10: 7.6,  wind20: 8.0,  wind30: 8.4  },
-                    { temp: -5,  windMinus10: 5.4, wind0: 6.2,  wind10: 6.5,  wind20: 6.8,  wind30: 7.2  },
-                    { temp: 0,   windMinus10: 4.4, wind0: 5.1,  wind10: 5.3,  wind20: 5.6,  wind30: 5.9  },
-                    { temp: 5,   windMinus10: 3.5, wind0: 4.0,  wind10: 4.2,  wind20: 4.4,  wind30: 4.7  },
-                    { temp: 10,  windMinus10: 2.5, wind0: 2.9,  wind10: 3.1,  wind20: 3.3,  wind30: 3.5  }
-                ]
-            },
-            {
-                weight: 14500,
-                temperatures: [
-                    { temp: -35, windMinus10: 10.2, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.4 },
-                    { temp: -30, windMinus10: 10.2, wind0: 11.6, wind10: 12.2, wind20: 12.8, wind30: 13.4 },
-                    { temp: -25, windMinus10: 10.2, wind0: 11.6, wind10: 12.2, wind20: 12.7, wind30: 13.3 },
-                    { temp: -20, windMinus10: 9.5,  wind0: 10.9, wind10: 11.5, wind20: 12.0, wind30: 12.6 },
-                    { temp: -15, windMinus10: 8.4,  wind0: 9.7,  wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: -10, windMinus10: 7.3,  wind0: 8.4,  wind10: 8.9,  wind20: 9.4,  wind30: 9.9  },
-                    { temp: -5,  windMinus10: 6.2,  wind0: 7.2,  wind10: 7.6,  wind20: 8.0,  wind30: 8.5  },
-                    { temp: 0,   windMinus10: 5.2,  wind0: 6.0,  wind10: 6.3,  wind20: 6.7,  wind30: 7.1  },
-                    { temp: 5,   windMinus10: 4.1,  wind0: 4.8,  wind10: 5.1,  wind20: 5.4,  wind30: 5.7  },
-                    { temp: 10,  windMinus10: 3.1,  wind0: 3.7,  wind10: 3.9,  wind20: 4.1,  wind30: 4.4  }
-                ]
-            },
-            {
-                weight: 13500,
-                temperatures: [
-                    { temp: -35, windMinus10: 11.6, wind0: 13.3, wind10: 13.9, wind20: 14.7, wind30: 15.4 },
-                    { temp: -30, windMinus10: 11.6, wind0: 13.3, wind10: 13.9, wind20: 14.7, wind30: 15.4 },
-                    { temp: -25, windMinus10: 11.6, wind0: 13.2, wind10: 13.9, wind20: 14.6, wind30: 15.4 },
-                    { temp: -20, windMinus10: 10.9, wind0: 12.4, wind10: 13.1, wind20: 13.8, wind30: 14.5 },
-                    { temp: -15, windMinus10: 9.7,  wind0: 11.1, wind10: 11.7, wind20: 12.3, wind30: 13.0 },
-                    { temp: -10, windMinus10: 8.4,  wind0: 9.6,  wind10: 10.2, wind20: 10.7, wind30: 11.3 },
-                    { temp: -5,  windMinus10: 7.2,  wind0: 8.3,  wind10: 8.7,  wind20: 9.2,  wind30: 9.7  },
-                    { temp: 0,   windMinus10: 6.0,  wind0: 6.9,  wind10: 7.3,  wind20: 7.7,  wind30: 8.2  },
-                    { temp: 5,   windMinus10: 4.9, wind0: 5.6, wind10: 6.0, wind20: 6.3, wind30: 6.7  },
-                    { temp: 10,  windMinus10: 3.7,  wind0: 4.3,  wind10: 4.6,  wind20: 4.9,  wind30: 5.2  }
-                ]
-            }
+          { temp: -35, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.4, "-10": 5.5 } },
+          { temp: -30, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.4, "-10": 5.5 } },
+          { temp: -25, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.4, "-10": 5.5 } },
+          { temp: -20, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.4, "-10": 5.5 } },
+          { temp: -15, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.5 } },
+          { temp: -10, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -5, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 0, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 5, windKnots: { "0": 6.4, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 10, windKnots: { "0": 6.3, "10": 6.6, "20": 6.9, "30": 7.2, "-10": 5.5 } }
         ]
-    }
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.7, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -30, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -25, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -20, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -15, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -10, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -5, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: 0, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: 5, windKnots: { "0": 6.8, "10": 7.1, "20": 7.4, "30": 7.8, "-10": 6 } },
+          { temp: 10, windKnots: { "0": 6.7, "10": 7, "20": 7.4, "30": 7.7, "-10": 5.9 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -30, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -25, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -20, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -15, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -10, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -5, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 0, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 5, windKnots: { "0": 7.2, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 10, windKnots: { "0": 7.2, "10": 7.5, "20": 7.9, "30": 8.3, "-10": 6.3 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.7 } },
+          { temp: -30, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.7 } },
+          { temp: -25, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.7 } },
+          { temp: -20, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.7 } },
+          { temp: -15, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.7 } },
+          { temp: -10, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.8 } },
+          { temp: -5, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.8 } },
+          { temp: 0, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 8.9, "-10": 6.8 } },
+          { temp: 5, windKnots: { "0": 7.7, "10": 8.1, "20": 8.5, "30": 8.9, "-10": 6.8 } },
+          { temp: 10, windKnots: { "0": 7.7, "10": 8, "20": 8.4, "30": 8.8, "-10": 6.7 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.1 } },
+          { temp: -30, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.1 } },
+          { temp: -25, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: -20, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: -15, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: -10, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: -5, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: 0, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.6, "-10": 7.2 } },
+          { temp: 5, windKnots: { "0": 8.2, "10": 8.6, "20": 9.1, "30": 9.5, "-10": 7.2 } },
+          { temp: 10, windKnots: { "0": 8.2, "10": 8.6, "20": 9, "30": 9.4, "-10": 7.2 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 8.7, "10": 9.2, "20": 9.7, "30": 10.3, "-10": 7.6 } },
+          { temp: -30, windKnots: { "0": 8.7, "10": 9.2, "20": 9.7, "30": 10.3, "-10": 7.6 } },
+          { temp: -25, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.6 } },
+          { temp: -20, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.6 } },
+          { temp: -15, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.6 } },
+          { temp: -10, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.7 } },
+          { temp: -5, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.7 } },
+          { temp: 0, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.7 } },
+          { temp: 5, windKnots: { "0": 8.8, "10": 9.2, "20": 9.7, "30": 10.2, "-10": 7.7 } },
+          { temp: 10, windKnots: { "0": 8.7, "10": 9.1, "20": 9.6, "30": 10.1, "-10": 7.7 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 9.9, "10": 10.5, "20": 11, "30": 11.7, "-10": 8.6 } },
+          { temp: -30, windKnots: { "0": 9.9, "10": 10.5, "20": 11, "30": 11.7, "-10": 8.6 } },
+          { temp: -25, windKnots: { "0": 9.9, "10": 10.5, "20": 11, "30": 11.7, "-10": 8.6 } },
+          { temp: -20, windKnots: { "0": 9.9, "10": 10.5, "20": 11, "30": 11.7, "-10": 8.7 } },
+          { temp: -15, windKnots: { "0": 9.9, "10": 10.5, "20": 11, "30": 11.6, "-10": 8.7 } },
+          { temp: -10, windKnots: { "0": 10, "10": 10.5, "20": 11, "30": 11.6, "-10": 8.7 } },
+          { temp: -5, windKnots: { "0": 10, "10": 10.5, "20": 11, "30": 11.6, "-10": 8.7 } },
+          { temp: 0, windKnots: { "0": 10, "10": 10.5, "20": 11, "30": 11.6, "-10": 8.7 } },
+          { temp: 5, windKnots: { "0": 10, "10": 10.5, "20": 11, "30": 11.6, "-10": 8.7 } },
+          { temp: 10, windKnots: { "0": 9.9, "10": 10.4, "20": 10.9, "30": 11.5, "-10": 8.7 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3, "-10": 9.7 } },
+          { temp: -30, windKnots: { "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3, "-10": 9.8 } },
+          { temp: -25, windKnots: { "0": 11.3, "10": 11.9, "20": 12.6, "30": 13.3, "-10": 9.8 } },
+          { temp: -20, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.3, "-10": 9.8 } },
+          { temp: -15, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.3, "-10": 9.8 } },
+          { temp: -10, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.3, "-10": 9.8 } },
+          { temp: -5, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2, "-10": 9.9 } },
+          { temp: 0, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2, "-10": 9.9 } },
+          { temp: 5, windKnots: { "0": 11.3, "10": 11.9, "20": 12.5, "30": 13.2, "-10": 9.9 } },
+          { temp: 10, windKnots: { "0": 11.3, "10": 11.8, "20": 12.4, "30": 13.1, "-10": 9.8 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 12.8, "10": 13.5, "20": 14.3, "30": 15.2, "-10": 11 } },
+          { temp: -30, windKnots: { "0": 12.8, "10": 13.5, "20": 14.3, "30": 15.2, "-10": 11.1 } },
+          { temp: -25, windKnots: { "0": 12.8, "10": 13.5, "20": 14.3, "30": 15.2, "-10": 11.1 } },
+          { temp: -20, windKnots: { "0": 12.8, "10": 13.5, "20": 14.3, "30": 15.2, "-10": 11.1 } },
+          { temp: -15, windKnots: { "0": 12.8, "10": 13.5, "20": 14.3, "30": 15.1, "-10": 11.1 } },
+          { temp: -10, windKnots: { "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.1, "-10": 11.1 } },
+          { temp: -5, windKnots: { "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.1, "-10": 11.2 } },
+          { temp: 0, windKnots: { "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.1, "-10": 11.2 } },
+          { temp: 5, windKnots: { "0": 12.9, "10": 13.5, "20": 14.3, "30": 15.1, "-10": 11.2 } },
+          { temp: 10, windKnots: { "0": 12.8, "10": 13.5, "20": 14.2, "30": 15, "-10": 11.2 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 14.6, "10": 15.5, "20": 16.4, "30": 17.4, "-10": 12.5 } },
+          { temp: -30, windKnots: { "0": 14.6, "10": 15.5, "20": 16.4, "30": 17.4, "-10": 12.6 } },
+          { temp: -25, windKnots: { "0": 14.6, "10": 15.5, "20": 16.4, "30": 17.4, "-10": 12.6 } },
+          { temp: -20, windKnots: { "0": 14.6, "10": 15.4, "20": 16.4, "30": 17.4, "-10": 12.6 } },
+          { temp: -15, windKnots: { "0": 14.6, "10": 15.4, "20": 16.3, "30": 17.3, "-10": 12.6 } },
+          { temp: -10, windKnots: { "0": 14.6, "10": 15.4, "20": 16.3, "30": 17.3, "-10": 12.7 } },
+          { temp: -5, windKnots: { "0": 14.7, "10": 15.4, "20": 16.3, "30": 17.3, "-10": 12.7 } },
+          { temp: 0, windKnots: { "0": 14.7, "10": 15.4, "20": 16.3, "30": 17.3, "-10": 12.7 } },
+          { temp: 5, windKnots: { "0": 14.7, "10": 15.4, "20": 16.3, "30": 17.3, "-10": 12.7 } },
+          { temp: 10, windKnots: { "0": 14.6, "10": 15.4, "20": 16.2, "30": 17.2, "-10": 12.7 } }
+        ]
+      }
+    ]
+  },
+  {
+    altitudeFt: 2000,
+    weights: [
+      {
+        weight: 20000,
+        data: [
+          { temp: -35, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.3 } },
+          { temp: -30, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -25, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -20, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -15, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -10, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -5, windKnots: { "0": 6.2, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: 0, windKnots: { "0": 6.2, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: 5, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7, "-10": 5.4 } },
+          { temp: 10, windKnots: { "0": 5.6, "10": 5.8, "20": 6.1, "30": 6.4, "-10": 4.9 } }
+        ]
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -30, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -25, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -20, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -15, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -10, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -5, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: 0, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: 5, windKnots: { "0": 6.5, "10": 6.8, "20": 7.2, "30": 7.5, "-10": 5.7 } },
+          { temp: 10, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.2, "-10": 6.1 } },
+          { temp: -30, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.2, "-10": 6.1 } },
+          { temp: -25, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.2, "-10": 6.1 } },
+          { temp: -20, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.1 } },
+          { temp: -15, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -10, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -5, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 0, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 5, windKnots: { "0": 7, "10": 7.3, "20": 7.7, "30": 8, "-10": 6.1 } },
+          { temp: 10, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.5 } },
+          { temp: -30, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.5 } },
+          { temp: -25, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.5 } },
+          { temp: -20, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -15, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -10, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -5, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: 0, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: 5, windKnots: { "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.6 } },
+          { temp: 10, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 6.9 } },
+          { temp: -30, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: -25, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: -20, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: -15, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: -10, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: -5, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: 0, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7 } },
+          { temp: 5, windKnots: { "0": 8, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 7 } },
+          { temp: 10, windKnots: { "0": 7.4, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.5 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 10, "-10": 7.4 } },
+          { temp: -30, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 10, "-10": 7.4 } },
+          { temp: -25, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 10, "-10": 7.4 } },
+          { temp: -20, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 9.9, "-10": 7.5 } },
+          { temp: -15, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 9.9, "-10": 7.5 } },
+          { temp: -10, windKnots: { "0": 8.5, "10": 9, "20": 9.4, "30": 9.9, "-10": 7.5 } },
+          { temp: -5, windKnots: { "0": 8.6, "10": 9, "20": 9.4, "30": 9.9, "-10": 7.5 } },
+          { temp: 0, windKnots: { "0": 8.6, "10": 9, "20": 9.4, "30": 9.9, "-10": 7.5 } },
+          { temp: 5, windKnots: { "0": 8.5, "10": 8.9, "20": 9.3, "30": 9.8, "-10": 7.5 } },
+          { temp: 10, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.2, "-10": 7 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 9.7, "10": 10.2, "20": 10.8, "30": 11.4, "-10": 8.4 } },
+          { temp: -30, windKnots: { "0": 9.7, "10": 10.2, "20": 10.8, "30": 11.4, "-10": 8.4 } },
+          { temp: -25, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.4, "-10": 8.4 } },
+          { temp: -20, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3, "-10": 8.5 } },
+          { temp: -15, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3, "-10": 8.5 } },
+          { temp: -10, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3, "-10": 8.5 } },
+          { temp: -5, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3, "-10": 8.5 } },
+          { temp: 0, windKnots: { "0": 9.7, "10": 10.2, "20": 10.7, "30": 11.3, "-10": 8.5 } },
+          { temp: 5, windKnots: { "0": 9.7, "10": 10.1, "20": 10.6, "30": 11.2, "-10": 8.5 } },
+          { temp: 10, windKnots: { "0": 9.1, "10": 9.5, "20": 10, "30": 10.5, "-10": 8 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 11, "10": 11.6, "20": 12.3, "30": 13, "-10": 9.5 } },
+          { temp: -30, windKnots: { "0": 11, "10": 11.6, "20": 12.3, "30": 13, "-10": 9.6 } },
+          { temp: -25, windKnots: { "0": 11, "10": 11.6, "20": 12.3, "30": 13, "-10": 9.6 } },
+          { temp: -20, windKnots: { "0": 11, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.6 } },
+          { temp: -15, windKnots: { "0": 11, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.6 } },
+          { temp: -10, windKnots: { "0": 11, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.6 } },
+          { temp: -5, windKnots: { "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.6 } },
+          { temp: 0, windKnots: { "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.7 } },
+          { temp: 5, windKnots: { "0": 11, "10": 11.5, "20": 12.1, "30": 12.8, "-10": 9.6 } },
+          { temp: 10, windKnots: { "0": 10.4, "10": 10.9, "20": 11.5, "30": 12.1, "-10": 9.1 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 12.5, "10": 13.2, "20": 14, "30": 14.9, "-10": 10.8 } },
+          { temp: -30, windKnots: { "0": 12.6, "10": 13.2, "20": 14, "30": 14.8, "-10": 10.9 } },
+          { temp: -25, windKnots: { "0": 12.6, "10": 13.2, "20": 14, "30": 14.8, "-10": 10.9 } },
+          { temp: -20, windKnots: { "0": 12.6, "10": 13.2, "20": 14, "30": 14.8, "-10": 10.9 } },
+          { temp: -15, windKnots: { "0": 12.6, "10": 13.2, "20": 14, "30": 14.8, "-10": 10.9 } },
+          { temp: -10, windKnots: { "0": 12.6, "10": 13.2, "20": 14, "30": 14.8, "-10": 10.9 } },
+          { temp: -5, windKnots: { "0": 12.6, "10": 13.2, "20": 13.9, "30": 14.7, "-10": 10.9 } },
+          { temp: 0, windKnots: { "0": 12.6, "10": 13.2, "20": 13.9, "30": 14.7, "-10": 11 } },
+          { temp: 5, windKnots: { "0": 12.5, "10": 13.1, "20": 13.8, "30": 14.6, "-10": 10.9 } },
+          { temp: 10, windKnots: { "0": 11.9, "10": 12.5, "20": 13.2, "30": 13.9, "-10": 10.4 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 17, "-10": 12.3 } },
+          { temp: -30, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 17, "-10": 12.3 } },
+          { temp: -25, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 17, "-10": 12.4 } },
+          { temp: -20, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 17, "-10": 12.4 } },
+          { temp: -15, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 16.9, "-10": 12.4 } },
+          { temp: -10, windKnots: { "0": 14.3, "10": 15.1, "20": 16, "30": 16.9, "-10": 12.4 } },
+          { temp: -5, windKnots: { "0": 14.4, "10": 15.1, "20": 16, "30": 16.9, "-10": 12.4 } },
+          { temp: 0, windKnots: { "0": 14.4, "10": 15.1, "20": 15.9, "30": 16.9, "-10": 12.5 } },
+          { temp: 5, windKnots: { "0": 14.3, "10": 15, "20": 15.8, "30": 16.8, "-10": 12.4 } },
+          { temp: 10, windKnots: { "0": 13.7, "10": 14.4, "20": 15.1, "30": 16, "-10": 11.9 } }
+        ]
+      }
+    ]
+  },
+  {
+    altitudeFt: 3000,
+    weights: [
+      {
+        weight: 20000,
+        data: [
+          { temp: -35, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -30, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -25, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -20, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -15, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -10, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: -5, windKnots: { "0": 6, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.2 } },
+          { temp: 0, windKnots: { "0": 6, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: 5, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5, "-10": 5 } },
+          { temp: 10, windKnots: { "0": 5, "10": 5.2, "20": 5.4, "30": 5.7, "-10": 4.4 } }
+        ]
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.3, "10": 6.7, "20": 7, "30": 7.4, "-10": 5.5 } },
+          { temp: -30, windKnots: { "0": 6.3, "10": 6.7, "20": 7, "30": 7.4, "-10": 5.6 } },
+          { temp: -25, windKnots: { "0": 6.3, "10": 6.7, "20": 7, "30": 7.4, "-10": 5.6 } },
+          { temp: -20, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -15, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -10, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -5, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 0, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 5, windKnots: { "0": 6.1, "10": 6.3, "20": 6.6, "30": 7, "-10": 5.3 } },
+          { temp: 10, windKnots: { "0": 5.4, "10": 5.6, "20": 5.9, "30": 6.2, "-10": 4.7 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -30, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -25, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: -20, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: -15, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: -10, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: -5, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: 0, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: 5, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.5, "-10": 5.7 } },
+          { temp: 10, windKnots: { "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7, "-10": 5.1 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -30, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.3 } },
+          { temp: -25, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -20, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -15, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -10, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -5, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 0, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 5, windKnots: { "0": 7, "10": 7.3, "20": 7.6, "30": 8, "-10": 6.1 } },
+          { temp: 10, windKnots: { "0": 6.3, "10": 6.5, "20": 6.9, "30": 7.2, "-10": 5.5 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 7.8, "10": 8.1, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -30, windKnots: { "0": 7.8, "10": 8.1, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -25, windKnots: { "0": 7.8, "10": 8.1, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -20, windKnots: { "0": 7.8, "10": 8.1, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -15, windKnots: { "0": 7.8, "10": 8.1, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -10, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -5, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: 0, windKnots: { "0": 7.8, "10": 8.2, "20": 8.5, "30": 9, "-10": 6.9 } },
+          { temp: 5, windKnots: { "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.6 } },
+          { temp: 10, windKnots: { "0": 6.7, "10": 7, "20": 7.4, "30": 7.8, "-10": 5.9 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7, "-10": 7.2 } },
+          { temp: -30, windKnots: { "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7, "-10": 7.2 } },
+          { temp: -25, windKnots: { "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.6, "-10": 7.2 } },
+          { temp: -20, windKnots: { "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6, "-10": 7.3 } },
+          { temp: -15, windKnots: { "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6, "-10": 7.3 } },
+          { temp: -10, windKnots: { "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6, "-10": 7.3 } },
+          { temp: -5, windKnots: { "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6, "-10": 7.3 } },
+          { temp: 0, windKnots: { "0": 8.3, "10": 8.7, "20": 9.1, "30": 9.6, "-10": 7.3 } },
+          { temp: 5, windKnots: { "0": 8, "10": 8.4, "20": 8.8, "30": 9.2, "-10": 7 } },
+          { temp: 10, windKnots: { "0": 7.2, "10": 7.6, "20": 7.9, "30": 8.3, "-10": 6.4 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 9.4, "10": 9.9, "20": 10.5, "30": 11, "-10": 8.2 } },
+          { temp: -30, windKnots: { "0": 9.4, "10": 9.9, "20": 10.5, "30": 11, "-10": 8.2 } },
+          { temp: -25, windKnots: { "0": 9.4, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.2 } },
+          { temp: -20, windKnots: { "0": 9.4, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.3 } },
+          { temp: -15, windKnots: { "0": 9.5, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.3 } },
+          { temp: -10, windKnots: { "0": 9.5, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.3 } },
+          { temp: -5, windKnots: { "0": 9.5, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.3 } },
+          { temp: 0, windKnots: { "0": 9.5, "10": 9.9, "20": 10.4, "30": 11, "-10": 8.3 } },
+          { temp: 5, windKnots: { "0": 9.1, "10": 9.6, "20": 10, "30": 10.6, "-10": 8 } },
+          { temp: 10, windKnots: { "0": 8.3, "10": 8.7, "20": 9.2, "30": 9.7, "-10": 7.3 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 10.7, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.3 } },
+          { temp: -30, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.3 } },
+          { temp: -25, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.4 } },
+          { temp: -20, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.4 } },
+          { temp: -15, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.4 } },
+          { temp: -10, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.4 } },
+          { temp: -5, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.6, "-10": 9.4 } },
+          { temp: 0, windKnots: { "0": 10.8, "10": 11.3, "20": 11.9, "30": 12.5, "-10": 9.4 } },
+          { temp: 5, windKnots: { "0": 10.4, "10": 10.9, "20": 11.5, "30": 12.1, "-10": 9.1 } },
+          { temp: 10, windKnots: { "0": 9.6, "10": 10.1, "20": 10.6, "30": 11.1, "-10": 8.4 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 12.2, "10": 12.9, "20": 13.6, "30": 14.5, "-10": 10.6 } },
+          { temp: -30, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.6 } },
+          { temp: -25, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.6 } },
+          { temp: -20, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.7 } },
+          { temp: -15, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.7 } },
+          { temp: -10, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.7 } },
+          { temp: -5, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.4, "-10": 10.7 } },
+          { temp: 0, windKnots: { "0": 12.3, "10": 12.9, "20": 13.6, "30": 14.3, "-10": 10.7 } },
+          { temp: 5, windKnots: { "0": 11.9, "10": 12.5, "20": 13.2, "30": 13.9, "-10": 10.4 } },
+          { temp: 10, windKnots: { "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.7 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.6, "-10": 12.1 } },
+          { temp: -30, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.6, "-10": 12.1 } },
+          { temp: -25, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.6, "-10": 12.1 } },
+          { temp: -20, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.5, "-10": 12.1 } },
+          { temp: -15, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.5, "-10": 12.2 } },
+          { temp: -10, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.5, "-10": 12.2 } },
+          { temp: -5, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.5, "-10": 12.2 } },
+          { temp: 0, windKnots: { "0": 14, "10": 14.8, "20": 15.6, "30": 16.4, "-10": 12.2 } },
+          { temp: 5, windKnots: { "0": 13.6, "10": 14.3, "20": 15.1, "30": 16, "-10": 11.9 } },
+          { temp: 10, windKnots: { "0": 12.7, "10": 13.4, "20": 14.1, "30": 14.9, "-10": 11.7 } }
+        ]
+      }
+    ]
+  },
+  {
+    altitudeFt: 4000,
+    weights: [
+      {
+        weight: 20000,
+        data: [
+          { temp: -35, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5 } },
+          { temp: -30, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5 } },
+          { temp: -25, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5 } },
+          { temp: -20, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5 } },
+          { temp: -15, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5 } },
+          { temp: -10, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5.1 } },
+          { temp: -5, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5.1 } },
+          { temp: 0, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5.1 } },
+          { temp: 5, windKnots: { "0": 5.1, "10": 5.4, "20": 5.6, "30": 5.9, "-10": 4.5 } },
+          { temp: 10, windKnots: { "0": 4.3, "10": 4.5, "20": 4.7, "30": 4.9, "-10": 3.7 } }
+        ]
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.1, "10": 6.4, "20": 6.8, "30": 7.1, "-10": 5.4 } },
+          { temp: -30, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: -25, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: -20, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: -15, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: -10, windKnots: { "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: -5, windKnots: { "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: 0, windKnots: { "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.4 } },
+          { temp: 5, windKnots: { "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4, "-10": 4.9 } },
+          { temp: 10, windKnots: { "0": 4.6, "10": 4.9, "20": 5.1, "30": 5.3, "-10": 4.1 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.7 } },
+          { temp: -30, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -25, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -20, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -15, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -10, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: -5, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: 0, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.6, "-10": 5.8 } },
+          { temp: 5, windKnots: { "0": 6, "10": 6.2, "20": 6.5, "30": 6.9, "-10": 5.3 } },
+          { temp: 10, windKnots: { "0": 5, "10": 5.3, "20": 5.5, "30": 5.8, "-10": 4.4 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.2, "-10": 6.1 } },
+          { temp: -30, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.2, "-10": 6.2 } },
+          { temp: -25, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -20, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -15, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -10, windKnots: { "0": 7.1, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: -5, windKnots: { "0": 7.1, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 0, windKnots: { "0": 7.1, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 5, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.4, "-10": 5.7 } },
+          { temp: 10, windKnots: { "0": 5.5, "10": 5.7, "20": 6, "30": 6.3, "-10": 4.8 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -30, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -25, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -20, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -15, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -10, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: -5, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.6 } },
+          { temp: 0, windKnots: { "0": 7.5, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.7 } },
+          { temp: 5, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 7.9, "-10": 6.1 } },
+          { temp: 10, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 8, "10": 8.4, "20": 8.9, "30": 9.4, "-10": 7 } },
+          { temp: -30, windKnots: { "0": 8, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7 } },
+          { temp: -25, windKnots: { "0": 8, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7 } },
+          { temp: -20, windKnots: { "0": 8.1, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7.1 } },
+          { temp: -15, windKnots: { "0": 8.1, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7.1 } },
+          { temp: -10, windKnots: { "0": 8.1, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7.1 } },
+          { temp: -5, windKnots: { "0": 8.1, "10": 8.4, "20": 8.9, "30": 9.3, "-10": 7.1 } },
+          { temp: 0, windKnots: { "0": 8.1, "10": 8.4, "20": 8.8, "30": 9.3, "-10": 7.1 } },
+          { temp: 5, windKnots: { "0": 7.4, "10": 7.8, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: 10, windKnots: { "0": 6.4, "10": 6.7, "20": 7, "30": 7.4, "-10": 5.6 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 9.2, "10": 9.6, "20": 10.2, "30": 10.7, "-10": 8 } },
+          { temp: -30, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.7, "-10": 8 } },
+          { temp: -25, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.7, "-10": 8 } },
+          { temp: -20, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.7, "-10": 8 } },
+          { temp: -15, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.7, "-10": 8.1 } },
+          { temp: -10, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.7, "-10": 8.1 } },
+          { temp: -5, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.6, "-10": 8.1 } },
+          { temp: 0, windKnots: { "0": 9.2, "10": 9.6, "20": 10.1, "30": 10.6, "-10": 8.1 } },
+          { temp: 5, windKnots: { "0": 8.5, "10": 8.9, "20": 9.4, "30": 9.8, "-10": 7.5 } },
+          { temp: 10, windKnots: { "0": 7.5, "10": 7.8, "20": 8.2, "30": 8.6, "-10": 6.6 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.3, "-10": 9.1 } },
+          { temp: -30, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.3, "-10": 9.1 } },
+          { temp: -25, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.1 } },
+          { temp: -20, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: -15, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: -10, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: -5, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: 0, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: 5, windKnots: { "0": 9.8, "10": 10.3, "20": 10.8, "30": 11.3, "-10": 8.6 } },
+          { temp: 10, windKnots: { "0": 8.7, "10": 9.1, "20": 9.5, "30": 10, "-10": 7.6 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 11.9, "10": 12.6, "20": 13.3, "30": 14.1, "-10": 10.4 } },
+          { temp: -30, windKnots: { "0": 12, "10": 12.6, "20": 13.3, "30": 14, "-10": 10.4 } },
+          { temp: -25, windKnots: { "0": 12, "10": 12.6, "20": 13.3, "30": 14, "-10": 10.4 } },
+          { temp: -20, windKnots: { "0": 12, "10": 12.6, "20": 13.3, "30": 14, "-10": 10.4 } },
+          { temp: -15, windKnots: { "0": 12, "10": 12.6, "20": 13.3, "30": 14, "-10": 10.4 } },
+          { temp: -10, windKnots: { "0": 12, "10": 12.6, "20": 13.2, "30": 14, "-10": 10.5 } },
+          { temp: -5, windKnots: { "0": 12, "10": 12.6, "20": 13.2, "30": 14, "-10": 10.5 } },
+          { temp: 0, windKnots: { "0": 12, "10": 12.6, "20": 13.2, "30": 13.9, "-10": 10.5 } },
+          { temp: 5, windKnots: { "0": 11.2, "10": 11.8, "20": 12.4, "30": 13.1, "-10": 9.8 } },
+          { temp: 10, windKnots: { "0": 10, "10": 10.5, "20": 11.1, "30": 11.7, "-10": 8.8 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.2, "-10": 11.8 } },
+          { temp: -30, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1, "-10": 11.8 } },
+          { temp: -25, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1, "-10": 11.9 } },
+          { temp: -20, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1, "-10": 11.9 } },
+          { temp: -15, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1, "-10": 11.9 } },
+          { temp: -10, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16.1, "-10": 11.9 } },
+          { temp: -5, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16, "-10": 11.9 } },
+          { temp: 0, windKnots: { "0": 13.7, "10": 14.4, "20": 15.2, "30": 16, "-10": 11.9 } },
+          { temp: 5, windKnots: { "0": 12.9, "10": 13.6, "20": 14.3, "30": 15.1, "-10": 11.3 } },
+          { temp: 10, windKnots: { "0": 11.6, "10": 12.2, "20": 12.8, "30": 13.6, "-10": 10.1 } }
+        ]
+      }
+    ]
+  },
+  {
+    altitudeFt: 5000,
+    weights: [
+      {
+        weight: 20000,
+        data: [
+          { temp: -35, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.4, "-10": 4.8 } },
+          { temp: -30, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.4, "-10": 4.8 } },
+          { temp: -25, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.3, "-10": 4.8 } },
+          { temp: -20, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.3, "-10": 4.9 } },
+          { temp: -15, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.3, "-10": 4.9 } },
+          { temp: -10, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.3, "-10": 4.9 } },
+          { temp: -5, windKnots: { "0": 5.5, "10": 5.8, "20": 6, "30": 6.3, "-10": 4.9 } },
+          { temp: 0, windKnots: { "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1, "-10": 4.7 } },
+          { temp: 5, windKnots: { "0": 4.6, "10": 4.8, "20": 5, "30": 5.3, "-10": 4.1 } },
+          { temp: 10, windKnots: { "0": 3.6, "10": 3.7, "20": 3.9, "30": 4.1, "-10": 3.1 } }
+        ]
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -30, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -25, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -20, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -15, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -10, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: -5, windKnots: { "0": 5.9, "10": 6.2, "20": 6.5, "30": 6.8, "-10": 5.2 } },
+          { temp: 0, windKnots: { "0": 5.7, "10": 6, "20": 6.2, "30": 6.5, "-10": 5 } },
+          { temp: 5, windKnots: { "0": 5, "10": 5.2, "20": 5.5, "30": 5.7, "-10": 4.4 } },
+          { temp: 10, windKnots: { "0": 3.9, "10": 4.1, "20": 4.3, "30": 4.5, "-10": 3.5 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -30, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -25, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -20, windKnots: { "0": 6.3, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -15, windKnots: { "0": 6.4, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -10, windKnots: { "0": 6.4, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: -5, windKnots: { "0": 6.4, "10": 6.6, "20": 7, "30": 7.3, "-10": 5.6 } },
+          { temp: 0, windKnots: { "0": 6.1, "10": 6.4, "20": 6.7, "30": 7, "-10": 5.4 } },
+          { temp: 5, windKnots: { "0": 5.4, "10": 5.6, "20": 5.9, "30": 6.2, "-10": 4.8 } },
+          { temp: 10, windKnots: { "0": 4.3, "10": 4.5, "20": 4.7, "30": 5, "-10": 3.8 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 5.9 } },
+          { temp: -30, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.9, "-10": 6 } },
+          { temp: -25, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: -20, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: -15, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: -10, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: -5, windKnots: { "0": 6.8, "10": 7.1, "20": 7.5, "30": 7.8, "-10": 6 } },
+          { temp: 0, windKnots: { "0": 6.6, "10": 6.9, "20": 7.2, "30": 7.5, "-10": 5.8 } },
+          { temp: 5, windKnots: { "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7, "-10": 5.2 } },
+          { temp: 10, windKnots: { "0": 4.7, "10": 4.9, "20": 5.2, "30": 5.4, "-10": 4.2 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -30, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -25, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -20, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -15, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -10, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: -5, windKnots: { "0": 7.3, "10": 7.6, "20": 8, "30": 8.4, "-10": 6.4 } },
+          { temp: 0, windKnots: { "0": 7.1, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 5, windKnots: { "0": 6.3, "10": 6.6, "20": 6.9, "30": 7.2, "-10": 5.6 } },
+          { temp: 10, windKnots: { "0": 5.2, "10": 5.4, "20": 5.7, "30": 5.9, "-10": 4.5 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -30, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -25, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -20, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.8 } },
+          { temp: -15, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.9 } },
+          { temp: -10, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.9 } },
+          { temp: -5, windKnots: { "0": 7.8, "10": 8.2, "20": 8.6, "30": 9, "-10": 6.9 } },
+          { temp: 0, windKnots: { "0": 7.6, "10": 7.9, "20": 8.3, "30": 8.7, "-10": 6.7 } },
+          { temp: 5, windKnots: { "0": 6.8, "10": 7.1, "20": 7.4, "30": 7.8, "-10": 6 } },
+          { temp: 10, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5, "-10": 4.9 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.4, "-10": 7.8 } },
+          { temp: -30, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.4, "-10": 7.8 } },
+          { temp: -25, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.3, "-10": 7.8 } },
+          { temp: -20, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.3, "-10": 7.8 } },
+          { temp: -15, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.3, "-10": 7.8 } },
+          { temp: -10, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.3, "-10": 7.8 } },
+          { temp: -5, windKnots: { "0": 8.9, "10": 9.3, "20": 9.8, "30": 10.3, "-10": 7.9 } },
+          { temp: 0, windKnots: { "0": 8.7, "10": 9.1, "20": 9.5, "30": 10, "-10": 7.6 } },
+          { temp: 5, windKnots: { "0": 7.9, "10": 8.2, "20": 8.6, "30": 9.1, "-10": 6.9 } },
+          { temp: 10, windKnots: { "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6, "-10": 5.8 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: -30, windKnots: { "0": 10.2, "10": 10.7, "20": 11.3, "30": 11.9, "-10": 8.9 } },
+          { temp: -25, windKnots: { "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.9, "-10": 8.9 } },
+          { temp: -20, windKnots: { "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8, "-10": 8.9 } },
+          { temp: -15, windKnots: { "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8, "-10": 8.9 } },
+          { temp: -10, windKnots: { "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8, "-10": 8.9 } },
+          { temp: -5, windKnots: { "0": 10.2, "10": 10.7, "20": 11.2, "30": 11.8, "-10": 9 } },
+          { temp: 0, windKnots: { "0": 9.9, "10": 10.4, "20": 10.9, "30": 11.5, "-10": 8.7 } },
+          { temp: 5, windKnots: { "0": 9.1, "10": 9.5, "20": 10, "30": 10.5, "-10": 8 } },
+          { temp: 10, windKnots: { "0": 7.8, "10": 8.1, "20": 8.5, "30": 9, "-10": 6.8 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.1 } },
+          { temp: -30, windKnots: { "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.1 } },
+          { temp: -25, windKnots: { "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.1 } },
+          { temp: -20, windKnots: { "0": 11.6, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.2 } },
+          { temp: -15, windKnots: { "0": 11.7, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.2 } },
+          { temp: -10, windKnots: { "0": 11.7, "10": 12.2, "20": 12.9, "30": 13.6, "-10": 10.2 } },
+          { temp: -5, windKnots: { "0": 11.7, "10": 12.2, "20": 12.9, "30": 13.5, "-10": 10.2 } },
+          { temp: 0, windKnots: { "0": 11.4, "10": 11.9, "20": 12.5, "30": 13.2, "-10": 10 } },
+          { temp: 5, windKnots: { "0": 10.5, "10": 11, "20": 11.6, "30": 12.2, "-10": 9.2 } },
+          { temp: 10, windKnots: { "0": 9.1, "10": 9.5, "20": 10, "30": 10.5, "-10": 7.9 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.7, "-10": 11.5 } },
+          { temp: -30, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.7, "-10": 11.6 } },
+          { temp: -25, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.7, "-10": 11.6 } },
+          { temp: -20, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.6, "-10": 11.6 } },
+          { temp: -15, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.6, "-10": 11.6 } },
+          { temp: -10, windKnots: { "0": 13.3, "10": 14, "20": 14.8, "30": 15.6, "-10": 11.6 } },
+          { temp: -5, windKnots: { "0": 13.4, "10": 14, "20": 14.8, "30": 15.6, "-10": 11.7 } },
+          { temp: 0, windKnots: { "0": 13.1, "10": 13.7, "20": 14.4, "30": 15.2, "-10": 11.4 } },
+          { temp: 5, windKnots: { "0": 12.1, "10": 12.7, "20": 13.4, "30": 14.1, "-10": 10.6 } },
+          { temp: 10, windKnots: { "0": 10.6, "10": 11.1, "20": 11.7, "30": 12.3, "-10": 9.2 } }
+        ]
+      }
+    ]
+  },
+  {
+    altitudeFt: 6000,
+    weights: [
+      {
+        weight: 20000,
+        data: [
+          { temp: -35, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5, "-10": 4.9 } },
+          { temp: -30, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5, "-10": 4.9 } },
+          { temp: -25, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.5, "-10": 5 } },
+          { temp: -20, windKnots: { "0": 5.6, "10": 5.9, "20": 6.2, "30": 6.4, "-10": 5 } },
+          { temp: -15, windKnots: { "0": 5.6, "10": 5.9, "20": 6.1, "30": 6.4, "-10": 5 } },
+          { temp: -10, windKnots: { "0": 5.6, "10": 5.9, "20": 6.1, "30": 6.4, "-10": 5 } },
+          { temp: -5, windKnots: { "0": 5.6, "10": 5.9, "20": 6.1, "30": 6.4, "-10": 5 } },
+          { temp: 0, windKnots: { "0": 4.9, "10": 5.1, "20": 5.4, "30": 5.6, "-10": 4.3 } },
+          { temp: 5, windKnots: { "0": 3.9, "10": 4.1, "20": 4.3, "30": 4.5, "-10": 3.5 } },
+          { temp: 10, windKnots: { "0": 2.9, "10": 3.1, "20": 3.2, "30": 3.4, "-10": 2.6 } }
+        ]
+      },
+      {
+        weight: 19500,
+        data: [
+          { temp: -35, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -30, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -25, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -20, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -15, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -10, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: -5, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: 0, windKnots: { "0": 5.3, "10": 5.5, "20": 5.8, "30": 6.1, "-10": 4.7 } },
+          { temp: 5, windKnots: { "0": 4.3, "10": 4.5, "20": 4.7, "30": 4.9, "-10": 3.8 } },
+          { temp: 10, windKnots: { "0": 3.3, "10": 3.4, "20": 3.6, "30": 3.8, "-10": 2.9 } }
+        ]
+      },
+      {
+        weight: 19000,
+        data: [
+          { temp: -35, windKnots: { "0": 6.4, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -30, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -25, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -20, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -15, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -10, windKnots: { "0": 6.5, "10": 6.8, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: -5, windKnots: { "0": 6.5, "10": 6.7, "20": 7.1, "30": 7.4, "-10": 5.7 } },
+          { temp: 0, windKnots: { "0": 5.7, "10": 6, "20": 6.3, "30": 6.6, "-10": 5.1 } },
+          { temp: 5, windKnots: { "0": 4.7, "10": 4.9, "20": 5.1, "30": 5.4, "-10": 4.1 } },
+          { temp: 10, windKnots: { "0": 3.6, "10": 3.8, "20": 4, "30": 4.2, "-10": 3.2 } }
+        ]
+      },
+      {
+        weight: 18500,
+        data: [
+          { temp: -35, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } },
+          { temp: -30, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } },
+          { temp: -25, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } },
+          { temp: -20, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } },
+          { temp: -15, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 7.9, "-10": 6.1 } },
+          { temp: -10, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 7.9, "-10": 6.1 } },
+          { temp: -5, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 7.9, "-10": 6.1 } },
+          { temp: 0, windKnots: { "0": 6.2, "10": 6.4, "20": 6.7, "30": 7.1, "-10": 5.5 } },
+          { temp: 5, windKnots: { "0": 5.1, "10": 5.3, "20": 5.6, "30": 5.9, "-10": 4.5 } },
+          { temp: 10, windKnots: { "0": 4, "10": 4.2, "20": 4.4, "30": 4.6, "-10": 3.5 } }
+        ]
+      },
+      {
+        weight: 18000,
+        data: [
+          { temp: -35, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -30, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -25, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -20, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -15, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -10, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: -5, windKnots: { "0": 7.4, "10": 7.7, "20": 8.1, "30": 8.5, "-10": 6.5 } },
+          { temp: 0, windKnots: { "0": 6.6, "10": 6.9, "20": 7.3, "30": 7.6, "-10": 5.9 } },
+          { temp: 5, windKnots: { "0": 5.5, "10": 5.8, "20": 6.1, "30": 6.4, "-10": 4.9 } },
+          { temp: 10, windKnots: { "0": 4.4, "10": 4.6, "20": 4.9, "30": 5.1, "-10": 3.9 } }
+        ]
+      },
+      {
+        weight: 17500,
+        data: [
+          { temp: -35, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 6.9 } },
+          { temp: -30, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 6.9 } },
+          { temp: -25, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 7 } },
+          { temp: -20, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 7 } },
+          { temp: -15, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 7 } },
+          { temp: -10, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 7 } },
+          { temp: -5, windKnots: { "0": 7.9, "10": 8.3, "20": 8.7, "30": 9.1, "-10": 7 } },
+          { temp: 0, windKnots: { "0": 7.1, "10": 7.5, "20": 7.8, "30": 8.2, "-10": 6.3 } },
+          { temp: 5, windKnots: { "0": 6, "10": 6.3, "20": 6.6, "30": 6.9, "-10": 5.3 } },
+          { temp: 10, windKnots: { "0": 4.9, "10": 5.1, "20": 5.3, "30": 5.6, "-10": 4.3 } }
+        ]
+      },
+      {
+        weight: 16500,
+        data: [
+          { temp: -35, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.5, "-10": 7.9 } },
+          { temp: -30, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.5, "-10": 7.9 } },
+          { temp: -25, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.5, "-10": 7.9 } },
+          { temp: -20, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.4, "-10": 7.9 } },
+          { temp: -15, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.4, "-10": 8 } },
+          { temp: -10, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.4, "-10": 8 } },
+          { temp: -5, windKnots: { "0": 9, "10": 9.5, "20": 9.9, "30": 10.4, "-10": 8 } },
+          { temp: 0, windKnots: { "0": 8.2, "10": 8.6, "20": 9, "30": 9.5, "-10": 7.3 } },
+          { temp: 5, windKnots: { "0": 7, "10": 7.4, "20": 7.7, "30": 8.1, "-10": 6.2 } },
+          { temp: 10, windKnots: { "0": 5.8, "10": 6.1, "20": 6.4, "30": 6.7, "-10": 5.1 } }
+        ]
+      },
+      {
+        weight: 15500,
+        data: [
+          { temp: -35, windKnots: { "0": 10.3, "10": 10.8, "20": 11.4, "30": 12, "-10": 9 } },
+          { temp: -30, windKnots: { "0": 10.3, "10": 10.8, "20": 11.4, "30": 12, "-10": 9 } },
+          { temp: -25, windKnots: { "0": 10.3, "10": 10.8, "20": 11.4, "30": 12, "-10": 9 } },
+          { temp: -20, windKnots: { "0": 10.3, "10": 10.8, "20": 11.4, "30": 12, "-10": 9 } },
+          { temp: -15, windKnots: { "0": 10.3, "10": 10.8, "20": 11.4, "30": 11.9, "-10": 9.1 } },
+          { temp: -10, windKnots: { "0": 10.3, "10": 10.8, "20": 11.3, "30": 11.9, "-10": 9.1 } },
+          { temp: -5, windKnots: { "0": 10.3, "10": 10.8, "20": 11.3, "30": 11.9, "-10": 9.1 } },
+          { temp: 0, windKnots: { "0": 9.5, "10": 9.9, "20": 10.4, "30": 10.9, "-10": 8.3 } },
+          { temp: 5, windKnots: { "0": 8.2, "10": 8.6, "20": 9, "30": 9.5, "-10": 7.2 } },
+          { temp: 10, windKnots: { "0": 6.9, "10": 7.2, "20": 7.6, "30": 8, "-10": 6.1 } }
+        ]
+      },
+      {
+        weight: 14500,
+        data: [
+          { temp: -35, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.8, "-10": 10.3 } },
+          { temp: -30, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.8, "-10": 10.3 } },
+          { temp: -25, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.7, "-10": 10.3 } },
+          { temp: -20, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.7, "-10": 10.3 } },
+          { temp: -15, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.7, "-10": 10.3 } },
+          { temp: -10, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.7, "-10": 10.3 } },
+          { temp: -5, windKnots: { "0": 11.8, "10": 12.4, "20": 13, "30": 13.7, "-10": 10.3 } },
+          { temp: 0, windKnots: { "0": 10.9, "10": 11.4, "20": 12, "30": 12.6, "-10": 9.6 } },
+          { temp: 5, windKnots: { "0": 9.5, "10": 10, "20": 10.5, "30": 11, "-10": 8.4 } },
+          { temp: 10, windKnots: { "0": 8.1, "10": 8.5, "20": 9, "30": 9.4, "-10": 7.2 } }
+        ]
+      },
+      {
+        weight: 13500,
+        data: [
+          { temp: -35, windKnots: { "0": 13.5, "10": 14.2, "20": 15, "30": 15.8, "-10": 11.7 } },
+          { temp: -30, windKnots: { "0": 13.5, "10": 14.2, "20": 15, "30": 15.8, "-10": 11.7 } },
+          { temp: -25, windKnots: { "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.8, "-10": 11.7 } },
+          { temp: -20, windKnots: { "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.8, "-10": 11.8 } },
+          { temp: -15, windKnots: { "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7, "-10": 11.8 } },
+          { temp: -10, windKnots: { "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7, "-10": 11.8 } },
+          { temp: -5, windKnots: { "0": 13.5, "10": 14.2, "20": 14.9, "30": 15.7, "-10": 11.8 } },
+          { temp: 0, windKnots: { "0": 12.5, "10": 13.1, "20": 13.8, "30": 14.5, "-10": 11 } },
+          { temp: 5, windKnots: { "0": 11.1, "10": 11.6, "20": 12.2, "30": 12.9, "-10": 9.7 } },
+          { temp: 10, windKnots: { "0": 9.6, "10": 10.1, "20": 10.6, "30": 11.1, "-10": 8.4 } }
+        ]
+      }
+    ]
+  }
 ];
-

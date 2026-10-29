@@ -10,12 +10,13 @@ Det stöder samma radformat som `temp/tailwind/zero/headwind/vr/v2`-tabellerna a
 - `takeoff-wet-flaps7.js`
 - `takeoff-wet-flaps15.js`
 - `takeoff-wet-flaps15-no-reverser.js`
+- `climb-gradient`-tabeller i formatet `altitudeFt / weights / data / windKnots`
 
 Profiler finns i [tools/afm-audit/profiles/](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/profiles).
 
 ## Vad som inte stöds ännu
 
-Filer med annan struktur (t.ex. climb-gradient, takeoff-gradient, climb-flightpath) kräver extra parserstöd.
+Filer med annan struktur, till exempel takeoff-gradient och climb-flightpath, kräver extra parserstöd.
 
 ## Viktig princip
 
@@ -150,3 +151,47 @@ AFM-PDF:erna saknar textlager. Tesseract fungerar INTE (hänger utan `OMP_THREAD
 - Mallar: `glyph_templates.json` (k-means-centroider + etiketter), `glyphs.py` (rendering, radborttagning, sammanvuxna siffror delas där summan av klassdistans är lägst).
 - Lärdomar: raster-/skuggade celler (tung, varm, hög temp, tail-kolumnen) läses fel → alltid visuell kontroll av flaggade rader; temp "5" intill ramen är falskt larm; 5-siffriga avstånd (10120) ger OSÄKER och måste läsas manuellt; kör alltid `check.js` på batchen, sedan `compare.js`, sedan `apply.js` (säkerhetskopiera först).
 - Hela flödet för wet flaps7 tog ~4 min läsning + ~60 manuellt rättade rader.
+
+## Climb-gradient-tabeller
+
+För sekundsegmentets nettostiggradient används en separat profil eftersom AFM-tabellen
+har höjdblock, viktkolumner och fem vindkolumner i ett annat format än takeoff-tabellerna.
+Tesseract används endast för första avläsning; granska alltid värdena visuellt mot PDF:en.
+Läsaren OCR:ar en viktpanel i taget, och profilen kan ange separata horisontella sidförskjutningar.
+Avläsningar med saknade, oparsade eller lågsäkra celler skrivs till `.todo` och ger statuskod 2.
+
+```bash
+.venv/bin/python tools/afm-audit/read_gradient.py input.pdf /tmp/climb-on.js \
+  --profile tools/afm-audit/profiles/climb-gradient-f7-on.json \
+  --const secondSegmentClimbGradient_flaps7_anti_ice_on \
+  --max-altitude 6000 \
+  --corrections tools/afm-audit/profiles/climb-gradient-f7-on-corrections.json
+node tools/afm-audit/compare-gradient.js data/c56x/climb-gradient-flaps7.js \
+  secondSegmentClimbGradient_flaps7_anti_ice_on /tmp/climb-on.js.json
+```
+
+The reader emits the JavaScript constant, an adjacent `.json` reference for comparison,
+and a `.todo` list for OCR cells needing review. A non-empty `.todo` makes the reader
+exit with status 2; do not treat such output as verified AFM data. After checking flagged
+cells against the AFM, pass a JSON object of corrections keyed by
+`altitudeFt/weight/temp/wind`, for example `{"0/20000/-35/-10": 5.6}`, using
+`--corrections corrections.json`. Unmatched corrections are rejected. For another climb
+gradient chart with the same grid, copy and adjust the profile's page mappings, altitude
+and weight sets, temperature rows, and cell-center calibration.
+
+### Snabbare nästa gång (ny climb-gradient-PDF)
+
+1. Kopiera en profil (`profiles/climb-gradient-f15-on.json` passar 6-sidiga ark med 6 höjder/sida och
+   temperaturraderna -35..10; `f7-on` är identisk) och justera `pageAltitudes`, `pageWeights`, `temperatures`.
+2. Kör `read_gradient.py` (se ovan). Utdata är redan kompakt, en rad per temperatur.
+3. Titta på `.todo`: `crop_gradient_rows.py PDF PROFIL.json ut.png 1000/20000/-25 ...` ger en bildremsa per
+   cell (höjd/vikt/temp) för visuell kontroll; lägg värdena i `*-corrections.json` och kör om.
+4. `check-gradient-monotonic.js ut.js.json` flaggar orimliga värden (gradient ska inte minska med mer vind,
+   lägre vikt eller lägre temperatur; höjd är inte monoton i AFM) – fångar tysta OCR-fel.
+5. `compare-gradient.js datafil.js CONST ut.js.json` jämför mot befintlig datafil.
+
+## Flaps 7 anti-ice OFF grid layout (4 altitudes per sheet, variable temperature rows)
+
+- `read_gradient_grid.py` splits each row into 25 numbers, but the glyph classifier still confuses `6`/`8` and drops minus signs here. Treat its output as a hint only.
+- Reliable workflow: run `check-gradient-monotonic.js` (ignore "missing" lines), then render the flagged weight block at 400 dpi, crop the temperature column plus the 5 wind columns, and compare by eye. `show-weight.js` is a template for printing one weight table from the const.
+- The monotonic check does not catch duplicated or shifted neighbour values; a full visual pass is needed for those.

@@ -260,7 +260,7 @@
                         </tbody>
                     </table>
                     <div class="help-note help-note--warn">
-                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X dry field-length charts support Flaps 7/15 with anti-ice ON/OFF. Wet charts with reversers available support Flaps 7 anti-ice ON and Flaps 15 anti-ice ON/OFF. Wet data with reversers INOP is not available.
+                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X dry field-length charts support Flaps 7/15 with anti-ice ON/OFF. Wet charts with reversers available support Flaps 7 anti-ice ON and Flaps 15 anti-ice ON/OFF. With reversers INOP, wet Flaps 15 data is available with anti-ice ON/OFF; wet Flaps 7 data is not available.
                     </div>
                     <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
                 </section>
@@ -582,7 +582,7 @@
                                 <select class="form-control" id="to-airport-intersection" onchange="handleAirportIntersectionChange(this.value, 'to')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
                             </td>
                         </tr>
-                        <tr style="border-bottom: 1px solid #21262d;">
+                        <tr hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">AD Elevation:</td>
                             <td style="padding: 8px 0; color: #fff;"><span id="to-airport-elevation">-</span> ft</td>
                         </tr>
@@ -694,7 +694,7 @@
                                 </select>
                             </td>
                         </tr>
-                        <tr id="to-reversers-row" style="border-bottom: 1px solid #21262d;">
+                        <tr id="to-reversers-row" hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Reversers</td>
                             <td style="padding: 10px 0;">
                                 <select class="form-control" id="to-reversers" onchange="handleTakeoffReversers(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">

@@ -25,7 +25,7 @@ const maxXwindByRCC = [
     { code: "1", label: "RCC 1", max_XW: 8 }
 ];
 
-//AFM 4-38
+//AFM figure 4-12, anti ice off, maxTakeoffWeightClimb is for setting climb limited takeoff mass
 const maxTakeoffWeightClimb_Flaps7 = [
     {
         altitude: 0,
@@ -185,7 +185,7 @@ const maxTakeoffWeightClimb_Flaps7 = [
     }
 ];
 
-//AFM 4-39
+//AFM figure 4-12 sheet 2, anti ice on
 const maxTakeoffWeightClimb_Flaps7_AntiIceOn = [
     {
         altitude: 0,
@@ -300,7 +300,7 @@ const maxTakeoffWeightClimb_Flaps7_AntiIceOn = [
     }
 ];
 
-//AFM 4-40
+//AFM figure 4-13, anti ice off
 const maxTakeoffWeightClimb_Flaps15 = [
     {
         altitude: 0,
@@ -471,7 +471,7 @@ const maxTakeoffWeightClimb_Flaps15 = [
     }
 ];
 
-//AFM 4-41
+//AFM figure 4-13 sheet 2
 const maxTakeoffWeightClimb_Flaps15_AntiIceOn = [
     {
         altitude: 0,

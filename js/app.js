@@ -8,7 +8,11 @@ const runwaySuggestions = { to: null, ldg: null };
 let runwaySuggestionRefreshTimer = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
-const PERSISTED_FORM_STATE_KEY = 'performance_form_state_v1';
+const PERSISTED_FORM_STATE_KEY_PREFIX = 'performance_form_state_v2_';
+function getPersistedFormStateKey() {
+  const registration = document.getElementById('global-registration')?.value;
+  return PERSISTED_FORM_STATE_KEY_PREFIX + (AIRCRAFT_TYPE_BY_REGISTRATION[registration] || 'default');
+}
 const AIRPORT_CONTROL_IDS = new Set([
   'to-airport-icao',
   'to-airport-rwy',
@@ -135,21 +139,26 @@ const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
     'LDA [m](F6)': 'C18',
   },
 };
-const WORKBOOK_BY_REGISTRATION = {
-  'SE-LTL': 'se-ltl.xlsx',
-  'SE-KVL': 'se-kvl.xlsx',
-  'SE-MJU': 'se-mju.xlsx',
-  'SE-MJV': 'B190.xlsx',
-  'SE-MHU': 'B190.xlsx',
+const AIRCRAFT_REGISTRATIONS = {
+  'SE-LTL': { type: 'BE20', workbook: 'se-ltl.xlsx' },
+  'SE-KVL': { type: 'BE20', workbook: 'se-kvl.xlsx' },
+  'SE-MJU': { type: 'BE20', workbook: 'se-mju.xlsx' },
+  'SE-MJV': { type: 'B190', workbook: 'B190.xlsx' },
+  'SE-MHU': { type: 'B190', workbook: 'B190.xlsx' },
+  'SE-RIJ': { type: 'C56X', workbook: null },
 };
-const AIRCRAFT_TYPE_BY_REGISTRATION = {
-  'SE-LTL': 'BE20',
-  'SE-KVL': 'BE20',
-  'SE-MJU': 'BE20',
-  'SE-MJV': 'B190',
-  'SE-MHU': 'B190',
-  'SE-RIJ': 'C56X',
-};
+const WORKBOOK_BY_REGISTRATION = Object.fromEntries(
+  Object.entries(AIRCRAFT_REGISTRATIONS)
+    .filter(([, aircraft]) => aircraft.workbook)
+    .map(([registration, aircraft]) => [registration, aircraft.workbook])
+);
+const AIRCRAFT_TYPE_BY_REGISTRATION = Object.fromEntries(
+  Object.entries(AIRCRAFT_REGISTRATIONS)
+    .map(([registration, aircraft]) => [registration, aircraft.type])
+);
+function isC56xSelected() {
+  return AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X';
+}
 const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = {
   BE20: [
     { value: 'UP', label: 'Flaps Up' },
@@ -206,11 +215,13 @@ function configureC56xRunwayInputs(registration) {
       ? rwccSelect.value
       : '6';
     rwccSelect.replaceChildren(...['1', '2', '3', '4', '5', '6'].map(
-      (code) => new Option(`RCC ${code}`, code)
+      (code) => new Option(code, code)
     ));
     rwccSelect.value = selectedValue;
   }
 
+  const reversersRow = document.getElementById('to-reversers-row');
+  if (reversersRow) reversersRow.hidden = false;
   const reversersSelect = document.getElementById('to-reversers');
   if (reversersSelect && !['AVAILABLE', 'INOP'].includes(reversersSelect.value)) {
     reversersSelect.value = 'AVAILABLE';
@@ -744,7 +755,7 @@ function setupEventListeners() {
 }
 
 function getPersistedFormState() {
-  const savedState = localStorage.getItem(PERSISTED_FORM_STATE_KEY);
+  const savedState = localStorage.getItem(getPersistedFormStateKey());
   if (!savedState) return {};
 
   try {
@@ -763,7 +774,7 @@ function persistFormState() {
   document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
     if (!AIRPORT_CONTROL_IDS.has(control.id)) formState[control.id] = control.value;
   });
-  localStorage.setItem(PERSISTED_FORM_STATE_KEY, JSON.stringify(formState));
+  localStorage.setItem(getPersistedFormStateKey(), JSON.stringify(formState));
 }
 
 function restorePersistedFormState() {
@@ -1488,7 +1499,7 @@ function updateTakeoffAirportElevation(airport) {
 }
 
 function evaluateTakeoffRunwayAvailability(airport) {
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     return { available: true, reasons: [] };
   }
   if (!hfInstance) {
@@ -1571,7 +1582,7 @@ function evaluateTakeoffRunwayAvailability(airport) {
 function updateCustomAirportData(airport, prefix) {
   if (prefix === 'to') updateTakeoffAirportElevation(airport);
   if (!hfInstance) {
-    if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+    if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
     }
@@ -1781,7 +1792,7 @@ function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
   if (span) span.innerText = val;
   updateEngineCellVal('takeoff', 'mass', Number(val));
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
@@ -1795,7 +1806,7 @@ function handleLandingMass(val) {
 
 function handleTakeoffFlaps(val) {
   updateEngineCellVal('takeoff', 'flaps', val);
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
@@ -1803,14 +1814,14 @@ function handleTakeoffFlaps(val) {
 
 function handleTakeoffAntiIce(val) {
   updateEngineCellVal('takeoff', 'antiIce', val);
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
 }
 
 function handleTakeoffReversers(val) {
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     updateC56xTakeoffFieldLength();
   }
 }
@@ -1818,7 +1829,7 @@ function handleTakeoffReversers(val) {
 function handleTakeoffRwcc(val) {
   updateEngineCellVal('takeoff', 'rwcc', val);
   if (typeof refreshOutputs === 'function') refreshOutputs();
-  if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+  if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
@@ -1850,7 +1861,7 @@ function handleManualWeatherInput(sheetType, paramKey, inputElement) {
 
     updateEngineCellVal(sheetType, paramKey, val === "" ? "" : Number(val));
     if (sheetType === 'takeoff' &&
-        AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+        isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
     }
@@ -1858,7 +1869,7 @@ function handleManualWeatherInput(sheetType, paramKey, inputElement) {
 
 function refreshOutputs() {
   if (!hfInstance) {
-    if (AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X') {
+    if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
     }
@@ -2144,9 +2155,8 @@ function updateC56xTakeoffFieldLength() {
     titleElement.textContent = `C56X take-off field length · Flaps ${flaps} · Anti-ice ${antiIce}`;
   }
   if (wetChartLabelElement) {
-    wetChartLabelElement.textContent = antiIce === 'OFF'
-      ? 'Wet chart · RWCC 5 · Anti-ice OFF:'
-      : `Wet chart · RWCC 5 · reversers ${reverserStatus === 'AVAILABLE' ? 'Available' : 'INOP'}:`;
+    wetChartLabelElement.textContent =
+      `Wet chart · RWCC 5 · Anti-ice ${antiIce} · reversers ${reverserStatus === 'AVAILABLE' ? 'Available' : 'INOP'}:`;
   }
   const setUnavailable = (reason, resetPerformanceCards = true) => {
     if (dryElement) dryElement.textContent = 'Not available';
@@ -2320,11 +2330,9 @@ function updateC56xTakeoffFieldLength() {
     return `${feet.toLocaleString('en-US')} ft (${metres.toLocaleString('en-US')} m)`;
   };
   if (dryElement) dryElement.textContent = formatDistance(result.dryDistanceFt);
-  const wetUnavailableReason = reverserStatus === 'INOP'
-    ? 'Not available — wet data with reversers INOP not added'
-    : antiIce === 'OFF' && flaps === 7
-      ? 'Not available — Flaps 7 anti-ice OFF wet data not added'
-      : 'Not available';
+  const wetUnavailableReason = reverserStatus === 'INOP' && flaps === 7
+    ? 'Not available — Flaps 7 wet data without reversers is not available'
+    : 'Not available';
   if (wetChartElement) {
     wetChartElement.textContent = result.wetChartDistanceFt === null
       ? wetUnavailableReason
@@ -2341,22 +2349,18 @@ function updateC56xTakeoffFieldLength() {
       : wetUnavailableReason;
   }
   if (!Number.isFinite(result.selectedDistanceFt)) {
-    const reason = reverserStatus === 'INOP'
-      ? 'Wet RWCC 5 calculation requires wet chart data for reversers INOP.'
-      : antiIce === 'OFF' && flaps === 7
-        ? 'Wet RWCC 5 Flaps 7 anti-ice OFF data is not available.'
-        : 'Wet RWCC 5 field length is not available for this setup.';
+    const reason = reverserStatus === 'INOP' && flaps === 7
+      ? 'Wet RWCC 5 Flaps 7 data without reversers is not available.'
+      : 'Wet RWCC 5 field length is not available for this setup.';
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
     if (todaStatusElement) todaStatusElement.textContent = 'Not available';
     if (asdaStatusElement) asdaStatusElement.textContent = 'Not available';
     if (limitStatusElement) limitStatusElement.textContent = reason;
     if (noteElement) {
       noteElement.textContent =
-        reverserStatus === 'INOP'
-          ? 'Dry distance is available. Add the approved wet-without-reversers AFM arrays to enable this calculation.'
-          : antiIce === 'OFF' && flaps === 7
-            ? 'Dry distance is available. Flaps 7 anti-ice OFF wet AFM arrays are not available.'
-            : 'Dry distance is available, but wet field length is not published for this setup.';
+        reverserStatus === 'INOP' && flaps === 7
+          ? 'Dry distance is available. Wet Flaps 7 AFM data without reversers is not available.'
+          : 'Dry distance is available, but wet field length is not published for this setup.';
     }
     card.classList.add('is-exceeded');
     card.classList.remove('is-within-limits');

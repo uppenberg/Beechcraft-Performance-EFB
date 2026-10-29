@@ -16,6 +16,7 @@ const ASSETS = [
   './data/c56x/takeoff-gradient-wet.js',
   './data/c56x/takeoff-wet-flaps7.js',
   './data/c56x/takeoff-wet-flaps15.js',
+  './data/c56x/takeoff-wet-flaps15-no-reverser.js',
   './data/c56x/takeoff-dry-flaps15.js',
   './data/c56x/climb-flightpath-flaps7.js',
   './data/c56x/climb-gradient-flaps7.js',

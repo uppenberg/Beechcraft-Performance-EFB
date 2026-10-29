@@ -195,14 +195,6 @@ function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON'
     return Math.max(distanceFt, ...correctionValues);
 }
 
-const takeoffWithoutReversers_Flaps7_SeaLevel_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_1000ft_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_2000ft_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_3000ft_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_4000ft_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_5000ft_AntiIceOn = null;
-const takeoffWithoutReversers_Flaps7_6000ft_AntiIceOn = null;
-
 function getC56xTakeoffFieldLengths({
     qnhHpa,
     fieldElevationFt,
@@ -279,22 +271,22 @@ function getC56xTakeoffFieldLengths({
     const wetTables = flaps === 15
         ? antiIce === 'OFF'
             ? [
-                { altitudeFt: 0, rows: takeoffWithReversers_Wet_flaps15_0ft },
-                { altitudeFt: 1000, rows: takeoffWithReversers_Wet_flaps15_1000ft },
-                { altitudeFt: 2000, rows: takeoffWithReversers_Wet_flaps15_2000ft },
-                { altitudeFt: 3000, rows: takeoffWithReversers_Wet_flaps15_3000ft },
-                { altitudeFt: 4000, rows: takeoffWithReversers_Wet_flaps15_4000ft },
-                { altitudeFt: 5000, rows: takeoffWithReversers_Wet_flaps15_5000ft },
-                { altitudeFt: 6000, rows: takeoffWithReversers_Wet_flaps15_6000ft },
+                { altitudeFt: 0, rows: takeoffFieldLength_Wet_Flaps15_Reversers_SeaLevel_AntiIceOff },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_1000ft_AntiIceOff },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_2000ft_AntiIceOff },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_3000ft_AntiIceOff },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_4000ft_AntiIceOff },
+                { altitudeFt: 5000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_5000ft_AntiIceOff },
+                { altitudeFt: 6000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_6000ft_AntiIceOff },
             ]
             : [
-                { altitudeFt: 0, rows: takeoffWithReversers_Wet_flaps15_0ft_AntiIceOn },
-                { altitudeFt: 1000, rows: takeoffWithReversers_Wet_flaps15_1000ft_AntiIceOn },
-                { altitudeFt: 2000, rows: takeoffWithReversers_Wet_flaps15_2000ft_AntiIceOn },
-                { altitudeFt: 3000, rows: takeoffWithReversers_Wet_flaps15_3000ft_AntiIceOn },
-                { altitudeFt: 4000, rows: takeoffWithReversers_Wet_flaps15_4000ft_AntiIceOn },
-                { altitudeFt: 5000, rows: takeoffWithReversers_Wet_flaps15_5000ft_AntiIceOn },
-                { altitudeFt: 6000, rows: takeoffWithReversers_Wet_flaps15_6000ft_AntiIceOn },
+                { altitudeFt: 0, rows: takeoffFieldLength_Wet_Flaps15_Reversers_SeaLevel_AntiIceOn },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_1000ft_AntiIceOn },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_2000ft_AntiIceOn },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_3000ft_AntiIceOn },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_4000ft_AntiIceOn },
+                { altitudeFt: 5000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_5000ft_AntiIceOn },
+                { altitudeFt: 6000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_6000ft_AntiIceOn },
             ]
         : antiIce === 'ON'
             ? [
@@ -315,17 +307,27 @@ function getC56xTakeoffFieldLengths({
                 { altitudeFt: 5000, rows: takeoffWithReversers_Wet_flaps7_5000ft },
                 { altitudeFt: 6000, rows: takeoffWithReversers_Wet_flaps7_6000ft },
             ];
-    const wetTablesWithoutReversers = flaps === 15 || antiIce === 'OFF'
-        ? []
-        : [
-            { altitudeFt: 0, rows: takeoffWithoutReversers_Flaps7_SeaLevel_AntiIceOn },
-            { altitudeFt: 1000, rows: takeoffWithoutReversers_Flaps7_1000ft_AntiIceOn },
-            { altitudeFt: 2000, rows: takeoffWithoutReversers_Flaps7_2000ft_AntiIceOn },
-            { altitudeFt: 3000, rows: takeoffWithoutReversers_Flaps7_3000ft_AntiIceOn },
-            { altitudeFt: 4000, rows: takeoffWithoutReversers_Flaps7_4000ft_AntiIceOn },
-            { altitudeFt: 5000, rows: takeoffWithoutReversers_Flaps7_5000ft_AntiIceOn },
-            { altitudeFt: 6000, rows: takeoffWithoutReversers_Flaps7_6000ft_AntiIceOn },
-        ];
+    const wetTablesWithoutReversers = flaps === 15
+        ? antiIce === 'OFF'
+            ? [
+                { altitudeFt: 0, rows: takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOff },
+                { altitudeFt: 1000, rows: takeoffFieldLength_NoRev_Flaps15_1000ft_AntiIceOff },
+                { altitudeFt: 2000, rows: takeoffFieldLength_NoRev_Flaps15_2000ft_AntiIceOff },
+                { altitudeFt: 3000, rows: takeoffFieldLength_NoRev_Flaps15_3000ft_AntiIceOff },
+                { altitudeFt: 4000, rows: takeoffFieldLength_NoRev_Flaps15_4000ft_AntiIceOff },
+                { altitudeFt: 5000, rows: takeoffFieldLength_NoRev_Flaps15_5000ft_AntiIceOff },
+                { altitudeFt: 6000, rows: takeoffFieldLength_NoRev_Flaps15_6000ft_AntiIceOff },
+            ]
+            : [
+                { altitudeFt: 0, rows: takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOn },
+                { altitudeFt: 1000, rows: takeoffFieldLength_NoRev_Flaps15_1000ft_AntiIceOn },
+                { altitudeFt: 2000, rows: takeoffFieldLength_NoRev_Flaps15_2000ft_AntiIceOn },
+                { altitudeFt: 3000, rows: takeoffFieldLength_NoRev_Flaps15_3000ft_AntiIceOn },
+                { altitudeFt: 4000, rows: takeoffFieldLength_NoRev_Flaps15_4000ft_AntiIceOn },
+                { altitudeFt: 5000, rows: takeoffFieldLength_NoRev_Flaps15_5000ft_AntiIceOn },
+                { altitudeFt: 6000, rows: takeoffFieldLength_NoRev_Flaps15_6000ft_AntiIceOn },
+            ]
+        : [];
     const tableArgs = [pressureAltitudeFt, Number(weightLb), Number(oatC), headwindKnots];
     const dryUncorrectedFt = interpolateC56xTakeoffAltitude(dryTables, ...tableArgs);
     if (dryUncorrectedFt === null) return null;
@@ -405,28 +407,49 @@ function getC56xTakeoffSpeeds({
     const useWetTable = runwayConditionCode === '5';
     if (flaps !== 7 && flaps !== 15) return null;
     if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
-    if (useWetTable && reverserStatus !== 'AVAILABLE') return null;
+    if (useWetTable && reverserStatus !== 'AVAILABLE' &&
+        !(reverserStatus === 'INOP' && flaps === 15)) return null;
     if (runwayConditionCode !== '5' && runwayConditionCode !== '6') return null;
     const tables = flaps === 15
         ? useWetTable
-            ? antiIce === 'OFF'
-                ? [
-                    { altitudeFt: 0, rows: takeoffWithReversers_Wet_flaps15_0ft },
-                    { altitudeFt: 1000, rows: takeoffWithReversers_Wet_flaps15_1000ft },
-                    { altitudeFt: 2000, rows: takeoffWithReversers_Wet_flaps15_2000ft },
-                    { altitudeFt: 3000, rows: takeoffWithReversers_Wet_flaps15_3000ft },
-                    { altitudeFt: 4000, rows: takeoffWithReversers_Wet_flaps15_4000ft },
-                    { altitudeFt: 5000, rows: takeoffWithReversers_Wet_flaps15_5000ft },
-                    { altitudeFt: 6000, rows: takeoffWithReversers_Wet_flaps15_6000ft },
+            ? reverserStatus === 'INOP'
+                ? antiIce === 'OFF'
+                    ? [
+                        { altitudeFt: 0, rows: takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOff },
+                        { altitudeFt: 1000, rows: takeoffFieldLength_NoRev_Flaps15_1000ft_AntiIceOff },
+                        { altitudeFt: 2000, rows: takeoffFieldLength_NoRev_Flaps15_2000ft_AntiIceOff },
+                        { altitudeFt: 3000, rows: takeoffFieldLength_NoRev_Flaps15_3000ft_AntiIceOff },
+                        { altitudeFt: 4000, rows: takeoffFieldLength_NoRev_Flaps15_4000ft_AntiIceOff },
+                        { altitudeFt: 5000, rows: takeoffFieldLength_NoRev_Flaps15_5000ft_AntiIceOff },
+                        { altitudeFt: 6000, rows: takeoffFieldLength_NoRev_Flaps15_6000ft_AntiIceOff },
+                    ]
+                    : [
+                        { altitudeFt: 0, rows: takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOn },
+                        { altitudeFt: 1000, rows: takeoffFieldLength_NoRev_Flaps15_1000ft_AntiIceOn },
+                        { altitudeFt: 2000, rows: takeoffFieldLength_NoRev_Flaps15_2000ft_AntiIceOn },
+                        { altitudeFt: 3000, rows: takeoffFieldLength_NoRev_Flaps15_3000ft_AntiIceOn },
+                        { altitudeFt: 4000, rows: takeoffFieldLength_NoRev_Flaps15_4000ft_AntiIceOn },
+                        { altitudeFt: 5000, rows: takeoffFieldLength_NoRev_Flaps15_5000ft_AntiIceOn },
+                        { altitudeFt: 6000, rows: takeoffFieldLength_NoRev_Flaps15_6000ft_AntiIceOn },
+                    ]
+                : antiIce === 'OFF'
+                    ? [
+                    { altitudeFt: 0, rows: takeoffFieldLength_Wet_Flaps15_Reversers_SeaLevel_AntiIceOff },
+                    { altitudeFt: 1000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_1000ft_AntiIceOff },
+                    { altitudeFt: 2000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_2000ft_AntiIceOff },
+                    { altitudeFt: 3000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_3000ft_AntiIceOff },
+                    { altitudeFt: 4000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_4000ft_AntiIceOff },
+                    { altitudeFt: 5000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_5000ft_AntiIceOff },
+                    { altitudeFt: 6000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_6000ft_AntiIceOff },
                 ]
-                : [
-                    { altitudeFt: 0, rows: takeoffWithReversers_Wet_flaps15_0ft_AntiIceOn },
-                    { altitudeFt: 1000, rows: takeoffWithReversers_Wet_flaps15_1000ft_AntiIceOn },
-                    { altitudeFt: 2000, rows: takeoffWithReversers_Wet_flaps15_2000ft_AntiIceOn },
-                    { altitudeFt: 3000, rows: takeoffWithReversers_Wet_flaps15_3000ft_AntiIceOn },
-                    { altitudeFt: 4000, rows: takeoffWithReversers_Wet_flaps15_4000ft_AntiIceOn },
-                    { altitudeFt: 5000, rows: takeoffWithReversers_Wet_flaps15_5000ft_AntiIceOn },
-                    { altitudeFt: 6000, rows: takeoffWithReversers_Wet_flaps15_6000ft_AntiIceOn },
+                    : [
+                    { altitudeFt: 0, rows: takeoffFieldLength_Wet_Flaps15_Reversers_SeaLevel_AntiIceOn },
+                    { altitudeFt: 1000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_1000ft_AntiIceOn },
+                    { altitudeFt: 2000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_2000ft_AntiIceOn },
+                    { altitudeFt: 3000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_3000ft_AntiIceOn },
+                    { altitudeFt: 4000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_4000ft_AntiIceOn },
+                    { altitudeFt: 5000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_5000ft_AntiIceOn },
+                    { altitudeFt: 6000, rows: takeoffFieldLength_Wet_Flaps15_Reversers_6000ft_AntiIceOn },
                 ]
             : antiIce === 'OFF'
                 ? [
@@ -546,7 +569,21 @@ function getC56xSecondSegmentClimbGradient({
     const dataByAltitude = new Map();
     data.forEach((altitudeData) => {
         const existing = dataByAltitude.get(altitudeData.altitudeFt) || [];
-        existing.push(...altitudeData.data);
+        const weightTables = altitudeData.data || altitudeData.weights || [];
+        existing.push(...weightTables.map((weightTable) => {
+            if (Array.isArray(weightTable.temperatures)) return weightTable;
+            return {
+                weight: weightTable.weight,
+                temperatures: (weightTable.data || []).map((row) => ({
+                    temp: row.temp,
+                    windMinus10: row.windKnots?.['-10'],
+                    wind0: row.windKnots?.['0'],
+                    wind10: row.windKnots?.['10'],
+                    wind20: row.windKnots?.['20'],
+                    wind30: row.windKnots?.['30'],
+                })),
+            };
+        }));
         dataByAltitude.set(altitudeData.altitudeFt, existing);
     });
     const altitudeTables = [...dataByAltitude.entries()]

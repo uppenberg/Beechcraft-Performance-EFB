@@ -8,6 +8,7 @@
     'takeoff-gradient-wet.js',
     'takeoff-wet-flaps7.js',
     'takeoff-wet-flaps15.js',
+    'takeoff-wet-flaps15-no-reverser.js',
     'takeoff-dry-flaps15.js',
     'climb-flightpath-flaps7.js',
     'climb-gradient-flaps7.js',
