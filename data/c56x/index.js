@@ -14,6 +14,10 @@
     'climb-gradient-flaps7.js',
     'climb-gradient-flaps15-off.js',
     'climb-gradient-flaps15-on.js',
+    'gross-climb-gradient-flaps15-off.js',
+    'gross-climb-gradient-flaps15-on.js',
+    'landing-distance-flaps35.js',
+    'landing-weight-flaps15-35-off.js',
     'calculations.js',
   ];
   const baseUrl = new URL('./', document.currentScript.src);

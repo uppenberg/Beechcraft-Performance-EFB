@@ -1,0 +1,30 @@
+{
+  "format": "landing-distance-f35",
+  "pageCount": 14,
+  "pageAltitudeStepFt": 1000,
+  "maxAltitudeFt": 6000,
+  "pageWeights": [
+    [20000, 18700, 18500, 18000, 17500, 17000],
+    [16500, 16000, 15500, 15000, 14000, 13000]
+  ],
+  "panelBoxes300Dpi": [
+    [180, 890, 1130, 1430],
+    [1150, 890, 2210, 1430],
+    [180, 1510, 1130, 2140],
+    [1150, 1510, 2210, 2140],
+    [180, 2225, 1130, 2860],
+    [1150, 2225, 2210, 2860]
+  ],
+  "rowFirstCenterY300Dpi": [917, 1631, 2346],
+  "rowStep300Dpi": 31,
+  "cellCentersRelative300Dpi": [64, 225, 393, 560, 728, 895],
+  "cellXTolerance300Dpi": 60,
+  "glyphWordGap300Dpi": 14,
+  "rowYTolerance300Dpi": 8,
+  "distanceRangeFt": [1000, 15000],
+  "runwayGradientByFile": {
+    "LD f35_zero.pdf": 0,
+    "LD f35_1dn.pdf": -1,
+    "LD f35_2dn.pdf": -2
+  }
+}

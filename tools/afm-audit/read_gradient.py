@@ -18,7 +18,7 @@ from PIL import Image
 
 
 def parse_value(text, value_range):
-    values = re.findall(r"-?\d+(?:\.\d+)?", text)
+    values = re.findall(r"-?(?:\d+(?:\.\d+)?|\.\d+)", text)
     if len(values) != 1:
         return None
     cleaned = values[0]
@@ -77,17 +77,42 @@ def ocr_band(image, band_top, profile, page_number, altitude, weight_index, page
     return result.stdout.decode("utf-8", errors="replace")
 
 
+def temperatures_for_altitude(profile, altitude):
+    temperatures_by_altitude = profile.get("temperaturesByAltitude")
+    if temperatures_by_altitude is None:
+        return profile["temperatures"]
+    try:
+        return temperatures_by_altitude[str(altitude)]
+    except KeyError as error:
+        raise ValueError(f"Profile has no temperature grid for {altitude} ft") from error
+
+
+def altitude_row_offset(profile, altitude):
+    if "temperaturesByAltitude" not in profile:
+        return (
+            (altitude - profile["_pageBaseAltitude"])
+            * profile["_altitudeBandStep600Dpi"]
+            // profile["altitudeStepFt"]
+        )
+
+    offset_rows = 0
+    for previous_altitude in range(
+        profile["_pageBaseAltitude"], altitude, profile["altitudeStepFt"]
+    ):
+        offset_rows += len(temperatures_for_altitude(profile, previous_altitude))
+    return offset_rows * profile["rowStep600Dpi"]
+
+
 def extract_rows(tsv, profile, x_offset, band_top, altitude, weight_index, page_offset):
     anchors = [
         center + page_offset
         for center in profile["xCenters600Dpi"][weight_index * 5 : weight_index * 5 + 5]
     ]
     tolerance = profile.get("cellXTolerance600Dpi", 70)
-    row_count = len(profile["temperatures"])
+    temperatures = temperatures_for_altitude(profile, altitude)
+    row_count = len(temperatures)
     row_step = profile["rowStep600Dpi"]
-    first_row_y = profile["firstRowY600Dpi"] + (
-        altitude - profile["_pageBaseAltitude"]
-    ) * profile["_altitudeBandStep600Dpi"] // profile["altitudeStepFt"]
+    first_row_y = profile["firstRowY600Dpi"] + altitude_row_offset(profile, altitude)
     cells_by_row = [[None] * 5 for _ in range(row_count)]
     for line in tsv.splitlines()[1:]:
         fields = line.split("\t")
@@ -165,6 +190,8 @@ def main():
         profile = json.load(file)
     if profile.get("format") != "climb-gradient":
         parser.error("The profile format must be 'climb-gradient'")
+    if not profile.get("temperatures") and not profile.get("temperaturesByAltitude"):
+        parser.error("The profile must provide temperatures or temperaturesByAltitude")
 
     document = fitz.open(args.pdf)
     if len(document) != len(profile["pageAltitudes"]):
@@ -172,6 +199,12 @@ def main():
             f"PDF has {len(document)} pages, profile expects "
             f"{len(profile['pageAltitudes'])}"
         )
+    page_altitude_counts = profile.get(
+        "pageAltitudeCounts",
+        [profile["altitudesPerPage"]] * len(profile["pageAltitudes"]),
+    )
+    if len(page_altitude_counts) != len(profile["pageAltitudes"]):
+        parser.error("The profile must provide one pageAltitudeCounts entry per page")
     if len(profile["xCenters600Dpi"]) != len(profile["pageWeights"][0]) * 5:
         parser.error("The profile must provide five wind-column centers per weight")
     if len(profile.get("pageXOffsets600Dpi", [])) != len(profile["pageAltitudes"]):
@@ -206,19 +239,19 @@ def main():
         page_offset = profile["pageXOffsets600Dpi"][page_index]
         pixmap = page.get_pixmap(dpi=600, alpha=False)
         image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
-        for altitude_index in range(profile["altitudesPerPage"]):
+        for altitude_index in range(page_altitude_counts[page_index]):
             altitude = base_altitude + altitude_index * profile["altitudeStepFt"]
             if altitude > args.max_altitude:
                 break
-            band_top = (
-                profile["firstRowY600Dpi"]
-                + altitude_index * profile["altitudeBandStep600Dpi"]
-                - profile["bandTopOffset600Dpi"]
-            )
             band_profile = dict(
                 profile,
                 _pageBaseAltitude=base_altitude,
-                _altitudeBandStep600Dpi=profile["altitudeBandStep600Dpi"],
+                _altitudeBandStep600Dpi=profile.get("altitudeBandStep600Dpi", 0),
+            )
+            band_top = (
+                profile["firstRowY600Dpi"]
+                + altitude_row_offset(band_profile, altitude)
+                - profile["bandTopOffset600Dpi"]
             )
             for weight_index, weight in enumerate(weights):
                 tsv = ocr_band(
@@ -242,7 +275,9 @@ def main():
                     page_offset,
                 )
                 for temperature_index, cells in enumerate(extracted):
-                    temperature = profile["temperatures"][temperature_index]
+                    temperature = temperatures_for_altitude(
+                        profile, altitude
+                    )[temperature_index]
                     weight_table = tables.setdefault(altitude, {}).setdefault(weight, {})
                     wind_values = {}
                     for wind_index, wind in enumerate((-10, 0, 10, 20, 30)):
@@ -294,13 +329,16 @@ def main():
         weights = []
         for weight in sorted(tables[altitude], reverse=True):
             temperatures = []
-            for temp in profile["temperatures"]:
+            for temp in temperatures_for_altitude(profile, altitude):
                 values = tables[altitude][weight].get(temp, {})
                 temperatures.append({"temp": temp, "windKnots": values})
             weights.append({"weight": weight, "data": temperatures})
         altitudes.append({"altitudeFt": altitude, "weights": weights})
 
-    output = "const " + args.const_name + " = " + format_table(altitudes) + ";\n"
+    output = ""
+    if profile.get("candidateOnly"):
+        output += "// OCR_CANDIDATE_NOT_VISUALLY_CERTIFIED; do not use operationally.\n"
+    output += "const " + args.const_name + " = " + format_table(altitudes) + ";\n"
     with open(args.output, "w", encoding="utf-8", newline="\n") as file:
         file.write(output)
     with open(args.output + ".json", "w", encoding="utf-8", newline="\n") as file:

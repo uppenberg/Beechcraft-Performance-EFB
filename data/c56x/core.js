@@ -8,12 +8,12 @@ const factorsRunwayConditionCodesTakeoff = [
 ];
 
 const factorsRunwayConditionCodesLanding = [
-    { code: "6", label: "RCC 6", factor: 1.0 },
-    { code: "5", label: "RCC 5", factor: 1.0 },
-    { code: "4", label: "RCC 4", factor: 1.0 },
-    { code: "3", label: "RCC 3", factor: 1.0 },
-    { code: "2", label: "RCC 2", factor: 1.0 },
-    { code: "1", label: "RCC 1", factor: 1.0 }
+    { code: "6", label: "RCC 6", factor: 1.67 },
+    { code: "5", label: "RCC 5", factor: 2.2 },
+    { code: "4", label: "RCC 4", factor: 2.3 },
+    { code: "3", label: "RCC 3", factor: 2.5 },
+    { code: "2", label: "RCC 2", factor: 2.9 },
+    { code: "1", label: "RCC 1", factor: 3.4 }
 ];
 
 const maxXwindByRCC = [

@@ -160,6 +160,43 @@ Tesseract används endast för första avläsning; granska alltid värdena visue
 Läsaren OCR:ar en viktpanel i taget, och profilen kan ange separata horisontella sidförskjutningar.
 Avläsningar med saknade, oparsade eller lågsäkra celler skrivs till `.todo` och ger statuskod 2.
 
+## Figure 4-43 landing-weight review candidates
+
+For the 56XFM-13 anti-ice-OFF maximum landing-weight tables, the reader below
+renders each requested table and stores OCR output as **unverified review
+candidates**. It does not write runtime data. Check every candidate and raw OCR
+line against the rendered PDF table before transcribing any values.
+
+```bash
+.venv/bin/python tools/afm-audit/read_landing_weight_443.py \
+  "/path/to/Max land weight by climb or brake limits.pdf" \
+  tools/afm-audit/review/figure-4-43-off-0-6000.candidates.json
+```
+
+By default this covers pressure altitudes 0 through 6,000 ft, with approach
+flaps 15°, landing flaps 35°, winds −10 through 30 kt, and runway gradients
+−2%, 0%, 1%, and 2%. `--altitudes 0,1000,2000` narrows the review range.
+The reader now uses 450-dpi table crops and compares Tesseract PSM 11 and 12.
+The candidate JSON retains both token sequences and flags disagreements; OCR
+agreement does not certify the values.
+
+To create a JavaScript review artifact from a complete, dual-OCR candidate:
+
+```bash
+.venv/bin/python tools/afm-audit/import_landing_weight_443.py \
+  tools/afm-audit/review/figure-4-43-off-0-6000.candidates.json \
+  data/c56x/landing-weight-flaps15-35-off.js
+```
+
+The importer checks the 20-column mapping, expected temperature rows, OCR
+agreement, weight range/resolution, and temperature/wind/gradient/altitude
+ordering. Profile-backed manual corrections are recorded in the JS audit
+metadata. The generated JS is included in the C56X data loader and offline
+cache, but remains marked `OCR_CROSS_CHECKED_NOT_VISUALLY_CERTIFIED` with
+`runtimeReady: false`. Treat it as a review artifact and do not use its values
+operationally until every cell has been visually checked against the approved
+AFM.
+
 ```bash
 .venv/bin/python tools/afm-audit/read_gradient.py input.pdf /tmp/climb-on.js \
   --profile tools/afm-audit/profiles/climb-gradient-f7-on.json \
@@ -177,7 +214,9 @@ cells against the AFM, pass a JSON object of corrections keyed by
 `altitudeFt/weight/temp/wind`, for example `{"0/20000/-35/-10": 5.6}`, using
 `--corrections corrections.json`. Unmatched corrections are rejected. For another climb
 gradient chart with the same grid, copy and adjust the profile's page mappings, altitude
-and weight sets, temperature rows, and cell-center calibration.
+and weight sets, temperature rows, and cell-center calibration. Profiles can set
+`pageAltitudeCounts` when the last sheet has fewer altitude blocks, or use
+`temperaturesByAltitude` when each altitude has a different temperature grid.
 
 ### Snabbare nästa gång (ny climb-gradient-PDF)
 
@@ -189,6 +228,72 @@ and weight sets, temperature rows, and cell-center calibration.
 4. `check-gradient-monotonic.js ut.js.json` flaggar orimliga värden (gradient ska inte minska med mer vind,
    lägre vikt eller lägre temperatur; höjd är inte monoton i AFM) – fångar tysta OCR-fel.
 5. `compare-gradient.js datafil.js CONST ut.js.json` jämför mot befintlig datafil.
+
+### Flaps 15 approach gross climb gradient (Figures 4-47*/4-48*)
+
+Separate from the second-segment `climb-gradient-flaps15-*` data. Profiles:
+`profiles/gross-climb-gradient-f15-{on,off}.json`. OFF has a temperature grid
+that varies by altitude (verified from the PDF; 4000 ft = -30..45 + 46,
+13000 ft = -35..25 + 28 – wrong grids shift every later row, so check them first).
+Only 0–6000 ft is imported (`--max-altitude 6000`).
+
+One-command rerun of the whole pipeline (read, apply corrections, syntax check, plausibility check):
+
+```bash
+tools/afm-audit/run_gross_climb_f15.sh /path/to/c56 [max_altitude]
+```
+
+Manual steps:
+
+1. `read_gradient.py PDF OUT.js --profile P.json --const NAME --max-altitude 6000 --corrections review/gross-climb-f15-{on,off}-gap-corrections.json`
+   (exit status 2 = `.todo` not empty, expected). `.js.json`/`.js.todo` sidecars are
+   work files: the script writes them to `tools/afm-audit/out/` (gitignored) and copies only the `.js` to `data/c56x/`.
+2. Tesseract is unreliable here (3/8, lost leading `.`, `.0`->`.O`). Never trust OCR or
+   voting alone: `reocr_gradient_gaps.py` only gives hints for missing cells.
+3. `render_gradient_cells.py --profile P.json --keys keys.json --output-prefix /tmp/x PDF`
+   renders the full 5-wind row for each key (`alt/weight/temp/wind`, list or key->note
+   dict) into review sheets. Read the values visually and add them to the
+   corrections JSON (flat `{ "alt/weight/temp/wind": value }`), then rerun step 1.
+4. `check-gradient-monotonic.js OUT.js CONST` screens for implausible values.
+   Remaining `non-monotonic` entries for 20000 lb at 4000–6000 ft (negative
+   gradients) were checked against the PDF and are correct.
+
+Verified corrections are stored in `review/`; they are keyed by cell and make
+the import reproducible. The files are loaded by `data/c56x/index.js` and cached in `sw.js`.
+
+## C56X Flaps 35 landing-distance charts
+
+`profiles/landing-distance-f35.json` maps the supplied 14-page figures to two weight sheets per altitude, from sea level through 6,000 ft. Use `read_landing_distance.py` to produce a JSON review candidate:
+
+```bash
+.venv/bin/python tools/afm-audit/read_landing_distance.py \
+  "/path/to/LD f35_2dn.pdf" /tmp/landing-2dn.candidate.json
+```
+
+The same reader accepts `LD f35_1dn.pdf` and `LD f35_zero.pdf`. It uses the local glyph-template pipeline and marks its output `GLYPH_CANDIDATE_NOT_VERIFIED`. Every value must be compared with the source charts before being moved into runtime data; cells above the profile's glyph-distance threshold are counted separately.
+
+The JSON candidate is written before the reader exits with status 2 when review
+items are present. This status means manual review is required; it does not mean
+that the candidate file was not created.
+
+To generate a cross-checked JavaScript import from the three Flaps 35
+landing-distance figures, run:
+
+```bash
+.venv/bin/python tools/afm-audit/import_landing_distance.py \
+  --pdf-dir "/path/to/c56-pdfs"
+```
+
+The importer compares matching table panels across Figures 4-44, 4-45, and
+4-46, checks row completeness and wind/gradient ordering, and writes an audit
+JSON alongside `data/c56x/landing-distance-flaps35.js`. OCR agreement is not a
+substitute for visual verification against the approved AFM.
+
+The generated constants cover sea level through 6,000 ft for all 12 weight
+panels on each figure. They are loaded by `data/c56x/index.js`, but remain
+marked `OCR_CROSS_CHECKED_NOT_VISUALLY_CERTIFIED` until every cell is checked
+against the approved PDF. The audit JSON records OCR repairs and differences
+from the glyph-reader candidates.
 
 ## Flaps 7 anti-ice OFF grid layout (4 altitudes per sheet, variable temperature rows)
 
