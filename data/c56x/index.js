@@ -16,6 +16,8 @@
     'climb-gradient-flaps15-on.js',
     'gross-climb-gradient-flaps15-off.js',
     'gross-climb-gradient-flaps15-on.js',
+    'landing-gross-climb-gradient-flaps35-off.js',
+    'landing-gross-climb-gradient-flaps35-on.js',
     'landing-distance-flaps35.js',
     'landing-weight-flaps15-35-off.js',
     'calculations.js',

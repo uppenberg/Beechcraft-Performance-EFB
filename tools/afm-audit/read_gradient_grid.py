@@ -62,7 +62,7 @@ def read_pdf(pdf, sheets, blocks=4):
         m, a, thick, vx, comps = read_sheet(gray)
         edges = [x[1] + 1 for x in vx[2:]]
         tx = (vx[1][1] + 1, vx[2][0])
-        for b in range(blocks):
+        for b in range(blocks or len(thick) - 2):
             y0, y1 = thick[b + 1][1] + 1, thick[b + 2][0]
             sel = [c for c in comps if y0 <= c[1] < y1 and c[0] > tx[0]]
             rows = []
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pdf'); ap.add_argument('out')
     ap.add_argument('--sheets', default='0,1,2,3')
-    ap.add_argument('--blocks', type=int, default=4)
+    ap.add_argument('--blocks', type=int, default=0, help='0 = auto from thick lines')
     A = ap.parse_args()
     r = read_pdf(A.pdf, [int(x) for x in A.sheets.split(',')], A.blocks)
     json.dump(r, open(A.out, 'w'))

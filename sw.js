@@ -24,6 +24,8 @@ const ASSETS = [
   './data/c56x/climb-gradient-flaps15-on.js',
   './data/c56x/gross-climb-gradient-flaps15-off.js',
   './data/c56x/gross-climb-gradient-flaps15-on.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-off.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-on.js',
   './data/c56x/landing-distance-flaps35.js',
   './data/c56x/landing-weight-flaps15-35-off.js',
   './data/c56x/calculations.js',

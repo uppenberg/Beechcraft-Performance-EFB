@@ -295,6 +295,41 @@ marked `OCR_CROSS_CHECKED_NOT_VISUALLY_CERTIFIED` until every cell is checked
 against the approved PDF. The audit JSON records OCR repairs and differences
 from the glyph-reader candidates.
 
+## Raster climb-gradient grids: dot-anchored reader (Flaps 35 landing gross climb, Figures 4-49*/4-50*)
+
+Generic pipeline for any "ALT | TEMP | N weights x 5 wind columns" sheet where all values are `dd.d`
+and the PDF is only a scanned image. Much more reliable than the OCR/word-gap readers above (0 suspect
+cells on 56 k glyphs; the low-margin glyphs were all re-checked visually).
+
+```bash
+tools/afm-audit/run_landing_gross_climb_f35.sh "/path/to/c56"   # whole pipeline, both figures
+```
+
+Steps (each script has a docstring with details):
+
+1. `read_afm_grid.py PDF OUT.json` – renders at 300 dpi, strips ruling lines, finds the thick horizontal lines
+   (altitude blocks, count auto-detected per sheet), clusters the **decimal points** into the 25 value columns and
+   attaches every glyph to the nearest dot. Value digits and the smaller ALT/TEMP digits use separate template sets
+   (`glyph_templates_afm.json`, `glyph_templates_afm_side.json`). Cells that do not match `-?dd.d` or whose glyph
+   distance is above `--maxd` are listed as `suspect`.
+2. `build_grid_js.py OUT.json OUT.js --const NAME --weights "heavy;light"` – numbers altitudes by sequence
+   (sheets 2p/2p+1 share altitudes: even sheet = heavy weights, odd = light), requires the heavy/light temperature
+   columns to agree, rejects null/suspect cells, and writes the `data/c56x` format (`"-10"` wind first).
+   Temperature fixes from a visual check go in `review/*-temp-corrections.json` (`"sheet/block/row": temp`).
+3. `check-gradient-monotonic.js OUT.js CONST` – plausibility screen. The 7 remaining hits in the OFF table
+   (1000 ft, 13000/14000 lb, 15 -> 20 deg C rising by 0.2) were checked against the PDF and are real AFM values.
+
+New PDF of the same family: if the font/scale differs, rebuild templates once with `build_templates.py`:
+`cluster PDFS PREFIX K value|side` writes a montage PNG, label each cluster index in `PREFIX.labels.json`
+(`"?"` for junk such as header letters), then `save PREFIX templates.json`. Use K around 40 for value digits and
+~36 for the side columns: with fewer clusters rare glyphs (6/8) get merged into 3/5 and the reader silently
+misreads them. The last temperature of each block is the usual place to look for that (54, 52, 50 ... 26 here).
+
+Facts for these figures: altitude blocks are in 1000 ft steps from 0 to 14000 ft; OFF has 4/4/4/3 blocks per
+sheet pair and a block-dependent temperature grid (-25..54, ..., -35..26), ON has 6/6/3 blocks with -35..10;
+20000 lb is the emergency-only weight (asterisk). Output files: `data/c56x/landing-gross-climb-gradient-flaps35-{off,on}.js`
+(loaded in `data/c56x/index.js` and cached in `sw.js`).
+
 ## Flaps 7 anti-ice OFF grid layout (4 altitudes per sheet, variable temperature rows)
 
 - `read_gradient_grid.py` splits each row into 25 numbers, but the glyph classifier still confuses `6`/`8` and drops minus signs here. Treat its output as a hint only.
