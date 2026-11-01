@@ -390,7 +390,6 @@ async function init() {
       const c56xPerformance = document.getElementById('c56x-takeoff-performance');
       if (c56xPerformance) c56xPerformance.hidden = false;
       [
-        'card-engine-out',
         'card-emergency-return',
         'takeoff-performance-heading',
         'takeoff-performance-checklist',
@@ -2471,6 +2470,23 @@ function getC56xWetRunwayMassLimit({
   return null;
 }
 
+function updateC56xEngineOutCard(airport) {
+  const card = document.getElementById('card-engine-out');
+  if (!card) return;
+  const cloud = airportCellValue(airport?.['min cloudbase(K6)']);
+  const escape = airportCellValue(airport?.['Routing(L6)']);
+  const hasValue = (value) => value !== null && value !== '-' && value !== 0;
+  safeSetText('res-to-cloud', hasValue(cloud) ? cloud : '-');
+  safeSetText('res-to-escape', hasValue(escape) ? escape : '-');
+  const cloudRow = document.getElementById('row-to-cloud');
+  const escapeRow = document.getElementById('row-to-escape');
+  if (cloudRow) cloudRow.style.display = hasValue(cloud) ? '' : 'none';
+  if (escapeRow) escapeRow.style.display = hasValue(escape) ? '' : 'none';
+  const visible = hasValue(cloud) || hasValue(escape);
+  card.hidden = !visible;
+  card.style.display = visible ? 'block' : 'none';
+}
+
 function updateC56xTakeoffFieldLength() {
   const card = document.getElementById('c56x-takeoff-distance-card');
   if (!card) return;
@@ -2555,6 +2571,7 @@ function updateC56xTakeoffFieldLength() {
   }
 
   const airport = getSelectedAirportRecord('to');
+  updateC56xEngineOutCard(airport);
   if (!airport) {
     setUnavailable('Select an airport and runway to calculate field length.');
     return;
