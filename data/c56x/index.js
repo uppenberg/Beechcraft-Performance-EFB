@@ -21,6 +21,8 @@
     'landing-distance-flaps35.js',
     'landing-weight-flaps15-35-off.js',
     'calculations.js',
+    'landing-weight-flaps15-35-on.js',
+    'landing-calculations.js',
   ];
   const baseUrl = new URL('./', document.currentScript.src);
 

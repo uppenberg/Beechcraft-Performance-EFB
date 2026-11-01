@@ -8,6 +8,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 3500, "zeroWind": 2960, "headwind10": 2800, "headwind20": 2640, "headwind30": 2490 },
           { "temp": -25, "tailwind10": 3550, "zeroWind": 3000, "headwind10": 2840, "headwind20": 2680, "headwind30": 2530 },
@@ -29,6 +31,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 3350, "zeroWind": 2820, "headwind10": 2660, "headwind20": 2510, "headwind30": 2360 },
           { "temp": -25, "tailwind10": 3390, "zeroWind": 2860, "headwind10": 2700, "headwind20": 2550, "headwind30": 2400 },
@@ -50,6 +54,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -25, "tailwind10": 3370, "zeroWind": 2830, "headwind10": 2680, "headwind20": 2520, "headwind30": 2380 },
           { "temp": -20, "tailwind10": 3410, "zeroWind": 2870, "headwind10": 2720, "headwind20": 2560, "headwind30": 2410 },
@@ -71,6 +77,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -25, "tailwind10": 3310, "zeroWind": 2780, "headwind10": 2630, "headwind20": 2470, "headwind30": 2330 },
           { "temp": -20, "tailwind10": 3350, "zeroWind": 2820, "headwind10": 2660, "headwind20": 2510, "headwind30": 2360 },
@@ -92,6 +100,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 3250, "zeroWind": 2730, "headwind10": 2570, "headwind20": 2420, "headwind30": 2270 },
           { "temp": -20, "tailwind10": 3290, "zeroWind": 2760, "headwind10": 2610, "headwind20": 2460, "headwind30": 2310 },
@@ -114,6 +124,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 3200, "zeroWind": 2670, "headwind10": 2520, "headwind20": 2370, "headwind30": 2220 },
           { "temp": -20, "tailwind10": 3230, "zeroWind": 2710, "headwind10": 2550, "headwind20": 2400, "headwind30": 2260 },
@@ -136,6 +148,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3140, "zeroWind": 2620, "headwind10": 2470, "headwind20": 2320, "headwind30": 2170 },
           { "temp": -20, "tailwind10": 3170, "zeroWind": 2650, "headwind10": 2500, "headwind20": 2350, "headwind30": 2210 },
@@ -158,6 +172,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3080, "zeroWind": 2560, "headwind10": 2410, "headwind20": 2270, "headwind30": 2120 },
           { "temp": -20, "tailwind10": 3120, "zeroWind": 2600, "headwind10": 2450, "headwind20": 2300, "headwind30": 2160 },
@@ -180,6 +196,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3020, "zeroWind": 2510, "headwind10": 2360, "headwind20": 2210, "headwind30": 2070 },
           { "temp": -20, "tailwind10": 3050, "zeroWind": 2540, "headwind10": 2390, "headwind20": 2240, "headwind30": 2100 },
@@ -202,6 +220,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 2960, "zeroWind": 2450, "headwind10": 2300, "headwind20": 2160, "headwind30": 2020 },
           { "temp": -20, "tailwind10": 2990, "zeroWind": 2480, "headwind10": 2330, "headwind20": 2190, "headwind30": 2050 },
@@ -224,6 +244,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 2830, "zeroWind": 2330, "headwind10": 2190, "headwind20": 2050, "headwind30": 1910 },
           { "temp": -20, "tailwind10": 2860, "zeroWind": 2360, "headwind10": 2220, "headwind20": 2070, "headwind30": 1940 },
@@ -246,6 +268,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 2710, "zeroWind": 2220, "headwind10": 2080, "headwind20": 1940, "headwind30": 1800 },
           { "temp": -20, "tailwind10": 2740, "zeroWind": 2250, "headwind10": 2100, "headwind20": 1970, "headwind30": 1830 },
@@ -273,6 +297,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 3590, "zeroWind": 3040, "headwind10": 2880, "headwind20": 2720, "headwind30": 2560 },
           { "temp": -25, "tailwind10": 3630, "zeroWind": 3080, "headwind10": 2920, "headwind20": 2760, "headwind30": 2600 },
@@ -294,6 +320,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 3430, "zeroWind": 2890, "headwind10": 2730, "headwind20": 2580, "headwind30": 2430 },
           { "temp": -25, "tailwind10": 3470, "zeroWind": 2930, "headwind10": 2770, "headwind20": 2620, "headwind30": 2470 },
@@ -315,6 +343,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 3410, "zeroWind": 2870, "headwind10": 2710, "headwind20": 2560, "headwind30": 2410 },
           { "temp": -25, "tailwind10": 3450, "zeroWind": 2910, "headwind10": 2750, "headwind20": 2600, "headwind30": 2450 },
@@ -337,6 +367,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 3350, "zeroWind": 2810, "headwind10": 2660, "headwind20": 2510, "headwind30": 2360 },
           { "temp": -25, "tailwind10": 3390, "zeroWind": 2850, "headwind10": 2700, "headwind20": 2540, "headwind30": 2390 },
@@ -359,6 +391,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 3330, "zeroWind": 2800, "headwind10": 2640, "headwind20": 2490, "headwind30": 2340 },
           { "temp": -20, "tailwind10": 3370, "zeroWind": 2830, "headwind10": 2680, "headwind20": 2530, "headwind30": 2380 },
@@ -380,6 +414,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 3270, "zeroWind": 2740, "headwind10": 2590, "headwind20": 2440, "headwind30": 2290 },
           { "temp": -20, "tailwind10": 3310, "zeroWind": 2780, "headwind10": 2620, "headwind20": 2470, "headwind30": 2320 },
@@ -401,6 +437,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3210, "zeroWind": 2690, "headwind10": 2530, "headwind20": 2380, "headwind30": 2240 },
           { "temp": -20, "tailwind10": 3250, "zeroWind": 2720, "headwind10": 2570, "headwind20": 2420, "headwind30": 2270 },
@@ -423,6 +461,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3150, "zeroWind": 2630, "headwind10": 2480, "headwind20": 2330, "headwind30": 2190 },
           { "temp": -20, "tailwind10": 3190, "zeroWind": 2670, "headwind10": 2510, "headwind20": 2360, "headwind30": 2220 },
@@ -445,6 +485,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3090, "zeroWind": 2570, "headwind10": 2420, "headwind20": 2270, "headwind30": 2130 },
           { "temp": -20, "tailwind10": 3120, "zeroWind": 2600, "headwind10": 2450, "headwind20": 2310, "headwind30": 2160 },
@@ -467,6 +509,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 3020, "zeroWind": 2510, "headwind10": 2360, "headwind20": 2220, "headwind30": 2070 },
           { "temp": -20, "tailwind10": 3060, "zeroWind": 2540, "headwind10": 2390, "headwind20": 2250, "headwind30": 2110 },
@@ -489,6 +533,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 2900, "zeroWind": 2390, "headwind10": 2240, "headwind20": 2100, "headwind30": 1960 },
           { "temp": -20, "tailwind10": 2930, "zeroWind": 2420, "headwind10": 2270, "headwind20": 2130, "headwind30": 1990 },
@@ -511,6 +557,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 2770, "zeroWind": 2270, "headwind10": 2130, "headwind20": 1990, "headwind30": 1860 },
           { "temp": -20, "tailwind10": 2800, "zeroWind": 2300, "headwind10": 2160, "headwind20": 2020, "headwind30": 1880 },
@@ -538,6 +586,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 3630, "zeroWind": 3070, "headwind10": 2910, "headwind20": 2750, "headwind30": 2600 },
           { "temp": -30, "tailwind10": 3670, "zeroWind": 3120, "headwind10": 2960, "headwind20": 2800, "headwind30": 2640 },
@@ -559,6 +609,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3470, "zeroWind": 2930, "headwind10": 2770, "headwind20": 2610, "headwind30": 2460 },
           { "temp": -30, "tailwind10": 3510, "zeroWind": 2970, "headwind10": 2810, "headwind20": 2650, "headwind30": 2500 },
@@ -580,6 +632,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 3490, "zeroWind": 2950, "headwind10": 2790, "headwind20": 2630, "headwind30": 2480 },
           { "temp": -25, "tailwind10": 3530, "zeroWind": 2990, "headwind10": 2830, "headwind20": 2670, "headwind30": 2520 },
@@ -601,6 +655,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 3430, "zeroWind": 2890, "headwind10": 2730, "headwind20": 2580, "headwind30": 2430 },
           { "temp": -25, "tailwind10": 3470, "zeroWind": 2930, "headwind10": 2770, "headwind20": 2620, "headwind30": 2460 },
@@ -622,6 +678,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 3370, "zeroWind": 2830, "headwind10": 2680, "headwind20": 2520, "headwind30": 2370 },
           { "temp": -25, "tailwind10": 3410, "zeroWind": 2870, "headwind10": 2710, "headwind20": 2560, "headwind30": 2410 },
@@ -644,6 +702,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 3310, "zeroWind": 2770, "headwind10": 2620, "headwind20": 2470, "headwind30": 2320 },
           { "temp": -25, "tailwind10": 3350, "zeroWind": 2810, "headwind10": 2660, "headwind20": 2500, "headwind30": 2360 },
@@ -666,6 +726,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3290, "zeroWind": 2760, "headwind10": 2600, "headwind20": 2450, "headwind30": 2300 },
           { "temp": -20, "tailwind10": 3330, "zeroWind": 2790, "headwind10": 2640, "headwind20": 2490, "headwind30": 2340 },
@@ -687,6 +749,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3230, "zeroWind": 2700, "headwind10": 2550, "headwind20": 2400, "headwind30": 2250 },
           { "temp": -20, "tailwind10": 3260, "zeroWind": 2740, "headwind10": 2580, "headwind20": 2430, "headwind30": 2280 },
@@ -708,6 +772,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3160, "zeroWind": 2640, "headwind10": 2480, "headwind20": 2340, "headwind30": 2190 },
           { "temp": -20, "tailwind10": 3200, "zeroWind": 2670, "headwind10": 2520, "headwind20": 2370, "headwind30": 2230 },
@@ -729,6 +795,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 3090, "zeroWind": 2580, "headwind10": 2430, "headwind20": 2280, "headwind30": 2130 },
           { "temp": -20, "tailwind10": 3130, "zeroWind": 2610, "headwind10": 2460, "headwind20": 2310, "headwind30": 2170 },
@@ -750,6 +818,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 2960, "zeroWind": 2450, "headwind10": 2300, "headwind20": 2160, "headwind30": 2020 },
           { "temp": -20, "tailwind10": 3000, "zeroWind": 2480, "headwind10": 2340, "headwind20": 2190, "headwind30": 2050 },
@@ -771,6 +841,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 2830, "zeroWind": 2330, "headwind10": 2190, "headwind20": 2050, "headwind30": 1910 },
           { "temp": -20, "tailwind10": 2860, "zeroWind": 2360, "headwind10": 2220, "headwind20": 2080, "headwind30": 1940 },
@@ -797,6 +869,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 3730, "zeroWind": 3170, "headwind10": 3010, "headwind20": 2840, "headwind30": 2690 },
           { "temp": -30, "tailwind10": 3780, "zeroWind": 3220, "headwind10": 3050, "headwind20": 2890, "headwind30": 2730 },
@@ -818,6 +892,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3570, "zeroWind": 3020, "headwind10": 2860, "headwind20": 2700, "headwind30": 2540 },
           { "temp": -30, "tailwind10": 3610, "zeroWind": 3060, "headwind10": 2900, "headwind20": 2740, "headwind30": 2590 },
@@ -839,6 +915,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 3540, "zeroWind": 3000, "headwind10": 2830, "headwind20": 2680, "headwind30": 2520 },
           { "temp": -30, "tailwind10": 3590, "zeroWind": 3040, "headwind10": 2880, "headwind20": 2720, "headwind30": 2560 },
@@ -860,6 +938,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 3480, "zeroWind": 2940, "headwind10": 2780, "headwind20": 2620, "headwind30": 2470 },
           { "temp": -30, "tailwind10": 3530, "zeroWind": 2980, "headwind10": 2820, "headwind20": 2660, "headwind30": 2510 },
@@ -881,6 +961,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 3460, "zeroWind": 2920, "headwind10": 2760, "headwind20": 2610, "headwind30": 2450 },
           { "temp": -25, "tailwind10": 3510, "zeroWind": 2960, "headwind10": 2800, "headwind20": 2640, "headwind30": 2490 },
@@ -902,6 +984,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 3400, "zeroWind": 2860, "headwind10": 2700, "headwind20": 2550, "headwind30": 2400 },
           { "temp": -25, "tailwind10": 3440, "zeroWind": 2900, "headwind10": 2740, "headwind20": 2590, "headwind30": 2440 },
@@ -923,6 +1007,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 3340, "zeroWind": 2800, "headwind10": 2650, "headwind20": 2490, "headwind30": 2350 },
           { "temp": -25, "tailwind10": 3380, "zeroWind": 2840, "headwind10": 2680, "headwind20": 2530, "headwind30": 2380 },
@@ -945,6 +1031,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 3280, "zeroWind": 2750, "headwind10": 2590, "headwind20": 2440, "headwind30": 2290 },
           { "temp": -25, "tailwind10": 3320, "zeroWind": 2780, "headwind10": 2630, "headwind20": 2480, "headwind30": 2330 },
@@ -967,6 +1055,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 3210, "zeroWind": 2680, "headwind10": 2530, "headwind20": 2380, "headwind30": 2230 },
           { "temp": -25, "tailwind10": 3250, "zeroWind": 2720, "headwind10": 2560, "headwind20": 2410, "headwind30": 2270 },
@@ -989,6 +1079,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 3150, "zeroWind": 2620, "headwind10": 2470, "headwind20": 2320, "headwind30": 2180 },
           { "temp": -25, "tailwind10": 3180, "zeroWind": 2660, "headwind10": 2500, "headwind20": 2350, "headwind30": 2210 },
@@ -1011,6 +1103,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 3010, "zeroWind": 2500, "headwind10": 2350, "headwind20": 2200, "headwind30": 2060 },
           { "temp": -25, "tailwind10": 3050, "zeroWind": 2530, "headwind10": 2380, "headwind20": 2230, "headwind30": 2090 },
@@ -1033,6 +1127,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 2880, "zeroWind": 2380, "headwind10": 2230, "headwind20": 2090, "headwind30": 1950 },
           { "temp": -25, "tailwind10": 2910, "zeroWind": 2410, "headwind10": 2260, "headwind20": 2110, "headwind30": 1980 },
@@ -1060,6 +1156,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 3840, "zeroWind": 3270, "headwind10": 3100, "headwind20": 2940, "headwind30": 2780 },
           { "temp": -30, "tailwind10": 3890, "zeroWind": 3320, "headwind10": 3150, "headwind20": 2980, "headwind30": 2820 },
@@ -1080,6 +1178,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3670, "zeroWind": 3110, "headwind10": 2950, "headwind20": 2790, "headwind30": 2630 },
           { "temp": -30, "tailwind10": 3720, "zeroWind": 3160, "headwind10": 2990, "headwind20": 2830, "headwind30": 2670 },
@@ -1100,6 +1200,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 3650, "zeroWind": 3090, "headwind10": 2920, "headwind20": 2770, "headwind30": 2610 },
           { "temp": -30, "tailwind10": 3690, "zeroWind": 3130, "headwind10": 2970, "headwind20": 2810, "headwind30": 2650 },
@@ -1121,6 +1223,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 3580, "zeroWind": 3030, "headwind10": 2870, "headwind20": 2710, "headwind30": 2550 },
           { "temp": -30, "tailwind10": 3630, "zeroWind": 3070, "headwind10": 2910, "headwind20": 2750, "headwind30": 2590 },
@@ -1142,6 +1246,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 3520, "zeroWind": 2970, "headwind10": 2810, "headwind20": 2650, "headwind30": 2500 },
           { "temp": -30, "tailwind10": 3560, "zeroWind": 3010, "headwind10": 2850, "headwind20": 2690, "headwind30": 2540 },
@@ -1164,6 +1270,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 3460, "zeroWind": 2910, "headwind10": 2750, "headwind20": 2590, "headwind30": 2440 },
           { "temp": -30, "tailwind10": 3500, "zeroWind": 2950, "headwind10": 2790, "headwind20": 2630, "headwind30": 2480 },
@@ -1186,6 +1294,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 3430, "zeroWind": 2890, "headwind10": 2730, "headwind20": 2580, "headwind30": 2430 },
           { "temp": -25, "tailwind10": 3480, "zeroWind": 2930, "headwind10": 2770, "headwind20": 2610, "headwind30": 2460 },
@@ -1207,6 +1317,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 3370, "zeroWind": 2830, "headwind10": 2670, "headwind20": 2520, "headwind30": 2370 },
           { "temp": -25, "tailwind10": 3410, "zeroWind": 2870, "headwind10": 2710, "headwind20": 2560, "headwind30": 2410 },
@@ -1228,6 +1340,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 3300, "zeroWind": 2770, "headwind10": 2610, "headwind20": 2460, "headwind30": 2310 },
           { "temp": -25, "tailwind10": 3340, "zeroWind": 2800, "headwind10": 2650, "headwind20": 2490, "headwind30": 2350 },
@@ -1250,6 +1364,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 3240, "zeroWind": 2700, "headwind10": 2550, "headwind20": 2400, "headwind30": 2250 },
           { "temp": -25, "tailwind10": 3270, "zeroWind": 2740, "headwind10": 2580, "headwind20": 2430, "headwind30": 2280 },
@@ -1272,6 +1388,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 3100, "zeroWind": 2580, "headwind10": 2420, "headwind20": 2270, "headwind30": 2130 },
           { "temp": -25, "tailwind10": 3130, "zeroWind": 2610, "headwind10": 2460, "headwind20": 2310, "headwind30": 2160 },
@@ -1294,6 +1412,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 2970, "zeroWind": 2450, "headwind10": 2300, "headwind20": 2160, "headwind30": 2010 },
           { "temp": -25, "tailwind10": 3000, "zeroWind": 2480, "headwind10": 2330, "headwind20": 2190, "headwind30": 2040 },
@@ -1321,6 +1441,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 3950, "zeroWind": 3370, "headwind10": 3200, "headwind20": 3030, "headwind30": 2870 },
           { "temp": -30, "tailwind10": 4000, "zeroWind": 3420, "headwind10": 3250, "headwind20": 3080, "headwind30": 2920 },
@@ -1340,6 +1462,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3780, "zeroWind": 3210, "headwind10": 3040, "headwind20": 2880, "headwind30": 2720 },
           { "temp": -30, "tailwind10": 3820, "zeroWind": 3260, "headwind10": 3090, "headwind20": 2920, "headwind30": 2760 },
@@ -1359,6 +1483,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 3750, "zeroWind": 3180, "headwind10": 3020, "headwind20": 2860, "headwind30": 2700 },
           { "temp": -30, "tailwind10": 3800, "zeroWind": 3230, "headwind10": 3060, "headwind20": 2900, "headwind30": 2740 },
@@ -1379,6 +1505,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 3690, "zeroWind": 3120, "headwind10": 2960, "headwind20": 2800, "headwind30": 2640 },
           { "temp": -30, "tailwind10": 3730, "zeroWind": 3170, "headwind10": 3000, "headwind20": 2840, "headwind30": 2680 },
@@ -1399,6 +1527,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 3620, "zeroWind": 3060, "headwind10": 2900, "headwind20": 2740, "headwind30": 2580 },
           { "temp": -30, "tailwind10": 3670, "zeroWind": 3110, "headwind10": 2940, "headwind20": 2780, "headwind30": 2620 },
@@ -1420,6 +1550,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 3550, "zeroWind": 3000, "headwind10": 2840, "headwind20": 2680, "headwind30": 2530 },
           { "temp": -30, "tailwind10": 3600, "zeroWind": 3040, "headwind10": 2880, "headwind20": 2720, "headwind30": 2570 },
@@ -1441,6 +1573,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 3490, "zeroWind": 2940, "headwind10": 2780, "headwind20": 2620, "headwind30": 2470 },
           { "temp": -30, "tailwind10": 3530, "zeroWind": 2980, "headwind10": 2820, "headwind20": 2660, "headwind30": 2510 },
@@ -1463,6 +1597,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 3430, "zeroWind": 2880, "headwind10": 2720, "headwind20": 2570, "headwind30": 2410 },
           { "temp": -30, "tailwind10": 3470, "zeroWind": 2920, "headwind10": 2760, "headwind20": 2600, "headwind30": 2450 },
@@ -1485,6 +1621,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 3360, "zeroWind": 2820, "headwind10": 2660, "headwind20": 2500, "headwind30": 2350 },
           { "temp": -30, "tailwind10": 3400, "zeroWind": 2860, "headwind10": 2700, "headwind20": 2540, "headwind30": 2390 },
@@ -1507,6 +1645,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 3290, "zeroWind": 2750, "headwind10": 2590, "headwind20": 2440, "headwind30": 2290 },
           { "temp": -30, "tailwind10": 3330, "zeroWind": 2790, "headwind10": 2630, "headwind20": 2480, "headwind30": 2330 },
@@ -1529,6 +1669,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 3150, "zeroWind": 2620, "headwind10": 2470, "headwind20": 2320, "headwind30": 2170 },
           { "temp": -30, "tailwind10": 3190, "zeroWind": 2660, "headwind10": 2500, "headwind20": 2350, "headwind30": 2200 },
@@ -1551,6 +1693,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 3020, "zeroWind": 2500, "headwind10": 2340, "headwind20": 2200, "headwind30": 2050 },
           { "temp": -30, "tailwind10": 3050, "zeroWind": 2530, "headwind10": 2380, "headwind20": 2230, "headwind30": 2090 },
@@ -1578,6 +1722,8 @@ const landingDistanceFlaps35_zeroGradient = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4060, "zeroWind": 3480, "headwind10": 3310, "headwind20": 3140, "headwind30": 2970 },
           { "temp": -30, "tailwind10": 4120, "zeroWind": 3530, "headwind10": 3360, "headwind20": 3190, "headwind30": 3020 },
@@ -1596,6 +1742,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3890, "zeroWind": 3310, "headwind10": 3140, "headwind20": 2980, "headwind30": 2820 },
           { "temp": -30, "tailwind10": 3940, "zeroWind": 3360, "headwind10": 3190, "headwind20": 3020, "headwind30": 2860 },
@@ -1614,6 +1762,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 3860, "zeroWind": 3290, "headwind10": 3120, "headwind20": 2950, "headwind30": 2790 },
           { "temp": -30, "tailwind10": 3910, "zeroWind": 3340, "headwind10": 3170, "headwind20": 3000, "headwind30": 2840 },
@@ -1634,6 +1784,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 3790, "zeroWind": 3230, "headwind10": 3060, "headwind20": 2890, "headwind30": 2730 },
           { "temp": -30, "tailwind10": 3840, "zeroWind": 3270, "headwind10": 3100, "headwind20": 2940, "headwind30": 2780 },
@@ -1654,6 +1806,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 3730, "zeroWind": 3160, "headwind10": 3000, "headwind20": 2830, "headwind30": 2670 },
           { "temp": -30, "tailwind10": 3770, "zeroWind": 3210, "headwind10": 3040, "headwind20": 2880, "headwind30": 2720 },
@@ -1674,6 +1828,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 3660, "zeroWind": 3100, "headwind10": 2930, "headwind20": 2770, "headwind30": 2620 },
           { "temp": -30, "tailwind10": 3710, "zeroWind": 3140, "headwind10": 2980, "headwind20": 2810, "headwind30": 2660 },
@@ -1694,6 +1850,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 3590, "zeroWind": 3040, "headwind10": 2870, "headwind20": 2710, "headwind30": 2560 },
           { "temp": -30, "tailwind10": 3640, "zeroWind": 3080, "headwind10": 2910, "headwind20": 2750, "headwind30": 2600 },
@@ -1715,6 +1873,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 3530, "zeroWind": 2980, "headwind10": 2810, "headwind20": 2650, "headwind30": 2500 },
           { "temp": -30, "tailwind10": 3570, "zeroWind": 3020, "headwind10": 2850, "headwind20": 2690, "headwind30": 2540 },
@@ -1736,6 +1896,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 3460, "zeroWind": 2910, "headwind10": 2750, "headwind20": 2590, "headwind30": 2440 },
           { "temp": -30, "tailwind10": 3500, "zeroWind": 2950, "headwind10": 2790, "headwind20": 2630, "headwind30": 2470 },
@@ -1758,6 +1920,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 3390, "zeroWind": 2840, "headwind10": 2680, "headwind20": 2530, "headwind30": 2370 },
           { "temp": -30, "tailwind10": 3430, "zeroWind": 2880, "headwind10": 2720, "headwind20": 2560, "headwind30": 2410 },
@@ -1780,6 +1944,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 3240, "zeroWind": 2710, "headwind10": 2550, "headwind20": 2400, "headwind30": 2250 },
           { "temp": -30, "tailwind10": 3280, "zeroWind": 2740, "headwind10": 2590, "headwind20": 2430, "headwind30": 2280 },
@@ -1802,6 +1968,8 @@ const landingDistanceFlaps35_zeroGradient = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 3110, "zeroWind": 2580, "headwind10": 2420, "headwind20": 2270, "headwind30": 2130 },
           { "temp": -30, "tailwind10": 3140, "zeroWind": 2610, "headwind10": 2460, "headwind20": 2310, "headwind30": 2160 },
@@ -1834,6 +2002,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 4030, "zeroWind": 3350, "headwind10": 3160, "headwind20": 2980, "headwind30": 2800 },
           { "temp": -25, "tailwind10": 4080, "zeroWind": 3400, "headwind10": 3210, "headwind20": 3020, "headwind30": 2840 },
@@ -1855,6 +2025,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 3850, "zeroWind": 3180, "headwind10": 3000, "headwind20": 2820, "headwind30": 2640 },
           { "temp": -25, "tailwind10": 3900, "zeroWind": 3230, "headwind10": 3040, "headwind20": 2860, "headwind30": 2690 },
@@ -1876,6 +2048,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -25, "tailwind10": 3870, "zeroWind": 3200, "headwind10": 3020, "headwind20": 2840, "headwind30": 2660 },
           { "temp": -20, "tailwind10": 3920, "zeroWind": 3250, "headwind10": 3060, "headwind20": 2880, "headwind30": 2710 },
@@ -1897,6 +2071,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -25, "tailwind10": 3800, "zeroWind": 3140, "headwind10": 2960, "headwind20": 2780, "headwind30": 2600 },
           { "temp": -20, "tailwind10": 3850, "zeroWind": 3190, "headwind10": 3000, "headwind20": 2820, "headwind30": 2650 },
@@ -1918,6 +2094,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 3730, "zeroWind": 3070, "headwind10": 2890, "headwind20": 2720, "headwind30": 2540 },
           { "temp": -20, "tailwind10": 3770, "zeroWind": 3120, "headwind10": 2940, "headwind20": 2760, "headwind30": 2580 },
@@ -1940,6 +2118,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 3660, "zeroWind": 3010, "headwind10": 2830, "headwind20": 2650, "headwind30": 2480 },
           { "temp": -20, "tailwind10": 3700, "zeroWind": 3050, "headwind10": 2870, "headwind20": 2690, "headwind30": 2520 },
@@ -1962,6 +2142,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3590, "zeroWind": 2950, "headwind10": 2770, "headwind20": 2590, "headwind30": 2430 },
           { "temp": -20, "tailwind10": 3630, "zeroWind": 2990, "headwind10": 2810, "headwind20": 2630, "headwind30": 2460 },
@@ -1984,6 +2166,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3520, "zeroWind": 2880, "headwind10": 2710, "headwind20": 2530, "headwind30": 2370 },
           { "temp": -20, "tailwind10": 3560, "zeroWind": 2920, "headwind10": 2750, "headwind20": 2570, "headwind30": 2410 },
@@ -2006,6 +2190,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3440, "zeroWind": 2810, "headwind10": 2640, "headwind20": 2470, "headwind30": 2300 },
           { "temp": -20, "tailwind10": 3490, "zeroWind": 2850, "headwind10": 2680, "headwind20": 2510, "headwind30": 2340 },
@@ -2028,6 +2214,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 3370, "zeroWind": 2750, "headwind10": 2570, "headwind20": 2410, "headwind30": 2240 },
           { "temp": -20, "tailwind10": 3410, "zeroWind": 2780, "headwind10": 2610, "headwind20": 2440, "headwind30": 2280 },
@@ -2050,6 +2238,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 3220, "zeroWind": 2610, "headwind10": 2440, "headwind20": 2280, "headwind30": 2120 },
           { "temp": -20, "tailwind10": 3260, "zeroWind": 2640, "headwind10": 2470, "headwind20": 2310, "headwind30": 2150 },
@@ -2072,6 +2262,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3080, "zeroWind": 2480, "headwind10": 2310, "headwind20": 2150, "headwind30": 2000 },
           { "temp": -20, "tailwind10": 3110, "zeroWind": 2510, "headwind10": 2340, "headwind20": 2180, "headwind30": 2030 },
@@ -2099,6 +2291,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 4130, "zeroWind": 3450, "headwind10": 3250, "headwind20": 3070, "headwind30": 2880 },
           { "temp": -25, "tailwind10": 4190, "zeroWind": 3500, "headwind10": 3300, "headwind20": 3120, "headwind30": 2930 },
@@ -2120,6 +2314,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 3940, "zeroWind": 3270, "headwind10": 3080, "headwind20": 2900, "headwind30": 2720 },
           { "temp": -25, "tailwind10": 4000, "zeroWind": 3320, "headwind10": 3130, "headwind20": 2950, "headwind30": 2770 },
@@ -2141,6 +2337,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 3910, "zeroWind": 3250, "headwind10": 3060, "headwind20": 2880, "headwind30": 2700 },
           { "temp": -25, "tailwind10": 3970, "zeroWind": 3290, "headwind10": 3110, "headwind20": 2920, "headwind30": 2740 },
@@ -2163,6 +2361,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 3840, "zeroWind": 3180, "headwind10": 3000, "headwind20": 2820, "headwind30": 2640 },
           { "temp": -25, "tailwind10": 3890, "zeroWind": 3230, "headwind10": 3040, "headwind20": 2860, "headwind30": 2680 },
@@ -2185,6 +2385,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 3820, "zeroWind": 3160, "headwind10": 2970, "headwind20": 2800, "headwind30": 2620 },
           { "temp": -20, "tailwind10": 3870, "zeroWind": 3210, "headwind10": 3020, "headwind20": 2840, "headwind30": 2660 },
@@ -2206,6 +2408,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 3750, "zeroWind": 3090, "headwind10": 2910, "headwind20": 2730, "headwind30": 2560 },
           { "temp": -20, "tailwind10": 3790, "zeroWind": 3140, "headwind10": 2950, "headwind20": 2770, "headwind30": 2600 },
@@ -2227,6 +2431,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3680, "zeroWind": 3030, "headwind10": 2850, "headwind20": 2670, "headwind30": 2500 },
           { "temp": -20, "tailwind10": 3720, "zeroWind": 3070, "headwind10": 2890, "headwind20": 2710, "headwind30": 2540 },
@@ -2249,6 +2455,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3600, "zeroWind": 2960, "headwind10": 2780, "headwind20": 2610, "headwind30": 2440 },
           { "temp": -20, "tailwind10": 3650, "zeroWind": 3000, "headwind10": 2820, "headwind20": 2650, "headwind30": 2480 },
@@ -2271,6 +2479,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3530, "zeroWind": 2890, "headwind10": 2710, "headwind20": 2540, "headwind30": 2370 },
           { "temp": -20, "tailwind10": 3570, "zeroWind": 2930, "headwind10": 2750, "headwind20": 2580, "headwind30": 2410 },
@@ -2293,6 +2503,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 3450, "zeroWind": 2820, "headwind10": 2650, "headwind20": 2480, "headwind30": 2310 },
           { "temp": -20, "tailwind10": 3490, "zeroWind": 2860, "headwind10": 2680, "headwind20": 2510, "headwind30": 2350 },
@@ -2315,6 +2527,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 3300, "zeroWind": 2680, "headwind10": 2510, "headwind20": 2340, "headwind30": 2180 },
           { "temp": -20, "tailwind10": 3330, "zeroWind": 2720, "headwind10": 2540, "headwind20": 2380, "headwind30": 2210 },
@@ -2337,6 +2551,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3150, "zeroWind": 2540, "headwind10": 2380, "headwind20": 2210, "headwind30": 2060 },
           { "temp": -20, "tailwind10": 3180, "zeroWind": 2580, "headwind10": 2410, "headwind20": 2250, "headwind30": 2090 },
@@ -2364,6 +2580,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4180, "zeroWind": 3490, "headwind10": 3300, "headwind20": 3110, "headwind30": 2920 },
           { "temp": -30, "tailwind10": 4240, "zeroWind": 3540, "headwind10": 3350, "headwind20": 3160, "headwind30": 2980 },
@@ -2385,6 +2603,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 3990, "zeroWind": 3310, "headwind10": 3120, "headwind20": 2940, "headwind30": 2760 },
           { "temp": -30, "tailwind10": 4040, "zeroWind": 3360, "headwind10": 3170, "headwind20": 2990, "headwind30": 2810 },
@@ -2406,6 +2626,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 4010, "zeroWind": 3340, "headwind10": 3150, "headwind20": 2960, "headwind30": 2780 },
           { "temp": -25, "tailwind10": 4070, "zeroWind": 3390, "headwind10": 3200, "headwind20": 3010, "headwind30": 2830 },
@@ -2427,6 +2649,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 3940, "zeroWind": 3270, "headwind10": 3080, "headwind20": 2900, "headwind30": 2720 },
           { "temp": -25, "tailwind10": 3990, "zeroWind": 3320, "headwind10": 3130, "headwind20": 2950, "headwind30": 2770 },
@@ -2448,6 +2672,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 3870, "zeroWind": 3200, "headwind10": 3020, "headwind20": 2830, "headwind30": 2660 },
           { "temp": -25, "tailwind10": 3920, "zeroWind": 3250, "headwind10": 3060, "headwind20": 2880, "headwind30": 2700 },
@@ -2470,6 +2696,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 3790, "zeroWind": 3130, "headwind10": 2950, "headwind20": 2770, "headwind30": 2600 },
           { "temp": -25, "tailwind10": 3840, "zeroWind": 3180, "headwind10": 2990, "headwind20": 2810, "headwind30": 2640 },
@@ -2492,6 +2720,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 3770, "zeroWind": 3110, "headwind10": 2930, "headwind20": 2750, "headwind30": 2580 },
           { "temp": -20, "tailwind10": 3820, "zeroWind": 3160, "headwind10": 2970, "headwind20": 2790, "headwind30": 2620 },
@@ -2513,6 +2743,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 3690, "zeroWind": 3040, "headwind10": 2860, "headwind20": 2690, "headwind30": 2520 },
           { "temp": -20, "tailwind10": 3740, "zeroWind": 3090, "headwind10": 2910, "headwind20": 2730, "headwind30": 2560 },
@@ -2534,6 +2766,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 3610, "zeroWind": 2970, "headwind10": 2790, "headwind20": 2620, "headwind30": 2450 },
           { "temp": -20, "tailwind10": 3660, "zeroWind": 3010, "headwind10": 2830, "headwind20": 2660, "headwind30": 2490 },
@@ -2555,6 +2789,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 3530, "zeroWind": 2900, "headwind10": 2720, "headwind20": 2550, "headwind30": 2380 },
           { "temp": -20, "tailwind10": 3580, "zeroWind": 2940, "headwind10": 2760, "headwind20": 2590, "headwind30": 2420 },
@@ -2576,6 +2812,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 3370, "zeroWind": 2750, "headwind10": 2580, "headwind20": 2410, "headwind30": 2250 },
           { "temp": -20, "tailwind10": 3420, "zeroWind": 2790, "headwind10": 2620, "headwind20": 2450, "headwind30": 2280 },
@@ -2597,6 +2835,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3220, "zeroWind": 2610, "headwind10": 2440, "headwind20": 2280, "headwind30": 2120 },
           { "temp": -20, "tailwind10": 3260, "zeroWind": 2650, "headwind10": 2480, "headwind20": 2310, "headwind30": 2150 },
@@ -2623,6 +2863,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4310, "zeroWind": 3600, "headwind10": 3410, "headwind20": 3210, "headwind30": 3030 },
           { "temp": -30, "tailwind10": 4370, "zeroWind": 3660, "headwind10": 3460, "headwind20": 3270, "headwind30": 3080 },
@@ -2644,6 +2886,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 4110, "zeroWind": 3420, "headwind10": 3230, "headwind20": 3040, "headwind30": 2860 },
           { "temp": -30, "tailwind10": 4160, "zeroWind": 3470, "headwind10": 3280, "headwind20": 3090, "headwind30": 2910 },
@@ -2665,6 +2909,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 4080, "zeroWind": 3390, "headwind10": 3200, "headwind20": 3020, "headwind30": 2840 },
           { "temp": -30, "tailwind10": 4130, "zeroWind": 3450, "headwind10": 3250, "headwind20": 3070, "headwind30": 2880 },
@@ -2686,6 +2932,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 4000, "zeroWind": 3330, "headwind10": 3140, "headwind20": 2950, "headwind30": 2770 },
           { "temp": -30, "tailwind10": 4060, "zeroWind": 3380, "headwind10": 3190, "headwind20": 3000, "headwind30": 2820 },
@@ -2707,6 +2955,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 3980, "zeroWind": 3300, "headwind10": 3120, "headwind20": 2930, "headwind30": 2750 },
           { "temp": -25, "tailwind10": 4030, "zeroWind": 3350, "headwind10": 3160, "headwind20": 2980, "headwind30": 2800 },
@@ -2728,6 +2978,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 3900, "zeroWind": 3240, "headwind10": 3050, "headwind20": 2870, "headwind30": 2690 },
           { "temp": -25, "tailwind10": 3950, "zeroWind": 3280, "headwind10": 3090, "headwind20": 2910, "headwind30": 2730 },
@@ -2749,6 +3001,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 3830, "zeroWind": 3170, "headwind10": 2980, "headwind20": 2800, "headwind30": 2630 },
           { "temp": -25, "tailwind10": 3880, "zeroWind": 3210, "headwind10": 3030, "headwind20": 2840, "headwind30": 2670 },
@@ -2771,6 +3025,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 3760, "zeroWind": 3100, "headwind10": 2910, "headwind20": 2740, "headwind30": 2560 },
           { "temp": -25, "tailwind10": 3800, "zeroWind": 3140, "headwind10": 2960, "headwind20": 2780, "headwind30": 2600 },
@@ -2793,6 +3049,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 3670, "zeroWind": 3020, "headwind10": 2840, "headwind20": 2670, "headwind30": 2490 },
           { "temp": -25, "tailwind10": 3720, "zeroWind": 3070, "headwind10": 2880, "headwind20": 2710, "headwind30": 2530 },
@@ -2815,6 +3073,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 3590, "zeroWind": 2950, "headwind10": 2770, "headwind20": 2600, "headwind30": 2430 },
           { "temp": -25, "tailwind10": 3640, "zeroWind": 2990, "headwind10": 2810, "headwind20": 2640, "headwind30": 2470 },
@@ -2837,6 +3097,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 3430, "zeroWind": 2800, "headwind10": 2630, "headwind20": 2460, "headwind30": 2290 },
           { "temp": -25, "tailwind10": 3470, "zeroWind": 2840, "headwind10": 2660, "headwind20": 2490, "headwind30": 2330 },
@@ -2859,6 +3121,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 3280, "zeroWind": 2660, "headwind10": 2490, "headwind20": 2320, "headwind30": 2160 },
           { "temp": -25, "tailwind10": 3320, "zeroWind": 2700, "headwind10": 2520, "headwind20": 2360, "headwind30": 2190 },
@@ -2886,6 +3150,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4430, "zeroWind": 3720, "headwind10": 3520, "headwind20": 3330, "headwind30": 3140 },
           { "temp": -30, "tailwind10": 4500, "zeroWind": 3780, "headwind10": 3580, "headwind20": 3380, "headwind30": 3190 },
@@ -2906,6 +3172,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 4230, "zeroWind": 3530, "headwind10": 3340, "headwind20": 3150, "headwind30": 2960 },
           { "temp": -30, "tailwind10": 4290, "zeroWind": 3590, "headwind10": 3390, "headwind20": 3200, "headwind30": 3010 },
@@ -2926,6 +3194,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 4200, "zeroWind": 3500, "headwind10": 3310, "headwind20": 3120, "headwind30": 2940 },
           { "temp": -30, "tailwind10": 4260, "zeroWind": 3560, "headwind10": 3360, "headwind20": 3170, "headwind30": 2990 },
@@ -2947,6 +3217,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 4120, "zeroWind": 3430, "headwind10": 3240, "headwind20": 3050, "headwind30": 2870 },
           { "temp": -30, "tailwind10": 4180, "zeroWind": 3490, "headwind10": 3290, "headwind20": 3100, "headwind30": 2920 },
@@ -2968,6 +3240,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 4040, "zeroWind": 3360, "headwind10": 3170, "headwind20": 2990, "headwind30": 2800 },
           { "temp": -30, "tailwind10": 4100, "zeroWind": 3410, "headwind10": 3220, "headwind20": 3030, "headwind30": 2850 },
@@ -2990,6 +3264,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 3970, "zeroWind": 3290, "headwind10": 3100, "headwind20": 2920, "headwind30": 2740 },
           { "temp": -30, "tailwind10": 4020, "zeroWind": 3340, "headwind10": 3150, "headwind20": 2960, "headwind30": 2780 },
@@ -3012,6 +3288,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 3940, "zeroWind": 3270, "headwind10": 3080, "headwind20": 2900, "headwind30": 2720 },
           { "temp": -25, "tailwind10": 3990, "zeroWind": 3320, "headwind10": 3130, "headwind20": 2940, "headwind30": 2760 },
@@ -3033,6 +3311,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 3870, "zeroWind": 3200, "headwind10": 3010, "headwind20": 2830, "headwind30": 2650 },
           { "temp": -25, "tailwind10": 3920, "zeroWind": 3250, "headwind10": 3060, "headwind20": 2880, "headwind30": 2700 },
@@ -3054,6 +3334,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 3780, "zeroWind": 3120, "headwind10": 2940, "headwind20": 2760, "headwind30": 2580 },
           { "temp": -25, "tailwind10": 3830, "zeroWind": 3170, "headwind10": 2980, "headwind20": 2800, "headwind30": 2630 },
@@ -3076,6 +3358,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 3700, "zeroWind": 3050, "headwind10": 2860, "headwind20": 2690, "headwind30": 2510 },
           { "temp": -25, "tailwind10": 3750, "zeroWind": 3090, "headwind10": 2910, "headwind20": 2730, "headwind30": 2550 },
@@ -3098,6 +3382,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 3530, "zeroWind": 2890, "headwind10": 2720, "headwind20": 2540, "headwind30": 2370 },
           { "temp": -25, "tailwind10": 3580, "zeroWind": 2930, "headwind10": 2750, "headwind20": 2580, "headwind30": 2410 },
@@ -3120,6 +3406,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 3370, "zeroWind": 2750, "headwind10": 2570, "headwind20": 2400, "headwind30": 2240 },
           { "temp": -25, "tailwind10": 3410, "zeroWind": 2780, "headwind10": 2610, "headwind20": 2440, "headwind30": 2270 },
@@ -3147,6 +3435,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4570, "zeroWind": 3840, "headwind10": 3640, "headwind20": 3440, "headwind30": 3250 },
           { "temp": -30, "tailwind10": 4630, "zeroWind": 3900, "headwind10": 3700, "headwind20": 3500, "headwind30": 3300 },
@@ -3166,6 +3456,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 4360, "zeroWind": 3650, "headwind10": 3450, "headwind20": 3260, "headwind30": 3070 },
           { "temp": -30, "tailwind10": 4420, "zeroWind": 3700, "headwind10": 3500, "headwind20": 3310, "headwind30": 3120 },
@@ -3185,6 +3477,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 4320, "zeroWind": 3620, "headwind10": 3420, "headwind20": 3230, "headwind30": 3040 },
           { "temp": -30, "tailwind10": 4390, "zeroWind": 3670, "headwind10": 3470, "headwind20": 3280, "headwind30": 3090 },
@@ -3205,6 +3499,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 4250, "zeroWind": 3550, "headwind10": 3350, "headwind20": 3160, "headwind30": 2970 },
           { "temp": -30, "tailwind10": 4310, "zeroWind": 3600, "headwind10": 3400, "headwind20": 3210, "headwind30": 3020 },
@@ -3225,6 +3521,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 4170, "zeroWind": 3470, "headwind10": 3280, "headwind20": 3090, "headwind30": 2900 },
           { "temp": -30, "tailwind10": 4220, "zeroWind": 3520, "headwind10": 3330, "headwind20": 3140, "headwind30": 2950 },
@@ -3246,6 +3544,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 4090, "zeroWind": 3400, "headwind10": 3210, "headwind20": 3020, "headwind30": 2840 },
           { "temp": -30, "tailwind10": 4140, "zeroWind": 3450, "headwind10": 3260, "headwind20": 3070, "headwind30": 2880 },
@@ -3267,6 +3567,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 4010, "zeroWind": 3330, "headwind10": 3140, "headwind20": 2950, "headwind30": 2770 },
           { "temp": -30, "tailwind10": 4060, "zeroWind": 3380, "headwind10": 3180, "headwind20": 3000, "headwind30": 2820 },
@@ -3289,6 +3591,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 3930, "zeroWind": 3260, "headwind10": 3070, "headwind20": 2880, "headwind30": 2710 },
           { "temp": -30, "tailwind10": 3980, "zeroWind": 3300, "headwind10": 3110, "headwind20": 2930, "headwind30": 2750 },
@@ -3311,6 +3615,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 3850, "zeroWind": 3180, "headwind10": 2990, "headwind20": 2810, "headwind30": 2630 },
           { "temp": -30, "tailwind10": 3900, "zeroWind": 3230, "headwind10": 3040, "headwind20": 2850, "headwind30": 2680 },
@@ -3333,6 +3639,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 3760, "zeroWind": 3100, "headwind10": 2920, "headwind20": 2740, "headwind30": 2560 },
           { "temp": -30, "tailwind10": 3810, "zeroWind": 3150, "headwind10": 2960, "headwind20": 2780, "headwind30": 2600 },
@@ -3355,6 +3663,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 3590, "zeroWind": 2950, "headwind10": 2770, "headwind20": 2590, "headwind30": 2420 },
           { "temp": -30, "tailwind10": 3640, "zeroWind": 2990, "headwind10": 2810, "headwind20": 2630, "headwind30": 2460 },
@@ -3377,6 +3687,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 3430, "zeroWind": 2800, "headwind10": 2620, "headwind20": 2450, "headwind30": 2280 },
           { "temp": -30, "tailwind10": 3480, "zeroWind": 2840, "headwind10": 2660, "headwind20": 2490, "headwind30": 2320 },
@@ -3404,6 +3716,8 @@ const landingDistanceFlaps35_down1Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 4710, "zeroWind": 3970, "headwind10": 3760, "headwind20": 3560, "headwind30": 3370 },
           { "temp": -30, "tailwind10": 4780, "zeroWind": 4030, "headwind10": 3830, "headwind20": 3620, "headwind30": 3420 },
@@ -3422,6 +3736,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 4490, "zeroWind": 3770, "headwind10": 3570, "headwind20": 3370, "headwind30": 3180 },
           { "temp": -30, "tailwind10": 4560, "zeroWind": 3830, "headwind10": 3630, "headwind20": 3430, "headwind30": 3230 },
@@ -3440,6 +3756,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 4460, "zeroWind": 3740, "headwind10": 3540, "headwind20": 3340, "headwind30": 3150 },
           { "temp": -30, "tailwind10": 4520, "zeroWind": 3800, "headwind10": 3600, "headwind20": 3400, "headwind30": 3200 },
@@ -3460,6 +3778,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 4380, "zeroWind": 3670, "headwind10": 3470, "headwind20": 3270, "headwind30": 3080 },
           { "temp": -30, "tailwind10": 4440, "zeroWind": 3720, "headwind10": 3520, "headwind20": 3320, "headwind30": 3130 },
@@ -3480,6 +3800,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 4290, "zeroWind": 3590, "headwind10": 3390, "headwind20": 3200, "headwind30": 3010 },
           { "temp": -30, "tailwind10": 4350, "zeroWind": 3640, "headwind10": 3440, "headwind20": 3250, "headwind30": 3060 },
@@ -3500,6 +3822,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 4210, "zeroWind": 3510, "headwind10": 3320, "headwind20": 3130, "headwind30": 2940 },
           { "temp": -30, "tailwind10": 4270, "zeroWind": 3570, "headwind10": 3370, "headwind20": 3180, "headwind30": 2990 },
@@ -3520,6 +3844,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 4130, "zeroWind": 3440, "headwind10": 3250, "headwind20": 3060, "headwind30": 2870 },
           { "temp": -30, "tailwind10": 4190, "zeroWind": 3490, "headwind10": 3300, "headwind20": 3110, "headwind30": 2920 },
@@ -3541,6 +3867,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 4050, "zeroWind": 3370, "headwind10": 3170, "headwind20": 2990, "headwind30": 2810 },
           { "temp": -30, "tailwind10": 4110, "zeroWind": 3420, "headwind10": 3220, "headwind20": 3030, "headwind30": 2850 },
@@ -3562,6 +3890,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 3970, "zeroWind": 3290, "headwind10": 3100, "headwind20": 2910, "headwind30": 2730 },
           { "temp": -30, "tailwind10": 4020, "zeroWind": 3330, "headwind10": 3140, "headwind20": 2960, "headwind30": 2780 },
@@ -3584,6 +3914,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 3880, "zeroWind": 3210, "headwind10": 3020, "headwind20": 2840, "headwind30": 2660 },
           { "temp": -30, "tailwind10": 3930, "zeroWind": 3250, "headwind10": 3060, "headwind20": 2880, "headwind30": 2700 },
@@ -3606,6 +3938,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 3710, "zeroWind": 3050, "headwind10": 2860, "headwind20": 2680, "headwind30": 2510 },
           { "temp": -30, "tailwind10": 3750, "zeroWind": 3090, "headwind10": 2910, "headwind20": 2730, "headwind30": 2550 },
@@ -3628,6 +3962,8 @@ const landingDistanceFlaps35_down1Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 3540, "zeroWind": 2890, "headwind10": 2710, "headwind20": 2540, "headwind30": 2370 },
           { "temp": -30, "tailwind10": 3580, "zeroWind": 2940, "headwind10": 2750, "headwind20": 2580, "headwind30": 2410 },
@@ -3660,6 +3996,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 5040, "zeroWind": 4020, "headwind10": 3760, "headwind20": 3510, "headwind30": 3280 },
           { "temp": -25, "tailwind10": 5130, "zeroWind": 4090, "headwind10": 3830, "headwind20": 3580, "headwind30": 3340 },
@@ -3681,6 +4019,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 4770, "zeroWind": 3790, "headwind10": 3540, "headwind20": 3300, "headwind30": 3080 },
           { "temp": -25, "tailwind10": 4850, "zeroWind": 3850, "headwind10": 3600, "headwind20": 3370, "headwind30": 3140 },
@@ -3702,6 +4042,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -25, "tailwind10": 4800, "zeroWind": 3820, "headwind10": 3570, "headwind20": 3330, "headwind30": 3100 },
           { "temp": -20, "tailwind10": 4880, "zeroWind": 3880, "headwind10": 3630, "headwind20": 3390, "headwind30": 3160 },
@@ -3723,6 +4065,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -25, "tailwind10": 4700, "zeroWind": 3730, "headwind10": 3490, "headwind20": 3250, "headwind30": 3030 },
           { "temp": -20, "tailwind10": 4780, "zeroWind": 3800, "headwind10": 3550, "headwind20": 3310, "headwind30": 3080 },
@@ -3744,6 +4088,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 4600, "zeroWind": 3640, "headwind10": 3400, "headwind20": 3170, "headwind30": 2950 },
           { "temp": -20, "tailwind10": 4670, "zeroWind": 3710, "headwind10": 3460, "headwind20": 3230, "headwind30": 3000 },
@@ -3766,6 +4112,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 4490, "zeroWind": 3560, "headwind10": 3320, "headwind20": 3090, "headwind30": 2880 },
           { "temp": -20, "tailwind10": 4560, "zeroWind": 3620, "headwind10": 3380, "headwind20": 3150, "headwind30": 2930 },
@@ -3788,6 +4136,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 4390, "zeroWind": 3470, "headwind10": 3240, "headwind20": 3020, "headwind30": 2800 },
           { "temp": -20, "tailwind10": 4460, "zeroWind": 3530, "headwind10": 3290, "headwind20": 3070, "headwind30": 2850 },
@@ -3810,6 +4160,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 4300, "zeroWind": 3390, "headwind10": 3160, "headwind20": 2940, "headwind30": 2730 },
           { "temp": -20, "tailwind10": 4360, "zeroWind": 3440, "headwind10": 3210, "headwind20": 2990, "headwind30": 2780 },
@@ -3832,6 +4184,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 4190, "zeroWind": 3300, "headwind10": 3070, "headwind20": 2860, "headwind30": 2650 },
           { "temp": -20, "tailwind10": 4250, "zeroWind": 3350, "headwind10": 3120, "headwind20": 2900, "headwind30": 2690 },
@@ -3854,6 +4208,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 4090, "zeroWind": 3210, "headwind10": 2990, "headwind20": 2770, "headwind30": 2570 },
           { "temp": -20, "tailwind10": 4140, "zeroWind": 3260, "headwind10": 3040, "headwind20": 2820, "headwind30": 2620 },
@@ -3876,6 +4232,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 3880, "zeroWind": 3030, "headwind10": 2820, "headwind20": 2610, "headwind30": 2410 },
           { "temp": -20, "tailwind10": 3930, "zeroWind": 3080, "headwind10": 2860, "headwind20": 2650, "headwind30": 2460 },
@@ -3898,6 +4256,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3680, "zeroWind": 2860, "headwind10": 2660, "headwind20": 2460, "headwind30": 2270 },
           { "temp": -20, "tailwind10": 3730, "zeroWind": 2910, "headwind10": 2700, "headwind20": 2500, "headwind30": 2300 },
@@ -3925,6 +4285,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -30, "tailwind10": 5200, "zeroWind": 4150, "headwind10": 3890, "headwind20": 3640, "headwind30": 3390 },
           { "temp": -25, "tailwind10": 5290, "zeroWind": 4220, "headwind10": 3960, "headwind20": 3700, "headwind30": 3460 },
@@ -3946,6 +4308,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -30, "tailwind10": 4910, "zeroWind": 3910, "headwind10": 3660, "headwind20": 3420, "headwind30": 3180 },
           { "temp": -25, "tailwind10": 4990, "zeroWind": 3980, "headwind10": 3720, "headwind20": 3480, "headwind30": 3240 },
@@ -3967,6 +4331,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 4870, "zeroWind": 3880, "headwind10": 3620, "headwind20": 3380, "headwind30": 3150 },
           { "temp": -25, "tailwind10": 4950, "zeroWind": 3940, "headwind10": 3690, "headwind20": 3450, "headwind30": 3210 },
@@ -3989,6 +4355,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 4770, "zeroWind": 3790, "headwind10": 3540, "headwind20": 3300, "headwind30": 3080 },
           { "temp": -25, "tailwind10": 4840, "zeroWind": 3850, "headwind10": 3600, "headwind20": 3360, "headwind30": 3130 },
@@ -4011,6 +4379,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -25, "tailwind10": 4730, "zeroWind": 3760, "headwind10": 3510, "headwind20": 3280, "headwind30": 3050 },
           { "temp": -20, "tailwind10": 4810, "zeroWind": 3820, "headwind10": 3570, "headwind20": 3340, "headwind30": 3110 },
@@ -4032,6 +4402,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -25, "tailwind10": 4630, "zeroWind": 3670, "headwind10": 3430, "headwind20": 3200, "headwind30": 2970 },
           { "temp": -20, "tailwind10": 4700, "zeroWind": 3730, "headwind10": 3490, "headwind20": 3250, "headwind30": 3030 },
@@ -4053,6 +4425,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 4520, "zeroWind": 3580, "headwind10": 3340, "headwind20": 3110, "headwind30": 2900 },
           { "temp": -20, "tailwind10": 4590, "zeroWind": 3640, "headwind10": 3400, "headwind20": 3170, "headwind30": 2950 },
@@ -4075,6 +4449,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 4420, "zeroWind": 3500, "headwind10": 3260, "headwind20": 3040, "headwind30": 2820 },
           { "temp": -20, "tailwind10": 4490, "zeroWind": 3550, "headwind10": 3310, "headwind20": 3090, "headwind30": 2870 },
@@ -4097,6 +4473,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 4310, "zeroWind": 3400, "headwind10": 3170, "headwind20": 2950, "headwind30": 2740 },
           { "temp": -20, "tailwind10": 4370, "zeroWind": 3460, "headwind10": 3220, "headwind20": 3000, "headwind30": 2790 },
@@ -4119,6 +4497,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 4200, "zeroWind": 3310, "headwind10": 3080, "headwind20": 2860, "headwind30": 2660 },
           { "temp": -20, "tailwind10": 4260, "zeroWind": 3360, "headwind10": 3130, "headwind20": 2910, "headwind30": 2700 },
@@ -4141,6 +4521,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 3980, "zeroWind": 3120, "headwind10": 2910, "headwind20": 2700, "headwind30": 2490 },
           { "temp": -20, "tailwind10": 4040, "zeroWind": 3170, "headwind10": 2950, "headwind20": 2740, "headwind30": 2540 },
@@ -4163,6 +4545,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3780, "zeroWind": 2950, "headwind10": 2740, "headwind20": 2530, "headwind30": 2340 },
           { "temp": -20, "tailwind10": 3830, "zeroWind": 2990, "headwind10": 2780, "headwind20": 2570, "headwind30": 2380 },
@@ -4190,6 +4574,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 5270, "zeroWind": 4210, "headwind10": 3950, "headwind20": 3690, "headwind30": 3450 },
           { "temp": -30, "tailwind10": 5360, "zeroWind": 4290, "headwind10": 4020, "headwind20": 3760, "headwind30": 3520 },
@@ -4211,6 +4597,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 4980, "zeroWind": 3970, "headwind10": 3710, "headwind20": 3470, "headwind30": 3230 },
           { "temp": -30, "tailwind10": 5070, "zeroWind": 4040, "headwind10": 3780, "headwind20": 3530, "headwind30": 3300 },
@@ -4232,6 +4620,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -30, "tailwind10": 5020, "zeroWind": 4000, "headwind10": 3740, "headwind20": 3500, "headwind30": 3260 },
           { "temp": -25, "tailwind10": 5100, "zeroWind": 4070, "headwind10": 3810, "headwind20": 3560, "headwind30": 3330 },
@@ -4253,6 +4643,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -30, "tailwind10": 4910, "zeroWind": 3910, "headwind10": 3660, "headwind20": 3410, "headwind30": 3180 },
           { "temp": -25, "tailwind10": 4990, "zeroWind": 3980, "headwind10": 3720, "headwind20": 3480, "headwind30": 3240 },
@@ -4274,6 +4666,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 4800, "zeroWind": 3820, "headwind10": 3570, "headwind20": 3330, "headwind30": 3100 },
           { "temp": -25, "tailwind10": 4880, "zeroWind": 3880, "headwind10": 3630, "headwind20": 3390, "headwind30": 3160 },
@@ -4296,6 +4690,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 4690, "zeroWind": 3720, "headwind10": 3480, "headwind20": 3250, "headwind30": 3020 },
           { "temp": -25, "tailwind10": 4770, "zeroWind": 3790, "headwind10": 3540, "headwind20": 3300, "headwind30": 3080 },
@@ -4318,6 +4714,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -25, "tailwind10": 4660, "zeroWind": 3700, "headwind10": 3450, "headwind20": 3220, "headwind30": 3000 },
           { "temp": -20, "tailwind10": 4730, "zeroWind": 3760, "headwind10": 3510, "headwind20": 3280, "headwind30": 3050 },
@@ -4339,6 +4737,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -25, "tailwind10": 4550, "zeroWind": 3610, "headwind10": 3370, "headwind20": 3140, "headwind30": 2920 },
           { "temp": -20, "tailwind10": 4620, "zeroWind": 3670, "headwind10": 3420, "headwind20": 3190, "headwind30": 2970 },
@@ -4360,6 +4760,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -25, "tailwind10": 4430, "zeroWind": 3510, "headwind10": 3270, "headwind20": 3050, "headwind30": 2830 },
           { "temp": -20, "tailwind10": 4500, "zeroWind": 3560, "headwind10": 3330, "headwind20": 3100, "headwind30": 2880 },
@@ -4381,6 +4783,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -25, "tailwind10": 4320, "zeroWind": 3410, "headwind10": 3180, "headwind20": 2960, "headwind30": 2750 },
           { "temp": -20, "tailwind10": 4390, "zeroWind": 3470, "headwind10": 3230, "headwind20": 3010, "headwind30": 2800 },
@@ -4402,6 +4806,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -25, "tailwind10": 4090, "zeroWind": 3220, "headwind10": 3000, "headwind20": 2780, "headwind30": 2580 },
           { "temp": -20, "tailwind10": 4160, "zeroWind": 3270, "headwind10": 3050, "headwind20": 2830, "headwind30": 2620 },
@@ -4423,6 +4829,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -25, "tailwind10": 3880, "zeroWind": 3040, "headwind10": 2820, "headwind20": 2610, "headwind30": 2420 },
           { "temp": -20, "tailwind10": 3940, "zeroWind": 3080, "headwind10": 2870, "headwind20": 2660, "headwind30": 2460 },
@@ -4449,6 +4857,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 5460, "zeroWind": 4370, "headwind10": 4090, "headwind20": 3830, "headwind30": 3580 },
           { "temp": -30, "tailwind10": 5550, "zeroWind": 4450, "headwind10": 4170, "headwind20": 3910, "headwind30": 3650 },
@@ -4470,6 +4880,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 5150, "zeroWind": 4110, "headwind10": 3850, "headwind20": 3600, "headwind30": 3360 },
           { "temp": -30, "tailwind10": 5240, "zeroWind": 4190, "headwind10": 3920, "headwind20": 3670, "headwind30": 3430 },
@@ -4491,6 +4903,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 5110, "zeroWind": 4070, "headwind10": 3810, "headwind20": 3570, "headwind30": 3330 },
           { "temp": -30, "tailwind10": 5200, "zeroWind": 4150, "headwind10": 3880, "headwind20": 3630, "headwind30": 3390 },
@@ -4512,6 +4926,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 5000, "zeroWind": 3980, "headwind10": 3730, "headwind20": 3480, "headwind30": 3250 },
           { "temp": -30, "tailwind10": 5080, "zeroWind": 4050, "headwind10": 3790, "headwind20": 3540, "headwind30": 3310 },
@@ -4533,6 +4949,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -30, "tailwind10": 4970, "zeroWind": 3950, "headwind10": 3700, "headwind20": 3460, "headwind30": 3220 },
           { "temp": -25, "tailwind10": 5050, "zeroWind": 4020, "headwind10": 3760, "headwind20": 3520, "headwind30": 3280 },
@@ -4554,6 +4972,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -30, "tailwind10": 4850, "zeroWind": 3860, "headwind10": 3610, "headwind20": 3370, "headwind30": 3140 },
           { "temp": -25, "tailwind10": 4930, "zeroWind": 3920, "headwind10": 3670, "headwind20": 3430, "headwind30": 3200 },
@@ -4575,6 +4995,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 4740, "zeroWind": 3770, "headwind10": 3520, "headwind20": 3280, "headwind30": 3060 },
           { "temp": -25, "tailwind10": 4820, "zeroWind": 3830, "headwind10": 3580, "headwind20": 3340, "headwind30": 3110 },
@@ -4597,6 +5019,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 4630, "zeroWind": 3670, "headwind10": 3430, "headwind20": 3200, "headwind30": 2980 },
           { "temp": -25, "tailwind10": 4710, "zeroWind": 3740, "headwind10": 3490, "headwind20": 3250, "headwind30": 3030 },
@@ -4619,6 +5043,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 4510, "zeroWind": 3570, "headwind10": 3340, "headwind20": 3110, "headwind30": 2890 },
           { "temp": -25, "tailwind10": 4580, "zeroWind": 3630, "headwind10": 3390, "headwind20": 3160, "headwind30": 2940 },
@@ -4641,6 +5067,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 4400, "zeroWind": 3480, "headwind10": 3240, "headwind20": 3020, "headwind30": 2800 },
           { "temp": -25, "tailwind10": 4470, "zeroWind": 3530, "headwind10": 3300, "headwind20": 3070, "headwind30": 2850 },
@@ -4663,6 +5091,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 4170, "zeroWind": 3280, "headwind10": 3060, "headwind20": 2840, "headwind30": 2630 },
           { "temp": -25, "tailwind10": 4230, "zeroWind": 3330, "headwind10": 3110, "headwind20": 2890, "headwind30": 2680 },
@@ -4685,6 +5115,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 3950, "zeroWind": 3100, "headwind10": 2880, "headwind20": 2670, "headwind30": 2470 },
           { "temp": -25, "tailwind10": 4010, "zeroWind": 3140, "headwind10": 2920, "headwind20": 2710, "headwind30": 2510 },
@@ -4712,6 +5144,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 5650, "zeroWind": 4530, "headwind10": 4250, "headwind20": 3980, "headwind30": 3720 },
           { "temp": -30, "tailwind10": 5750, "zeroWind": 4610, "headwind10": 4330, "headwind20": 4060, "headwind30": 3800 },
@@ -4732,6 +5166,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 5330, "zeroWind": 4260, "headwind10": 3990, "headwind20": 3740, "headwind30": 3490 },
           { "temp": -30, "tailwind10": 5430, "zeroWind": 4340, "headwind10": 4070, "headwind20": 3810, "headwind30": 3560 },
@@ -4752,6 +5188,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 5290, "zeroWind": 4220, "headwind10": 3960, "headwind20": 3700, "headwind30": 3460 },
           { "temp": -30, "tailwind10": 5380, "zeroWind": 4300, "headwind10": 4030, "headwind20": 3770, "headwind30": 3520 },
@@ -4773,6 +5211,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 5170, "zeroWind": 4130, "headwind10": 3860, "headwind20": 3610, "headwind30": 3370 },
           { "temp": -30, "tailwind10": 5260, "zeroWind": 4200, "headwind10": 3930, "headwind20": 3680, "headwind30": 3440 },
@@ -4794,6 +5234,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 5050, "zeroWind": 4030, "headwind10": 3770, "headwind20": 3520, "headwind30": 3290 },
           { "temp": -30, "tailwind10": 5140, "zeroWind": 4100, "headwind10": 3840, "headwind20": 3590, "headwind30": 3350 },
@@ -4816,6 +5258,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 4940, "zeroWind": 3930, "headwind10": 3680, "headwind20": 3430, "headwind30": 3200 },
           { "temp": -30, "tailwind10": 5020, "zeroWind": 4000, "headwind10": 3740, "headwind20": 3500, "headwind30": 3260 },
@@ -4838,6 +5282,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -30, "tailwind10": 4900, "zeroWind": 3900, "headwind10": 3650, "headwind20": 3410, "headwind30": 3180 },
           { "temp": -25, "tailwind10": 4980, "zeroWind": 3970, "headwind10": 3710, "headwind20": 3470, "headwind30": 3230 },
@@ -4859,6 +5305,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -30, "tailwind10": 4790, "zeroWind": 3810, "headwind10": 3560, "headwind20": 3320, "headwind30": 3090 },
           { "temp": -25, "tailwind10": 4870, "zeroWind": 3870, "headwind10": 3620, "headwind20": 3380, "headwind30": 3150 },
@@ -4880,6 +5328,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -30, "tailwind10": 4670, "zeroWind": 3700, "headwind10": 3460, "headwind20": 3220, "headwind30": 3000 },
           { "temp": -25, "tailwind10": 4740, "zeroWind": 3760, "headwind10": 3520, "headwind20": 3280, "headwind30": 3050 },
@@ -4902,6 +5352,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -30, "tailwind10": 4550, "zeroWind": 3600, "headwind10": 3360, "headwind20": 3130, "headwind30": 2910 },
           { "temp": -25, "tailwind10": 4620, "zeroWind": 3660, "headwind10": 3420, "headwind20": 3190, "headwind30": 2960 },
@@ -4924,6 +5376,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -30, "tailwind10": 4310, "zeroWind": 3400, "headwind10": 3170, "headwind20": 2950, "headwind30": 2730 },
           { "temp": -25, "tailwind10": 4370, "zeroWind": 3450, "headwind10": 3220, "headwind20": 3000, "headwind30": 2780 },
@@ -4946,6 +5400,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -30, "tailwind10": 4080, "zeroWind": 3210, "headwind10": 2980, "headwind20": 2770, "headwind30": 2560 },
           { "temp": -25, "tailwind10": 4140, "zeroWind": 3260, "headwind10": 3030, "headwind20": 2810, "headwind30": 2610 },
@@ -4973,6 +5429,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 5860, "zeroWind": 4700, "headwind10": 4410, "headwind20": 4140, "headwind30": 3870 },
           { "temp": -30, "tailwind10": 5960, "zeroWind": 4790, "headwind10": 4500, "headwind20": 4220, "headwind30": 3950 },
@@ -4992,6 +5450,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 5520, "zeroWind": 4420, "headwind10": 4150, "headwind20": 3880, "headwind30": 3630 },
           { "temp": -30, "tailwind10": 5620, "zeroWind": 4500, "headwind10": 4220, "headwind20": 3960, "headwind30": 3700 },
@@ -5011,6 +5471,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 5480, "zeroWind": 4380, "headwind10": 4110, "headwind20": 3840, "headwind30": 3590 },
           { "temp": -30, "tailwind10": 5570, "zeroWind": 4460, "headwind10": 4180, "headwind20": 3920, "headwind30": 3660 },
@@ -5031,6 +5493,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 5350, "zeroWind": 4280, "headwind10": 4010, "headwind20": 3750, "headwind30": 3510 },
           { "temp": -30, "tailwind10": 5450, "zeroWind": 4360, "headwind10": 4080, "headwind20": 3820, "headwind30": 3570 },
@@ -5051,6 +5515,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 5230, "zeroWind": 4180, "headwind10": 3910, "headwind20": 3660, "headwind30": 3410 },
           { "temp": -30, "tailwind10": 5320, "zeroWind": 4250, "headwind10": 3980, "headwind20": 3730, "headwind30": 3480 },
@@ -5072,6 +5538,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 5110, "zeroWind": 4080, "headwind10": 3810, "headwind20": 3560, "headwind30": 3330 },
           { "temp": -30, "tailwind10": 5200, "zeroWind": 4150, "headwind10": 3880, "headwind20": 3630, "headwind30": 3390 },
@@ -5093,6 +5561,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 4990, "zeroWind": 3980, "headwind10": 3720, "headwind20": 3470, "headwind30": 3240 },
           { "temp": -30, "tailwind10": 5080, "zeroWind": 4050, "headwind10": 3790, "headwind20": 3540, "headwind30": 3300 },
@@ -5115,6 +5585,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 4880, "zeroWind": 3880, "headwind10": 3630, "headwind20": 3390, "headwind30": 3150 },
           { "temp": -30, "tailwind10": 4960, "zeroWind": 3950, "headwind10": 3690, "headwind20": 3450, "headwind30": 3210 },
@@ -5137,6 +5609,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 4750, "zeroWind": 3770, "headwind10": 3530, "headwind20": 3290, "headwind30": 3060 },
           { "temp": -30, "tailwind10": 4830, "zeroWind": 3840, "headwind10": 3590, "headwind20": 3350, "headwind30": 3120 },
@@ -5159,6 +5633,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 4630, "zeroWind": 3670, "headwind10": 3430, "headwind20": 3190, "headwind30": 2970 },
           { "temp": -30, "tailwind10": 4700, "zeroWind": 3730, "headwind10": 3490, "headwind20": 3250, "headwind30": 3030 },
@@ -5181,6 +5657,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 4390, "zeroWind": 3470, "headwind10": 3230, "headwind20": 3010, "headwind30": 2790 },
           { "temp": -30, "tailwind10": 4460, "zeroWind": 3520, "headwind10": 3290, "headwind20": 3060, "headwind30": 2840 },
@@ -5203,6 +5681,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 4160, "zeroWind": 3270, "headwind10": 3040, "headwind20": 2830, "headwind30": 2620 },
           { "temp": -30, "tailwind10": 4220, "zeroWind": 3320, "headwind10": 3090, "headwind20": 2870, "headwind30": 2660 },
@@ -5230,6 +5710,8 @@ const landingDistanceFlaps35_down2Percent = [
     "weights": [
       {
         "weight": 20000,
+        "vref": 121,
+        "vapp": 128,
         "data": [
           { "temp": -35, "tailwind10": 6080, "zeroWind": 4880, "headwind10": 4580, "headwind20": 4300, "headwind30": 4030 },
           { "temp": -30, "tailwind10": 6190, "zeroWind": 4970, "headwind10": 4670, "headwind20": 4390, "headwind30": 4110 },
@@ -5248,6 +5730,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18700,
+        "vref": 117,
+        "vapp": 124,
         "data": [
           { "temp": -35, "tailwind10": 5730, "zeroWind": 4590, "headwind10": 4310, "headwind20": 4040, "headwind30": 3780 },
           { "temp": -30, "tailwind10": 5830, "zeroWind": 4680, "headwind10": 4390, "headwind20": 4110, "headwind30": 3850 },
@@ -5266,6 +5750,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18500,
+        "vref": 117,
+        "vapp": 123,
         "data": [
           { "temp": -35, "tailwind10": 5680, "zeroWind": 4550, "headwind10": 4270, "headwind20": 4000, "headwind30": 3740 },
           { "temp": -30, "tailwind10": 5780, "zeroWind": 4630, "headwind10": 4350, "headwind20": 4070, "headwind30": 3810 },
@@ -5286,6 +5772,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 18000,
+        "vref": 115,
+        "vapp": 122,
         "data": [
           { "temp": -35, "tailwind10": 5550, "zeroWind": 4440, "headwind10": 4170, "headwind20": 3900, "headwind30": 3650 },
           { "temp": -30, "tailwind10": 5650, "zeroWind": 4520, "headwind10": 4240, "headwind20": 3970, "headwind30": 3720 },
@@ -5306,6 +5794,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17500,
+        "vref": 114,
+        "vapp": 120,
         "data": [
           { "temp": -35, "tailwind10": 5420, "zeroWind": 4340, "headwind10": 4060, "headwind20": 3800, "headwind30": 3550 },
           { "temp": -30, "tailwind10": 5510, "zeroWind": 4410, "headwind10": 4140, "headwind20": 3870, "headwind30": 3620 },
@@ -5326,6 +5816,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 17000,
+        "vref": 112,
+        "vapp": 118,
         "data": [
           { "temp": -35, "tailwind10": 5290, "zeroWind": 4230, "headwind10": 3960, "headwind20": 3710, "headwind30": 3460 },
           { "temp": -30, "tailwind10": 5390, "zeroWind": 4310, "headwind10": 4030, "headwind20": 3770, "headwind30": 3530 },
@@ -5346,6 +5838,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16500,
+        "vref": 111,
+        "vapp": 117,
         "data": [
           { "temp": -35, "tailwind10": 5170, "zeroWind": 4130, "headwind10": 3860, "headwind20": 3610, "headwind30": 3370 },
           { "temp": -30, "tailwind10": 5260, "zeroWind": 4200, "headwind10": 3930, "headwind20": 3680, "headwind30": 3430 },
@@ -5367,6 +5861,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 16000,
+        "vref": 109,
+        "vapp": 115,
         "data": [
           { "temp": -35, "tailwind10": 5050, "zeroWind": 4030, "headwind10": 3770, "headwind20": 3520, "headwind30": 3280 },
           { "temp": -30, "tailwind10": 5140, "zeroWind": 4100, "headwind10": 3830, "headwind20": 3580, "headwind30": 3340 },
@@ -5388,6 +5884,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15500,
+        "vref": 107,
+        "vapp": 113,
         "data": [
           { "temp": -35, "tailwind10": 4920, "zeroWind": 3920, "headwind10": 3660, "headwind20": 3420, "headwind30": 3180 },
           { "temp": -30, "tailwind10": 5000, "zeroWind": 3980, "headwind10": 3730, "headwind20": 3480, "headwind30": 3240 },
@@ -5410,6 +5908,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 15000,
+        "vref": 106,
+        "vapp": 111,
         "data": [
           { "temp": -35, "tailwind10": 4790, "zeroWind": 3810, "headwind10": 3560, "headwind20": 3320, "headwind30": 3090 },
           { "temp": -30, "tailwind10": 4870, "zeroWind": 3870, "headwind10": 3620, "headwind20": 3380, "headwind30": 3150 },
@@ -5432,6 +5932,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 14000,
+        "vref": 102,
+        "vapp": 108,
         "data": [
           { "temp": -35, "tailwind10": 4540, "zeroWind": 3590, "headwind10": 3350, "headwind20": 3120, "headwind30": 2900 },
           { "temp": -30, "tailwind10": 4610, "zeroWind": 3650, "headwind10": 3410, "headwind20": 3180, "headwind30": 2950 },
@@ -5454,6 +5956,8 @@ const landingDistanceFlaps35_down2Percent = [
       },
       {
         "weight": 13000,
+        "vref": 99,
+        "vapp": 104,
         "data": [
           { "temp": -35, "tailwind10": 4300, "zeroWind": 3390, "headwind10": 3160, "headwind20": 2940, "headwind30": 2720 },
           { "temp": -30, "tailwind10": 4370, "zeroWind": 3450, "headwind10": 3210, "headwind20": 2990, "headwind30": 2770 },

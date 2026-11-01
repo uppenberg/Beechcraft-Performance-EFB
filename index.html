@@ -256,7 +256,7 @@
                             <tr><td>SE-MJU</td><td>King Air 200 (BE20)</td><td>SE-MJU Performance Data</td></tr>
                             <tr><td>SE-MJV</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
                             <tr><td>SE-MHU</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
-                            <tr><td>SE-RIJ</td><td>Cessna Citation 560XL (C56X)</td><td>C56X performance data: climb-limited MTOW and Flaps 7/15 take-off field length</td></tr>
+                            <tr><td>SE-RIJ</td><td>Cessna Citation 560XL (C56X)</td><td>C56X: climb-limited MTOW, Flaps 7/15 take-off field length and Flaps 35 landing performance</td></tr>
                         </tbody>
                     </table>
                     <div class="help-note help-note--warn">
@@ -401,6 +401,25 @@
                         <dt>Missed App Climb gradient OEI</dt>
                         <dd>OEI missed approach climb gradient. EASA minimum is <strong>2.5%</strong>. If below, the card turns red — an instrument approach may not be legal. Check the specific procedure minima and Operations Manual.</dd>
                     </dl>
+
+                    <h4>C56X (SE-RIJ) Landing</h4>
+                    <p>Landing performance follows the AFM landing procedure (Flaps 35, Figures 4-43 to 4-50) and is calculated directly from the C56X performance database.</p>
+                    <dl class="help-dl">
+                        <dt>Landing Mass (lbs)</dt>
+                        <dd>13,000–20,000 lbs. <strong>Normal landings are limited to 18,700 lbs.</strong> Performance above 18,700 lbs is provided as additional information for an emergency that requires landing above the maximum design landing weight. A red warning is shown above 18,700 lbs — emergency use only.</dd>
+
+                        <dt>Flaps / Anti-ice</dt>
+                        <dd>Landing flaps are fixed at 35°. Anti-ice ON/OFF selects the applicable approach and landing climb charts. With anti-ice ON, the maximum landing weight is the lesser of the Figure 4-42 climb limit and Figure 4-43 brake-energy limit.</dd>
+
+                        <dt>Required distance</dt>
+                        <dd>AFM landing distance (Figure 4-44 for level or uphill runways, 4-45/4-46 for 1% and 2% downhill) multiplied by the runway condition factor and compared with LDA.</dd>
+
+                        <dt>Approach / Landing climb gradient</dt>
+                        <dd>Gross approach climb (Flaps 15, minimum <strong>2.5%</strong>) and landing climb (Flaps 35, minimum <strong>3.2%</strong>). The card turns red if either is below its minimum.</dd>
+
+                        <dt>VREF (50 ft) / VAPP</dt>
+                        <dd>Reference speeds from the Flaps 35 landing charts, based on landing mass and pressure altitude. Values between published points are linearly interpolated.</dd>
+                    </dl>
                 </section>
 
                 <section id="help-metar">
@@ -424,7 +443,7 @@
                         <li>The <strong>coloured bar</strong> inside the runway shows the worst-case calculated distance as a proportion of the available runway (TORA / LDA).</li>
                         <li><strong>Markers</strong> (take-off only) indicate TOR, TOD and ASD distances to scale. The value is shown in the marker label.</li>
                         <li>The bar turns <span style="color:#f85149">red</span> when any distance exceeds the limit.</li>
-                        <li>Landing shows two markers: amber (flaps UP distance) and green (flaps DOWN distance).</li>
+                        <li>Landing shows two markers: amber (flaps UP distance) and green (flaps DOWN distance). For C56X a single marker shows the required (factored) landing distance.</li>
                     </ul>
                     <div class="help-note help-note--info">
                         The visualization is a schematic aid only. Always use the numerical values for operational decisions.
@@ -828,11 +847,29 @@
                     <div id="landing-exceedance-status" class="runway-exceedance-status">Awaiting performance</div>
                 </div>
                 <div id="kpi-missed-climb-card" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
-                    <div class="kpi-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Missed App Climb gradient OEI</div>
+                    <div class="kpi-label" id="ldg-missed-climb-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Missed App Climb gradient OEI</div>
                     <div class="kpi-value" id="ldg-missed-climb" style="font-size: 14px; font-weight: 700; color: #fff;">-- %</div>
                     <div class="kpi-unit" id="ldg-missed-climb-status" style="font-size: 8px; font-weight: 700; color: #8b949e;">Min 2.5%</div>
+                    <div id="ldg-c56x-climb" hidden>
+                        <div style="font-size: 12px; font-weight: 700; color: #fff;">
+                            <span style="font-size: 10px; font-weight: 600; color: #8b949e;">APP</span>
+                            <span id="ldg-approach-climb">-- %</span>
+                            <span style="font-size: 8px; color: #8b949e;">min 2.5%</span>
+                        </div>
+                        <div style="font-size: 12px; font-weight: 700; color: #fff;">
+                            <span style="font-size: 10px; font-weight: 600; color: #8b949e;">LDG</span>
+                            <span id="ldg-landing-climb">-- %</span>
+                            <span style="font-size: 8px; color: #8b949e;">min 3.2%</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div id="ldg-overweight-warning" class="ldg-warning-banner" role="alert" hidden>
+                <strong>Emergency use only.</strong>
+                Landing mass is above the maximum design landing weight of 18,700 lb. These figures are provided only for an emergency that requires landing above 18,700 lb. Do not plan a normal landing at this weight; refer to the Abnormal/Emergency procedures.
+            </div>
+            <div id="ldg-max-weight-warning" class="ldg-warning-banner" role="alert" hidden></div>
 
             
             <!-- Inmatningskorten för Landing -->
@@ -912,7 +949,7 @@
                                 <input type="range" class="form-range mass-slider" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)">
                             </td>
                         </tr>
-                        <tr style="border-bottom: 1px solid #21262d;">
+                        <tr id="ldg-flaps-row" style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
                             <td style="padding: 10px 0;">
                                 <select class="form-control" id="ldg-flaps" onchange="handleLandingFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
@@ -921,10 +958,19 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr id="ldg-anti-ice-row" style="border-bottom: 1px solid #21262d;" hidden>
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Anti-ice</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="ldg-anti-ice" onchange="handleLandingAntiIce(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="OFF" selected>OFF</option>
+                                    <option value="ON">ON</option>
+                                </select>
+                            </td>
+                        </tr>
                                 <tr style="border-bottom: 1px solid #21262d;">
                                     <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
                                     <td style="padding: 10px 0;">
-                                        <select class="form-control" id="ldg-rwcc" onchange="updateEngineCellVal('landing', 'rwcc', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
+                                        <select class="form-control" id="ldg-rwcc" onchange="handleLandingRwcc(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
                                             <option value="6" selected>6</option>
                                             <option value="5">5</option>
                                             <option value="4">4</option>
@@ -978,17 +1024,41 @@
                     <span>Sidvind / Limit (C22 / G22):</span>
                     <span><strong id="res-ldg-xw" style="color: #fff;">-</strong> / <span id="res-ldg-xwlimit">-</span></span>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
                     <span>Missed Approach Climb (C31):</span>
                     <strong id="res-ldg-missed" style="color: #fff;">-</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
+                <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
                     <span>Flaps UP (Vref / Dist):</span>
                     <span><span id="res-ldg-vrefup" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distup">-</span> m</span>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
+                <div class="ldg-excel-only" style="display: flex; justify-content: space-between;">
                     <span>Flaps DOWN (Vref / Dist):</span>
                     <span><span id="res-ldg-vrefdown" style="color: var(--accent, #00d2ff); font-weight: 600;">-</span> | <span id="res-ldg-distdown">-</span> m</span>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;" hidden>
+                    <span>AFM landing distance (Flaps 35):</span>
+                    <strong id="res-ldg-afm-distance" style="color: #fff;">-</strong>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;" hidden>
+                    <span>Required distance (<span id="res-ldg-factor">-</span>):</span>
+                    <strong id="res-ldg-required-distance" style="color: #fff;">-</strong>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;" hidden>
+                    <span id="res-ldg-max-weight-label">Max landing weight (Fig 4-43):</span>
+                    <strong id="res-ldg-max-weight" style="color: #fff;">-</strong>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;" hidden>
+                    <span>Approach climb gradient (Flaps 15):</span>
+                    <strong id="res-ldg-approach-climb" style="color: #fff;">-</strong>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;" hidden>
+                    <span>Landing climb gradient (Flaps 35):</span>
+                    <strong id="res-ldg-landing-climb" style="color: #fff;">-</strong>
+                </div>
+                <div class="ldg-c56x-only" style="display: flex; justify-content: space-between;" hidden>
+                    <span>VREF (50 ft) / VAPP:</span>
+                    <strong id="res-ldg-vref-vapp" style="color: #fff;">-</strong>
                 </div>
             </div>
         </section>

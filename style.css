@@ -187,6 +187,31 @@ input, select {
   color: #3fb950;
 }
 
+.ldg-excel-only[hidden],
+.ldg-c56x-only[hidden] {
+  display: none !important;
+}
+
+.ldg-warning-banner {
+  background: rgba(248, 81, 73, 0.15);
+  border: 1px solid #f85149;
+  border-radius: 6px;
+  color: #ffa198;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+}
+
+.ldg-warning-banner strong {
+  color: #ff7b72;
+  text-transform: uppercase;
+}
+
+.ldg-warning-banner[hidden] {
+  display: none;
+}
+
 /* Tröskelmarkering fylld över banans hela bredd */
 .runway-threshold-left {
   position: absolute;

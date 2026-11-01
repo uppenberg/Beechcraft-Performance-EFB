@@ -29,6 +29,8 @@ const ASSETS = [
   './data/c56x/landing-distance-flaps35.js',
   './data/c56x/landing-weight-flaps15-35-off.js',
   './data/c56x/calculations.js',
+  './data/c56x/landing-weight-flaps15-35-on.js',
+  './data/c56x/landing-calculations.js',
   './data/airports.json',
   './data/lib/xlsx.full.min.js',
   './data/lib/hyperformula.full.min.js',
