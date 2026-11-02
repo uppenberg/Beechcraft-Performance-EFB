@@ -34,7 +34,6 @@ const CELL_MAPPING = {
       'Slope [%](G6)': 'G6',
       'RWYHDG [°](H6)': 'H6',
       'min climb gradient OEI(I6)': 'I6',
-      'min cloudbase(K6)': 'K6',
       'Routing(L6)': 'L6',
     }
   },
@@ -86,7 +85,6 @@ const CELL_MAPPING = {
       emUpDist: 'C46',
       emDownVref: 'G45',
       emDownDist: 'G46',
-      cloudBase: 'C69',
       escapeRoute: 'C70',
     }
   },
@@ -116,7 +114,6 @@ const CELL_MAPPING = {
 };
 const OPTIONAL_AIRPORT_DATA_FIELDS = [
   'LDA [m](F6)',
-  'min cloudbase(K6)',
   'Routing(L6)',
 ];
 const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
@@ -129,7 +126,6 @@ const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
     'TODA [m](D6)': 'C21',
     'LDA [m](F6)': 'C22',
     'min climb gradient OEI(I6)': 'G19',
-    'min cloudbase(K6)': 'C69',
     'Routing(L6)': 'C70',
   },
   ldg: {
@@ -400,8 +396,6 @@ async function init() {
           element.style.display = 'none';
         }
       });
-      const futureInputsNote = document.getElementById('c56x-future-inputs-note');
-      if (futureInputsNote) futureInputsNote.hidden = false;
       const maxMassTitle = document.getElementById('max-to-mass-title');
       if (maxMassTitle) maxMassTitle.textContent = 'Max take-off mass, current setup';
 
@@ -1539,7 +1533,7 @@ function updateClimbPathLabel(climbPath) {
   const element = document.getElementById('res-to-climb-path');
   if (!element) return;
   element.textContent = climbPath ? `Climb path: ${climbPath.label}` : '';
-  element.style.color = climbPath?.assumed ? '#d29922' : '#8b949e';
+  element.style.color = climbPath?.assumed ? '#9a8a63' : '#6e7681';
 }
 
 function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
@@ -2171,22 +2165,11 @@ function refreshOutputs() {
     }
   }
 
-  const cloudVal = getOutputVal(to.sheetName, to.outputs.cloudBase);
   const escapeVal = getOutputVal(to.sheetName, to.outputs.escapeRoute);
-  
-  safeSetText('res-to-cloud', cloudVal);
-  safeSetText('res-to-escape', escapeVal);
-
-  const engineOutCard = document.getElementById('card-engine-out');
-  if (engineOutCard) {
-    const hasDisplayValue = (value) => {
-      if (value === null || value === undefined || String(value).trim() === '' || value === '-') {
-        return false;
-      }
-      return !(Number.isFinite(Number(value)) && Number(value) === 0);
-    };
-    const hasData = hasDisplayValue(cloudVal) || hasDisplayValue(escapeVal);
-    engineOutCard.style.display = hasData ? 'block' : 'none';
+  if (isC56xSelected()) {
+    updateC56xEngineOutCard(getSelectedAirportRecord('to'));
+  } else {
+    renderEngineOutCard(escapeVal);
   }
 
   const badgeMass = document.getElementById('badge-mass-limit');
@@ -2259,7 +2242,6 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-emup-dist', getOutputVal(to.sheetName, to.outputs.emUpDist));
   safeSetText('res-to-emdown-vref', getOutputVal(to.sheetName, to.outputs.emDownVref));
   safeSetText('res-to-emdown-dist', getOutputVal(to.sheetName, to.outputs.emDownDist));
-  safeSetText('res-to-cloud', getOutputVal(to.sheetName, to.outputs.cloudBase));
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
@@ -2496,23 +2478,21 @@ function getC56xWetRunwayMassLimit({
   return null;
 }
 
-function updateC56xEngineOutCard(airport) {
+// Shared by all models: the card is hidden when there is no routing text.
+function renderEngineOutCard(escapeVal) {
   const card = document.getElementById('card-engine-out');
   if (!card) return;
-  const cloud = airportCellValue(airport?.['min cloudbase(K6)']);
-  const escape = airportCellValue(airport?.['Routing(L6)']);
-  const hasValue = (value) => value !== null && value !== '-' && value !== 0;
-  safeSetText('res-to-cloud', hasValue(cloud) ? cloud : '-');
-  safeSetText('res-to-escape', hasValue(escape) ? escape : '-');
-  const cloudRow = document.getElementById('row-to-cloud');
-  const escapeRow = document.getElementById('row-to-escape');
-  if (cloudRow) cloudRow.style.display = hasValue(cloud) ? '' : 'none';
-  if (escapeRow) escapeRow.style.display = hasValue(escape) ? '' : 'none';
-  const visible = hasValue(cloud) || hasValue(escape);
-  card.hidden = !visible;
-  card.style.display = visible ? 'block' : 'none';
+  const hasEscape = !(escapeVal === null || escapeVal === undefined ||
+    String(escapeVal).trim() === '' || escapeVal === '-' ||
+    (Number.isFinite(Number(escapeVal)) && Number(escapeVal) === 0));
+  safeSetText('res-to-escape', escapeVal);
+  card.hidden = false;
+  card.style.display = hasEscape ? 'block' : 'none';
 }
 
+function updateC56xEngineOutCard(airport) {
+  renderEngineOutCard(airportCellValue(airport?.['Routing(L6)']) ?? '-');
+}
 function updateC56xTakeoffFieldLength() {
   const card = document.getElementById('c56x-takeoff-distance-card');
   if (!card) return;
@@ -2524,6 +2504,7 @@ function updateC56xTakeoffFieldLength() {
     return;
   }
   if (section) section.hidden = false;
+  updateC56xEngineOutCard(getSelectedAirportRecord('to'));
 
   const toraStatusElement = document.getElementById('c56x-tora-status');
   const todaStatusElement = document.getElementById('c56x-toda-status');
@@ -2597,7 +2578,6 @@ function updateC56xTakeoffFieldLength() {
   }
 
   const airport = getSelectedAirportRecord('to');
-  updateC56xEngineOutCard(airport);
   if (!airport) {
     setUnavailable('Select an airport and runway to calculate field length.');
     return;

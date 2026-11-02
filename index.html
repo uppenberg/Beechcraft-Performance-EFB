@@ -64,9 +64,6 @@
         color: #c9d1d9;
         gap: 8px;
       }
-      .engine-out-cloud {
-        flex: 0 0 auto;
-      }
       .engine-out-escape {
         display: flex;
         flex: 1 1 0;
@@ -450,9 +447,6 @@
                     <h3>Engine Out Procedure Card</h3>
                     <p>Shown at the top of the Take-off tab for the selected runway:</p>
                     <dl class="help-dl">
-                        <dt>Min Cloud Base (ft)</dt>
-                        <dd>Minimum cloud base for the engine-out escape route to be executed safely. "–" means no minimum is defined in the database — check the SOP/AFM.</dd>
-
                         <dt>Escape Route</dt>
                         <dd>Published engine-out routing after V1 for the selected runway. May include headings, altitudes or waypoints. <strong>Brief this before every departure.</strong></dd>
                     </dl>
@@ -518,7 +512,6 @@
             <div id="card-engine-out" style="background: #181b22; border: 1px solid #2a2f3d; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
                 <h4 style="font-size: 11px; font-weight: 600;                 color: #fff; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 0.5px;">Engine Out Procedure</h4>
                 <div class="engine-out-box">
-                                <span class="engine-out-cloud" id="row-to-cloud">Min Cloud Base: <strong id="res-to-cloud" style="color: #fff;">-</strong> <span style="font-size: 11px; color: #8b949e;">ft</span></span>
                                 <span class="engine-out-escape" id="row-to-escape"><strong id="res-to-escape" style="color: #fff;">-</strong></span>
                 </div>
             </div>
@@ -721,7 +714,6 @@
                             </td>
                         </tr>
                     </table>
-                    <p id="c56x-future-inputs-note" hidden style="margin: 8px 0 0; color: #d29922; font-size: 11px;">Reversers and runway condition do not affect the C56X climb-limited MTOW calculation.</p>
                 </div>
             </div>
 
