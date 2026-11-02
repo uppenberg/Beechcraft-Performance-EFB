@@ -1523,6 +1523,25 @@ function airportCellValue(value) {
   return Number.isFinite(number) ? number : text;
 }
 
+// Airport column "Engine out climb path": "Straight" or "Turning". Missing data is treated as
+// turning (up to 15° bank), which applies the conservative AFM weight/gradient correction.
+function getC56xEngineOutClimbPath(airport) {
+  const key = airport
+    ? Object.keys(airport).find((name) => /^engine out climb path/i.test(name.trim()))
+    : null;
+  const value = key ? String(airport[key] ?? '').trim().toLowerCase() : '';
+  if (value === 'straight') return { turning: false, label: 'Straight out', assumed: false };
+  if (value === 'turning') return { turning: true, label: 'Turning climb (up to 15° bank)', assumed: false };
+  return { turning: true, label: 'Turning climb (no airport data)', assumed: true };
+}
+
+function updateClimbPathLabel(climbPath) {
+  const element = document.getElementById('res-to-climb-path');
+  if (!element) return;
+  element.textContent = climbPath ? `Climb path: ${climbPath.label}` : '';
+  element.style.color = climbPath?.assumed ? '#d29922' : '#8b949e';
+}
+
 function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
   let value = airport ? airportCellValue(airport[dataField]) : null;
   if (prefix === 'to' && ['C19', 'C20', 'C21'].includes(cellRef) &&
@@ -2247,6 +2266,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   const reqVal = getTakeoffOutput('climbGrad', false);
   const oeiVal = getOutputVal(to.sheetName, to.outputs.req_climb_grad_to, false);
   updateClimbCheckCard(reqVal, oeiVal);
+  updateClimbPathLabel(null);
 
   safeSetText('check-tor-val', getTakeoffOutput('tor'));
   safeSetText('check-tora-val', getOutputVal(to.sheetName, to.outputs.tora));
@@ -2347,6 +2367,7 @@ return true;
 function updateC56xPerformanceCards({
   speeds = null,
   secondSegmentGradient = null,
+  climbPath = null,
   requiredGradient = null,
   headwindKnots = null,
   crosswindKnots = null,
@@ -2360,6 +2381,7 @@ function updateC56xPerformanceCards({
   setText('res-to-vr', speeds ? Math.round(speeds.vr) : '-');
   setText('res-to-v2', speeds ? Math.round(speeds.v2) : '-');
   updateClimbCheckCard(secondSegmentGradient, requiredGradient);
+  updateClimbPathLabel(climbPath);
   updateWindCheckCard(
     Number.isFinite(headwindKnots) ? String(Math.round(headwindKnots)) : '-',
     Number.isFinite(crosswindKnots) ? String(Math.round(crosswindKnots)) : '-',
@@ -2651,6 +2673,7 @@ function updateC56xTakeoffFieldLength() {
         flaps,
       })
       : null;
+    const climbPath = getC56xEngineOutClimbPath(airport);
     const secondSegmentGradient = supportedSetup
       ? getC56xSecondSegmentClimbGradient({
         pressureAltitudeFt,
@@ -2659,12 +2682,14 @@ function updateC56xTakeoffFieldLength() {
         headwindKnots,
         flaps,
         antiIce,
+        turningClimb: climbPath.turning,
       })
       : null;
     const requiredGradientValue = airportCellValue(airport['min climb gradient OEI(I6)']);
     updateC56xPerformanceCards({
       speeds,
       secondSegmentGradient,
+      climbPath,
       requiredGradient: typeof requiredGradientValue === 'number'
         ? requiredGradientValue
         : null,
@@ -2913,6 +2938,7 @@ function updateMaxTakeoffMass() {
           const requiredGradient = airportCellValue(
             airport['min climb gradient OEI(I6)']
           );
+          const climbPath = getC56xEngineOutClimbPath(airport);
           if (climbLimitLb !== null && Number.isFinite(requiredGradient)) {
             const lastIndex = Math.floor(
               (Math.min(maxSliderMass, climbLimitLb) - minMass) / step
@@ -2963,6 +2989,7 @@ function updateMaxTakeoffMass() {
                 headwindKnots,
                 flaps,
                 antiIce,
+                turningClimb: climbPath.turning,
               });
               if (Number.isFinite(speeds?.v1) &&
                   Number.isFinite(secondSegmentGradient) &&

@@ -341,7 +341,7 @@
                         <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed.</dd>
 
                         <dt>Climb gradient OEI / Req</dt>
-                        <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). For C56X, the AFM correction for turning climb up to 15° bank is applied: take-off mass is multiplied by 1.035 at or below 19,323 lbs; above that, 1.2 percentage points are subtracted from the gradient. If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
+                        <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). For C56X, the AFM correction for turning climb up to 15° bank is applied only for turning climbs (airport column Engine out climb path = Turning, or missing, shown in amber): take-off mass is multiplied by 1.035 at or below 19,323 lbs; above that, 1.2 percentage points are subtracted from the gradient. Straight-out departures use the chart value unchanged. The card shows which climb path was used. If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
 
                         <dt>WIND | XW (XWLimit)</dt>
                         <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red = crosswind/tailwind limit exceeded. A tailwind always increases distances.</dd>
@@ -541,6 +541,7 @@
     <div style="font-size: 14px; font-weight: 700; color: #fff;">
         <span id="res-to-oei">-</span>/<span id="res-to-req">-</span>
     </div>
+    <div id="res-to-climb-path" style="font-size: 10px; color: #8b949e; margin-top: 4px;"></div>
 </div>
 
 <!-- WIND / XW & HW/TW -->

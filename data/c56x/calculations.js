@@ -271,6 +271,9 @@ function getC56xTakeoffFieldLengths({
         antiIce,
     });
     if (!Number.isFinite(takeoffFactor)) return null;
+    // The dry distance used on a wet runway carries the dry (RCC 6) factor.
+    const dryTakeoffFactor = getC56xTakeoffFactor({ runwayConditionCode: '6', flaps, reverserStatus, antiIce });
+    if (!Number.isFinite(dryTakeoffFactor)) return null;
 
     const headwindKnots = speed === 0
         ? 0
@@ -386,7 +389,7 @@ function getC56xTakeoffFieldLengths({
         flaps
     );
     if (dryDistanceFt === null) return null;
-    const dryRequiredDistanceFt = dryDistanceFt * takeoffFactor;
+    const dryRequiredDistanceFt = dryDistanceFt * dryTakeoffFactor;
 
     const selectedWetTables = reverserStatus === 'INOP'
         ? wetTablesWithoutReversers
@@ -432,7 +435,7 @@ function getC56xTakeoffFieldLengths({
     }
 
     const wetChartRequiredDistanceFt = wetChartDistanceFt * takeoffFactor;
-    const wetRequiredDistanceFt = Math.max(dryDistanceFt, wetChartDistanceFt) * takeoffFactor;
+    const wetRequiredDistanceFt = Math.max(dryRequiredDistanceFt, wetChartRequiredDistanceFt);
     const selectedDistanceFt = runwayConditionCode === '5'
         ? wetRequiredDistanceFt
         : dryRequiredDistanceFt;
@@ -445,7 +448,9 @@ function getC56xTakeoffFieldLengths({
         wetChartRequiredDistanceFt,
         wetRequiredDistanceFt,
         selectedDistanceFt,
-        takeoffFactor,
+        takeoffFactor: runwayConditionCode === '5' && dryRequiredDistanceFt > wetChartRequiredDistanceFt
+            ? dryTakeoffFactor
+            : takeoffFactor,
     };
 }
 
@@ -639,6 +644,7 @@ function getC56xSecondSegmentClimbGradient({
     headwindKnots,
     flaps = 7,
     antiIce = 'ON',
+    turningClimb = false,
 }) {
     const data = flaps === 15
         ? antiIce === 'OFF'
@@ -678,7 +684,8 @@ function getC56xSecondSegmentClimbGradient({
         { knots: 20, key: 'wind20' },
         { knots: 30, key: 'wind30' },
     ];
-    const adjustedWeightLb = weightLb <= 19323
+    // The AFM weight/gradient correction applies to turning climbs up to 15° bank only.
+    const adjustedWeightLb = turningClimb && weightLb <= 19323
         ? weightLb * 1.035
         : weightLb;
     const gradient = interpolateC56xTakeoffAxis(
@@ -702,6 +709,6 @@ function getC56xSecondSegmentClimbGradient({
             )
         )
     );
-    if (gradient === null || weightLb <= 19323) return gradient;
+    if (gradient === null || !turningClimb || weightLb <= 19323) return gradient;
     return gradient - 1.2;
 }
