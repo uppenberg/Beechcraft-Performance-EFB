@@ -91,24 +91,29 @@ function getC56xV1GradientAdjustment(adjustments, slopePercent) {
             : null;
     };
 
-    if (slopePercent > 0) {
-        const step = [0.5, 1, 1.5, 2].find((value) => slopePercent <= value);
-        if (!step) return null;
-        const adjustment = adjustments?.uphill?.[`${step.toFixed(1)}%`] ??
-            adjustments?.[`uphill${String(step).replace('.', '_')}pct`];
-        return parseAdjustment(adjustment);
+    // Linear interpolation between 0 (no adjustment) and the published steps.
+    const direction = slopePercent > 0 ? 'uphill' : 'downhill';
+    const magnitude = Math.abs(slopePercent);
+    const steps = direction === 'uphill' ? [0.5, 1, 1.5, 2] : [1, 2];
+    if (magnitude > 2) return null;
+    const readStep = (step) => direction === 'uphill'
+        ? parseAdjustment(adjustments?.uphill?.[`${step.toFixed(1)}%`] ??
+            adjustments?.[`uphill${String(step).replace('.', '_')}pct`])
+        : parseAdjustment(adjustments?.downhillShaded?.[`-${step}%`] ??
+            adjustments?.[`downhillShaded_${step}pct`]);
+    let lowerSlope = 0;
+    let lowerValue = 0;
+    for (const step of steps) {
+        const upperValue = readStep(step);
+        if (upperValue === null) return null;
+        if (magnitude <= step) {
+            return lowerValue + (upperValue - lowerValue) * ((magnitude - lowerSlope) / (step - lowerSlope));
+        }
+        lowerSlope = step;
+        lowerValue = upperValue;
     }
-
-    const downhillSlope = Math.abs(slopePercent);
-    if (downhillSlope > 2) return null;
-    if (downhillSlope < 1) return 0;
-    const step = downhillSlope <= 1 ? 1 : 2;
-    const key = `-${step}%`;
-    const adjustment = adjustments?.downhillShaded?.[key] ??
-        adjustments?.[`downhillShaded_${step}pct`];
-    return parseAdjustment(adjustment);
+    return null;
 }
-
 function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7) {
     if (!Number.isFinite(distanceFt) || !Number.isFinite(slopePercent)) return null;
     if (Math.abs(slopePercent) < 0.000001) return distanceFt;
@@ -120,9 +125,25 @@ function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON'
         { slope: 2, dryKey: '2.0%', wetKey: 'uphill2pct' },
     ];
     if (slopePercent > 0) {
-        // Round uphill slopes up to the next published correction for a conservative result.
-        const step = uphillSteps.find((entry) => entry.slope >= slopePercent);
-        if (!step) return null;
+        // Interpolate linearly between 0% (unadjusted distance) and the published uphill corrections.
+        const stepIndex = uphillSteps.findIndex((entry) => entry.slope >= slopePercent);
+        if (stepIndex < 0) return null;
+        const step = uphillSteps[stepIndex];
+        const lowerSlope = stepIndex === 0 ? 0 : uphillSteps[stepIndex - 1].slope;
+        const lowerDistance = stepIndex === 0
+            ? distanceFt
+            : applyC56xRunwayGradient(distanceFt, lowerSlope, isWet, antiIce, flaps);
+        const upperDistance = applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps);
+        if (lowerDistance === null || upperDistance === null) return null;
+        const fraction = (slopePercent - lowerSlope) / (step.slope - lowerSlope);
+        return lowerDistance + (upperDistance - lowerDistance) * fraction;
+    }
+
+    return applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps);
+}
+
+function applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps) {
+    {
         if (isWet && flaps === 15) {
             const rows = (antiIce === 'OFF'
                 ? takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOff
@@ -159,9 +180,10 @@ function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON'
             isWet ? step.wetKey : 'correction'
         );
     }
+}
 
+function applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps) {
     if (slopePercent < -2) return null;
-    if (slopePercent > -1) return distanceFt;
 
     const dryGradientRows = flaps === 15
         ? antiIce === 'OFF'
@@ -170,63 +192,48 @@ function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON'
         : antiIce === 'OFF'
             ? takeoffFieldLengthGradient_Dry_Flaps7
             : takeoffFieldLengthGradient_Dry_Flaps7_AntiIceOn;
-    if (isWet && flaps === 15) {
-        const rows = antiIce === 'OFF'
+    const wetRows = isWet && flaps === 15
+        ? (antiIce === 'OFF'
             ? takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOff
-            : takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOn;
-        const correctionValues = [];
+            : takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOn)
+        : isWet
+            ? (antiIce === 'OFF'
+                ? takeoffGradientAdjustment_wet_reversers_Flaps7_AntiIceOff.data
+                : takeoffGradientAdjustment_reversers_wet_Flaps7_AntiIceOn.data)
+            : null;
+    const chartRows = wetRows ?? dryGradientRows;
+    const useChartKeys = !isWet || flaps === 15;
+
+    // Runway shading is not recorded in airports.json, so downhill credit is not taken:
+    // each published step uses the largest of the shaded and non-shaded distances.
+    const getStepDistance = (step) => {
+        const values = [];
         ['downhillShaded', 'downhillNonShaded'].forEach((group) => {
-            ['-1%', '-2%'].forEach((key) => {
-                const value = interpolateC56xGradientTable(
-                    rows.map((row) => ({
+            const value = useChartKeys
+                ? interpolateC56xGradientTable(
+                    chartRows.map((row) => ({
                         baseFieldLength: row.baseFieldLength,
-                        adjusted: row[group][key],
+                        adjusted: row[group][`-${step}%`],
                     })),
                     distanceFt,
                     'baseFieldLength',
                     'adjusted'
-                );
-                if (value !== null) correctionValues.push(value);
-            });
+                )
+                : interpolateC56xGradientTable(chartRows, distanceFt, 'zeroGradient', `${group}_${step}pct`);
+            if (value !== null) values.push(value);
         });
-        return correctionValues.length ? Math.max(distanceFt, ...correctionValues) : null;
-    }
-    const rows = isWet
-        ? (antiIce === 'OFF'
-            ? takeoffGradientAdjustment_wet_reversers_Flaps7_AntiIceOff.data
-            : takeoffGradientAdjustment_reversers_wet_Flaps7_AntiIceOn.data)
-        : dryGradientRows;
-    const keys = isWet
-        ? [
-            'downhillShaded_1pct', 'downhillShaded_2pct',
-            'downhillNonShaded_1pct', 'downhillNonShaded_2pct',
-        ]
-        : ['downhillShaded', 'downhillNonShaded'];
-    const correctionValues = [];
+        return values.length ? Math.max(distanceFt, ...values) : null;
+    };
 
-    // Runway shading is not recorded in airports.json, so downhill credit is not taken.
-    if (isWet) {
-        keys.forEach((key) => {
-            const value = interpolateC56xGradientTable(rows, distanceFt, 'zeroGradient', key);
-            if (value !== null) correctionValues.push(value);
-        });
-    } else {
-        keys.forEach((group) => ['-1%', '-2%'].forEach((key) => {
-            const value = interpolateC56xGradientTable(
-                rows.map((row) => ({
-                    baseFieldLength: row.baseFieldLength,
-                    adjusted: row[group][key],
-                })),
-                distanceFt,
-                'baseFieldLength',
-                'adjusted'
-            );
-            if (value !== null) correctionValues.push(value);
-        }));
+    const oneDistance = getStepDistance(1);
+    if (oneDistance === null) return null;
+    if (slopePercent >= -1) {
+        return distanceFt + (oneDistance - distanceFt) * Math.abs(slopePercent);
     }
-    return Math.max(distanceFt, ...correctionValues);
+    const twoDistance = getStepDistance(2);
+    if (twoDistance === null) return null;
+    return oneDistance + (twoDistance - oneDistance) * (Math.abs(slopePercent) - 1);
 }
-
 function getC56xTakeoffFieldLengths({
     qnhHpa,
     fieldElevationFt,
