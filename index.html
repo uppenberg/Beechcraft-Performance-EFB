@@ -247,7 +247,7 @@
 
                 <section id="help-reg">
                     <h3>Aircraft Registration</h3>
-                    <p>Located in the top header, the <strong>Reg</strong> dropdown selects which aircraft's performance data is loaded. Each registration has its own performance data except for the B190 which shares same performance data.</p>
+                    <p>Located in the top header, the <strong>Reg</strong> dropdown selects which aircraft's performance data is loaded. Each registration has its own performance data except for the B190 and C56X which shares same performance data on all tail numbers.</p>
                     <table class="help-table">
                         <thead><tr><th>Registration</th><th>Type</th><th>Workbook</th></tr></thead>
                         <tbody>
@@ -256,7 +256,7 @@
                             <tr><td>SE-MJU</td><td>King Air 200 (BE20)</td><td>SE-MJU Performance Data</td></tr>
                             <tr><td>SE-MJV</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
                             <tr><td>SE-MHU</td><td>Beechcraft 1900C (B190)</td><td>B190 Performance Data</td></tr>
-                            <tr><td>SE-RIJ</td><td>Cessna Citation 560XL (C56X)</td><td>C56X: climb-limited MTOW, Flaps 7/15 take-off field length and Flaps 35 landing performance</td></tr>
+                            <tr><td>SE-RIJ</td><td>Cessna Citation 560XL (C56X)</td><td>C56X Performance Data</td></tr>
                         </tbody>
                     </table>
                     <div class="help-note help-note--warn">
@@ -327,17 +327,8 @@
                         <dt>Runway Condition Code (RWCC)</dt>
                         <dd>
                             <table class="help-table" style="margin-top:6px">
-                                <thead><tr><th>Code</th><th>Surface condition</th></tr></thead>
-                                <tbody>
-                                    <tr><td>6</td><td>Dry (baseline)</td></tr>
-                                    <tr><td>5</td><td>Wet / Damp / Frost</td></tr>
-                                    <tr><td>4</td><td>Standing water / Slush / Wet snow</td></tr>
-                                    <tr><td>3</td><td>Dry or wet snow on compacted snow</td></tr>
-                                    <tr><td>2</td><td>Compacted snow</td></tr>
-                                    <tr><td>1</td><td>Ice (worst performance)</td></tr>
-                                </tbody>
                             </table>
-                            Use the most conservative applicable code. Always obtain the current code from ATIS/SNOWTAM/ATC. Actual contaminant type and depth is not used in the takeoff calculations — only the RWCC is used to determine performance penalties (factors are verified).
+                            Always obtain the current code from ATIS/SNOWTAM/ATC. Actual contaminant type and depth is not used in the takeoff calculations — only the RWCC is used to determine performance penalties (factors are verified).
                         </dd>
                     </dl>
 

@@ -7,6 +7,34 @@ const factorsRunwayConditionCodesTakeoff = [
     { code: "1", label: "RCC 1", factor: 1.0 }
 ];
 
+const c56xTakeoffPerformanceFactors = [
+    { code: "6", label: "Dry RCC 6, Flaps 7°, anti-ice OFF", flaps: 7, antiIce: "OFF", factor: 1.10 },
+    { code: "6", label: "Dry RCC 6, Flaps 7°, anti-ice ON", flaps: 7, antiIce: "ON", factor: 1.10 },
+    { code: "6", label: "Dry RCC 6, Flaps 15°, anti-ice OFF", flaps: 15, antiIce: "OFF", factor: 1.16 },
+    { code: "6", label: "Dry RCC 6, Flaps 15°, anti-ice ON", flaps: 15, antiIce: "ON", factor: 1.16 },
+    { code: "5", label: "Wet RCC 5, Flaps 7°, reversers, anti-ice OFF", flaps: 7, reverserStatus: "AVAILABLE", antiIce: "OFF", factor: 1.10 },
+    { code: "5", label: "Wet RCC 5, Flaps 7°, reversers, anti-ice ON", flaps: 7, reverserStatus: "AVAILABLE", antiIce: "ON", factor: 1.10 },
+    { code: "5", label: "Wet RCC 5, Flaps 15°, no reversers, anti-ice OFF", flaps: 15, reverserStatus: "INOP", antiIce: "OFF", factor: 1.11 },
+    { code: "5", label: "Wet RCC 5, Flaps 15°, no reversers, anti-ice ON", flaps: 15, reverserStatus: "INOP", antiIce: "ON", factor: 1.11 },
+    { code: "5", label: "Wet RCC 5, Flaps 15°, reversers, anti-ice OFF", flaps: 15, reverserStatus: "AVAILABLE", antiIce: "OFF", factor: 1.16 },
+    { code: "5", label: "Wet RCC 5, Flaps 15°, reversers, anti-ice ON", flaps: 15, reverserStatus: "AVAILABLE", antiIce: "ON", factor: 1.16 }
+];
+
+function getC56xTakeoffFactor({ runwayConditionCode, flaps, reverserStatus, antiIce }) {
+    const runwayFactor = factorsRunwayConditionCodesTakeoff.find((entry) =>
+        entry.code === String(runwayConditionCode)
+    )?.factor;
+    const performanceFactor = c56xTakeoffPerformanceFactors.find((entry) =>
+        entry.code === String(runwayConditionCode) &&
+        entry.flaps === flaps &&
+        entry.antiIce === antiIce &&
+        (entry.reverserStatus === undefined || entry.reverserStatus === reverserStatus)
+    )?.factor ?? null;
+    return Number.isFinite(runwayFactor) && Number.isFinite(performanceFactor)
+        ? runwayFactor * performanceFactor
+        : null;
+}
+
 const factorsRunwayConditionCodesLanding = [
     { code: "6", label: "RCC 6", factor: 1.67 },
     { code: "5", label: "RCC 5", factor: 2.2 },

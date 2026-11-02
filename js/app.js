@@ -2371,7 +2371,8 @@ function updateC56xTakeoffDistanceCard(
   distanceM,
   failedLimits = [],
   limitsAvailable = true,
-  unavailableStatus = 'Awaiting performance'
+  unavailableStatus = 'Awaiting performance',
+  takeoffFactor = null
 ) {
   const card = document.getElementById('takeoff-exceedance-card');
   const status = document.getElementById('takeoff-exceedance-status');
@@ -2383,7 +2384,10 @@ function updateC56xTakeoffDistanceCard(
     card.classList.remove('is-within-limits');
     return;
   }
-  status.textContent = `TKOF ${distanceM.toLocaleString('en-US')} m · ` +
+  const factorLabel = Number.isFinite(takeoffFactor)
+    ? ` (x${takeoffFactor.toFixed(2)})`
+    : '';
+  status.textContent = `TKOF ${distanceM.toLocaleString('en-US')} m${factorLabel} · ` +
     (failedLimits.length
       ? `Exceeds ${failedLimits.join(', ')}`
       : limitsAvailable ? 'Within limits' : 'Some runway limits unavailable');
@@ -2717,8 +2721,8 @@ function updateC56xTakeoffFieldLength() {
   }
 
   setDistanceComparison(
-    result.dryDistanceFt,
-    result.wetChartDistanceFt,
+    result.dryRequiredDistanceFt,
+    result.wetChartRequiredDistanceFt,
     runwayConditionCode
   );
   if (!Number.isFinite(result.selectedDistanceFt)) {
@@ -2820,7 +2824,9 @@ function updateC56xTakeoffFieldLength() {
   updateC56xTakeoffDistanceCard(
     selectedDistanceM,
     failedLimits,
-    !hasUnavailableLimit
+    !hasUnavailableLimit,
+    'Awaiting performance',
+    result.takeoffFactor
   );
   renderC56xTakeoffChart(selectedDistanceM, toraM, todaM, asdaM);
 }

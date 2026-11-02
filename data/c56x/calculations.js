@@ -257,6 +257,13 @@ function getC56xTakeoffFieldLengths({
     if (reverserStatus !== 'AVAILABLE' && reverserStatus !== 'INOP') return null;
     if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
     if (flaps !== 7 && flaps !== 15) return null;
+    const takeoffFactor = getC56xTakeoffFactor({
+        runwayConditionCode,
+        flaps,
+        reverserStatus,
+        antiIce,
+    });
+    if (!Number.isFinite(takeoffFactor)) return null;
 
     const headwindKnots = speed === 0
         ? 0
@@ -372,6 +379,7 @@ function getC56xTakeoffFieldLengths({
         flaps
     );
     if (dryDistanceFt === null) return null;
+    const dryRequiredDistanceFt = dryDistanceFt * takeoffFactor;
 
     const selectedWetTables = reverserStatus === 'INOP'
         ? wetTablesWithoutReversers
@@ -383,9 +391,11 @@ function getC56xTakeoffFieldLengths({
             pressureAltitudeFt,
             headwindKnots,
             dryDistanceFt,
+            dryRequiredDistanceFt,
+            takeoffFactor,
             wetChartDistanceFt: null,
             wetRequiredDistanceFt: null,
-            selectedDistanceFt: runwayConditionCode === '6' ? dryDistanceFt : null,
+            selectedDistanceFt: runwayConditionCode === '6' ? dryRequiredDistanceFt : null,
             antiIce,
         };
     }
@@ -405,24 +415,30 @@ function getC56xTakeoffFieldLengths({
             pressureAltitudeFt,
             headwindKnots,
             dryDistanceFt,
+            dryRequiredDistanceFt,
+            takeoffFactor,
             wetChartDistanceFt: null,
             wetRequiredDistanceFt: null,
-            selectedDistanceFt: runwayConditionCode === '6' ? dryDistanceFt : null,
+            selectedDistanceFt: runwayConditionCode === '6' ? dryRequiredDistanceFt : null,
             antiIce,
         };
     }
 
-    const wetRequiredDistanceFt = Math.max(dryDistanceFt, wetChartDistanceFt);
+    const wetChartRequiredDistanceFt = wetChartDistanceFt * takeoffFactor;
+    const wetRequiredDistanceFt = Math.max(dryDistanceFt, wetChartDistanceFt) * takeoffFactor;
     const selectedDistanceFt = runwayConditionCode === '5'
         ? wetRequiredDistanceFt
-        : dryDistanceFt;
+        : dryRequiredDistanceFt;
     return {
         pressureAltitudeFt,
         headwindKnots,
         dryDistanceFt,
+        dryRequiredDistanceFt,
         wetChartDistanceFt,
+        wetChartRequiredDistanceFt,
         wetRequiredDistanceFt,
         selectedDistanceFt,
+        takeoffFactor,
     };
 }
 
