@@ -977,3 +977,27 @@ input, select {
     margin-bottom: 4px;
   }
 }
+
+@media screen and (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  html {
+    display: grid;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    place-items: center;
+    background: radial-gradient(ellipse at center, #202630 0%, #090c10 72%);
+  }
+
+  body {
+    box-sizing: border-box;
+    width: min(792px, calc(100vw - 48px));
+    height: min(1048px, calc(100dvh - 48px));
+    min-height: 0;
+    margin: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 12px solid #252b33;
+    border-radius: 36px;
+    box-shadow: 0 0 0 2px #090c10, 0 24px 80px rgba(0, 0, 0, 0.75);
+  }
+}
