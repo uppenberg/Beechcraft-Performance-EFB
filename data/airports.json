@@ -10,7 +10,8 @@
             "LDA [m](F6)": "3240",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "90",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EETN",
@@ -22,7 +23,8 @@
             "LDA [m](F6)": "3480",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "270",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFET",
@@ -34,7 +36,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "22",
-            "min climb gradient OEI(I6)": "7"
+            "min climb gradient OEI(I6)": "7",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFET",
@@ -46,7 +49,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "202",
-            "min climb gradient OEI(I6)": "7"
+            "min climb gradient OEI(I6)": "7",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -58,7 +62,8 @@
             "LDA [m](F6)": "3060",
             "Slope [%](G6)": "0.45",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -70,7 +75,8 @@
             "ASDA [m](E6)": "1942",
             "Slope [%](G6)": "0.45",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -82,7 +88,8 @@
             "ASDA [m](E6)": "2948",
             "Slope [%](G6)": "0.45",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -94,7 +101,8 @@
             "LDA [m](F6)": "3000",
             "Slope [%](G6)": "-0.45",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -106,7 +114,8 @@
             "ASDA [m](E6)": "2945",
             "Slope [%](G6)": "-0.45",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -118,7 +127,8 @@
             "LDA [m](F6)": "3200",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -130,7 +140,8 @@
             "ASDA [m](E6)": "3283",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -142,7 +153,8 @@
             "ASDA [m](E6)": "1639",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -154,7 +166,8 @@
             "ASDA [m](E6)": "2570",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -166,7 +179,8 @@
             "ASDA [m](E6)": "3200",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -178,7 +192,8 @@
             "ASDA [m](E6)": "3283",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -190,7 +205,8 @@
             "LDA [m](F6)": "3500",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -202,7 +218,8 @@
             "ASDA [m](E6)": "2466",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -214,7 +231,8 @@
             "ASDA [m](E6)": "1886",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -226,7 +244,8 @@
             "ASDA [m](E6)": "2570",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -238,7 +257,8 @@
             "ASDA [m](E6)": "3411",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -250,7 +270,8 @@
             "ASDA [m](E6)": "1886",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -262,7 +283,8 @@
             "LDA [m](F6)": "2901",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "143",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -274,7 +296,8 @@
             "ASDA [m](E6)": "1950",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "143",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -286,7 +309,8 @@
             "ASDA [m](E6)": "1280",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "143",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -298,7 +322,8 @@
             "ASDA [m](E6)": "2156",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "143",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -310,7 +335,8 @@
             "LDA [m](F6)": "2901",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "323",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -322,7 +348,8 @@
             "ASDA [m](E6)": "2524",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "323",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -334,7 +361,8 @@
             "ASDA [m](E6)": "1660",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "323",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -346,7 +374,8 @@
             "ASDA [m](E6)": "1981",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "323",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFHK",
@@ -358,7 +387,8 @@
             "ASDA [m](E6)": "2524",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "323",
-            "min climb gradient OEI(I6)": "5"
+            "min climb gradient OEI(I6)": "5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -370,7 +400,8 @@
             "LDA [m](F6)": "2499",
             "Slope [%](G6)": "-0.21",
             "RWYHDG [°](H6)": "32",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -382,7 +413,8 @@
             "ASDA [m](E6)": "1389",
             "Slope [%](G6)": "-0.21",
             "RWYHDG [°](H6)": "32",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -394,7 +426,8 @@
             "LDA [m](F6)": "2499",
             "Slope [%](G6)": "0.21",
             "RWYHDG [°](H6)": "212",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -406,7 +439,8 @@
             "ASDA [m](E6)": "1784",
             "Slope [%](G6)": "0.21",
             "RWYHDG [°](H6)": "212",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -418,7 +452,8 @@
             "ASDA [m](E6)": "1972",
             "Slope [%](G6)": "0.21",
             "RWYHDG [°](H6)": "212",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFIV",
@@ -430,7 +465,8 @@
             "ASDA [m](E6)": "1166",
             "Slope [%](G6)": "0.21",
             "RWYHDG [°](H6)": "212",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJO",
@@ -442,7 +478,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.41",
             "RWYHDG [°](H6)": "277",
-            "min climb gradient OEI(I6)": "4.4"
+            "min climb gradient OEI(I6)": "4.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJO",
@@ -454,7 +491,8 @@
             "ASDA [m](E6)": "1121",
             "Slope [%](G6)": "0.41",
             "RWYHDG [°](H6)": "277",
-            "min climb gradient OEI(I6)": "4.4"
+            "min climb gradient OEI(I6)": "4.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJO",
@@ -466,7 +504,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.41",
             "RWYHDG [°](H6)": "97",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJO",
@@ -478,7 +517,8 @@
             "ASDA [m](E6)": "1401",
             "Slope [%](G6)": "-0.41",
             "RWYHDG [°](H6)": "97",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJO",
@@ -490,7 +530,8 @@
             "ASDA [m](E6)": "1967",
             "Slope [%](G6)": "-0.41",
             "RWYHDG [°](H6)": "97",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -502,7 +543,8 @@
             "LDA [m](F6)": "2601",
             "Slope [%](G6)": "0.53",
             "RWYHDG [°](H6)": "302",
-            "min climb gradient OEI(I6)": "4.5"
+            "min climb gradient OEI(I6)": "4.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -514,7 +556,8 @@
             "ASDA [m](E6)": "2092",
             "Slope [%](G6)": "0.53",
             "RWYHDG [°](H6)": "302",
-            "min climb gradient OEI(I6)": "4.5"
+            "min climb gradient OEI(I6)": "4.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -526,7 +569,8 @@
             "ASDA [m](E6)": "2092",
             "Slope [%](G6)": "0.53",
             "RWYHDG [°](H6)": "302",
-            "min climb gradient OEI(I6)": "4.5"
+            "min climb gradient OEI(I6)": "4.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -538,7 +582,8 @@
             "LDA [m](F6)": "2601",
             "Slope [%](G6)": "-0.53",
             "RWYHDG [°](H6)": "122",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -550,7 +595,8 @@
             "ASDA [m](E6)": "1566",
             "Slope [%](G6)": "-0.53",
             "RWYHDG [°](H6)": "122",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -562,7 +608,8 @@
             "ASDA [m](E6)": "1566",
             "Slope [%](G6)": "-0.53",
             "RWYHDG [°](H6)": "122",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFJY",
@@ -574,7 +621,8 @@
             "ASDA [m](E6)": "2281",
             "Slope [%](G6)": "-0.53",
             "RWYHDG [°](H6)": "122",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKE",
@@ -586,7 +634,8 @@
             "LDA [m](F6)": "2503",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "175",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKE",
@@ -598,7 +647,8 @@
             "ASDA [m](E6)": "1203",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "175",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKE",
@@ -610,7 +660,8 @@
             "LDA [m](F6)": "2503",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "355",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKE",
@@ -622,7 +673,8 @@
             "ASDA [m](E6)": "1323",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "355",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKE",
@@ -634,7 +686,8 @@
             "ASDA [m](E6)": "1638",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "355",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKI",
@@ -646,7 +699,8 @@
             "LDA [m](F6)": "2499",
             "Slope [%](G6)": "0.65",
             "RWYHDG [°](H6)": "66",
-            "min climb gradient OEI(I6)": "4.2"
+            "min climb gradient OEI(I6)": "4.2",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKI",
@@ -658,7 +712,8 @@
             "ASDA [m](E6)": "2071",
             "Slope [%](G6)": "0.65",
             "RWYHDG [°](H6)": "66",
-            "min climb gradient OEI(I6)": "4.2"
+            "min climb gradient OEI(I6)": "4.2",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKI",
@@ -670,7 +725,8 @@
             "LDA [m](F6)": "2499",
             "Slope [%](G6)": "-0.65",
             "RWYHDG [°](H6)": "247",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKK",
@@ -682,7 +738,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.05",
             "RWYHDG [°](H6)": "0",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKK",
@@ -694,7 +751,8 @@
             "ASDA [m](E6)": "1261",
             "Slope [%](G6)": "0.05",
             "RWYHDG [°](H6)": "0",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKK",
@@ -706,7 +764,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "180",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKK",
@@ -718,7 +777,8 @@
             "ASDA [m](E6)": "1261",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "180",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKK",
@@ -730,7 +790,8 @@
             "ASDA [m](E6)": "1524",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "180",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKS",
@@ -742,7 +803,8 @@
             "LDA [m](F6)": "2460",
             "Slope [%](G6)": "-0.01",
             "RWYHDG [°](H6)": "118",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKS",
@@ -754,7 +816,8 @@
             "ASDA [m](E6)": "2362",
             "Slope [%](G6)": "-0.01",
             "RWYHDG [°](H6)": "118",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKS",
@@ -766,7 +829,8 @@
             "LDA [m](F6)": "2460",
             "Slope [%](G6)": "0.01",
             "RWYHDG [°](H6)": "298",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKT",
@@ -778,7 +842,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKT",
@@ -790,7 +855,8 @@
             "ASDA [m](E6)": "1952",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKT",
@@ -802,7 +868,8 @@
             "ASDA [m](E6)": "1613",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKT",
@@ -814,7 +881,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.15",
             "RWYHDG [°](H6)": "153",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKT",
@@ -826,7 +894,8 @@
             "ASDA [m](E6)": "1960",
             "Slope [%](G6)": "0.15",
             "RWYHDG [°](H6)": "153",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -838,7 +907,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -850,7 +920,8 @@
             "ASDA [m](E6)": "1990",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -862,7 +933,8 @@
             "ASDA [m](E6)": "1500",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -874,7 +946,8 @@
             "ASDA [m](E6)": "1990",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -886,7 +959,8 @@
             "ASDA [m](E6)": "2361",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -898,7 +972,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -910,7 +985,8 @@
             "ASDA [m](E6)": "1345",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -922,7 +998,8 @@
             "ASDA [m](E6)": "2077",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFKU",
@@ -934,7 +1011,8 @@
             "ASDA [m](E6)": "2498",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFLP",
@@ -946,7 +1024,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "55",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFLP",
@@ -958,7 +1037,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "235",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMA",
@@ -970,7 +1050,8 @@
             "LDA [m](F6)": "1903",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "15",
-            "min climb gradient OEI(I6)": "3.7"
+            "min climb gradient OEI(I6)": "3.7",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMA",
@@ -982,7 +1063,8 @@
             "LDA [m](F6)": "1903",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "195",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMA",
@@ -994,7 +1076,8 @@
             "ASDA [m](E6)": "1392",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "195",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMI",
@@ -1006,7 +1089,8 @@
             "LDA [m](F6)": "1602",
             "Slope [%](G6)": "0.14",
             "RWYHDG [°](H6)": "281",
-            "min climb gradient OEI(I6)": "3.4"
+            "min climb gradient OEI(I6)": "3.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMI",
@@ -1018,7 +1102,8 @@
             "ASDA [m](E6)": "1061",
             "Slope [%](G6)": "0.14",
             "RWYHDG [°](H6)": "281",
-            "min climb gradient OEI(I6)": "3.4"
+            "min climb gradient OEI(I6)": "3.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFMI",
@@ -1030,7 +1115,8 @@
             "LDA [m](F6)": "1453",
             "Slope [%](G6)": "-0.14",
             "RWYHDG [°](H6)": "101",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1042,7 +1128,8 @@
             "LDA [m](F6)": "2501",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1054,7 +1141,8 @@
             "ASDA [m](E6)": "2095",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1066,7 +1154,8 @@
             "ASDA [m](E6)": "1409",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1078,7 +1167,8 @@
             "ASDA [m](E6)": "2095",
             "Slope [%](G6)": "-0.17",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1090,7 +1180,8 @@
             "LDA [m](F6)": "2501",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "289",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1102,7 +1193,8 @@
             "ASDA [m](E6)": "1753",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "289",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFOU",
@@ -1114,7 +1206,8 @@
             "ASDA [m](E6)": "1444",
             "Slope [%](G6)": "0.17",
             "RWYHDG [°](H6)": "289",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1126,7 +1219,8 @@
             "LDA [m](F6)": "2256",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1138,7 +1232,8 @@
             "ASDA [m](E6)": "1952",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1150,7 +1245,8 @@
             "ASDA [m](E6)": "1435",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1162,7 +1258,8 @@
             "ASDA [m](E6)": "1868",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1174,7 +1271,8 @@
             "ASDA [m](E6)": "2251",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1186,7 +1284,8 @@
             "ASDA [m](E6)": "1435",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "116",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1198,7 +1297,8 @@
             "LDA [m](F6)": "2006",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "296",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1210,7 +1310,8 @@
             "ASDA [m](E6)": "1476",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "296",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1222,7 +1323,8 @@
             "ASDA [m](E6)": "2006",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "296",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1234,7 +1336,8 @@
             "LDA [m](F6)": "801",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "164",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFPO",
@@ -1246,7 +1349,8 @@
             "LDA [m](F6)": "801",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "344",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1258,7 +1362,8 @@
             "ASDA [m](E6)": "1222",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1270,7 +1375,8 @@
             "LDA [m](F6)": "3002",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1282,7 +1388,8 @@
             "ASDA [m](E6)": "2131",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1294,7 +1401,8 @@
             "ASDA [m](E6)": "1282",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1306,7 +1414,8 @@
             "ASDA [m](E6)": "1802",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1318,7 +1427,8 @@
             "ASDA [m](E6)": "1231",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1330,7 +1440,8 @@
             "ASDA [m](E6)": "2482",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1342,7 +1453,8 @@
             "ASDA [m](E6)": "1802",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1354,7 +1466,8 @@
             "LDA [m](F6)": "3002",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1366,7 +1479,8 @@
             "ASDA [m](E6)": "1742",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1378,7 +1492,8 @@
             "ASDA [m](E6)": "2523",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1390,7 +1505,8 @@
             "ASDA [m](E6)": "2511",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1402,7 +1518,8 @@
             "ASDA [m](E6)": "1222",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFRO",
@@ -1414,7 +1531,8 @@
             "ASDA [m](E6)": "1800",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFSA",
@@ -1426,7 +1544,8 @@
             "LDA [m](F6)": "2300",
             "Slope [%](G6)": "-0.29",
             "RWYHDG [°](H6)": "113",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFSA",
@@ -1438,7 +1557,8 @@
             "ASDA [m](E6)": "1781",
             "Slope [%](G6)": "-0.29",
             "RWYHDG [°](H6)": "113",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFSA",
@@ -1450,7 +1570,8 @@
             "LDA [m](F6)": "2300",
             "Slope [%](G6)": "0.29",
             "RWYHDG [°](H6)": "293",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFSI",
@@ -1462,7 +1583,8 @@
             "LDA [m](F6)": "2000",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "126",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFSI",
@@ -1474,7 +1596,8 @@
             "LDA [m](F6)": "2000",
             "Slope [%](G6)": "0.15",
             "RWYHDG [°](H6)": "306",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1486,7 +1609,8 @@
             "LDA [m](F6)": "2700",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "54",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1498,7 +1622,8 @@
             "ASDA [m](E6)": "2515",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "54",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1510,7 +1635,8 @@
             "ASDA [m](E6)": "2117",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "54",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1522,7 +1648,8 @@
             "ASDA [m](E6)": "1815",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "54",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1534,7 +1661,8 @@
             "ASDA [m](E6)": "1186",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "54",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1546,7 +1674,8 @@
             "LDA [m](F6)": "2700",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "234",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1558,7 +1687,8 @@
             "ASDA [m](E6)": "2036",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "234",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1570,7 +1700,8 @@
             "ASDA [m](E6)": "2351",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "234",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1582,7 +1713,8 @@
             "ASDA [m](E6)": "1983",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "234",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTP",
@@ -1594,7 +1726,8 @@
             "ASDA [m](E6)": "1536",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "234",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1606,7 +1739,8 @@
             "ASDA [m](E6)": "1500",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "255",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1618,7 +1752,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "75",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1630,7 +1765,8 @@
             "ASDA [m](E6)": "1020",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "75",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1642,7 +1778,8 @@
             "ASDA [m](E6)": "1815",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "75",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1654,7 +1791,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "255",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1666,7 +1804,8 @@
             "ASDA [m](E6)": "2125",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "255",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFTU",
@@ -1678,7 +1817,8 @@
             "ASDA [m](E6)": "1675",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "255",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFVA",
@@ -1690,7 +1830,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "153",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFVA",
@@ -1702,7 +1843,8 @@
             "ASDA [m](E6)": "2000",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "153",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFVA",
@@ -1714,7 +1856,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFVA",
@@ -1726,7 +1869,8 @@
             "ASDA [m](E6)": "1529",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EFVA",
@@ -1738,7 +1882,8 @@
             "ASDA [m](E6)": "2128",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKAH",
@@ -1750,7 +1895,8 @@
             "LDA [m](F6)": "2704",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "96",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKAH",
@@ -1762,7 +1908,8 @@
             "ASDA [m](E6)": "2357",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "96",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKAH",
@@ -1774,7 +1921,8 @@
             "LDA [m](F6)": "2704",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "276",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKAH",
@@ -1786,7 +1934,8 @@
             "LDA [m](F6)": "2781",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "96",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKAH",
@@ -1798,7 +1947,8 @@
             "LDA [m](F6)": "2781",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "276",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKBI",
@@ -1810,7 +1960,8 @@
             "LDA [m](F6)": "3101",
             "Slope [%](G6)": "0.32",
             "RWYHDG [°](H6)": "82",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKBI",
@@ -1822,7 +1973,8 @@
             "ASDA [m](E6)": "3101",
             "Slope [%](G6)": "0.32",
             "RWYHDG [°](H6)": "82",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKBI",
@@ -1834,7 +1986,8 @@
             "LDA [m](F6)": "2951",
             "Slope [%](G6)": "0.32",
             "RWYHDG [°](H6)": "262",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKBI",
@@ -1846,7 +1999,8 @@
             "ASDA [m](E6)": "3101",
             "Slope [%](G6)": "0.32",
             "RWYHDG [°](H6)": "262",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1858,7 +2012,8 @@
             "LDA [m](F6)": "3001",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1870,7 +2025,8 @@
             "ASDA [m](E6)": "3571",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1882,7 +2038,8 @@
             "LDA [m](F6)": "3001",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1894,7 +2051,8 @@
             "ASDA [m](E6)": "3571",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1906,7 +2064,8 @@
             "ASDA [m](E6)": "3489",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1918,7 +2077,8 @@
             "ASDA [m](E6)": "3362",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1930,7 +2090,8 @@
             "ASDA [m](E6)": "3234",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1942,7 +2103,8 @@
             "ASDA [m](E6)": "2889",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1954,7 +2116,8 @@
             "LDA [m](F6)": "3302",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1966,7 +2129,8 @@
             "ASDA [m](E6)": "3302",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1978,7 +2142,8 @@
             "ASDA [m](E6)": "3203",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -1990,7 +2155,8 @@
             "ASDA [m](E6)": "2797",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2002,7 +2168,8 @@
             "ASDA [m](E6)": "1941",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2014,7 +2181,8 @@
             "LDA [m](F6)": "3302",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2026,7 +2194,8 @@
             "ASDA [m](E6)": "3302",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2038,7 +2207,8 @@
             "ASDA [m](E6)": "2787",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2050,7 +2220,8 @@
             "LDA [m](F6)": "2365",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "119",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2062,7 +2233,8 @@
             "ASDA [m](E6)": "2800",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "119",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2074,7 +2246,8 @@
             "ASDA [m](E6)": "2699",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "119",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2086,7 +2259,8 @@
             "ASDA [m](E6)": "2481",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "119",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2098,7 +2272,8 @@
             "ASDA [m](E6)": "1798",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "119",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2110,7 +2285,8 @@
             "LDA [m](F6)": "2365",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "299",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EKCH",
@@ -2122,7 +2298,8 @@
             "ASDA [m](E6)": "2665",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "299",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENBO",
@@ -2134,7 +2311,8 @@
             "LDA [m](F6)": "2794",
             "Slope [%](G6)": "-0.5",
             "RWYHDG [°](H6)": "258",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENBO",
@@ -2147,7 +2325,8 @@
             "Slope [%](G6)": "0.5",
             "RWYHDG [°](H6)": "78",
             "min climb gradient OEI(I6)": "3.3",
-            "Routing(L6)": "Climb STRAIGHT ahead to D 2.0 BDO DME.\r\nTurn RIGHT to intercept and follow FLV QDM 241° climbing to 6000 ft.\r\n\r\nNote: Be aware of DME station selected. "
+            "Engine out climb path": "Turning",
+            "Routing(L6)": "Climb STRAIGHT ahead to D 2.0 BDO DME.\nTurn RIGHT to intercept and follow FLV QDM 241° climbing to 6000 ft.\n\nNote: Be aware of DME station selected. "
         },
         {
             "ICAO": "ENBR",
@@ -2159,7 +2338,8 @@
             "LDA [m](F6)": "2525",
             "Slope [%](G6)": "-1",
             "RWYHDG [°](H6)": "350",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENBR",
@@ -2171,7 +2351,8 @@
             "LDA [m](F6)": "2557",
             "Slope [%](G6)": "-1",
             "RWYHDG [°](H6)": "170",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENCN",
@@ -2183,7 +2364,8 @@
             "LDA [m](F6)": "1870",
             "Slope [%](G6)": "-0.6",
             "RWYHDG [°](H6)": "215",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENCN",
@@ -2196,8 +2378,7 @@
             "Slope [%](G6)": "0.6",
             "RWYHDG [°](H6)": "35",
             "min climb gradient OEI(I6)": "3.3",
-            "min cloudbase(K6)": "1500",
-            "Routing(L6)": "Min Vis: 1500m"
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENEV",
@@ -2210,8 +2391,8 @@
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "357",
             "min climb gradient OEI(I6)": "3.3",
-            "min cloudbase(K6)": "300",
-            "Routing(L6)": "Min Vis: 1000m\nClimb STRAIGHT ahead to D 3.5 EVD DME. Turn LEFT to intercept and follow R-353 EVD to FS.\nEnter FS holding climbing to 5000 ft. NOTE: Raised cloudbase and RVR/VIS."
+            "Engine out climb path": "Turning",
+            "Routing(L6)": "Climb STRAIGHT ahead to D 3.5 EVD DME. Turn LEFT to intercept and follow R-353 EVD to FS.\nEnter FS holding climbing to 5000 ft. NOTE: Raised cloudbase and RVR/VIS."
         },
         {
             "ICAO": "ENEV",
@@ -2223,7 +2404,8 @@
             "LDA [m](F6)": "2718",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "177",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENGM",
@@ -2235,7 +2417,8 @@
             "LDA [m](F6)": "2950",
             "Slope [%](G6)": "-0.25",
             "RWYHDG [°](H6)": "16",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENGM",
@@ -2247,7 +2430,8 @@
             "LDA [m](F6)": "2950",
             "Slope [%](G6)": "-0.25",
             "RWYHDG [°](H6)": "196",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENGM",
@@ -2259,7 +2443,8 @@
             "LDA [m](F6)": "3600",
             "Slope [%](G6)": "0.13",
             "RWYHDG [°](H6)": "16",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENGM",
@@ -2271,7 +2456,8 @@
             "LDA [m](F6)": "3600",
             "Slope [%](G6)": "0.13",
             "RWYHDG [°](H6)": "196",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENKB",
@@ -2283,7 +2469,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "0.7",
             "RWYHDG [°](H6)": "251",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENKB",
@@ -2295,7 +2482,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "1.2",
             "RWYHDG [°](H6)": "71",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENTC",
@@ -2307,7 +2495,8 @@
             "LDA [m](F6)": "2004",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "183",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENTC",
@@ -2320,8 +2509,8 @@
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "3",
             "min climb gradient OEI(I6)": "3.3",
-            "min cloudbase(K6)": "1500",
-            "Routing(L6)": "Min vis: 1500m\nClimb STRAIGHT ahead to D 2.0 TC DME. Turn RIGHT to intercept and follow R-020 TRO.\nAt D 4.0 TRO DME turn LEFT to intercept and follow KV QDM 315.\nAt KV turn LEFT to intercept and follow KV QDR 312 climbing to 5000 ft. Request vectors."
+            "Engine out climb path": "Turning",
+            "Routing(L6)": "Climb STRAIGHT ahead to D 2.0 TC DME. Turn RIGHT to intercept and follow R-020 TRO.\nAt D 4.0 TRO DME turn LEFT to intercept and follow KV QDM 315.\nAt KV turn LEFT to intercept and follow KV QDR 312 climbing to 5000 ft. Request vectors."
         },
         {
             "ICAO": "ENVA",
@@ -2333,7 +2522,8 @@
             "LDA [m](F6)": "2469",
             "Slope [%](G6)": "-0.5",
             "RWYHDG [°](H6)": "270",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENVA",
@@ -2346,8 +2536,8 @@
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "90",
             "min climb gradient OEI(I6)": "3.3",
-            "min cloudbase(K6)": "1500",
-            "Routing(L6)": "Min Vis: 1500m\r\nClimb STRAIGHT ahead to D 12.2 TO DME.\r\nTurn LEFT on track 042° climbing 5800 ft.  Request vectors."
+            "Engine out climb path": "Turning",
+            "Routing(L6)": "Climb STRAIGHT ahead to D 12.2 TO DME.\nTurn LEFT on track 042° climbing 5800 ft.  Request vectors."
         },
         {
             "ICAO": "ENZV",
@@ -2360,6 +2550,7 @@
             "Slope [%](G6)": "0.3",
             "RWYHDG [°](H6)": "106",
             "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Turning",
             "Routing(L6)": "Climb STRAIGHT ahead to D 3.0 ZOL DME.\r\nTurn RIGHT on track 205° climbing to 3000 ft. Request vectors."
         },
         {
@@ -2372,7 +2563,8 @@
             "LDA [m](F6)": "2049",
             "Slope [%](G6)": "-0.3",
             "RWYHDG [°](H6)": "286",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENZV",
@@ -2384,7 +2576,8 @@
             "LDA [m](F6)": "2496",
             "Slope [%](G6)": "0.6",
             "RWYHDG [°](H6)": "179",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ENZV",
@@ -2396,7 +2589,8 @@
             "LDA [m](F6)": "2406",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "359",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EPGD",
@@ -2408,7 +2602,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "113",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EPGD",
@@ -2420,7 +2615,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "-0.4",
             "RWYHDG [°](H6)": "293",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESDF",
@@ -2432,7 +2628,8 @@
             "LDA [m](F6)": "2331",
             "Slope [%](G6)": "0.09",
             "RWYHDG [°](H6)": "4",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESDF",
@@ -2444,7 +2641,8 @@
             "LDA [m](F6)": "2331",
             "Slope [%](G6)": "-0.09",
             "RWYHDG [°](H6)": "184",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESDF",
@@ -2456,7 +2654,8 @@
             "ASDA [m](E6)": "1570",
             "Slope [%](G6)": "-0.09",
             "RWYHDG [°](H6)": "184",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2468,7 +2667,8 @@
             "LDA [m](F6)": "3299",
             "Slope [%](G6)": "0.26",
             "RWYHDG [°](H6)": "22",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2480,7 +2680,8 @@
             "ASDA [m](E6)": "3083",
             "Slope [%](G6)": "0.26",
             "RWYHDG [°](H6)": "22",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2492,7 +2693,8 @@
             "ASDA [m](E6)": "2189",
             "Slope [%](G6)": "0.26",
             "RWYHDG [°](H6)": "22",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2504,7 +2706,8 @@
             "ASDA [m](E6)": "1811",
             "Slope [%](G6)": "0.26",
             "RWYHDG [°](H6)": "22",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2516,7 +2719,8 @@
             "LDA [m](F6)": "3299",
             "Slope [%](G6)": "-0.26",
             "RWYHDG [°](H6)": "202",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2528,7 +2732,8 @@
             "ASDA [m](E6)": "2142",
             "Slope [%](G6)": "-0.26",
             "RWYHDG [°](H6)": "202",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGG",
@@ -2540,7 +2745,8 @@
             "ASDA [m](E6)": "3124",
             "Slope [%](G6)": "-0.26",
             "RWYHDG [°](H6)": "202",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGJ",
@@ -2552,7 +2758,8 @@
             "LDA [m](F6)": "2203",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "11",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGJ",
@@ -2564,7 +2771,8 @@
             "ASDA [m](E6)": "1640",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "11",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGJ",
@@ -2576,7 +2784,8 @@
             "LDA [m](F6)": "2203",
             "Slope [%](G6)": "-0.07",
             "RWYHDG [°](H6)": "191",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGP",
@@ -2588,7 +2797,8 @@
             "LDA [m](F6)": "1085",
             "Slope [%](G6)": "-0.08",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGP",
@@ -2600,7 +2810,8 @@
             "ASDA [m](E6)": "675",
             "Slope [%](G6)": "-0.08",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGP",
@@ -2612,7 +2823,8 @@
             "LDA [m](F6)": "1085",
             "Slope [%](G6)": "0.08",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGP",
@@ -2624,7 +2836,8 @@
             "ASDA [m](E6)": "890",
             "Slope [%](G6)": "0.08",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGT",
@@ -2636,7 +2849,8 @@
             "LDA [m](F6)": "1710",
             "Slope [%](G6)": "-0.02",
             "RWYHDG [°](H6)": "141",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESGT",
@@ -2648,7 +2862,8 @@
             "LDA [m](F6)": "1501",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "321",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKM",
@@ -2661,7 +2876,7 @@
             "Slope [%](G6)": "-0.22",
             "RWYHDG [°](H6)": "155",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 155° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -2675,7 +2890,7 @@
             "Slope [%](G6)": "0.22",
             "RWYHDG [°](H6)": "335",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 335° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -2688,7 +2903,8 @@
             "LDA [m](F6)": "2750",
             "Slope [%](G6)": "0.15",
             "RWYHDG [°](H6)": "77",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2700,7 +2916,8 @@
             "LDA [m](F6)": "2878",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "257",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2712,7 +2929,8 @@
             "ASDA [m](E6)": "1875",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "257",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2724,7 +2942,8 @@
             "ASDA [m](E6)": "2604",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "257",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2736,7 +2955,8 @@
             "LDA [m](F6)": "2043",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "156",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2748,7 +2968,8 @@
             "ASDA [m](E6)": "1819",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "156",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2760,7 +2981,8 @@
             "LDA [m](F6)": "2043",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "336",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKN",
@@ -2772,7 +2994,8 @@
             "ASDA [m](E6)": "1207",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "336",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKS",
@@ -2784,7 +3007,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "142",
-            "min climb gradient OEI(I6)": "4.6"
+            "min climb gradient OEI(I6)": "4.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESKS",
@@ -2796,7 +3020,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "322",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2808,7 +3033,8 @@
             "LDA [m](F6)": "2215",
             "Slope [%](G6)": "0.04",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2820,7 +3046,8 @@
             "ASDA [m](E6)": "1189",
             "Slope [%](G6)": "0.04",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2832,7 +3059,8 @@
             "ASDA [m](E6)": "1390",
             "Slope [%](G6)": "0.04",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2844,7 +3072,8 @@
             "ASDA [m](E6)": "1300",
             "Slope [%](G6)": "0.04",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2856,7 +3085,8 @@
             "LDA [m](F6)": "2215",
             "Slope [%](G6)": "-0.04",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2868,7 +3098,8 @@
             "ASDA [m](E6)": "1050",
             "Slope [%](G6)": "-0.04",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2880,7 +3111,8 @@
             "ASDA [m](E6)": "848",
             "Slope [%](G6)": "-0.04",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMK",
@@ -2892,7 +3124,8 @@
             "ASDA [m](E6)": "923",
             "Slope [%](G6)": "-0.04",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMQ",
@@ -2904,7 +3137,8 @@
             "LDA [m](F6)": "2050",
             "Slope [%](G6)": "-0.03",
             "RWYHDG [°](H6)": "145",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMQ",
@@ -2916,7 +3150,8 @@
             "LDA [m](F6)": "2050",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMQ",
@@ -2928,7 +3163,8 @@
             "ASDA [m](E6)": "2050",
             "Slope [%](G6)": "0.03",
             "RWYHDG [°](H6)": "325",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMQ",
@@ -2940,7 +3176,8 @@
             "LDA [m](F6)": "656",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "41",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMQ",
@@ -2952,7 +3189,8 @@
             "LDA [m](F6)": "656",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "221",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -2964,7 +3202,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "0.3",
             "RWYHDG [°](H6)": "169",
-            "min climb gradient OEI(I6)": "4"
+            "min climb gradient OEI(I6)": "4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -2976,7 +3215,8 @@
             "ASDA [m](E6)": "2163",
             "Slope [%](G6)": "0.3",
             "RWYHDG [°](H6)": "169",
-            "min climb gradient OEI(I6)": "4"
+            "min climb gradient OEI(I6)": "4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -2988,7 +3228,8 @@
             "LDA [m](F6)": "2800",
             "Slope [%](G6)": "-0.3",
             "RWYHDG [°](H6)": "349",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -3000,7 +3241,8 @@
             "ASDA [m](E6)": "2052",
             "Slope [%](G6)": "-0.3",
             "RWYHDG [°](H6)": "349",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -3012,7 +3254,8 @@
             "LDA [m](F6)": "799",
             "Slope [%](G6)": "-0.15",
             "RWYHDG [°](H6)": "101",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMS",
@@ -3024,7 +3267,8 @@
             "LDA [m](F6)": "799",
             "Slope [%](G6)": "0.15",
             "RWYHDG [°](H6)": "281",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMT",
@@ -3036,7 +3280,8 @@
             "LDA [m](F6)": "2268",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "5.8"
+            "min climb gradient OEI(I6)": "5.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMT",
@@ -3048,7 +3293,8 @@
             "ASDA [m](E6)": "2195",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "5.8"
+            "min climb gradient OEI(I6)": "5.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMT",
@@ -3060,7 +3306,8 @@
             "ASDA [m](E6)": "2232",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "5.8"
+            "min climb gradient OEI(I6)": "5.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMT",
@@ -3072,7 +3319,8 @@
             "ASDA [m](E6)": "1584",
             "Slope [%](G6)": "0.27",
             "RWYHDG [°](H6)": "1",
-            "min climb gradient OEI(I6)": "5.8"
+            "min climb gradient OEI(I6)": "5.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMT",
@@ -3084,7 +3332,8 @@
             "LDA [m](F6)": "2268",
             "Slope [%](G6)": "-0.27",
             "RWYHDG [°](H6)": "181",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMV",
@@ -3096,7 +3345,8 @@
             "LDA [m](F6)": "2050",
             "Slope [%](G6)": "-0.02",
             "RWYHDG [°](H6)": "37",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMV",
@@ -3108,7 +3358,8 @@
             "LDA [m](F6)": "2050",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "217",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMX",
@@ -3120,7 +3371,8 @@
             "LDA [m](F6)": "2106",
             "Slope [%](G6)": "-0.68",
             "RWYHDG [°](H6)": "7",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESMX",
@@ -3132,7 +3384,8 @@
             "LDA [m](F6)": "2106",
             "Slope [%](G6)": "0.68",
             "RWYHDG [°](H6)": "187",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESND",
@@ -3145,7 +3398,7 @@
             "Slope [%](G6)": "0.08",
             "RWYHDG [°](H6)": "81",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 081° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3159,7 +3412,7 @@
             "Slope [%](G6)": "-0.08",
             "RWYHDG [°](H6)": "261",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 261° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3172,7 +3425,8 @@
             "LDA [m](F6)": "1714",
             "Slope [%](G6)": "-1",
             "RWYHDG [°](H6)": "108",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNG",
@@ -3184,7 +3438,8 @@
             "LDA [m](F6)": "1714",
             "Slope [%](G6)": "1",
             "RWYHDG [°](H6)": "288",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNK",
@@ -3196,7 +3451,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "0.18",
             "RWYHDG [°](H6)": "345",
-            "min climb gradient OEI(I6)": "6.4"
+            "min climb gradient OEI(I6)": "6.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNK",
@@ -3208,7 +3464,8 @@
             "LDA [m](F6)": "2001",
             "Slope [%](G6)": "-0.18",
             "RWYHDG [°](H6)": "165",
-            "min climb gradient OEI(I6)": "3.6"
+            "min climb gradient OEI(I6)": "3.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNL",
@@ -3221,8 +3478,7 @@
             "Slope [%](G6)": "0.23",
             "RWYHDG [°](H6)": "315",
             "min climb gradient OEI(I6)": "9.5",
-            "min cloudbase(K6)": "300",
-            "Routing(L6)": "Min RVR: 1000m"
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNL",
@@ -3235,8 +3491,7 @@
             "Slope [%](G6)": "-0.23",
             "RWYHDG [°](H6)": "135",
             "min climb gradient OEI(I6)": "5.3",
-            "min cloudbase(K6)": "300",
-            "Routing(L6)": "Min RVR: 1000m"
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNN",
@@ -3248,7 +3503,8 @@
             "LDA [m](F6)": "1804",
             "Slope [%](G6)": "0.06",
             "RWYHDG [°](H6)": "333",
-            "min climb gradient OEI(I6)": "5.9"
+            "min climb gradient OEI(I6)": "5.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNN",
@@ -3260,7 +3516,8 @@
             "LDA [m](F6)": "1804",
             "Slope [%](G6)": "-0.06",
             "RWYHDG [°](H6)": "153",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNO",
@@ -3272,7 +3529,8 @@
             "LDA [m](F6)": "2016",
             "Slope [%](G6)": "-0.33",
             "RWYHDG [°](H6)": "113",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNO",
@@ -3284,7 +3542,8 @@
             "LDA [m](F6)": "2016",
             "Slope [%](G6)": "0.33",
             "RWYHDG [°](H6)": "293",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNQ",
@@ -3296,7 +3555,8 @@
             "LDA [m](F6)": "2502",
             "Slope [%](G6)": "-0.93",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNQ",
@@ -3308,7 +3568,8 @@
             "ASDA [m](E6)": "1482",
             "Slope [%](G6)": "-0.93",
             "RWYHDG [°](H6)": "24",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNQ",
@@ -3320,7 +3581,8 @@
             "LDA [m](F6)": "2502",
             "Slope [%](G6)": "0.93",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNQ",
@@ -3332,7 +3594,8 @@
             "ASDA [m](E6)": "1503",
             "Slope [%](G6)": "0.93",
             "RWYHDG [°](H6)": "204",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNS",
@@ -3344,7 +3607,8 @@
             "LDA [m](F6)": "2520",
             "Slope [%](G6)": "-0.43",
             "RWYHDG [°](H6)": "96",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNS",
@@ -3356,7 +3620,8 @@
             "LDA [m](F6)": "2520",
             "Slope [%](G6)": "0.43",
             "RWYHDG [°](H6)": "276",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNU",
@@ -3369,7 +3634,7 @@
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "130",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 130° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3383,7 +3648,7 @@
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "130",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 130° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3397,7 +3662,7 @@
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "310",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 310° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3411,7 +3676,7 @@
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "310",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 310° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3424,7 +3689,8 @@
             "LDA [m](F6)": "1500",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "95",
-            "min climb gradient OEI(I6)": "3.9"
+            "min climb gradient OEI(I6)": "3.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNV",
@@ -3436,7 +3702,8 @@
             "LDA [m](F6)": "1260",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "275",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNX",
@@ -3448,7 +3715,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.02",
             "RWYHDG [°](H6)": "120",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNX",
@@ -3460,7 +3728,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "300",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESNZ",
@@ -3473,7 +3742,7 @@
             "Slope [%](G6)": "0.49",
             "RWYHDG [°](H6)": "109",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 109° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3487,7 +3756,7 @@
             "Slope [%](G6)": "0.49",
             "RWYHDG [°](H6)": "109",
             "min climb gradient OEI(I6)": "2.4",
-            "min cloudbase(K6)": "-",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 109° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3501,6 +3770,7 @@
             "Slope [%](G6)": "-0.49",
             "RWYHDG [°](H6)": "289",
             "min climb gradient OEI(I6)": "2.4",
+            "Engine out climb path": "Straight",
             "Routing(L6)": "Climb straight ahead on 289° track with min 2,4% OEI climb gradient to MSA"
         },
         {
@@ -3513,7 +3783,8 @@
             "LDA [m](F6)": "3270",
             "Slope [%](G6)": "0.28",
             "RWYHDG [°](H6)": "5",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOE",
@@ -3525,7 +3796,8 @@
             "ASDA [m](E6)": "958",
             "Slope [%](G6)": "0.28",
             "RWYHDG [°](H6)": "5",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOE",
@@ -3537,7 +3809,8 @@
             "ASDA [m](E6)": "1293",
             "Slope [%](G6)": "0.28",
             "RWYHDG [°](H6)": "5",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOE",
@@ -3549,7 +3822,8 @@
             "LDA [m](F6)": "3270",
             "Slope [%](G6)": "-0.28",
             "RWYHDG [°](H6)": "185",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOE",
@@ -3561,7 +3835,8 @@
             "ASDA [m](E6)": "2335",
             "Slope [%](G6)": "-0.28",
             "RWYHDG [°](H6)": "185",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOE",
@@ -3573,7 +3848,8 @@
             "ASDA [m](E6)": "2002",
             "Slope [%](G6)": "-0.28",
             "RWYHDG [°](H6)": "185",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOH",
@@ -3585,7 +3861,8 @@
             "LDA [m](F6)": "1508",
             "Slope [%](G6)": "0.11",
             "RWYHDG [°](H6)": "351",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOH",
@@ -3597,7 +3874,8 @@
             "LDA [m](F6)": "1508",
             "Slope [%](G6)": "-0.11",
             "RWYHDG [°](H6)": "171",
-            "min climb gradient OEI(I6)": "3.8"
+            "min climb gradient OEI(I6)": "3.8",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3609,7 +3887,8 @@
             "LDA [m](F6)": "2516",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "21",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3621,7 +3900,8 @@
             "ASDA [m](E6)": "969",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "21",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3633,7 +3913,8 @@
             "ASDA [m](E6)": "1395",
             "Slope [%](G6)": "0.24",
             "RWYHDG [°](H6)": "21",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3645,7 +3926,8 @@
             "LDA [m](F6)": "2516",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "201",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3657,7 +3939,8 @@
             "ASDA [m](E6)": "1485",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "201",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESOK",
@@ -3669,7 +3952,8 @@
             "ASDA [m](E6)": "1037",
             "Slope [%](G6)": "-0.24",
             "RWYHDG [°](H6)": "201",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3681,7 +3965,8 @@
             "LDA [m](F6)": "3350",
             "Slope [%](G6)": "-0.4",
             "RWYHDG [°](H6)": "127",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3693,7 +3978,8 @@
             "ASDA [m](E6)": "3410",
             "Slope [%](G6)": "-0.4",
             "RWYHDG [°](H6)": "127",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3705,7 +3991,8 @@
             "ASDA [m](E6)": "2710",
             "Slope [%](G6)": "-0.4",
             "RWYHDG [°](H6)": "127",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3717,7 +4004,8 @@
             "ASDA [m](E6)": "2320",
             "Slope [%](G6)": "-0.4",
             "RWYHDG [°](H6)": "127",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3729,7 +4017,8 @@
             "LDA [m](F6)": "3350",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "307",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3741,7 +4030,8 @@
             "ASDA [m](E6)": "2395",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "307",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3753,7 +4043,8 @@
             "ASDA [m](E6)": "2945",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "307",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPA",
@@ -3765,7 +4056,8 @@
             "ASDA [m](E6)": "3410",
             "Slope [%](G6)": "0.4",
             "RWYHDG [°](H6)": "307",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPE",
@@ -3777,7 +4069,8 @@
             "LDA [m](F6)": "2234",
             "Slope [%](G6)": "-0.04",
             "RWYHDG [°](H6)": "106",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESPE",
@@ -3789,7 +4082,8 @@
             "LDA [m](F6)": "2234",
             "Slope [%](G6)": "0.04",
             "RWYHDG [°](H6)": "286",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3801,7 +4095,8 @@
             "LDA [m](F6)": "3301",
             "Slope [%](G6)": "0.18",
             "RWYHDG [°](H6)": "2",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3813,7 +4108,8 @@
             "ASDA [m](E6)": "2512",
             "Slope [%](G6)": "0.18",
             "RWYHDG [°](H6)": "2",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3825,7 +4121,8 @@
             "ASDA [m](E6)": "2276",
             "Slope [%](G6)": "0.18",
             "RWYHDG [°](H6)": "2",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3837,7 +4134,8 @@
             "LDA [m](F6)": "3301",
             "Slope [%](G6)": "-0.18",
             "RWYHDG [°](H6)": "182",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3849,7 +4147,8 @@
             "ASDA [m](E6)": "2288",
             "Slope [%](G6)": "-0.18",
             "RWYHDG [°](H6)": "182",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3861,7 +4160,8 @@
             "ASDA [m](E6)": "2514",
             "Slope [%](G6)": "-0.18",
             "RWYHDG [°](H6)": "182",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3873,7 +4173,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.48",
             "RWYHDG [°](H6)": "2",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3885,7 +4186,8 @@
             "ASDA [m](E6)": "2147",
             "Slope [%](G6)": "-0.48",
             "RWYHDG [°](H6)": "2",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3897,7 +4199,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.48",
             "RWYHDG [°](H6)": "182",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3909,7 +4212,8 @@
             "ASDA [m](E6)": "2147",
             "Slope [%](G6)": "0.48",
             "RWYHDG [°](H6)": "182",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3921,7 +4225,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "68",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3933,7 +4238,8 @@
             "ASDA [m](E6)": "1879",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "68",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSA",
@@ -3945,7 +4251,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "248",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSB",
@@ -3957,7 +4264,8 @@
             "LDA [m](F6)": "1668",
             "Slope [%](G6)": "-0.07",
             "RWYHDG [°](H6)": "117",
-            "min climb gradient OEI(I6)": "5.6"
+            "min climb gradient OEI(I6)": "5.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSB",
@@ -3969,7 +4277,8 @@
             "ASDA [m](E6)": "1779",
             "Slope [%](G6)": "-0.07",
             "RWYHDG [°](H6)": "117",
-            "min climb gradient OEI(I6)": "5.6"
+            "min climb gradient OEI(I6)": "5.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSB",
@@ -3981,7 +4290,8 @@
             "LDA [m](F6)": "1668",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "297",
-            "min climb gradient OEI(I6)": "3.6"
+            "min climb gradient OEI(I6)": "3.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSB",
@@ -3993,7 +4303,8 @@
             "ASDA [m](E6)": "1779",
             "Slope [%](G6)": "0.07",
             "RWYHDG [°](H6)": "297",
-            "min climb gradient OEI(I6)": "3.6"
+            "min climb gradient OEI(I6)": "3.6",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSD",
@@ -4005,7 +4316,8 @@
             "LDA [m](F6)": "2313",
             "Slope [%](G6)": "0.14",
             "RWYHDG [°](H6)": "306",
-            "min climb gradient OEI(I6)": "5.9"
+            "min climb gradient OEI(I6)": "5.9",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSD",
@@ -4017,7 +4329,8 @@
             "LDA [m](F6)": "2313",
             "Slope [%](G6)": "-0.14",
             "RWYHDG [°](H6)": "126",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSD",
@@ -4029,7 +4342,8 @@
             "ASDA [m](E6)": "2020",
             "Slope [%](G6)": "-0.14",
             "RWYHDG [°](H6)": "126",
-            "min climb gradient OEI(I6)": "5.5"
+            "min climb gradient OEI(I6)": "5.5",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSL",
@@ -4041,7 +4355,8 @@
             "LDA [m](F6)": "2135",
             "Slope [%](G6)": "-0.3",
             "RWYHDG [°](H6)": "285",
-            "min climb gradient OEI(I6)": "4.4"
+            "min climb gradient OEI(I6)": "4.4",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSL",
@@ -4053,7 +4368,8 @@
             "LDA [m](F6)": "2135",
             "Slope [%](G6)": "0.3",
             "RWYHDG [°](H6)": "105",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSP",
@@ -4065,7 +4381,8 @@
             "LDA [m](F6)": "2205",
             "Slope [%](G6)": "-0.26",
             "RWYHDG [°](H6)": "265",
-            "min climb gradient OEI(I6)": "4.1"
+            "min climb gradient OEI(I6)": "4.1",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSP",
@@ -4077,7 +4394,8 @@
             "LDA [m](F6)": "2205",
             "Slope [%](G6)": "0.26",
             "RWYHDG [°](H6)": "85",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESST",
@@ -4090,8 +4408,7 @@
             "Slope [%](G6)": "-0.84",
             "RWYHDG [°](H6)": "332",
             "min climb gradient OEI(I6)": "4.7",
-            "min cloudbase(K6)": "1500",
-            "Routing(L6)": "Min Vis: 1500m"
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESST",
@@ -4104,8 +4421,7 @@
             "Slope [%](G6)": "0.84",
             "RWYHDG [°](H6)": "152",
             "min climb gradient OEI(I6)": "3.3",
-            "min cloudbase(K6)": "300",
-            "Routing(L6)": "RVR min: 1000m"
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSU",
@@ -4117,7 +4433,8 @@
             "LDA [m](F6)": "1886",
             "Slope [%](G6)": "0.02",
             "RWYHDG [°](H6)": "171",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSU",
@@ -4129,7 +4446,8 @@
             "LDA [m](F6)": "1886",
             "Slope [%](G6)": "-0.02",
             "RWYHDG [°](H6)": "351",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSV",
@@ -4141,7 +4459,8 @@
             "LDA [m](F6)": "2000",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "14",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSV",
@@ -4153,7 +4472,8 @@
             "ASDA [m](E6)": "1403",
             "Slope [%](G6)": "-0.05",
             "RWYHDG [°](H6)": "14",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSV",
@@ -4165,7 +4485,8 @@
             "LDA [m](F6)": "2000",
             "Slope [%](G6)": "0.05",
             "RWYHDG [°](H6)": "194",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESSV",
@@ -4177,7 +4498,8 @@
             "ASDA [m](E6)": "619",
             "Slope [%](G6)": "0.05",
             "RWYHDG [°](H6)": "194",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTA",
@@ -4189,7 +4511,8 @@
             "LDA [m](F6)": "1945",
             "Slope [%](G6)": "-0.13",
             "RWYHDG [°](H6)": "131",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTA",
@@ -4201,7 +4524,8 @@
             "ASDA [m](E6)": "1402",
             "Slope [%](G6)": "-0.13",
             "RWYHDG [°](H6)": "131",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTA",
@@ -4213,7 +4537,8 @@
             "LDA [m](F6)": "1945",
             "Slope [%](G6)": "0.13",
             "RWYHDG [°](H6)": "311",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTA",
@@ -4225,7 +4550,8 @@
             "ASDA [m](E6)": "1857",
             "Slope [%](G6)": "0.13",
             "RWYHDG [°](H6)": "311",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4237,7 +4563,8 @@
             "LDA [m](F6)": "1998",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "108",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4249,7 +4576,8 @@
             "ASDA [m](E6)": "1643",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "108",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4261,7 +4589,8 @@
             "LDA [m](F6)": "1998",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "288",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4273,7 +4602,8 @@
             "LDA [m](F6)": "1986",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4285,7 +4615,8 @@
             "ASDA [m](E6)": "1633",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4297,7 +4628,8 @@
             "ASDA [m](E6)": "1148",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "109",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESTL",
@@ -4309,7 +4641,8 @@
             "LDA [m](F6)": "1986",
             "Slope [%](G6)": "-0.2",
             "RWYHDG [°](H6)": "289",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESUP",
@@ -4321,7 +4654,8 @@
             "LDA [m](F6)": "2300",
             "Slope [%](G6)": "0.01",
             "RWYHDG [°](H6)": "105",
-            "min climb gradient OEI(I6)": "4.1"
+            "min climb gradient OEI(I6)": "4.1",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESUP",
@@ -4333,7 +4667,8 @@
             "LDA [m](F6)": "2300",
             "Slope [%](G6)": "-0.01",
             "RWYHDG [°](H6)": "285",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ESUT",
@@ -4346,7 +4681,7 @@
             "Slope [%](G6)": "0.01",
             "RWYHDG [°](H6)": "325",
             "min climb gradient OEI(I6)": "11.5",
-            "min cloudbase(K6)": "150",
+            "Engine out climb path": "Turning",
             "Routing(L6)": "Climb STRAIGHT ahead to D 2.0 IUT DME. Turn LEFT to intercept and follow NUT QDR 251. \nAt D 8.7 IUT DME turn LEFT intercept and follow SUT QDM 098. \nContinue to \"SUT\" LOCATOR and enter published holding."
         },
         {
@@ -4360,7 +4695,7 @@
             "Slope [%](G6)": "-0.01",
             "RWYHDG [°](H6)": "145",
             "min climb gradient OEI(I6)": "10",
-            "min cloudbase(K6)": "150",
+            "Engine out climb path": "Turning",
             "Routing(L6)": "Climb STRAIGHT ahead to \"SUT\" LOCATOR and enter published holding."
         },
         {
@@ -4373,7 +4708,8 @@
             "LDA [m](F6)": "3200",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "5",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "EVRA",
@@ -4385,7 +4721,8 @@
             "LDA [m](F6)": "3200",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "185",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULLI",
@@ -4397,7 +4734,8 @@
             "LDA [m](F6)": "3397",
             "Slope [%](G6)": "0.1",
             "RWYHDG [°](H6)": "106",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULLI",
@@ -4409,7 +4747,8 @@
             "LDA [m](F6)": "3397",
             "Slope [%](G6)": "0",
             "RWYHDG [°](H6)": "286",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULLI",
@@ -4421,7 +4760,8 @@
             "LDA [m](F6)": "3780",
             "Slope [%](G6)": "0.2",
             "RWYHDG [°](H6)": "106",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULLI",
@@ -4433,7 +4773,8 @@
             "LDA [m](F6)": "3780",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "286",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULMM",
@@ -4445,7 +4786,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "0.5",
             "RWYHDG [°](H6)": "146",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         },
         {
             "ICAO": "ULMM",
@@ -4457,7 +4799,8 @@
             "LDA [m](F6)": "2500",
             "Slope [%](G6)": "-0.1",
             "RWYHDG [°](H6)": "326",
-            "min climb gradient OEI(I6)": "3.3"
+            "min climb gradient OEI(I6)": "3.3",
+            "Engine out climb path": "Straight"
         }
     ]
 }
