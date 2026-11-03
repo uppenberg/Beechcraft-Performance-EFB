@@ -103,6 +103,14 @@ En profil innehåller minst:
 Efter `apply.js` sorteras temperaturerna stigande inom varje `data`-array automatiskt.
 Du kan också köra [sort-rows.js](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/sort-rows.js) separat.
 
+## Runway-gradient-tabeller (takeoff-gradient-*.js)
+
+`read_gradient_tables.py` läser de rastrerade gradient-sidorna (Figures 4-74, 4-124, 4-142, 4-174, 4-192, 4-224, 4-242, 4-274)
+och jämför varje cell med koden. Sidbilderna extraheras ur AFM-PDF:en (inbäddad bild per sida, ca 310 dpi, vit text på svart)
+till `out/grad/<nyckel>.png` (nycklar: se `TABLES` i skriptet). Siffrorna segmenteras som sammanhängande komponenter och
+klassas med närmaste granne mot kolumn 0 (fältlängderna, som är kända). Kod-tabellerna dumpas av `dump-gradient-tables.js`.
+Avvikelser skrivs med y-position så att raden kan beskäras och granskas visuellt. V1-justeringsraden läses inte, kontrollera den manuellt.
+
 ## Shaded-celler (`_shaded`)
 
 En vindcell vars nyckel slutar på `_shaded` (t.ex. `tailwind10_shaded`) är en skuggad AFM-cell; nyckel utan suffix är non-shaded.

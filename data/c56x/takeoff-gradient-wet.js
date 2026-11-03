@@ -220,7 +220,7 @@ const takeoffFieldLengthGradient_WetWithReversers_Flaps15_AntiIceOn = [
     { baseFieldLength: 9000, uphill: { "2.0%": 13700, "1.5%": 11600, "1.0%": 10200, "0.5%": 9650 }, downhillShaded: { "-1%": 8550, "-2%": 8150 }, downhillNonShaded: { "-1%": 9300, "-2%": 9400 } },
     { baseFieldLength: 9500, uphill: { "2.0%": 16700, "1.5%": 13150, "1.0%": 11200, "0.5%": 10150 }, downhillShaded: { "-1%": 9000, "-2%": 8500 }, downhillNonShaded: { "-1%": 9800, "-2%": 9900 } },
     { baseFieldLength: 10000, uphill: { "2.0%": null, "1.5%": 15000, "1.0%": 11750, "0.5%": 10700 }, downhillShaded: { "-1%": 9500, "-2%": 8900 }, downhillNonShaded: { "-1%": 10250, "-2%": 10450 } },
-    { baseFieldLength: 10500, uphill: { "2.0%": null, "1.5%": null, "1.0%": 12400, "0.5%": 11200 }, downhillShaded: { "-1%": 9850, "-2%": 9200 }, downhillNonShaded: { "-1%": 10700, "-2%": 10950 } },
+    { baseFieldLength: 10500, uphill: { "2.0%": null, "1.5%": null, "1.0%": 12400, "0.5%": 11200 }, downhillShaded: { "-1%": 9850, "-2%": 9200 }, downhillNonShaded: { "-1%": 10700, "-2%": 11000 } },
     { baseFieldLength: 11000, uphill: { "2.0%": null, "1.5%": null, "1.0%": 13050, "0.5%": 11700 }, downhillShaded: { "-1%": 10300, "-2%": 9600 }, downhillNonShaded: { "-1%": 11150, "-2%": 11550 } },
     { baseFieldLength: 11500, uphill: { "2.0%": null, "1.5%": null, "1.0%": 13700, "0.5%": 12250 }, downhillShaded: { "-1%": 10750, "-2%": 10000 }, downhillNonShaded: { "-1%": 11650, "-2%": 12200 } },
     { baseFieldLength: 12000, uphill: { "2.0%": null, "1.5%": null, "1.0%": 14300, "0.5%": 12750 }, downhillShaded: { "-1%": 11150, "-2%": 10350 }, downhillNonShaded: { "-1%": 12100, "-2%": 12850 } },
@@ -335,7 +335,7 @@ const takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOn = [
     { baseFieldLength: 12000, uphill: { "2.0%": null, "1.5%": null, "1.0%": 13850, "0.5%": 12750 }, downhillShaded: { "-1%": 11350, "-2%": 10500 }, downhillNonShaded: { "-1%": 12700, "-2%": 12950 } },
     { baseFieldLength: 13000, uphill: { "2.0%": null, "1.5%": null, "1.0%": 15000, "0.5%": 13850 }, downhillShaded: { "-1%": 12350, "-2%": 11350 }, downhillNonShaded: { "-1%": 13800, "-2%": 14050 } },
     { baseFieldLength: 14000, uphill: { "2.0%": null, "1.5%": null, "1.0%": null, "0.5%": 14950 }, downhillShaded: { "-1%": 13350, "-2%": 12200 }, downhillNonShaded: { "-1%": 14900, "-2%": 15200 } },
-    { baseFieldLength: 15000, uphill: { "2.0%": null, "1.5%": null, "1.0%": null, "0.5%": 16050 }, downhillShaded: { "-1%": 14300, "-2%": 13050 }, downhillNonShaded: { "-1%": 16050, "-2%": 15600 } }
+    { baseFieldLength: 15000, uphill: { "2.0%": null, "1.5%": null, "1.0%": null, "0.5%": 16050 }, downhillShaded: { "-1%": 14300, "-2%": 13050 }, downhillNonShaded: { "-1%": 16050, "-2%": null } }
 ];
 
 //AFM 4-126
