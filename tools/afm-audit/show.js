@@ -18,7 +18,8 @@ for (const spec of opts._) {
   console.log('##', token, weight, name);
   for (const r of tb.data) {
     console.log(String(r.temp).padStart(3),
-      [r.tailwind10, r.zeroWind, r.headwind10, r.headwind20, r.headwind30].map(q => q.v1 + ' ' + q.dist).join(' | '),
+      ['tailwind10', 'zeroWind', 'headwind10', 'headwind20', 'headwind30']
+        .map(k => r[k] ? r[k].v1 + ' ' + r[k].dist : r[k + '_shaded'].v1 + ' ' + r[k + '_shaded'].dist + '*').join(' | '),
       '|', r.vr, r.v2);
   }
 }

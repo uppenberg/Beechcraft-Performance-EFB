@@ -26,7 +26,17 @@ function interpolateC56xTakeoffAxis(points, target, getCoordinate, getValue) {
     return null;
 }
 
-function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots) {
+// A wind cell is shaded in the AFM when it is stored under `<key>_shaded` instead of `<key>`.
+// Reading a shaded cell marks the tracker, so callers know the result depends on shaded data.
+function readC56xWindCell(temperatureRow, key, tracker) {
+    const cell = temperatureRow[key];
+    if (cell !== undefined) return cell;
+    const shadedCell = temperatureRow[`${key}_shaded`];
+    if (shadedCell !== undefined && tracker) tracker.shaded = true;
+    return shadedCell;
+}
+
+function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots, tracker) {
     const windSamples = [
         { knots: -10, key: 'tailwind10' },
         { knots: 0, key: 'zeroWind' },
@@ -38,7 +48,7 @@ function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots
         windSamples,
         headwindKnots,
         (sample) => sample.knots,
-        (sample) => temperatureRow[sample.key]?.dist
+        (sample) => readC56xWindCell(temperatureRow, sample.key, tracker)?.dist
     );
     const interpolateTemperature = (weightRow) => interpolateC56xTakeoffAxis(
         weightRow.data,
@@ -54,7 +64,7 @@ function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots
     );
 }
 
-function interpolateC56xTakeoffAltitude(tables, pressureAltitudeFt, weightLb, oatC, headwindKnots) {
+function interpolateC56xTakeoffAltitude(tables, pressureAltitudeFt, weightLb, oatC, headwindKnots, tracker) {
     return interpolateC56xTakeoffAxis(
         tables,
         pressureAltitudeFt,
@@ -63,7 +73,8 @@ function interpolateC56xTakeoffAltitude(tables, pressureAltitudeFt, weightLb, oa
             table.rows,
             weightLb,
             oatC,
-            headwindKnots
+            headwindKnots,
+            tracker
         )
     );
 }
@@ -77,7 +88,7 @@ function interpolateC56xGradientTable(rows, distanceFt, distanceKey, correctionK
     );
 }
 
-function getC56xV1GradientAdjustment(adjustments, slopePercent) {
+function getC56xV1GradientAdjustment(adjustments, slopePercent, shaded = false) {
     if (!Number.isFinite(slopePercent)) return null;
     if (Math.abs(slopePercent) < 0.000001) return 0;
 
@@ -96,11 +107,12 @@ function getC56xV1GradientAdjustment(adjustments, slopePercent) {
     const magnitude = Math.abs(slopePercent);
     const steps = direction === 'uphill' ? [0.5, 1, 1.5, 2] : [1, 2];
     if (magnitude > 2) return null;
+    const downhillGroup = shaded ? 'downhillShaded' : 'downhillNonShaded';
     const readStep = (step) => direction === 'uphill'
         ? parseAdjustment(adjustments?.uphill?.[`${step.toFixed(1)}%`] ??
             adjustments?.[`uphill${String(step).replace('.', '_')}pct`])
-        : parseAdjustment(adjustments?.downhillShaded?.[`-${step}%`] ??
-            adjustments?.[`downhillShaded_${step}pct`]);
+        : parseAdjustment(adjustments?.[downhillGroup]?.[`-${step}%`] ??
+            adjustments?.[`${downhillGroup}_${step}pct`]);
     let lowerSlope = 0;
     let lowerValue = 0;
     for (const step of steps) {
@@ -114,7 +126,7 @@ function getC56xV1GradientAdjustment(adjustments, slopePercent) {
     }
     return null;
 }
-function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7) {
+function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7, shaded = false) {
     if (!Number.isFinite(distanceFt) || !Number.isFinite(slopePercent)) return null;
     if (Math.abs(slopePercent) < 0.000001) return distanceFt;
 
@@ -132,14 +144,14 @@ function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON'
         const lowerSlope = stepIndex === 0 ? 0 : uphillSteps[stepIndex - 1].slope;
         const lowerDistance = stepIndex === 0
             ? distanceFt
-            : applyC56xRunwayGradient(distanceFt, lowerSlope, isWet, antiIce, flaps);
+            : applyC56xRunwayGradient(distanceFt, lowerSlope, isWet, antiIce, flaps, shaded);
         const upperDistance = applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps);
         if (lowerDistance === null || upperDistance === null) return null;
         const fraction = (slopePercent - lowerSlope) / (step.slope - lowerSlope);
         return lowerDistance + (upperDistance - lowerDistance) * fraction;
     }
 
-    return applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps);
+    return applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps, shaded);
 }
 
 function applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps) {
@@ -182,7 +194,7 @@ function applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps) {
     }
 }
 
-function applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps) {
+function applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps, shaded = false) {
     if (slopePercent < -2) return null;
 
     const dryGradientRows = flaps === 15
@@ -204,26 +216,20 @@ function applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, fla
     const chartRows = wetRows ?? dryGradientRows;
     const useChartKeys = !isWet || flaps === 15;
 
-    // Runway shading is not recorded in airports.json, so downhill credit is not taken:
-    // each published step uses the largest of the shaded and non-shaded distances.
-    const getStepDistance = (step) => {
-        const values = [];
-        ['downhillShaded', 'downhillNonShaded'].forEach((group) => {
-            const value = useChartKeys
-                ? interpolateC56xGradientTable(
-                    chartRows.map((row) => ({
-                        baseFieldLength: row.baseFieldLength,
-                        adjusted: row[group][`-${step}%`],
-                    })),
-                    distanceFt,
-                    'baseFieldLength',
-                    'adjusted'
-                )
-                : interpolateC56xGradientTable(chartRows, distanceFt, 'zeroGradient', `${group}_${step}pct`);
-            if (value !== null) values.push(value);
-        });
-        return values.length ? Math.max(distanceFt, ...values) : null;
-    };
+    // The AFM takes downhill corrections from the SHADED columns when the table cell is shaded
+    // (stored under `*_shaded` keys in the data), otherwise from the NON-SHADED columns.
+    const group = shaded ? 'downhillShaded' : 'downhillNonShaded';
+    const getStepDistance = (step) => useChartKeys
+        ? interpolateC56xGradientTable(
+            chartRows.map((row) => ({
+                baseFieldLength: row.baseFieldLength,
+                adjusted: row[group][`-${step}%`],
+            })),
+            distanceFt,
+            'baseFieldLength',
+            'adjusted'
+        )
+        : interpolateC56xGradientTable(chartRows, distanceFt, 'zeroGradient', `${group}_${step}pct`);
 
     const oneDistance = getStepDistance(1);
     if (oneDistance === null) return null;
@@ -378,7 +384,8 @@ function getC56xTakeoffFieldLengths({
             ]
         : [];
     const tableArgs = [pressureAltitudeFt, Number(weightLb), Number(oatC), headwindKnots];
-    const dryUncorrectedFt = interpolateC56xTakeoffAltitude(dryTables, ...tableArgs);
+    const dryTracker = { shaded: false };
+    const dryUncorrectedFt = interpolateC56xTakeoffAltitude(dryTables, ...tableArgs, dryTracker);
     if (dryUncorrectedFt === null) return null;
 
     const dryDistanceFt = applyC56xRunwayGradient(
@@ -386,7 +393,8 @@ function getC56xTakeoffFieldLengths({
         Number(runwaySlopePercent),
         false,
         antiIce,
-        flaps
+        flaps,
+        dryTracker.shaded
     );
     if (dryDistanceFt === null) return null;
     const dryRequiredDistanceFt = dryDistanceFt * dryTakeoffFactor;
@@ -410,7 +418,8 @@ function getC56xTakeoffFieldLengths({
         };
     }
 
-    const wetUncorrectedFt = interpolateC56xTakeoffAltitude(selectedWetTables, ...tableArgs);
+    const wetTracker = { shaded: false };
+    const wetUncorrectedFt = interpolateC56xTakeoffAltitude(selectedWetTables, ...tableArgs, wetTracker);
     if (wetUncorrectedFt === null) return null;
 
     const wetChartDistanceFt = applyC56xRunwayGradient(
@@ -418,7 +427,8 @@ function getC56xTakeoffFieldLengths({
         Number(runwaySlopePercent),
         true,
         antiIce,
-        flaps
+        flaps,
+        wetTracker.shaded
     );
     if (wetChartDistanceFt === null) {
         return {
@@ -448,6 +458,8 @@ function getC56xTakeoffFieldLengths({
         wetChartRequiredDistanceFt,
         wetRequiredDistanceFt,
         selectedDistanceFt,
+        dryShaded: dryTracker.shaded,
+        wetChartShaded: wetTracker.shaded,
         takeoffFactor: runwayConditionCode === '5' && dryRequiredDistanceFt > wetChartRequiredDistanceFt
             ? dryTakeoffFactor
             : takeoffFactor,
@@ -577,6 +589,7 @@ function getC56xTakeoffSpeeds({
         { knots: 20, key: 'headwind20' },
         { knots: 30, key: 'headwind30' },
     ];
+    const v1Tracker = { shaded: false };
     const interpolateAtWeightAndTemperature = (rows, valueKey) =>
         interpolateC56xTakeoffAxis(
             rows,
@@ -591,7 +604,7 @@ function getC56xTakeoffSpeeds({
                         windSamples,
                         headwindKnots,
                         (sample) => sample.knots,
-                        (sample) => temperatureRow[sample.key]?.v1
+                        (sample) => readC56xWindCell(temperatureRow, sample.key, v1Tracker)?.v1
                     )
                     : temperatureRow[valueKey]
             )
@@ -627,9 +640,10 @@ function getC56xTakeoffSpeeds({
             : antiIce === 'OFF'
                 ? v1Adjustments_Dry_Flaps15_AntiIceOff
                 : v1Adjustments_Dry_Flaps15_AntiIceOn;
-    const v1Adjustment = getC56xV1GradientAdjustment(adjustments, runwaySlopePercent);
+    const v1Adjustment = getC56xV1GradientAdjustment    (adjustments, runwaySlopePercent, v1Tracker.shaded);
     if (v1Adjustment === null) return null;
     return {
+            shaded: v1Tracker.shaded,
         v1: v1 + v1Adjustment,
         vr,
         v2,

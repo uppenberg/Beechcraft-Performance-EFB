@@ -42,8 +42,9 @@ for (const f of fs.readdirSync(profile.crops).filter(x => x.endsWith('.tsv')).so
     const r = tb.data.find(x => x.temp === cells[0]);
     if (!r) { detail.push(`  temp ${cells[0]} saknas i koden`); diffs++; continue; }
     rows++;
-    const code = [r.temp, r.tailwind10.v1, r.tailwind10.dist, r.zeroWind.v1, r.zeroWind.dist, r.headwind10.v1, r.headwind10.dist,
-      r.headwind20.v1, r.headwind20.dist, r.headwind30.v1, r.headwind30.dist, r.vr, r.v2];
+    const cell = k => r[k] ?? r[k + '_shaded'];
+    const code = [r.temp, cell('tailwind10').v1, cell('tailwind10').dist, cell('zeroWind').v1, cell('zeroWind').dist, cell('headwind10').v1, cell('headwind10').dist,
+      cell('headwind20').v1, cell('headwind20').dist, cell('headwind30').v1, cell('headwind30').dist, r.vr, r.v2];
     cells.forEach((v, i) => { if (v !== null && v !== code[i]) { diffs++; detail.push(`  temp ${r.temp} kol ${i}: OCR ${v} kod ${code[i]}`); } });
   }
   out.push(`${f} (${name}): ${rows} rader, ${diffs} avvikelser`, ...detail);

@@ -57,9 +57,13 @@ for (const { name, weight, rows } of batch) {
   const padTemp = /temp: \d,\s{2,}/.test(old);
   const closeIndent = s.slice(s.lastIndexOf('\n', close) + 1, close);
   const c = (v1, d) => `{ v1: ${v1}, dist: ${d} }`;
+  // Shaded markers (`<key>_shaded`) are not in the AFM text batch, so keep them from the existing row.
+  const shadedByTemp = new Map([...old.matchAll(/\{ temp: (-?\d+),([^\n]*)/g)].map(m => [+m[1], new Set([...m[2].matchAll(/(\w+)_shaded:/g)].map(x => x[1]))]));
   const body = rows.map(v => {
     const t = padTemp ? (v[0] + ',').padEnd(5) : v[0] + ', ';
-    return `${rowIndent}{ temp: ${t}tailwind10: ${c(v[1], v[2])}, zeroWind: ${c(v[3], v[4])}, headwind10: ${c(v[5], v[6])}, headwind20: ${c(v[7], v[8])}, headwind30: ${c(v[9], v[10])}, vr: ${v[11]}, v2: ${v[12]} }`;
+    const sh = shadedByTemp.get(v[0]) || new Set();
+    const k = n => sh.has(n) ? n + '_shaded' : n;
+    return `${rowIndent}{ temp: ${t}${k('tailwind10')}: ${c(v[1], v[2])}, ${k('zeroWind')}: ${c(v[3], v[4])}, ${k('headwind10')}: ${c(v[5], v[6])}, ${k('headwind20')}: ${c(v[7], v[8])}, ${k('headwind30')}: ${c(v[9], v[10])}, vr: ${v[11]}, v2: ${v[12]} }`;
   }).join(',' + eol);
   s = s.slice(0, open) + '[' + eol + body + eol + closeIndent + s.slice(close);
 }

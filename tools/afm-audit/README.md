@@ -103,6 +103,13 @@ En profil innehåller minst:
 Efter `apply.js` sorteras temperaturerna stigande inom varje `data`-array automatiskt.
 Du kan också köra [sort-rows.js](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/sort-rows.js) separat.
 
+## Shaded-celler (`_shaded`)
+
+En vindcell vars nyckel slutar på `_shaded` (t.ex. `tailwind10_shaded`) är en skuggad AFM-cell; nyckel utan suffix är non-shaded.
+Appen ([calculations.js](../../data/c56x/calculations.js)) väljer då Shaded- resp. NonShaded-kolumnen för nedförslutning (distans och V1)
+i stället för att ta det konservativa maxvärdet. Skuggad om någon bidragande cell i interpolationen är skuggad.
+`compare.js`, `analyze.js` och `show.js` läser båda varianterna (show.js markerar skuggade med `*`);
+`apply.js` behåller befintliga `_shaded`-markeringar per temperaturrad, så markera nya skuggade celler manuellt efteråt.
 
 ## Arbetsflöde och lärdomar (Flaps 7 och Flaps 15)
 

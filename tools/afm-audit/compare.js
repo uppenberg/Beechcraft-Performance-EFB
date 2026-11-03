@@ -8,7 +8,7 @@ const opts = parseArgs(process.argv.slice(2));
 const profile = loadProfile(opts);
 const { names, tables } = loadTables(profile.file);
 const F = ['v1', 'dist'];
-const flat = r => [r.temp, ...['tailwind10', 'zeroWind', 'headwind10', 'headwind20', 'headwind30'].flatMap(k => F.map(f => r[k][f])), r.vr, r.v2];
+const flat = r => [r.temp, ...['tailwind10', 'zeroWind', 'headwind10', 'headwind20', 'headwind30'].flatMap(k => F.map(f => (r[k] ?? r[k + '_shaded'])[f])), r.vr, r.v2];
 
 const blocks = [];
 let cur = null;

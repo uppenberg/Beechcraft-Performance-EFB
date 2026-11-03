@@ -2725,7 +2725,7 @@ const takeoffFieldLength_NoRev_Flaps15_6000ft_AntiIceOff = [
       { temp: 15, tailwind10: { v1: 93, dist: 7080 }, zeroWind: { v1: 92, dist: 5790 }, headwind10: { v1: 93, dist: 5480 }, headwind20: { v1: 93, dist: 5180 }, headwind30: { v1: 94, dist: 4890 }, vr: 106, v2: 118 },
       { temp: 20, tailwind10: { v1: 95, dist: 7690 }, zeroWind: { v1: 94, dist: 6260 }, headwind10: { v1: 95, dist: 5930 }, headwind20: { v1: 95, dist: 5610 }, headwind30: { v1: 96, dist: 5300 }, vr: 105, v2: 118 },
       { temp: 23, tailwind10: { v1: 97, dist: 8110 }, zeroWind: { v1: 96, dist: 6590 }, headwind10: { v1: 96, dist: 6240 }, headwind20: { v1: 97, dist: 5900 }, headwind30: { v1: 97, dist: 5570 }, vr: 105, v2: 118 },
-      { temp: 25, tailwind10: { v1: 98, dist: 8420 }, zeroWind: { v1: 97, dist: 6820 }, headwind10: { v1: 97, dist: 6460 }, headwind20: { v1: 98, dist: 6120 }, headwind30: { v1: 98, dist: 5780 }, vr: 105, v2: 118 }
+      { temp: 25, tailwind10_shaded: { v1: 98, dist: 8420 }, zeroWind: { v1: 97, dist: 6820 }, headwind10: { v1: 97, dist: 6460 }, headwind20: { v1: 98, dist: 6120 }, headwind30: { v1: 98, dist: 5780 }, vr: 105, v2: 118 }
     ]
   },
   {

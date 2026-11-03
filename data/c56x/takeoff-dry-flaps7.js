@@ -573,10 +573,10 @@ const takeoffFieldLength_Dry_Flaps7_2000ft_Complete = [
             { temp: 20,  tailwind10: { v1: 109, dist: 6300 }, zeroWind: { v1: 109, dist: 4760 }, headwind10: { v1: 109, dist: 4510 }, headwind20: { v1: 109, dist: 4260 }, headwind30: { v1: 109, dist: 4020 }, vr: 109, v2: 126 },
             { temp: 25,  tailwind10: { v1: 109, dist: 7020 }, zeroWind: { v1: 109, dist: 5280 }, headwind10: { v1: 109, dist: 5000 }, headwind20: { v1: 109, dist: 4730 }, headwind30: { v1: 109, dist: 4470 }, vr: 109, v2: 126 },
             { temp: 30,  tailwind10: { v1: 109, dist: 7910 }, zeroWind: { v1: 109, dist: 5930 }, headwind10: { v1: 109, dist: 5620 }, headwind20: { v1: 109, dist: 5320 }, headwind30: { v1: 109, dist: 5030 }, vr: 109, v2: 126 },
-            { temp: 35,  tailwind10: { v1: 109, dist: 9160 }, zeroWind: { v1: 109, dist: 6820 }, headwind10: { v1: 109, dist: 6470 }, headwind20: { v1: 109, dist: 6130 }, headwind30: { v1: 109, dist: 5790 }, vr: 109, v2: 125 },
-            { temp: 39,  tailwind10: { v1: 109, dist: 10660 }, zeroWind: { v1: 109, dist: 7870 }, headwind10: { v1: 109, dist: 7470 }, headwind20: { v1: 109, dist: 7080 }, headwind30: { v1: 109, dist: 6700 }, vr: 109, v2: 125 },
-            { temp: 40,  tailwind10: { v1: 109, dist: 11130 }, zeroWind: { v1: 109, dist: 8200 }, headwind10: { v1: 109, dist: 7780 }, headwind20: { v1: 109, dist: 7360 }, headwind30: { v1: 109, dist: 6960 }, vr: 109, v2: 125 },
-            { temp: 41,  tailwind10: { v1: 109, dist: 11650 }, zeroWind: { v1: 109, dist: 8550 }, headwind10: { v1: 109, dist: 8120 }, headwind20: { v1: 109, dist: 7700 }, headwind30: { v1: 109, dist: 7290 }, vr: 109, v2: 125 }
+            { temp: 35,  tailwind10_shaded: { v1: 109, dist: 9160 }, zeroWind: { v1: 109, dist: 6820 }, headwind10: { v1: 109, dist: 6470 }, headwind20: { v1: 109, dist: 6130 }, headwind30: { v1: 109, dist: 5790 }, vr: 109, v2: 125 },
+            { temp: 39,  tailwind10_shaded: { v1: 109, dist: 10660 }, zeroWind: { v1: 109, dist: 7870 }, headwind10: { v1: 109, dist: 7470 }, headwind20: { v1: 109, dist: 7080 }, headwind30: { v1: 109, dist: 6700 }, vr: 109, v2: 125 },
+            { temp: 40,  tailwind10_shaded: { v1: 109, dist: 11130 }, zeroWind: { v1: 109, dist: 8200 }, headwind10: { v1: 109, dist: 7780 }, headwind20: { v1: 109, dist: 7360 }, headwind30: { v1: 109, dist: 6960 }, vr: 109, v2: 125 },
+            { temp: 41,  tailwind10_shaded: { v1: 109, dist: 11650 }, zeroWind: { v1: 109, dist: 8550 }, headwind10: { v1: 109, dist: 8120 }, headwind20: { v1: 109, dist: 7700 }, headwind30: { v1: 109, dist: 7290 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -842,11 +842,11 @@ const takeoffFieldLength_Dry_Flaps7_3000ft_Complete = [
             { temp: 10,  tailwind10: { v1: 109, dist: 6180 }, zeroWind: { v1: 109, dist: 4680 }, headwind10: { v1: 109, dist: 4430 }, headwind20: { v1: 109, dist: 4190 }, headwind30: { v1: 109, dist: 3950 }, vr: 109, v2: 126 },
             { temp: 15,  tailwind10: { v1: 109, dist: 6330 }, zeroWind: { v1: 109, dist: 4790 }, headwind10: { v1: 109, dist: 4540 }, headwind20: { v1: 109, dist: 4290 }, headwind30: { v1: 109, dist: 4050 }, vr: 109, v2: 126 },
             { temp: 20,  tailwind10: { v1: 109, dist: 6980 }, zeroWind: { v1: 109, dist: 5270 }, headwind10: { v1: 109, dist: 5000 }, headwind20: { v1: 109, dist: 4730 }, headwind30: { v1: 109, dist: 4470 }, vr: 109, v2: 126 },
-            { temp: 25,  tailwind10: { v1: 109, dist: 7820 }, zeroWind: { v1: 109, dist: 5880 }, headwind10: { v1: 109, dist: 5580 }, headwind20: { v1: 109, dist: 5280 }, headwind30: { v1: 109, dist: 4990 }, vr: 109, v2: 125 },
-            { temp: 30,  tailwind10: { v1: 109, dist: 8890 }, zeroWind: { v1: 109, dist: 6550 }, headwind10: { v1: 109, dist: 6310 }, headwind20: { v1: 109, dist: 5960 }, headwind30: { v1: 109, dist: 5660 }, vr: 109, v2: 125 },
-            { temp: 35,  tailwind10: { v1: 109, dist: 10500 }, zeroWind: { v1: 109, dist: 7790 }, headwind10: { v1: 109, dist: 7400 }, headwind20: { v1: 109, dist: 7010 }, headwind30: { v1: 109, dist: 6640 }, vr: 109, v2: 125 },
-            { temp: 36,  tailwind10: { v1: 109, dist: 10910 }, zeroWind: { v1: 109, dist: 8080 }, headwind10: { v1: 109, dist: 7670 }, headwind20: { v1: 109, dist: 7280 }, headwind30: { v1: 109, dist: 6890 }, vr: 109, v2: 125 },
-            { temp: 38,  tailwind10: { v1: 109, dist: 11850 }, zeroWind: { v1: 109, dist: 8740 }, headwind10: { v1: 109, dist: 8300 }, headwind20: { v1: 109, dist: 7870 }, headwind30: { v1: 109, dist: 7460 }, vr: 109, v2: 125 }
+            { temp: 25,  tailwind10_shaded: { v1: 109, dist: 7820 }, zeroWind: { v1: 109, dist: 5880 }, headwind10: { v1: 109, dist: 5580 }, headwind20: { v1: 109, dist: 5280 }, headwind30: { v1: 109, dist: 4990 }, vr: 109, v2: 125 },
+            { temp: 30,  tailwind10_shaded: { v1: 109, dist: 8890 }, zeroWind: { v1: 109, dist: 6550 }, headwind10: { v1: 109, dist: 6310 }, headwind20: { v1: 109, dist: 5960 }, headwind30: { v1: 109, dist: 5660 }, vr: 109, v2: 125 },
+            { temp: 35,  tailwind10_shaded: { v1: 109, dist: 10500 }, zeroWind: { v1: 109, dist: 7790 }, headwind10: { v1: 109, dist: 7400 }, headwind20: { v1: 109, dist: 7010 }, headwind30: { v1: 109, dist: 6640 }, vr: 109, v2: 125 },
+            { temp: 36,  tailwind10_shaded: { v1: 109, dist: 10910 }, zeroWind: { v1: 109, dist: 8080 }, headwind10: { v1: 109, dist: 7670 }, headwind20: { v1: 109, dist: 7280 }, headwind30: { v1: 109, dist: 6890 }, vr: 109, v2: 125 },
+            { temp: 38,  tailwind10_shaded: { v1: 109, dist: 11850 }, zeroWind: { v1: 109, dist: 8740 }, headwind10: { v1: 109, dist: 8300 }, headwind20: { v1: 109, dist: 7870 }, headwind30: { v1: 109, dist: 7460 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -867,8 +867,8 @@ const takeoffFieldLength_Dry_Flaps7_3000ft_Complete = [
             { temp: 25,  tailwind10: { v1: 107, dist: 7340 }, zeroWind: { v1: 107, dist: 5520 }, headwind10: { v1: 107, dist: 5230 }, headwind20: { v1: 107, dist: 4950 }, headwind30: { v1: 107, dist: 4680 }, vr: 107, v2: 124 },
             { temp: 30,  tailwind10: { v1: 107, dist: 8320 }, zeroWind: { v1: 107, dist: 6220 }, headwind10: { v1: 107, dist: 5900 }, headwind20: { v1: 107, dist: 5590 }, headwind30: { v1: 107, dist: 5280 }, vr: 107, v2: 124 },
             { temp: 35,  tailwind10: { v1: 107, dist: 9750 }, zeroWind: { v1: 107, dist: 7240 }, headwind10: { v1: 107, dist: 6870 }, headwind20: { v1: 107, dist: 6510 }, headwind30: { v1: 107, dist: 6160 }, vr: 107, v2: 124 },
-            { temp: 38,  tailwind10: { v1: 107, dist: 10970 }, zeroWind: { v1: 107, dist: 8080 }, headwind10: { v1: 107, dist: 7670 }, headwind20: { v1: 107, dist: 7270 }, headwind30: { v1: 107, dist: 6880 }, vr: 107, v2: 124 },
-            { temp: 39,  tailwind10: { v1: 107, dist: 11420 }, zeroWind: { v1: 107, dist: 8410 }, headwind10: { v1: 107, dist: 7990 }, headwind20: { v1: 107, dist: 7570 }, headwind30: { v1: 107, dist: 7170 }, vr: 107, v2: 124 }
+            { temp: 38,  tailwind10_shaded: { v1: 107, dist: 10940 }, zeroWind: { v1: 107, dist: 8080 }, headwind10: { v1: 107, dist: 7670 }, headwind20: { v1: 107, dist: 7270 }, headwind30: { v1: 107, dist: 6880 }, vr: 107, v2: 124 },
+            { temp: 39,  tailwind10_shaded: { v1: 107, dist: 11420 }, zeroWind: { v1: 107, dist: 8410 }, headwind10: { v1: 107, dist: 7990 }, headwind20: { v1: 107, dist: 7570 }, headwind30: { v1: 107, dist: 7170 }, vr: 107, v2: 124 }
         ]
     },
     {
@@ -1117,13 +1117,13 @@ const takeoffFieldLength_Dry_Flaps7_4000ft_Complete = [
             { temp: -5,  tailwind10: { v1: 109, dist: 6210 }, zeroWind: { v1: 109, dist: 4690 }, headwind10: { v1: 109, dist: 4430 }, headwind20: { v1: 109, dist: 4190 }, headwind30: { v1: 109, dist: 3950 }, vr: 109, v2: 126 },
             { temp: 0,   tailwind10: { v1: 109, dist: 6290 }, zeroWind: { v1: 109, dist: 4760 }, headwind10: { v1: 109, dist: 4510 }, headwind20: { v1: 109, dist: 4260 }, headwind30: { v1: 109, dist: 4020 }, vr: 109, v2: 126 },
             { temp: 5,   tailwind10: { v1: 109, dist: 6390 }, zeroWind: { v1: 109, dist: 4840 }, headwind10: { v1: 109, dist: 4580 }, headwind20: { v1: 109, dist: 4340 }, headwind30: { v1: 109, dist: 4090 }, vr: 109, v2: 126 },
-            { temp: 10,  tailwind10: { v1: 109, dist: 6490 }, zeroWind: { v1: 109, dist: 4930 }, headwind10: { v1: 109, dist: 4670 }, headwind20: { v1: 109, dist: 4420 }, headwind30: { v1: 109, dist: 4170 }, vr: 109, v2: 126 },
-            { temp: 15,  tailwind10: { v1: 109, dist: 6970 }, zeroWind: { v1: 109, dist: 5280 }, headwind10: { v1: 109, dist: 5010 }, headwind20: { v1: 109, dist: 4740 }, headwind30: { v1: 109, dist: 4480 }, vr: 109, v2: 126 },
-            { temp: 20,  tailwind10: { v1: 109, dist: 7770 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5570 }, headwind20: { v1: 109, dist: 5270 }, headwind30: { v1: 109, dist: 4990 }, vr: 109, v2: 126 },
-            { temp: 25,  tailwind10: { v1: 109, dist: 8770 }, zeroWind: { v1: 109, dist: 6590 }, headwind10: { v1: 109, dist: 6250 }, headwind20: { v1: 109, dist: 5930 }, headwind30: { v1: 109, dist: 5610 }, vr: 109, v2: 125 },
-            { temp: 30,  tailwind10: { v1: 109, dist: 10090 }, zeroWind: { v1: 109, dist: 7540 }, headwind10: { v1: 109, dist: 7160 }, headwind20: { v1: 109, dist: 6790 }, headwind30: { v1: 109, dist: 6430 }, vr: 109, v2: 125 },
-            { temp: 33,  tailwind10: { v1: 109, dist: 11210 }, zeroWind: { v1: 109, dist: 8320 }, headwind10: { v1: 109, dist: 7910 }, headwind20: { v1: 109, dist: 7510 }, headwind30: { v1: 109, dist: 7110 }, vr: 109, v2: 125 },
-            { temp: 35,  tailwind10: { v1: 109, dist: 12130 }, zeroWind: { v1: 109, dist: 8950 }, headwind10: { v1: 109, dist: 8520 }, headwind20: { v1: 109, dist: 8090 }, headwind30: { v1: 109, dist: 7670 }, vr: 109, v2: 125 }
+            { temp: 10,  tailwind10_shaded: { v1: 109, dist: 6490 }, zeroWind: { v1: 109, dist: 4930 }, headwind10: { v1: 109, dist: 4670 }, headwind20: { v1: 109, dist: 4420 }, headwind30: { v1: 109, dist: 4170 }, vr: 109, v2: 126 },
+            { temp: 15,  tailwind10_shaded: { v1: 109, dist: 6970 }, zeroWind: { v1: 109, dist: 5280 }, headwind10: { v1: 109, dist: 5010 }, headwind20: { v1: 109, dist: 4740 }, headwind30: { v1: 109, dist: 4480 }, vr: 109, v2: 126 },
+            { temp: 20,  tailwind10_shaded: { v1: 109, dist: 7770 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5570 }, headwind20: { v1: 109, dist: 5270 }, headwind30: { v1: 109, dist: 4990 }, vr: 109, v2: 126 },
+            { temp: 25,  tailwind10_shaded: { v1: 109, dist: 8770 }, zeroWind: { v1: 109, dist: 6590 }, headwind10: { v1: 109, dist: 6250 }, headwind20: { v1: 109, dist: 5930 }, headwind30: { v1: 109, dist: 5610 }, vr: 109, v2: 125 },
+            { temp: 30,  tailwind10_shaded: { v1: 109, dist: 10090 }, zeroWind: { v1: 109, dist: 7540 }, headwind10: { v1: 109, dist: 7160 }, headwind20: { v1: 109, dist: 6790 }, headwind30: { v1: 109, dist: 6430 }, vr: 109, v2: 125 },
+            { temp: 33,  tailwind10_shaded: { v1: 109, dist: 11210 }, zeroWind: { v1: 109, dist: 8320 }, headwind10: { v1: 109, dist: 7910 }, headwind20: { v1: 109, dist: 7510 }, headwind30: { v1: 109, dist: 7110 }, vr: 109, v2: 125 },
+            { temp: 35,  tailwind10_shaded: { v1: 109, dist: 12130 }, zeroWind: { v1: 109, dist: 8950 }, headwind10: { v1: 109, dist: 8520 }, headwind20: { v1: 109, dist: 8090 }, headwind30: { v1: 109, dist: 7670 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -1142,9 +1142,9 @@ const takeoffFieldLength_Dry_Flaps7_4000ft_Complete = [
             { temp: 15,  tailwind10: { v1: 107, dist: 6570 }, zeroWind: { v1: 107, dist: 4970 }, headwind10: { v1: 107, dist: 4710 }, headwind20: { v1: 107, dist: 4460 }, headwind30: { v1: 107, dist: 4210 }, vr: 107, v2: 124 },
             { temp: 20,  tailwind10: { v1: 107, dist: 7310 }, zeroWind: { v1: 107, dist: 5510 }, headwind10: { v1: 107, dist: 5230 }, headwind20: { v1: 107, dist: 4950 }, headwind30: { v1: 107, dist: 4680 }, vr: 107, v2: 124 },
             { temp: 25,  tailwind10: { v1: 107, dist: 8210 }, zeroWind: { v1: 107, dist: 6170 }, headwind10: { v1: 107, dist: 5850 }, headwind20: { v1: 107, dist: 5540 }, headwind30: { v1: 107, dist: 5240 }, vr: 107, v2: 124 },
-            { temp: 30,  tailwind10: { v1: 107, dist: 9400 }, zeroWind: { v1: 107, dist: 7020 }, headwind10: { v1: 107, dist: 6670 }, headwind20: { v1: 107, dist: 6320 }, headwind30: { v1: 107, dist: 5980 }, vr: 107, v2: 124 },
-            { temp: 35,  tailwind10: { v1: 107, dist: 11200 }, zeroWind: { v1: 107, dist: 8290 }, headwind10: { v1: 107, dist: 7880 }, headwind20: { v1: 107, dist: 7470 }, headwind30: { v1: 107, dist: 7080 }, vr: 107, v2: 124 },
-            { temp: 37,  tailwind10: { v1: 107, dist: 12160 }, zeroWind: { v1: 107, dist: 8960 }, headwind10: { v1: 107, dist: 8510 }, headwind20: { v1: 107, dist: 8080 }, headwind30: { v1: 107, dist: 7650 }, vr: 107, v2: 124 }
+            { temp: 30,  tailwind10_shaded: { v1: 107, dist: 9400 }, zeroWind: { v1: 107, dist: 7020 }, headwind10: { v1: 107, dist: 6670 }, headwind20: { v1: 107, dist: 6320 }, headwind30: { v1: 107, dist: 5980 }, vr: 107, v2: 124 },
+            { temp: 35,  tailwind10_shaded: { v1: 107, dist: 11200 }, zeroWind: { v1: 107, dist: 8290 }, headwind10: { v1: 107, dist: 7880 }, headwind20: { v1: 107, dist: 7470 }, headwind30: { v1: 107, dist: 7080 }, vr: 107, v2: 124 },
+            { temp: 37,  tailwind10_shaded: { v1: 107, dist: 12160 }, zeroWind: { v1: 107, dist: 8960 }, headwind10: { v1: 107, dist: 8510 }, headwind20: { v1: 107, dist: 8080 }, headwind30: { v1: 107, dist: 7650 }, vr: 107, v2: 124 }
         ]
     },
     {
@@ -1389,14 +1389,14 @@ const takeoffFieldLength_Dry_Flaps7_5000ft_Complete = [
             { temp: -15, tailwind10: { v1: 109, dist: 6340 }, zeroWind: { v1: 109, dist: 4780 }, headwind10: { v1: 109, dist: 4520 }, headwind20: { v1: 109, dist: 4270 }, headwind30: { v1: 109, dist: 4030 }, vr: 109, v2: 126 },
             { temp: -10, tailwind10: { v1: 109, dist: 6430 }, zeroWind: { v1: 109, dist: 4860 }, headwind10: { v1: 109, dist: 4600 }, headwind20: { v1: 109, dist: 4350 }, headwind30: { v1: 109, dist: 4100 }, vr: 109, v2: 126 },
             { temp: -5,  tailwind10: { v1: 109, dist: 6520 }, zeroWind: { v1: 109, dist: 4930 }, headwind10: { v1: 109, dist: 4670 }, headwind20: { v1: 109, dist: 4420 }, headwind30: { v1: 109, dist: 4170 }, vr: 109, v2: 126 },
-            { temp: 0,   tailwind10: { v1: 109, dist: 6610 }, zeroWind: { v1: 109, dist: 5010 }, headwind10: { v1: 109, dist: 4750 }, headwind20: { v1: 109, dist: 4500 }, headwind30: { v1: 109, dist: 4240 }, vr: 109, v2: 126 },
-            { temp: 5,   tailwind10: { v1: 109, dist: 6710 }, zeroWind: { v1: 109, dist: 5100 }, headwind10: { v1: 109, dist: 4830 }, headwind20: { v1: 109, dist: 4580 }, headwind30: { v1: 109, dist: 4320 }, vr: 109, v2: 126 },
-            { temp: 10,  tailwind10: { v1: 109, dist: 6860 }, zeroWind: { v1: 109, dist: 5300 }, headwind10: { v1: 109, dist: 5030 }, headwind20: { v1: 109, dist: 4770 }, headwind30: { v1: 109, dist: 4510 }, vr: 109, v2: 126 },
-            { temp: 15,  tailwind10: { v1: 109, dist: 7760 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5580 }, headwind20: { v1: 109, dist: 5290 }, headwind30: { v1: 109, dist: 5000 }, vr: 109, v2: 126 },
-            { temp: 20,  tailwind10: { v1: 109, dist: 8700 }, zeroWind: { v1: 109, dist: 6560 }, headwind10: { v1: 109, dist: 6230 }, headwind20: { v1: 109, dist: 5910 }, headwind30: { v1: 109, dist: 5590 }, vr: 109, v2: 125 },
-            { temp: 25,  tailwind10: { v1: 109, dist: 9820 }, zeroWind: { v1: 109, dist: 7430 }, headwind10: { v1: 109, dist: 7050 }, headwind20: { v1: 109, dist: 6690 }, headwind30: { v1: 109, dist: 6350 }, vr: 109, v2: 125 },
-            { temp: 30,  tailwind10: { v1: 109, dist: 11800 }, zeroWind: { v1: 109, dist: 8620 }, headwind10: { v1: 109, dist: 8200 }, headwind20: { v1: 109, dist: 7780 }, headwind30: { v1: 109, dist: 7380 }, vr: 109, v2: 125 },
-            { temp: 32,  tailwind10: { v1: 107, dist: 12770 }, zeroWind: { v1: 109, dist: 9240 }, headwind10: { v1: 109, dist: 8790 }, headwind20: { v1: 109, dist: 8350 }, headwind30: { v1: 109, dist: 7920 }, vr: 109, v2: 125 }
+            { temp: 0,   tailwind10_shaded: { v1: 109, dist: 6610 }, zeroWind: { v1: 109, dist: 5010 }, headwind10: { v1: 109, dist: 4750 }, headwind20: { v1: 109, dist: 4500 }, headwind30: { v1: 109, dist: 4240 }, vr: 109, v2: 126 },
+            { temp: 5,   tailwind10_shaded: { v1: 109, dist: 6710 }, zeroWind: { v1: 109, dist: 5100 }, headwind10: { v1: 109, dist: 4830 }, headwind20: { v1: 109, dist: 4580 }, headwind30: { v1: 109, dist: 4320 }, vr: 109, v2: 126 },
+            { temp: 10,  tailwind10_shaded: { v1: 109, dist: 6980 }, zeroWind: { v1: 109, dist: 5300 }, headwind10: { v1: 109, dist: 5030 }, headwind20: { v1: 109, dist: 4770 }, headwind30: { v1: 109, dist: 4510 }, vr: 109, v2: 126 },
+            { temp: 15,  tailwind10_shaded: { v1: 109, dist: 7760 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5580 }, headwind20: { v1: 109, dist: 5290 }, headwind30: { v1: 109, dist: 5000 }, vr: 109, v2: 126 },
+            { temp: 20,  tailwind10_shaded: { v1: 109, dist: 8700 }, zeroWind: { v1: 109, dist: 6560 }, headwind10: { v1: 109, dist: 6230 }, headwind20: { v1: 109, dist: 5910 }, headwind30: { v1: 109, dist: 5590 }, vr: 109, v2: 125 },
+            { temp: 25,  tailwind10_shaded: { v1: 109, dist: 9930 }, zeroWind: { v1: 109, dist: 7430 }, headwind10: { v1: 109, dist: 7050 }, headwind20: { v1: 109, dist: 6690 }, headwind30: { v1: 109, dist: 6350 }, vr: 109, v2: 125 },
+            { temp: 30,  tailwind10_shaded: { v1: 109, dist: 11800 }, zeroWind: { v1: 109, dist: 8620 }, headwind10: { v1: 109, dist: 8200 }, headwind20: { v1: 109, dist: 7780 }, headwind30: { v1: 109, dist: 7380 }, vr: 109, v2: 125 },
+            { temp: 32,  tailwind10_shaded: { v1: 107, dist: 12770 }, zeroWind: { v1: 109, dist: 9240 }, headwind10: { v1: 109, dist: 8790 }, headwind20: { v1: 109, dist: 8350 }, headwind30: { v1: 109, dist: 7920 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -1413,12 +1413,12 @@ const takeoffFieldLength_Dry_Flaps7_5000ft_Complete = [
             { temp: 0,   tailwind10: { v1: 107, dist: 6250 }, zeroWind: { v1: 107, dist: 4730 }, headwind10: { v1: 107, dist: 4480 }, headwind20: { v1: 107, dist: 4240 }, headwind30: { v1: 107, dist: 4000 }, vr: 107, v2: 124 },
             { temp: 5,   tailwind10: { v1: 107, dist: 6340 }, zeroWind: { v1: 107, dist: 4810 }, headwind10: { v1: 107, dist: 4560 }, headwind20: { v1: 107, dist: 4310 }, headwind30: { v1: 107, dist: 4070 }, vr: 107, v2: 124 },
             { temp: 10,  tailwind10: { v1: 107, dist: 6580 }, zeroWind: { v1: 107, dist: 5000 }, headwind10: { v1: 107, dist: 4740 }, headwind20: { v1: 107, dist: 4490 }, headwind30: { v1: 107, dist: 4240 }, vr: 107, v2: 124 },
-            { temp: 15,  tailwind10: { v1: 107, dist: 7300 }, zeroWind: { v1: 107, dist: 5520 }, headwind10: { v1: 107, dist: 5240 }, headwind20: { v1: 107, dist: 4960 }, headwind30: { v1: 107, dist: 4690 }, vr: 107, v2: 124 },
-            { temp: 20,  tailwind10: { v1: 107, dist: 8150 }, zeroWind: { v1: 107, dist: 6150 }, headwind10: { v1: 107, dist: 5830 }, headwind20: { v1: 107, dist: 5530 }, headwind30: { v1: 107, dist: 5230 }, vr: 107, v2: 124 },
-            { temp: 25,  tailwind10: { v1: 107, dist: 9240 }, zeroWind: { v1: 107, dist: 6930 }, headwind10: { v1: 107, dist: 6580 }, headwind20: { v1: 107, dist: 6240 }, headwind30: { v1: 107, dist: 5910 }, vr: 107, v2: 124 },
-            { temp: 30,  tailwind10: { v1: 107, dist: 10730 }, zeroWind: { v1: 107, dist: 8000 }, headwind10: { v1: 107, dist: 7600 }, headwind20: { v1: 107, dist: 7210 }, headwind30: { v1: 107, dist: 6830 }, vr: 107, v2: 124 },
-            { temp: 32,  tailwind10: { v1: 107, dist: 11510 }, zeroWind: { v1: 107, dist: 8550 }, headwind10: { v1: 107, dist: 8120 }, headwind20: { v1: 107, dist: 7710 }, headwind30: { v1: 107, dist: 7310 }, vr: 107, v2: 124 },
-            { temp: 33,  tailwind10: { v1: 107, dist: 11950 }, zeroWind: { v1: 107, dist: 8850 }, headwind10: { v1: 107, dist: 8420 }, headwind20: { v1: 107, dist: 7990 }, headwind30: { v1: 107, dist: 7570 }, vr: 107, v2: 124 }
+            { temp: 15,  tailwind10_shaded: { v1: 107, dist: 7300 }, zeroWind: { v1: 107, dist: 5520 }, headwind10: { v1: 107, dist: 5240 }, headwind20: { v1: 107, dist: 4960 }, headwind30: { v1: 107, dist: 4690 }, vr: 107, v2: 124 },
+            { temp: 20,  tailwind10_shaded: { v1: 107, dist: 8150 }, zeroWind: { v1: 107, dist: 6150 }, headwind10: { v1: 107, dist: 5830 }, headwind20: { v1: 107, dist: 5530 }, headwind30: { v1: 107, dist: 5230 }, vr: 107, v2: 124 },
+            { temp: 25,  tailwind10_shaded: { v1: 107, dist: 9240 }, zeroWind: { v1: 107, dist: 6930 }, headwind10: { v1: 107, dist: 6580 }, headwind20: { v1: 107, dist: 6240 }, headwind30: { v1: 107, dist: 5910 }, vr: 107, v2: 124 },
+            { temp: 30,  tailwind10_shaded: { v1: 107, dist: 10730 }, zeroWind: { v1: 107, dist: 8000 }, headwind10: { v1: 107, dist: 7600 }, headwind20: { v1: 107, dist: 7210 }, headwind30: { v1: 107, dist: 6830 }, vr: 107, v2: 124 },
+            { temp: 32,  tailwind10_shaded: { v1: 107, dist: 11510 }, zeroWind: { v1: 107, dist: 8550 }, headwind10: { v1: 107, dist: 8120 }, headwind20: { v1: 107, dist: 7710 }, headwind30: { v1: 107, dist: 7310 }, vr: 107, v2: 124 },
+            { temp: 33,  tailwind10_shaded: { v1: 107, dist: 11950 }, zeroWind: { v1: 107, dist: 8850 }, headwind10: { v1: 107, dist: 8420 }, headwind20: { v1: 107, dist: 7990 }, headwind30: { v1: 107, dist: 7570 }, vr: 107, v2: 124 }
         ]
     },
     {
@@ -1439,8 +1439,8 @@ const takeoffFieldLength_Dry_Flaps7_5000ft_Complete = [
             { temp: 20,  tailwind10: { v1: 106, dist: 7640 }, zeroWind: { v1: 106, dist: 5760 }, headwind10: { v1: 106, dist: 5450 }, headwind20: { v1: 106, dist: 5170 }, headwind30: { v1: 106, dist: 4890 }, vr: 106, v2: 123 },
             { temp: 25,  tailwind10: { v1: 106, dist: 8620 }, zeroWind: { v1: 106, dist: 6470 }, headwind10: { v1: 106, dist: 6140 }, headwind20: { v1: 106, dist: 5820 }, headwind30: { v1: 106, dist: 5510 }, vr: 106, v2: 122 },
             { temp: 30,  tailwind10: { v1: 106, dist: 9960 }, zeroWind: { v1: 106, dist: 7430 }, headwind10: { v1: 106, dist: 7050 }, headwind20: { v1: 106, dist: 6680 }, headwind30: { v1: 106, dist: 6330 }, vr: 106, v2: 122 },
-            { temp: 33,  tailwind10: { v1: 106, dist: 11020 }, zeroWind: { v1: 106, dist: 8180 }, headwind10: { v1: 106, dist: 7770 }, headwind20: { v1: 106, dist: 7370 }, headwind30: { v1: 106, dist: 6980 }, vr: 106, v2: 122 },
-            { temp: 35,  tailwind10: { v1: 106, dist: 11690 }, zeroWind: { v1: 106, dist: 8780 }, headwind10: { v1: 106, dist: 8350 }, headwind20: { v1: 106, dist: 7920 }, headwind30: { v1: 106, dist: 7510 }, vr: 106, v2: 122 }
+            { temp: 33,  tailwind10_shaded: { v1: 106, dist: 11020 }, zeroWind: { v1: 106, dist: 8180 }, headwind10: { v1: 106, dist: 7770 }, headwind20: { v1: 106, dist: 7370 }, headwind30: { v1: 106, dist: 6980 }, vr: 106, v2: 122 },
+            { temp: 35,  tailwind10_shaded: { v1: 106, dist: 11890 }, zeroWind: { v1: 106, dist: 8780 }, headwind10: { v1: 106, dist: 8350 }, headwind20: { v1: 106, dist: 7920 }, headwind30: { v1: 106, dist: 7510 }, vr: 106, v2: 122 }
         ]
     },
     {
@@ -1664,16 +1664,16 @@ const takeoffFieldLength_Dry_Flaps7_6000ft_Complete = [
             { temp: -25, tailwind10: { v1: 109, dist: 6270 }, zeroWind: { v1: 109, dist: 4730 }, headwind10: { v1: 109, dist: 4470 }, headwind20: { v1: 109, dist: 4230 }, headwind30: { v1: 109, dist: 3990 }, vr: 109, v2: 126 },
             { temp: -20, tailwind10: { v1: 109, dist: 6360 }, zeroWind: { v1: 109, dist: 4810 }, headwind10: { v1: 109, dist: 4550 }, headwind20: { v1: 109, dist: 4300 }, headwind30: { v1: 109, dist: 4060 }, vr: 109, v2: 126 },
             { temp: -15, tailwind10: { v1: 109, dist: 6460 }, zeroWind: { v1: 109, dist: 4890 }, headwind10: { v1: 109, dist: 4630 }, headwind20: { v1: 109, dist: 4380 }, headwind30: { v1: 109, dist: 4130 }, vr: 109, v2: 126 },
-            { temp: -10, tailwind10: { v1: 109, dist: 6550 }, zeroWind: { v1: 109, dist: 4970 }, headwind10: { v1: 109, dist: 4710 }, headwind20: { v1: 109, dist: 4450 }, headwind30: { v1: 109, dist: 4210 }, vr: 109, v2: 126 },
-            { temp: -5,  tailwind10: { v1: 109, dist: 6640 }, zeroWind: { v1: 109, dist: 5050 }, headwind10: { v1: 109, dist: 4790 }, headwind20: { v1: 109, dist: 4530 }, headwind30: { v1: 109, dist: 4280 }, vr: 109, v2: 126 },
-            { temp: 0,   tailwind10: { v1: 109, dist: 6740 }, zeroWind: { v1: 109, dist: 5140 }, headwind10: { v1: 109, dist: 4870 }, headwind20: { v1: 109, dist: 4610 }, headwind30: { v1: 109, dist: 4360 }, vr: 109, v2: 126 },
-            { temp: 5,   tailwind10: { v1: 109, dist: 6830 }, zeroWind: { v1: 109, dist: 5320 }, headwind10: { v1: 109, dist: 5050 }, headwind20: { v1: 109, dist: 4790 }, headwind30: { v1: 109, dist: 4530 }, vr: 109, v2: 126 },
-            { temp: 10,  tailwind10: { v1: 109, dist: 7730 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5570 }, headwind20: { v1: 109, dist: 5280 }, headwind30: { v1: 109, dist: 5000 }, vr: 109, v2: 126 },
-            { temp: 15,  tailwind10: { v1: 109, dist: 8700 }, zeroWind: { v1: 109, dist: 6540 }, headwind10: { v1: 109, dist: 6210 }, headwind20: { v1: 109, dist: 5900 }, headwind30: { v1: 109, dist: 5590 }, vr: 109, v2: 125 },
-            { temp: 20,  tailwind10: { v1: 109, dist: 9960 }, zeroWind: { v1: 109, dist: 7360 }, headwind10: { v1: 109, dist: 7000 }, headwind20: { v1: 109, dist: 6640 }, headwind30: { v1: 109, dist: 6300 }, vr: 109, v2: 125 },
-            { temp: 25,  tailwind10: { v1: 107, dist: 11670 }, zeroWind: { v1: 109, dist: 8420 }, headwind10: { v1: 109, dist: 8010 }, headwind20: { v1: 109, dist: 7610 }, headwind30: { v1: 109, dist: 7220 }, vr: 109, v2: 125 },
-            { temp: 26,  tailwind10: { v1: 106, dist: 12070 }, zeroWind: { v1: 109, dist: 8670 }, headwind10: { v1: 109, dist: 8250 }, headwind20: { v1: 109, dist: 7840 }, headwind30: { v1: 109, dist: 7440 }, vr: 109, v2: 125 },
-            { temp: 28,  tailwind10: { v1: 106, dist: 12980 }, zeroWind: { v1: 109, dist: 9230 }, headwind10: { v1: 109, dist: 8790 }, headwind20: { v1: 109, dist: 8350 }, headwind30: { v1: 109, dist: 7930 }, vr: 109, v2: 125 }
+            { temp: -10, tailwind10_shaded: { v1: 109, dist: 6550 }, zeroWind: { v1: 109, dist: 4970 }, headwind10: { v1: 109, dist: 4710 }, headwind20: { v1: 109, dist: 4450 }, headwind30: { v1: 109, dist: 4210 }, vr: 109, v2: 126 },
+            { temp: -5,  tailwind10_shaded: { v1: 109, dist: 6640 }, zeroWind: { v1: 109, dist: 5050 }, headwind10: { v1: 109, dist: 4790 }, headwind20: { v1: 109, dist: 4530 }, headwind30: { v1: 109, dist: 4280 }, vr: 109, v2: 126 },
+            { temp: 0,   tailwind10_shaded: { v1: 109, dist: 6740 }, zeroWind: { v1: 109, dist: 5140 }, headwind10: { v1: 109, dist: 4870 }, headwind20: { v1: 109, dist: 4610 }, headwind30: { v1: 109, dist: 4360 }, vr: 109, v2: 126 },
+            { temp: 5,   tailwind10_shaded: { v1: 109, dist: 6990 }, zeroWind: { v1: 109, dist: 5320 }, headwind10: { v1: 109, dist: 5050 }, headwind20: { v1: 109, dist: 4790 }, headwind30: { v1: 109, dist: 4530 }, vr: 109, v2: 126 },
+            { temp: 10,  tailwind10_shaded: { v1: 109, dist: 7730 }, zeroWind: { v1: 109, dist: 5870 }, headwind10: { v1: 109, dist: 5570 }, headwind20: { v1: 109, dist: 5280 }, headwind30: { v1: 109, dist: 5000 }, vr: 109, v2: 126 },
+            { temp: 15,  tailwind10_shaded: { v1: 109, dist: 8700 }, zeroWind: { v1: 109, dist: 6540 }, headwind10: { v1: 109, dist: 6210 }, headwind20: { v1: 109, dist: 5900 }, headwind30: { v1: 109, dist: 5590 }, vr: 109, v2: 125 },
+            { temp: 20,  tailwind10_shaded: { v1: 109, dist: 9990 }, zeroWind: { v1: 109, dist: 7360 }, headwind10: { v1: 109, dist: 7000 }, headwind20: { v1: 109, dist: 6640 }, headwind30: { v1: 109, dist: 6300 }, vr: 109, v2: 125 },
+            { temp: 25,  tailwind10_shaded: { v1: 107, dist: 11670 }, zeroWind: { v1: 109, dist: 8420 }, headwind10: { v1: 109, dist: 8010 }, headwind20: { v1: 109, dist: 7610 }, headwind30: { v1: 109, dist: 7220 }, vr: 109, v2: 125 },
+            { temp: 26,  tailwind10_shaded: { v1: 106, dist: 12070 }, zeroWind: { v1: 109, dist: 8670 }, headwind10: { v1: 109, dist: 8250 }, headwind20: { v1: 109, dist: 7840 }, headwind30: { v1: 109, dist: 7440 }, vr: 109, v2: 125 },
+            { temp: 28,  tailwind10_shaded: { v1: 106, dist: 12980 }, zeroWind: { v1: 109, dist: 9230 }, headwind10: { v1: 109, dist: 8790 }, headwind20: { v1: 109, dist: 8350 }, headwind30: { v1: 109, dist: 7930 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -1688,13 +1688,13 @@ const takeoffFieldLength_Dry_Flaps7_6000ft_Complete = [
             { temp: -10, tailwind10: { v1: 107, dist: 6190 }, zeroWind: { v1: 107, dist: 4710 }, headwind10: { v1: 107, dist: 4440 }, headwind20: { v1: 107, dist: 4200 }, headwind30: { v1: 107, dist: 3960 }, vr: 107, v2: 124 },
             { temp: -5,  tailwind10: { v1: 107, dist: 6270 }, zeroWind: { v1: 107, dist: 4790 }, headwind10: { v1: 107, dist: 4520 }, headwind20: { v1: 107, dist: 4270 }, headwind30: { v1: 107, dist: 4040 }, vr: 107, v2: 124 },
             { temp: 0,   tailwind10: { v1: 107, dist: 6370 }, zeroWind: { v1: 107, dist: 4870 }, headwind10: { v1: 107, dist: 4600 }, headwind20: { v1: 107, dist: 4350 }, headwind30: { v1: 107, dist: 4110 }, vr: 107, v2: 124 },
-            { temp: 5,   tailwind10: { v1: 107, dist: 6590 }, zeroWind: { v1: 107, dist: 5020 }, headwind10: { v1: 107, dist: 4760 }, headwind20: { v1: 107, dist: 4510 }, headwind30: { v1: 107, dist: 4260 }, vr: 107, v2: 124 },
-            { temp: 10,  tailwind10: { v1: 107, dist: 7270 }, zeroWind: { v1: 107, dist: 5520 }, headwind10: { v1: 107, dist: 5240 }, headwind20: { v1: 107, dist: 4960 }, headwind30: { v1: 107, dist: 4700 }, vr: 107, v2: 124 },
-            { temp: 15,  tailwind10: { v1: 107, dist: 8110 }, zeroWind: { v1: 107, dist: 6130 }, headwind10: { v1: 107, dist: 5830 }, headwind20: { v1: 107, dist: 5520 }, headwind30: { v1: 107, dist: 5230 }, vr: 107, v2: 124 },
-            { temp: 20,  tailwind10: { v1: 107, dist: 9130 }, zeroWind: { v1: 107, dist: 6880 }, headwind10: { v1: 107, dist: 6530 }, headwind20: { v1: 107, dist: 6200 }, headwind30: { v1: 107, dist: 5870 }, vr: 107, v2: 124 },
-            { temp: 25,  tailwind10: { v1: 107, dist: 10450 }, zeroWind: { v1: 107, dist: 7830 }, headwind10: { v1: 107, dist: 7440 }, headwind20: { v1: 107, dist: 7070 }, headwind30: { v1: 107, dist: 6700 }, vr: 107, v2: 124 },
-            { temp: 28,  tailwind10: { v1: 107, dist: 11470 }, zeroWind: { v1: 107, dist: 8550 }, headwind10: { v1: 107, dist: 8130 }, headwind20: { v1: 107, dist: 7720 }, headwind30: { v1: 107, dist: 7320 }, vr: 107, v2: 124 },
-            { temp: 30,  tailwind10: { v1: 107, dist: 12320 }, zeroWind: { v1: 107, dist: 9110 }, headwind10: { v1: 107, dist: 8670 }, headwind20: { v1: 107, dist: 8240 }, headwind30: { v1: 107, dist: 7810 }, vr: 107, v2: 124 }
+            { temp: 5,   tailwind10_shaded: { v1: 107, dist: 6590 }, zeroWind: { v1: 107, dist: 5020 }, headwind10: { v1: 107, dist: 4760 }, headwind20: { v1: 107, dist: 4510 }, headwind30: { v1: 107, dist: 4260 }, vr: 107, v2: 124 },
+            { temp: 10,  tailwind10_shaded: { v1: 107, dist: 7270 }, zeroWind: { v1: 107, dist: 5520 }, headwind10: { v1: 107, dist: 5240 }, headwind20: { v1: 107, dist: 4960 }, headwind30: { v1: 107, dist: 4700 }, vr: 107, v2: 124 },
+            { temp: 15,  tailwind10_shaded: { v1: 107, dist: 8110 }, zeroWind: { v1: 107, dist: 6130 }, headwind10: { v1: 107, dist: 5830 }, headwind20: { v1: 107, dist: 5520 }, headwind30: { v1: 107, dist: 5230 }, vr: 107, v2: 124 },
+            { temp: 20,  tailwind10_shaded: { v1: 107, dist: 9130 }, zeroWind: { v1: 107, dist: 6880 }, headwind10: { v1: 107, dist: 6530 }, headwind20: { v1: 107, dist: 6200 }, headwind30: { v1: 107, dist: 5870 }, vr: 107, v2: 124 },
+            { temp: 25,  tailwind10_shaded: { v1: 107, dist: 10450 }, zeroWind: { v1: 107, dist: 7830 }, headwind10: { v1: 107, dist: 7440 }, headwind20: { v1: 107, dist: 7070 }, headwind30: { v1: 107, dist: 6700 }, vr: 107, v2: 124 },
+            { temp: 28,  tailwind10_shaded: { v1: 107, dist: 11470 }, zeroWind: { v1: 107, dist: 8550 }, headwind10: { v1: 107, dist: 8130 }, headwind20: { v1: 107, dist: 7720 }, headwind30: { v1: 107, dist: 7320 }, vr: 107, v2: 124 },
+            { temp: 30,  tailwind10_shaded: { v1: 107, dist: 12320 }, zeroWind: { v1: 107, dist: 9110 }, headwind10: { v1: 107, dist: 8670 }, headwind20: { v1: 107, dist: 8240 }, headwind30: { v1: 107, dist: 7810 }, vr: 107, v2: 124 }
         ]
     },
     {
@@ -1712,10 +1712,10 @@ const takeoffFieldLength_Dry_Flaps7_6000ft_Complete = [
             { temp: 5,   tailwind10: { v1: 106, dist: 6220 }, zeroWind: { v1: 106, dist: 4770 }, headwind10: { v1: 106, dist: 4510 }, headwind20: { v1: 106, dist: 4260 }, headwind30: { v1: 106, dist: 4010 }, vr: 106, v2: 123 },
             { temp: 10,  tailwind10: { v1: 106, dist: 6840 }, zeroWind: { v1: 106, dist: 5190 }, headwind10: { v1: 106, dist: 4920 }, headwind20: { v1: 106, dist: 4660 }, headwind30: { v1: 106, dist: 4410 }, vr: 106, v2: 123 },
             { temp: 15,  tailwind10: { v1: 106, dist: 7600 }, zeroWind: { v1: 106, dist: 5750 }, headwind10: { v1: 106, dist: 5460 }, headwind20: { v1: 106, dist: 5170 }, headwind30: { v1: 106, dist: 4890 }, vr: 106, v2: 123 },
-            { temp: 20,  tailwind10: { v1: 106, dist: 8580 }, zeroWind: { v1: 106, dist: 6430 }, headwind10: { v1: 106, dist: 6100 }, headwind20: { v1: 106, dist: 5780 }, headwind30: { v1: 106, dist: 5480 }, vr: 106, v2: 122 },
-            { temp: 25,  tailwind10: { v1: 106, dist: 9720 }, zeroWind: { v1: 106, dist: 7290 }, headwind10: { v1: 106, dist: 6920 }, headwind20: { v1: 106, dist: 6570 }, headwind30: { v1: 106, dist: 6220 }, vr: 106, v2: 122 },
-            { temp: 30,  tailwind10: { v1: 106, dist: 11320 }, zeroWind: { v1: 106, dist: 8420 }, headwind10: { v1: 106, dist: 8000 }, headwind20: { v1: 106, dist: 7600 }, headwind30: { v1: 106, dist: 7200 }, vr: 106, v2: 122 },
-            { temp: 32,  tailwind10: { v1: 106, dist: 12130 }, zeroWind: { v1: 106, dist: 8990 }, headwind10: { v1: 106, dist: 8550 }, headwind20: { v1: 106, dist: 8120 }, headwind30: { v1: 106, dist: 7700 }, vr: 106, v2: 122 }
+            { temp: 20,  tailwind10_shaded: { v1: 106, dist: 8530 }, zeroWind: { v1: 106, dist: 6430 }, headwind10: { v1: 106, dist: 6100 }, headwind20: { v1: 106, dist: 5780 }, headwind30: { v1: 106, dist: 5480 }, vr: 106, v2: 122 },
+            { temp: 25,  tailwind10_shaded: { v1: 106, dist: 9720 }, zeroWind: { v1: 106, dist: 7290 }, headwind10: { v1: 106, dist: 6920 }, headwind20: { v1: 106, dist: 6570 }, headwind30: { v1: 106, dist: 6220 }, vr: 106, v2: 122 },
+            { temp: 30,  tailwind10_shaded: { v1: 106, dist: 11320 }, zeroWind: { v1: 106, dist: 8420 }, headwind10: { v1: 106, dist: 8000 }, headwind20: { v1: 106, dist: 7600 }, headwind30: { v1: 106, dist: 7200 }, vr: 106, v2: 122 },
+            { temp: 32,  tailwind10_shaded: { v1: 106, dist: 12130 }, zeroWind: { v1: 106, dist: 8990 }, headwind10: { v1: 106, dist: 8550 }, headwind20: { v1: 106, dist: 8120 }, headwind30: { v1: 106, dist: 7700 }, vr: 106, v2: 122 }
         ]
     },
     {
@@ -2703,9 +2703,9 @@ const takeoffFieldLength_Dry_Flaps7_AntiIceOn_5000ft = [
             { temp: -15, tailwind10: { v1: 109, dist: 6350 }, zeroWind: { v1: 109, dist: 4790 }, headwind10: { v1: 109, dist: 4530 }, headwind20: { v1: 109, dist: 4280 }, headwind30: { v1: 109, dist: 4040 }, vr: 109, v2: 128 },
             { temp: -10, tailwind10: { v1: 109, dist: 6440 }, zeroWind: { v1: 109, dist: 4870 }, headwind10: { v1: 109, dist: 4610 }, headwind20: { v1: 109, dist: 4350 }, headwind30: { v1: 109, dist: 4110 }, vr: 109, v2: 128 },
             { temp: -5,  tailwind10: { v1: 109, dist: 6530 }, zeroWind: { v1: 109, dist: 4950 }, headwind10: { v1: 109, dist: 4680 }, headwind20: { v1: 109, dist: 4430 }, headwind30: { v1: 109, dist: 4180 }, vr: 109, v2: 128 },
-            { temp: 0,   tailwind10: { v1: 109, dist: 6760 }, zeroWind: { v1: 109, dist: 5120 }, headwind10: { v1: 109, dist: 4850 }, headwind20: { v1: 109, dist: 4590 }, headwind30: { v1: 109, dist: 4340 }, vr: 109, v2: 128 },
-            { temp: 5,   tailwind10: { v1: 109, dist: 7340 }, zeroWind: { v1: 109, dist: 5540 }, headwind10: { v1: 109, dist: 5260 }, headwind20: { v1: 109, dist: 4980 }, headwind30: { v1: 109, dist: 4710 }, vr: 109, v2: 128 },
-            { temp: 10,  tailwind10: { v1: 109, dist: 8440 }, zeroWind: { v1: 109, dist: 6340 }, headwind10: { v1: 109, dist: 6010 }, headwind20: { v1: 109, dist: 5700 }, headwind30: { v1: 109, dist: 5390 }, vr: 109, v2: 125 }
+            { temp: 0,   tailwind10_shaded: { v1: 109, dist: 6760 }, zeroWind: { v1: 109, dist: 5120 }, headwind10: { v1: 109, dist: 4850 }, headwind20: { v1: 109, dist: 4590 }, headwind30: { v1: 109, dist: 4340 }, vr: 109, v2: 128 },
+            { temp: 5,   tailwind10_shaded: { v1: 109, dist: 7340 }, zeroWind: { v1: 109, dist: 5540 }, headwind10: { v1: 109, dist: 5260 }, headwind20: { v1: 109, dist: 4980 }, headwind30: { v1: 109, dist: 4710 }, vr: 109, v2: 128 },
+            { temp: 10,  tailwind10_shaded: { v1: 109, dist: 8440 }, zeroWind: { v1: 109, dist: 6340 }, headwind10: { v1: 109, dist: 6010 }, headwind20: { v1: 109, dist: 5700 }, headwind30: { v1: 109, dist: 5390 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -2854,11 +2854,11 @@ const takeoffFieldLength_Dry_Flaps7_AntiIceOn_6000ft = [
             { temp: -25, tailwind10: { v1: 109, dist: 6280 }, zeroWind: { v1: 109, dist: 4730 }, headwind10: { v1: 109, dist: 4480 }, headwind20: { v1: 109, dist: 4230 }, headwind30: { v1: 109, dist: 3990 }, vr: 109, v2: 126 },
             { temp: -20, tailwind10: { v1: 109, dist: 6370 }, zeroWind: { v1: 109, dist: 4810 }, headwind10: { v1: 109, dist: 4560 }, headwind20: { v1: 109, dist: 4310 }, headwind30: { v1: 109, dist: 4070 }, vr: 109, v2: 126 },
             { temp: -15, tailwind10: { v1: 109, dist: 6470 }, zeroWind: { v1: 109, dist: 4900 }, headwind10: { v1: 109, dist: 4640 }, headwind20: { v1: 109, dist: 4390 }, headwind30: { v1: 109, dist: 4140 }, vr: 109, v2: 126 },
-            { temp: -10, tailwind10: { v1: 109, dist: 6560 }, zeroWind: { v1: 109, dist: 4980 }, headwind10: { v1: 109, dist: 4720 }, headwind20: { v1: 109, dist: 4460 }, headwind30: { v1: 109, dist: 4220 }, vr: 109, v2: 126 },
-            { temp: -5,  tailwind10: { v1: 109, dist: 6660 }, zeroWind: { v1: 109, dist: 5060 }, headwind10: { v1: 109, dist: 4800 }, headwind20: { v1: 109, dist: 4540 }, headwind30: { v1: 109, dist: 4290 }, vr: 109, v2: 126 },
-            { temp: 0,   tailwind10: { v1: 109, dist: 7220 }, zeroWind: { v1: 109, dist: 5480 }, headwind10: { v1: 109, dist: 5200 }, headwind20: { v1: 109, dist: 4920 }, headwind30: { v1: 109, dist: 4660 }, vr: 109, v2: 126 },
-            { temp: 5,   tailwind10: { v1: 109, dist: 8180 }, zeroWind: { v1: 109, dist: 6180 }, headwind10: { v1: 109, dist: 5870 }, headwind20: { v1: 109, dist: 5560 }, headwind30: { v1: 109, dist: 5260 }, vr: 109, v2: 125 },
-            { temp: 10,  tailwind10: { v1: 109, dist: 9500 }, zeroWind: { v1: 109, dist: 7130 }, headwind10: { v1: 109, dist: 6770 }, headwind20: { v1: 109, dist: 6430 }, headwind30: { v1: 109, dist: 6090 }, vr: 109, v2: 125 }
+            { temp: -10, tailwind10_shaded: { v1: 109, dist: 6560 }, zeroWind: { v1: 109, dist: 4980 }, headwind10: { v1: 109, dist: 4720 }, headwind20: { v1: 109, dist: 4460 }, headwind30: { v1: 109, dist: 4220 }, vr: 109, v2: 126 },
+            { temp: -5,  tailwind10_shaded: { v1: 109, dist: 6660 }, zeroWind: { v1: 109, dist: 5060 }, headwind10: { v1: 109, dist: 4800 }, headwind20: { v1: 109, dist: 4540 }, headwind30: { v1: 109, dist: 4290 }, vr: 109, v2: 126 },
+            { temp: 0,   tailwind10_shaded: { v1: 109, dist: 7220 }, zeroWind: { v1: 109, dist: 5480 }, headwind10: { v1: 109, dist: 5200 }, headwind20: { v1: 109, dist: 4920 }, headwind30: { v1: 109, dist: 4660 }, vr: 109, v2: 126 },
+            { temp: 5,   tailwind10_shaded: { v1: 109, dist: 8180 }, zeroWind: { v1: 109, dist: 6180 }, headwind10: { v1: 109, dist: 5870 }, headwind20: { v1: 109, dist: 5560 }, headwind30: { v1: 109, dist: 5260 }, vr: 109, v2: 125 },
+            { temp: 10,  tailwind10_shaded: { v1: 109, dist: 9500 }, zeroWind: { v1: 109, dist: 7130 }, headwind10: { v1: 109, dist: 6770 }, headwind20: { v1: 109, dist: 6430 }, headwind30: { v1: 109, dist: 6090 }, vr: 109, v2: 125 }
         ]
     },
     {
@@ -2872,8 +2872,8 @@ const takeoffFieldLength_Dry_Flaps7_AntiIceOn_6000ft = [
             { temp: -10, tailwind10: { v1: 107, dist: 6200 }, zeroWind: { v1: 107, dist: 4710 }, headwind10: { v1: 107, dist: 4450 }, headwind20: { v1: 107, dist: 4210 }, headwind30: { v1: 107, dist: 3970 }, vr: 107, v2: 124 },
             { temp: -5,  tailwind10: { v1: 107, dist: 6290 }, zeroWind: { v1: 107, dist: 4790 }, headwind10: { v1: 107, dist: 4530 }, headwind20: { v1: 107, dist: 4280 }, headwind30: { v1: 107, dist: 4050 }, vr: 107, v2: 124 },
             { temp: 0,   tailwind10: { v1: 107, dist: 6810 }, zeroWind: { v1: 107, dist: 5160 }, headwind10: { v1: 107, dist: 4890 }, headwind20: { v1: 107, dist: 4630 }, headwind30: { v1: 107, dist: 4380 }, vr: 107, v2: 124 },
-            { temp: 5,   tailwind10: { v1: 107, dist: 7680 }, zeroWind: { v1: 107, dist: 5800 }, headwind10: { v1: 107, dist: 5500 }, headwind20: { v1: 107, dist: 5210 }, headwind30: { v1: 107, dist: 4930 }, vr: 107, v2: 124 },
-            { temp: 10,  tailwind10: { v1: 107, dist: 8880 }, zeroWind: { v1: 107, dist: 6660 }, headwind10: { v1: 107, dist: 6320 }, headwind20: { v1: 107, dist: 5990 }, headwind30: { v1: 107, dist: 5670 }, vr: 107, v2: 124 }
+            { temp: 5,   tailwind10_shaded: { v1: 107, dist: 7680 }, zeroWind: { v1: 107, dist: 5800 }, headwind10: { v1: 107, dist: 5500 }, headwind20: { v1: 107, dist: 5210 }, headwind30: { v1: 107, dist: 4930 }, vr: 107, v2: 124 },
+            { temp: 10,  tailwind10_shaded: { v1: 107, dist: 8880 }, zeroWind: { v1: 107, dist: 6660 }, headwind10: { v1: 107, dist: 6320 }, headwind20: { v1: 107, dist: 5990 }, headwind30: { v1: 107, dist: 5670 }, vr: 107, v2: 124 }
         ]
     },
     {
