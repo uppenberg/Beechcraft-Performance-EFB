@@ -704,6 +704,15 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr id="to-deice-row" hidden style="border-bottom: 1px solid #21262d;">
+                            <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Type II/III/IV Deice Fluid applied</td>
+                            <td style="padding: 10px 0;">
+                                <select class="form-control" id="to-deice" onchange="handleTakeoffDeice(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <option value="NO" selected>NO</option>
+                                    <option value="YES">YES</option>
+                                </select>
+                            </td>
+                        </tr>
                         <tr id="to-technique-row" hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off technique</td>
                             <td style="padding: 10px 0;">
@@ -802,11 +811,6 @@
 
         <!-- LANDNINGS-FLIK -->
         <section id="page-landing" class="page" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h2 style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Landing Performance Class A</h2>
-                <span class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA CAT</span>
-            </div>
-
             <div class="responsive-top-grid landing-top-kpis">
                 <!-- WIND / XW & HW/TW (Landing) -->
                 <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
@@ -817,7 +821,11 @@
                 </div>
                 <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
                     <div id="res-ldg-vref-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">VREF / FLAPS DOWN</div>
-                    <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
+                    <div id="res-ldg-vref-value" style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
+                    <div id="ldg-c56x-speeds" hidden style="font-size: 14px; font-weight: 700; color: #fff; line-height: 1.5;">
+                        <div><span style="font-size: 11px; color: #8b949e; font-weight: 600;">V<sub>APP</sub></span> <span id="res-ldg-c56x-vapp">-</span></div>
+                        <div><span style="font-size: 11px; color: #8b949e; font-weight: 600;">V<sub>ref</sub></span> <span id="res-ldg-c56x-vref">-</span></div>
+                    </div>
                 </div>
                 <div id="landing-exceedance-card" class="runway-exceedance-card" role="status" aria-live="polite">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">Landing distance</div>
@@ -983,6 +991,11 @@
                 <!-- Markör för Flaps Down (Grön) -->
                 <div id="ldg-dist-down-marker" class="runway-marker down-marker" data-label="LD Flaps down" data-val="0" style="background-color: #238636;"></div>
              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 id="ldg-header-title" style="margin: 0; font-size: 16px; color: #fff; font-weight: 600;">Landing Performance Class A</h2>
+                <span id="ldg-header-badge" class="badge" style="background: rgba(0, 210, 255, 0.15); color: var(--accent, #00d2ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">EASA PC A</span>
             </div>
 
             <!-- Resultatbox för Landing -->

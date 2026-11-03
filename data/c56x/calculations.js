@@ -253,6 +253,7 @@ function getC56xTakeoffFieldLengths({
     reverserStatus = 'AVAILABLE',
     antiIce = 'ON',
     flaps = 7,
+    deiceFluidApplied = false,
 }) {
     const pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, fieldElevationFt);
     const direction = Number(windDirectionDeg);
@@ -270,15 +271,17 @@ function getC56xTakeoffFieldLengths({
     if (reverserStatus !== 'AVAILABLE' && reverserStatus !== 'INOP') return null;
     if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
     if (flaps !== 7 && flaps !== 15) return null;
+    // AFM: field length x1.15 with Type II/III/IV fluid on the airplane (dry, wet and contaminated).
+    const deiceFluidFactor = deiceFluidApplied ? 1.15 : 1;
     const takeoffFactor = getC56xTakeoffFactor({
         runwayConditionCode,
         flaps,
         reverserStatus,
         antiIce,
-    });
+    }) * deiceFluidFactor;
     if (!Number.isFinite(takeoffFactor)) return null;
     // The dry distance used on a wet runway carries the dry (RCC 6) factor.
-    const dryTakeoffFactor = getC56xTakeoffFactor({ runwayConditionCode: '6', flaps, reverserStatus, antiIce });
+    const dryTakeoffFactor = getC56xTakeoffFactor({ runwayConditionCode: '6', flaps, reverserStatus, antiIce }) * deiceFluidFactor;
     if (!Number.isFinite(dryTakeoffFactor)) return null;
 
     const headwindKnots = speed === 0

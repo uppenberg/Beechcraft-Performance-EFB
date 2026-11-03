@@ -218,6 +218,8 @@ function configureC56xRunwayInputs(registration) {
 
   const reversersRow = document.getElementById('to-reversers-row');
   if (reversersRow) reversersRow.hidden = false;
+  const deiceRow = document.getElementById('to-deice-row');
+  if (deiceRow) deiceRow.hidden = false;
   const reversersSelect = document.getElementById('to-reversers');
   if (reversersSelect && !['AVAILABLE', 'INOP'].includes(reversersSelect.value)) {
     reversersSelect.value = 'AVAILABLE';
@@ -248,7 +250,16 @@ function configureC56xLandingPage(registration) {
   if (climbLines) climbLines.hidden = false;
   const distanceMarker = document.getElementById('ldg-dist-down-marker');
   if (distanceMarker) distanceMarker.dataset.label = 'LD';
-  safeSetText('res-ldg-vref-label', 'VREF AT 50 FT · FLAPS 35');
+  const vrefLabel = document.getElementById('res-ldg-vref-label');
+  if (vrefLabel) vrefLabel.hidden = true;
+  const vrefValue = document.getElementById('res-ldg-vref-value');
+  if (vrefValue) vrefValue.hidden = true;
+  const speeds = document.getElementById('ldg-c56x-speeds');
+  if (speeds) speeds.hidden = false;
+  const headerBadge = document.getElementById('ldg-header-badge');
+  if (headerBadge) headerBadge.textContent = 'AFM revision:56XFM-13';
+  const ldgTitle = document.getElementById('ldg-header-title');
+  if (ldgTitle) ldgTitle.textContent = 'C56X Landing Performance';
 }
 
 function configureMassSliders(registration) {
@@ -1943,7 +1954,7 @@ function updateC56xLanding() {
       distanceCard.classList.remove('is-exceeded', 'is-within-limits');
     }
     ['res-ldg-afm-distance', 'res-ldg-required-distance', 'res-ldg-max-weight',
-      'res-ldg-vref', 'res-ldg-vref-vapp'].forEach((id) => setText(id, '-'));
+      'res-ldg-vref', 'res-ldg-c56x-vref', 'res-ldg-c56x-vapp', 'res-ldg-vref-vapp'].forEach((id) => setText(id, '-'));
     setText('res-ldg-factor', '-');
     if (maxWeightWarning) maxWeightWarning.hidden = true;
     updateC56xLandingClimbCard(null, null);
@@ -2012,6 +2023,8 @@ function updateC56xLanding() {
   const vref = formatLandingSpeed(performance.vref);
   const vapp = formatLandingSpeed(performance.vapp);
   setText('res-ldg-vref', vref === '-' ? '-' : `${vref} KIAS`);
+  setText('res-ldg-c56x-vref', vref === '-' ? '-' : `${vref} KIAS`);
+  setText('res-ldg-c56x-vapp', vapp === '-' ? '-' : `${vapp} KIAS`);
   setText('res-ldg-vref-vapp', vref === '-' || vapp === '-'
     ? 'Outside AFM speed data'
     : `${vref} / ${vapp} KIAS`);
@@ -2080,6 +2093,17 @@ function handleTakeoffAntiIce(val) {
 }
 
 function handleTakeoffReversers(val) {
+  if (isC56xSelected()) {
+    updateMaxTakeoffMass();
+    updateC56xTakeoffFieldLength();
+  }
+}
+
+function isC56xDeiceFluidApplied() {
+  return document.getElementById('to-deice')?.value === 'YES';
+}
+
+function handleTakeoffDeice() {
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
@@ -2468,6 +2492,7 @@ function getC56xWetRunwayMassLimit({
       reverserStatus,
       antiIce,
       flaps,
+      deiceFluidApplied: isC56xDeiceFluidApplied(),
     });
     const requiredDistanceFt = result?.wetRequiredDistanceFt;
     if (Number.isFinite(requiredDistanceFt) &&
@@ -2710,6 +2735,7 @@ function updateC56xTakeoffFieldLength() {
       reverserStatus,
       antiIce,
       flaps,
+      deiceFluidApplied: isC56xDeiceFluidApplied(),
     });
   } catch (error) {
     console.error('C56X take-off field-length calculation failed:', error);
@@ -2944,6 +2970,7 @@ function updateMaxTakeoffMass() {
                 reverserStatus,
                 antiIce,
                 flaps,
+                deiceFluidApplied: isC56xDeiceFluidApplied(),
               });
               const selectedDistanceM = Number.isFinite(fieldLengths?.selectedDistanceFt)
                 ? Math.ceil(fieldLengths.selectedDistanceFt * 0.3048)
