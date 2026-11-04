@@ -44,6 +44,15 @@ const factorsRunwayConditionCodesLanding = [
     { code: "1", label: "RCC 1", factor: 3.4 }
 ];
 
+const factorsRunwayConditionCodesLanding_no_reversers = [
+    { code: "6", label: "RCC 6", factor: 1.67 },
+    { code: "5", label: "RCC 5", factor: 2.6 },
+    { code: "4", label: "RCC 4", factor: 2.8 },
+    { code: "3", label: "RCC 3", factor: 3.2 },
+    { code: "2", label: "RCC 2", factor: 4.0 },
+    { code: "1", label: "RCC 1", factor: 5.1 }
+];
+
 const maxXwindByRCC = [
     { code: "6", label: "RCC 6", max_XW: 25 },
     { code: "5", label: "RCC 5", max_XW: 24 },

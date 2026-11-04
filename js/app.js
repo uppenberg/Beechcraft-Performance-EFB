@@ -241,6 +241,12 @@ function configureC56xLandingPage(registration) {
   }
   const antiIceRow = document.getElementById('ldg-anti-ice-row');
   if (antiIceRow) antiIceRow.hidden = false;
+  const reversersRow = document.getElementById('ldg-reversers-row');
+  if (reversersRow) reversersRow.hidden = false;
+  const reversersSelect = document.getElementById('ldg-reversers');
+  if (reversersSelect && !['AVAILABLE', 'INOP'].includes(reversersSelect.value)) {
+    reversersSelect.value = 'AVAILABLE';
+  }
   const climbLabel = document.getElementById('ldg-missed-climb-label');
   if (climbLabel) climbLabel.textContent = 'Approach / Landing climb gradient';
   ['ldg-missed-climb', 'ldg-missed-climb-status'].forEach((id) => {
@@ -606,7 +612,6 @@ function setupCustomAirportUi() {
       console.error('Could not switch airport source:', error);
       showAirportSelectionError(`Could not switch airport source: ${error.message}`);
     }
-    if (checkbox.checked) openDialog();
   });
 
   function openDialog() {
@@ -2114,6 +2119,7 @@ function updateC56xLanding() {
   };
   const weightLb = readNumber('ldg-mass');
   const antiIce = document.getElementById('ldg-anti-ice')?.value || 'OFF';
+  const reverserStatus = document.getElementById('ldg-reversers')?.value || 'AVAILABLE';
   const runwayConditionCode = document.getElementById('ldg-rwcc')?.value;
 
   const overweight = updateLandingOverweightWarning();
@@ -2191,6 +2197,7 @@ function updateC56xLanding() {
       runwaySlopePercent,
       runwayConditionCode,
       antiIce,
+      reverserStatus,
     });
   } catch (error) {
     console.error('C56X landing calculation failed:', error);
@@ -2332,6 +2339,10 @@ function handleTakeoffRwcc(val) {
 function handleLandingFlaps() { refreshOutputs(); }
 
 function handleLandingAntiIce() {
+  if (isC56xSelected()) updateC56xLanding();
+}
+
+function handleLandingReversers() {
   if (isC56xSelected()) updateC56xLanding();
 }
 
@@ -3345,6 +3356,7 @@ window.handleLandingMass = handleLandingMass;
 window.handleTakeoffFlaps = handleTakeoffFlaps;
 window.handleLandingFlaps = handleLandingFlaps;
 window.handleLandingAntiIce = handleLandingAntiIce;
+window.handleLandingReversers = handleLandingReversers;
 window.handleLandingRwcc = handleLandingRwcc;
 window.handleWeather = handleWeather;
 window.handleWeatherOverride = handleWeatherOverride;

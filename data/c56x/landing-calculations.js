@@ -207,12 +207,16 @@ function getC56xLandingPerformance({
     runwaySlopePercent,
     runwayConditionCode,
     antiIce = 'OFF',
+    reverserStatus = 'AVAILABLE',
 }) {
     const pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, fieldElevationFt);
     const distanceInputs = { pressureAltitudeFt, weightLb, oatC, headwindKnots, runwaySlopePercent };
     const distanceFt = getC56xLandingDistance(distanceInputs);
     const landingSpeeds = getC56xLandingSpeeds({ pressureAltitudeFt, weightLb });
-    const factor = factorsRunwayConditionCodesLanding.find(
+    const landingFactors = reverserStatus === 'INOP'
+        ? factorsRunwayConditionCodesLanding_no_reversers
+        : factorsRunwayConditionCodesLanding;
+    const factor = landingFactors.find(
         (entry) => entry.code === String(runwayConditionCode)
     )?.factor ?? null;
     const climbGradients = getC56xLandingClimbGradients({
