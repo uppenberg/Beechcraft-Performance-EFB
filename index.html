@@ -182,10 +182,41 @@
                     <button id="check-updates-button" class="check-updates-button" type="button">Check for updates and install</button>
                     <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
                     <button id="open-help-button" class="check-updates-button" type="button" style="margin-top: 8px;">User Guide</button>
+                    <label class="custom-airport-toggle" for="custom-airport-checkbox">
+                        <input type="checkbox" id="custom-airport-checkbox">
+                        <span>Custom Airport (overrides airport database)</span>
+                    </label>
+                    <button id="edit-custom-airports-button" class="check-updates-button" type="button" style="margin-top: 8px;" hidden>Edit custom airports</button>
                 </div>
             </div>
         </div>
     </header>
+    <dialog id="custom-airport-dialog" class="custom-airport-dialog" aria-labelledby="custom-airport-title">
+        <form id="custom-airport-form" class="custom-airport-form" autocomplete="off">
+            <h2 id="custom-airport-title">Custom airports</h2>
+            <p class="custom-airport-hint">While Custom Airport is checked, only the airports below are used. Uncheck it in Settings to return to airport database.</p>
+            <div class="custom-airport-grid">
+                <label>ICAO<input id="ca-icao" maxlength="4" autocapitalize="characters" required pattern="[A-Za-z0-9]{4}"></label>
+                <label>RWY<input id="ca-rwy" maxlength="4" autocapitalize="characters" required></label>
+                <label>RWY Elev [ft]<input id="ca-elev" type="number" step="any" inputmode="decimal" required></label>
+                <label>TORA [m]<input id="ca-tora" type="number" step="any" min="0" inputmode="decimal" required></label>
+                <label>TODA [m]<input id="ca-toda" type="number" step="any" min="0" inputmode="decimal" required></label>
+                <label>ASDA [m]<input id="ca-asda" type="number" step="any" min="0" inputmode="decimal" required></label>
+                <label>LDA [m]<input id="ca-lda" type="number" step="any" min="0" inputmode="decimal" required></label>
+                <label>Slope [%]<input id="ca-slope" type="number" step="any" inputmode="decimal" required></label>
+                <label>RWY HDG [°]<input id="ca-hdg" type="number" step="any" min="0" max="360" inputmode="decimal" required></label>
+                <label>Min climb gradient OEI [%]<input id="ca-grad" type="number" step="any" min="0" inputmode="decimal" required></label>
+            </div>
+            <label class="custom-airport-check"><input type="checkbox" id="ca-turning"><span>Engine out climb path: Turning (unchecked = Straight)</span></label>
+            <p id="custom-airport-error" class="custom-airport-error" role="alert" hidden></p>
+            <div class="custom-airport-actions">
+                <button type="submit" class="custom-airport-save">Save runway</button>
+                <button type="button" id="custom-airport-close" class="custom-airport-close">Close</button>
+            </div>
+            <h3>Saved custom runways</h3>
+            <div id="custom-airport-list" class="custom-airport-list"></div>
+        </form>
+    </dialog>
     <p id="registration-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
     <dialog id="aircraft-change-dialog" class="aircraft-change-dialog" aria-labelledby="aircraft-change-title" aria-describedby="aircraft-change-message">
         <div class="aircraft-change-warning" role="alert">
@@ -257,7 +288,7 @@
                         </tbody>
                     </table>
                     <div class="help-note help-note--warn">
-                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X dry field-length charts support Flaps 7/15 with anti-ice ON/OFF. Wet charts with reversers available support Flaps 7 anti-ice ON and Flaps 15 anti-ice ON/OFF. With reversers INOP, wet Flaps 15 data is available with anti-ice ON/OFF; wet Flaps 7 data is not available.
+                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X dry field-length charts support Flaps 7/15 with anti-ice ON/OFF. Wet charts with reversers available support Flaps 7 anti-ice ON and Flaps 15 anti-ice ON/OFF. With reversers INOP, wet Flaps 15 data is available with anti-ice ON/OFF; Wet Flaps 7 data is not available. RWCC 1–4 use the wet-runway charts with the RWCC factor.
                     </div>
                     <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
                 </section>
@@ -369,7 +400,7 @@
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
                         <dt>Landing Mass (lbs)</dt>
-                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,100 lbs.(Data for overweight landings up to 16600 lbs is available in the performance database) Change its touch target size under Settings.</dd>
+                        <dd>Expected landing mass. Ranges: BE20 9,000–12,500 lbs | B190 10,000–16,600 lbs. Above 16,100 lbs (B190 maximum design landing weight) the mass is shown in red with an emergency-use-only warning. Change its touch target size under Settings.</dd>
 
                         <dt>Flaps setting</dt>
                         <dd><strong>UP</strong> or <strong>DOWN</strong>. Both Vref and distance are calculated for both settings simultaneously. The selected setting determines which distance is compared against LDA in the exceedance card.</dd>
@@ -568,6 +599,7 @@
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
                                     <input class="form-control" id="to-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'to')" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <span class="custom-airport-badge" hidden>CUSTOM</span>
                                     <div class="icao-suggestions" id="to-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>
@@ -870,6 +902,7 @@
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
                                     <input class="form-control" id="ldg-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'ldg')" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <span class="custom-airport-badge" hidden>CUSTOM</span>
                                     <div class="icao-suggestions" id="ldg-icao-suggestions" role="listbox" hidden></div>
                                 </div>
                             </td>

@@ -1,38 +1,38 @@
 const factorsRunwayConditionCodesTakeoff = [
     { code: "6", label: "RCC 6", factor: 1.0 },
-    { code: "5", label: "RCC 5", factor: 1.0 },
-    { code: "4", label: "RCC 4", factor: 1.0 },
-    { code: "3", label: "RCC 3", factor: 1.0 },
-    { code: "2", label: "RCC 2", factor: 1.0 },
-    { code: "1", label: "RCC 1", factor: 1.0 }
+    { code: "5", label: "RCC 5", factor: 1.11 },
+    { code: "4", label: "RCC 4", factor: 1.24 },
+    { code: "3", label: "RCC 3", factor: 1.36 },
+    { code: "2", label: "RCC 2", factor: 1.54 },
+    { code: "1", label: "RCC 1", factor: 1.71 }
 ];
 
 const c56xTakeoffPerformanceFactors = [
-    { code: "6", label: "Dry RCC 6, Flaps 7°, anti-ice OFF", flaps: 7, antiIce: "OFF", factor: 1.10 },
-    { code: "6", label: "Dry RCC 6, Flaps 7°, anti-ice ON", flaps: 7, antiIce: "ON", factor: 1.10 },
-    { code: "6", label: "Dry RCC 6, Flaps 15°, anti-ice OFF", flaps: 15, antiIce: "OFF", factor: 1.16 },
-    { code: "6", label: "Dry RCC 6, Flaps 15°, anti-ice ON", flaps: 15, antiIce: "ON", factor: 1.16 },
-    { code: "5", label: "Wet RCC 5, Flaps 7°, reversers, anti-ice OFF", flaps: 7, reverserStatus: "AVAILABLE", antiIce: "OFF", factor: 1.10 },
-    { code: "5", label: "Wet RCC 5, Flaps 7°, reversers, anti-ice ON", flaps: 7, reverserStatus: "AVAILABLE", antiIce: "ON", factor: 1.10 },
-    { code: "5", label: "Wet RCC 5, Flaps 15°, no reversers, anti-ice OFF", flaps: 15, reverserStatus: "INOP", antiIce: "OFF", factor: 1.11 },
-    { code: "5", label: "Wet RCC 5, Flaps 15°, no reversers, anti-ice ON", flaps: 15, reverserStatus: "INOP", antiIce: "ON", factor: 1.11 },
-    { code: "5", label: "Wet RCC 5, Flaps 15°, reversers, anti-ice OFF", flaps: 15, reverserStatus: "AVAILABLE", antiIce: "OFF", factor: 1.16 },
-    { code: "5", label: "Wet RCC 5, Flaps 15°, reversers, anti-ice ON", flaps: 15, reverserStatus: "AVAILABLE", antiIce: "ON", factor: 1.16 }
+    // Dry data exists only without reversers, so no reverserStatus is matched (reversers are never credited on dry).
+    { surface: "dry", label: "Dry, Flaps 7°, no reversers", flaps: 7, factor: 1.10 },
+    { surface: "dry", label: "Dry, Flaps 15°, no reversers", flaps: 15, factor: 1.16 },
+    { surface: "wet", label: "Wet, Flaps 7°, reversers", flaps: 7, reverserStatus: "AVAILABLE", factor: 1.10 },
+    { surface: "wet", label: "Wet, Flaps 15°, no reversers", flaps: 15, reverserStatus: "INOP", factor: 1.11 },
+    { surface: "wet", label: "Wet, Flaps 15°, reversers", flaps: 15, reverserStatus: "AVAILABLE", factor: 1.16 }
 ];
 
-function getC56xTakeoffFactor({ runwayConditionCode, flaps, reverserStatus, antiIce }) {
+// Dry/wet factor is independent of RCC and anti-ice; the RCC factor is applied on top.
+function getC56xTakeoffFactorBreakdown({ runwayConditionCode, flaps, reverserStatus }) {
     const runwayFactor = factorsRunwayConditionCodesTakeoff.find((entry) =>
         entry.code === String(runwayConditionCode)
     )?.factor;
-    const performanceFactor = c56xTakeoffPerformanceFactors.find((entry) =>
-        entry.code === String(runwayConditionCode) &&
+    const surface = String(runwayConditionCode) === '6' ? 'dry' : 'wet';
+    const performanceEntry = c56xTakeoffPerformanceFactors.find((entry) =>
+        entry.surface === surface &&
         entry.flaps === flaps &&
-        entry.antiIce === antiIce &&
         (entry.reverserStatus === undefined || entry.reverserStatus === reverserStatus)
-    )?.factor ?? null;
-    return Number.isFinite(runwayFactor) && Number.isFinite(performanceFactor)
-        ? runwayFactor * performanceFactor
-        : null;
+    );
+    if (!Number.isFinite(runwayFactor) || !Number.isFinite(performanceEntry?.factor)) return null;
+    return {
+        surface,
+        rccFactor: runwayFactor,
+        performanceFactor: performanceEntry.factor,
+    };
 }
 
 const factorsRunwayConditionCodesLanding = [

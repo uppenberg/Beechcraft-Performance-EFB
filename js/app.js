@@ -186,6 +186,7 @@ const MASS_SLIDER_RANGES_BY_TYPE = {
   },
 };
 let pendingRegistrationChange = null;
+const MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE = { B190: 16100, C56X: 18700 };
 
 function configureTakeoffFlaps(registration) {
   const select = document.getElementById('to-flaps');
@@ -262,6 +263,32 @@ function configureC56xLandingPage(registration) {
   if (ldgTitle) ldgTitle.textContent = 'C56X Landing Performance';
 }
 
+function updateLandingOverweightWarning() {
+  const aircraftType = AIRCRAFT_TYPE_BY_REGISTRATION[
+    document.getElementById('global-registration')?.value
+  ];
+  const limitLb = MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE[aircraftType];
+  const rawMass = document.getElementById('ldg-mass')?.value;
+  const weightLb = rawMass === undefined || String(rawMass).trim() === '' ? NaN : Number(rawMass);
+  const overweight = Boolean(limitLb) && weightLb > limitLb;
+  const warning = document.getElementById('ldg-overweight-warning');
+  if (warning) {
+    warning.hidden = !overweight;
+    if (limitLb) {
+      const formattedLimit = limitLb.toLocaleString('en-US');
+      warning.replaceChildren(
+        Object.assign(document.createElement('strong'), { textContent: 'Emergency use only.' }),
+        ` Landing mass is above the maximum design landing weight of ${formattedLimit} lb. ` +
+        `These figures are provided only for an emergency that requires landing above ${formattedLimit} lb. ` +
+        'Do not plan a normal landing at this weight; refer to the Abnormal/Emergency procedures.'
+      );
+    }
+  }
+  const massLabel = document.getElementById('ldg-mass-val');
+  if (massLabel) massLabel.style.color = overweight ? '#f85149' : 'var(--accent, #00d2ff)';
+  return overweight;
+}
+
 function configureMassSliders(registration) {
   const ranges = MASS_SLIDER_RANGES_BY_TYPE[AIRCRAFT_TYPE_BY_REGISTRATION[registration]];
   if (!ranges) return;
@@ -277,6 +304,7 @@ function configureMassSliders(registration) {
     const valueLabel = document.getElementById(`${prefix}-mass-val`);
     if (valueLabel) valueLabel.textContent = slider.value;
   });
+  updateLandingOverweightWarning();
 }
 
 function configureTakeoffTechnique(registration, syncFromWorkbook = false) {
@@ -415,7 +443,7 @@ async function init() {
       setupEventListeners();
       restorePersistedFormState();
       const c56xRwcc = document.getElementById('to-rwcc');
-      if (c56xRwcc && !['5', '6'].includes(c56xRwcc.value)) c56xRwcc.value = '6';
+      if (c56xRwcc && !['1', '2', '3', '4', '5', '6'].includes(c56xRwcc.value)) c56xRwcc.value = '6';
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
       updateC56xLanding();
@@ -466,6 +494,165 @@ async function init() {
   }
 }
 
+function updateCustomAirportIndicator() {
+  const enabled = isCustomAirportEnabled();
+  ['to', 'ldg'].forEach((prefix) => {
+    const input = document.getElementById(`${prefix}-airport-icao`);
+    if (!input) return;
+    input.classList.toggle('custom-airport-active', enabled);
+    input.title = enabled ? 'Custom airport data is in use (not airports.json)' : '';
+    const badge = input.parentElement.querySelector('.custom-airport-badge');
+    if (badge) badge.hidden = !enabled;
+  });
+}
+
+async function applyAirportSource() {
+  globalData.airports = await loadAirportDatabase();
+  populateAirportSelects();
+  ['to', 'ldg'].forEach((prefix) => {
+    persistAirportSelection(prefix);
+    clearAirportMetar(prefix);
+    restoreSavedMetar(prefix);
+    updateRunwaySuggestion(prefix, '');
+  });
+  showAirportSelectionError('');
+  updateCustomAirportIndicator();
+}
+
+function setupCustomAirportUi() {
+  const checkbox = document.getElementById('custom-airport-checkbox');
+  const editButton = document.getElementById('edit-custom-airports-button');
+  const dialog = document.getElementById('custom-airport-dialog');
+  const form = document.getElementById('custom-airport-form');
+  const list = document.getElementById('custom-airport-list');
+  const errorElement = document.getElementById('custom-airport-error');
+  const panel = document.getElementById('settings-panel');
+  const toggle = document.getElementById('settings-toggle');
+  if (!checkbox || !editButton || !dialog || !form || !list) return;
+
+  const fields = {
+    'ICAO': 'ca-icao',
+    'RWY': 'ca-rwy',
+    'RWY Elev [ft] (B6)': 'ca-elev',
+    'TORA [m] (C6)': 'ca-tora',
+    'TODA [m](D6)': 'ca-toda',
+    'ASDA [m](E6)': 'ca-asda',
+    'LDA [m](F6)': 'ca-lda',
+    'Slope [%](G6)': 'ca-slope',
+    'RWYHDG [°](H6)': 'ca-hdg',
+    'min climb gradient OEI(I6)': 'ca-grad',
+  };
+
+  const showError = (message) => {
+    errorElement.textContent = message;
+    errorElement.hidden = !message;
+  };
+
+  const renderList = () => {
+    const rows = loadCustomAirports();
+    list.replaceChildren();
+    if (!rows.length) {
+      const empty = document.createElement('div');
+      empty.className = 'custom-airport-empty';
+      empty.textContent = 'No custom runways saved yet.';
+      list.appendChild(empty);
+      return;
+    }
+    rows.forEach((row, index) => {
+      const item = document.createElement('div');
+      item.className = 'custom-airport-item';
+      const label = document.createElement('span');
+      label.textContent = `${row.ICAO} RWY ${row.RWY} · ${row['Engine out climb path']}`;
+      const actions = document.createElement('div');
+      actions.className = 'custom-airport-item-actions';
+      const editRow = document.createElement('button');
+      editRow.type = 'button';
+      editRow.textContent = 'Edit';
+      editRow.addEventListener('click', () => {
+        Object.entries(fields).forEach(([key, id]) => {
+          document.getElementById(id).value = row[key] ?? '';
+        });
+        document.getElementById('ca-turning').checked = row['Engine out climb path'] === 'Turning';
+        showError('');
+      });
+      const deleteRow = document.createElement('button');
+      deleteRow.type = 'button';
+      deleteRow.textContent = 'Delete';
+      deleteRow.addEventListener('click', async () => {
+        const current = loadCustomAirports();
+        current.splice(index, 1);
+        saveCustomAirports(current);
+        renderList();
+        if (isCustomAirportEnabled()) await applyAirportSource();
+      });
+      actions.append(editRow, deleteRow);
+      item.append(label, actions);
+      list.appendChild(item);
+    });
+  };
+
+  const syncEditButton = () => {
+    checkbox.checked = isCustomAirportEnabled();
+    editButton.hidden = !checkbox.checked;
+  };
+  syncEditButton();
+
+  checkbox.addEventListener('change', async () => {
+    localStorage.setItem(CUSTOM_AIRPORT_ENABLED_KEY, String(checkbox.checked));
+    syncEditButton();
+    try {
+      await applyAirportSource();
+    } catch (error) {
+      console.error('Could not switch airport source:', error);
+      showAirportSelectionError(`Could not switch airport source: ${error.message}`);
+    }
+    if (checkbox.checked) openDialog();
+  });
+
+  function openDialog() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    showError('');
+    renderList();
+    if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal();
+  }
+
+  form.addEventListener('focusin', (event) => {
+    if (event.target.matches('input:not([type="checkbox"])')) event.target.select();
+  });
+
+  editButton.addEventListener('click', openDialog);
+  document.getElementById('custom-airport-close').addEventListener('click', () => dialog.close());
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const row = {};
+    for (const [key, id] of Object.entries(fields)) {
+      const value = document.getElementById(id).value.trim();
+      if (value === '' || (key !== 'ICAO' && key !== 'RWY' && !Number.isFinite(Number(value)))) {
+        showError(`Enter a valid value for ${key.replace(/\s*\(.*\)$/, '')}.`);
+        return;
+      }
+      row[key] = key === 'ICAO' || key === 'RWY' ? value.toUpperCase() : String(Number(value));
+    }
+    if (!/^[A-Z0-9]{4}$/.test(row.ICAO)) {
+      showError('ICAO must be 4 letters or digits.');
+      return;
+    }
+    row['Engine out climb path'] = document.getElementById('ca-turning').checked ? 'Turning' : 'Straight';
+
+    const rows = loadCustomAirports();
+    const existing = rows.findIndex((item) => item.ICAO === row.ICAO && item.RWY === row.RWY);
+    if (existing >= 0) rows[existing] = row;
+    else rows.push(row);
+    saveCustomAirports(rows);
+    showError('');
+    form.reset();
+    renderList();
+    if (isCustomAirportEnabled()) await applyAirportSource();
+  });
+}
+
 function setupSettingsMenu() {
   const toggle = document.getElementById('settings-toggle');
   const panel = document.getElementById('settings-panel');
@@ -479,6 +666,7 @@ function setupSettingsMenu() {
   const helpCloseBtnFooter = document.getElementById('help-close-btn-footer');
 
   if (!toggle || !panel || !updateButton) return;
+  setupCustomAirportUi();
 
   toggle.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -761,7 +949,31 @@ async function loadC56xPerformanceData() {
   return c56xPerformanceDataPromise;
 }
 
+const CUSTOM_AIRPORT_ENABLED_KEY = 'custom_airport_enabled';
+const CUSTOM_AIRPORTS_KEY = 'custom_airports';
+
+function isCustomAirportEnabled() {
+  return localStorage.getItem(CUSTOM_AIRPORT_ENABLED_KEY) === 'true';
+}
+
+function loadCustomAirports() {
+  try {
+    const rows = JSON.parse(localStorage.getItem(CUSTOM_AIRPORTS_KEY) || '[]');
+    return Array.isArray(rows)
+      ? rows.filter((row) => row && /^[A-Z0-9]{4}$/.test(row.ICAO) && String(row.RWY || '').trim())
+      : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveCustomAirports(rows) {
+  localStorage.setItem(CUSTOM_AIRPORTS_KEY, JSON.stringify(rows));
+}
+
 async function loadAirportDatabase() {
+  if (isCustomAirportEnabled()) return loadCustomAirports();
+
   const response = await fetch(getDataFilePath('airports.json'));
   if (!response.ok) {
     throw new Error(`Could not load airport database (${response.status} ${response.statusText}).`);
@@ -1189,6 +1401,7 @@ setInterval(() => {
 }, 700);
 
 function syncAirportControls() {
+  updateCustomAirportIndicator();
   ['to', 'ldg'].forEach((prefix) => {
     const selection = airportSelection[prefix];
     const icao = selection.icao;
@@ -1732,7 +1945,7 @@ function handleAirportIcaoInput(value, prefix = 'to') {
 
   const airportExists = /^[A-Z0-9]{4}$/.test(icao) && getAirportRows(icao).length > 0;
   if (/^[A-Z0-9]{4}$/.test(icao) && !airportExists) {
-    showAirportSelectionError(`ICAO ${icao} was not found in the airport database.`);
+    showAirportSelectionError(`ICAO ${icao} was not found in the ${isCustomAirportEnabled() ? 'custom airport list' : 'airport database'}.`);
   } else if (airportExists) {
     fetchMetarForAirport(prefix);
   }
@@ -1903,11 +2116,7 @@ function updateC56xLanding() {
   const antiIce = document.getElementById('ldg-anti-ice')?.value || 'OFF';
   const runwayConditionCode = document.getElementById('ldg-rwcc')?.value;
 
-  const overweight = weightLb > C56X_MAX_DESIGN_LANDING_WEIGHT_LB;
-  const overweightWarning = document.getElementById('ldg-overweight-warning');
-  if (overweightWarning) overweightWarning.hidden = !overweight;
-  const massLabel = document.getElementById('ldg-mass-val');
-  if (massLabel) massLabel.style.color = overweight ? '#f85149' : 'var(--accent, #00d2ff)';
+  const overweight = updateLandingOverweightWarning();
 
   const airport = getSelectedAirportRecord('ldg');
   const fieldElevationFt = airportCellValue(airport?.['RWY Elev [ft] (B6)']);
@@ -2073,6 +2282,7 @@ function handleLandingMass(val) {
   const span = document.getElementById('ldg-mass-val');
   if (span) span.innerText = val;
   updateEngineCellVal('landing', 'mass', Number(val));
+  updateLandingOverweightWarning();
   if (isC56xSelected()) updateC56xLanding();
 }
 
@@ -2400,7 +2610,7 @@ function updateC56xTakeoffDistanceCard(
   failedLimits = [],
   limitsAvailable = true,
   unavailableStatus = 'Awaiting performance',
-  takeoffFactor = null
+  takeoffFactorBreakdown = null
 ) {
   const card = document.getElementById('takeoff-exceedance-card');
   const status = document.getElementById('takeoff-exceedance-status');
@@ -2412,8 +2622,11 @@ function updateC56xTakeoffDistanceCard(
     card.classList.remove('is-within-limits');
     return;
   }
-  const factorLabel = Number.isFinite(takeoffFactor)
-    ? ` (x${takeoffFactor.toFixed(2)})`
+  const factorLabel = takeoffFactorBreakdown
+    ? ` (${takeoffFactorBreakdown.performanceFactor.toFixed(2)} perf × ` +
+      `${takeoffFactorBreakdown.rccFactor.toFixed(2)} RWCC × ` +
+      `${takeoffFactorBreakdown.deiceFluidFactor.toFixed(2)} fluid = ` +
+      `${takeoffFactorBreakdown.totalFactor.toFixed(2)}${takeoffFactorBreakdown.usedDryFloor ? ', dry floor' : ''})`
     : '';
   status.textContent = `TKOF ${distanceM.toLocaleString('en-US')} m${factorLabel} · ` +
     (failedLimits.length
@@ -2469,6 +2682,7 @@ function getC56xWetRunwayMassLimit({
   antiIce,
   flaps,
   runwayLimitsM,
+  runwayConditionCode = '5',
 }) {
   if (!runwayLimitsM.every(Number.isFinite)) return null;
   const slider = document.getElementById('to-mass');
@@ -2488,7 +2702,7 @@ function getC56xWetRunwayMassLimit({
       windSpeedKnots,
       runwayHeadingDeg,
       runwaySlopePercent,
-      runwayConditionCode: '5',
+      runwayConditionCode,
       reverserStatus,
       antiIce,
       flaps,
@@ -2573,7 +2787,7 @@ function updateC56xTakeoffFieldLength() {
   if (massLimitLabelElement) {
     massLimitLabelElement.firstChild.textContent = runwayConditionCode === '6'
         ? '5. Dry runway: '
-        : '5. Wet/Contam runway mass limit check: ';
+        : '5. Wet/Contam runway mass limit check: Dry ';
   }
   const setUnavailable = (reason, resetPerformanceCards = true) => {
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
@@ -2594,13 +2808,6 @@ function updateC56xTakeoffFieldLength() {
       updateC56xPerformanceCards();
     }
   };
-
-  if (Number(runwayConditionCode) >= 1 && Number(runwayConditionCode) <= 5 &&
-      reverserStatus === 'INOP') {
-    const reason = 'No data · Invalid config (RWCC 1–5 requires reversers available).';
-    setUnavailable(reason);
-    return;
-  }
 
   const airport = getSelectedAirportRecord('to');
   if (!airport) {
@@ -2712,9 +2919,9 @@ function updateC56xTakeoffFieldLength() {
     return;
   }
 
-  if (runwayConditionCode !== '5' && runwayConditionCode !== '6') {
+  if (!['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode)) {
     setUnavailable(
-      `C56X field-length charts are available only for RCC 5 and 6. Crosswind limit uses RCC ${runwayConditionCode}.`,
+      `C56X field-length charts are not available for RCC ${runwayConditionCode}.`,
       false
     );
     return;
@@ -2758,8 +2965,8 @@ function updateC56xTakeoffFieldLength() {
   );
   if (!Number.isFinite(result.selectedDistanceFt)) {
     const reason = reverserStatus === 'INOP' && flaps === 7
-      ? 'Wet RWCC 5 Flaps 7 data without reversers is not available.'
-      : 'Wet RWCC 5 field length is not available for this setup.';
+      ? `Wet RWCC ${runwayConditionCode} Flaps 7 data without reversers is not available.`
+      : `Wet RWCC ${runwayConditionCode} field length is not available for this setup.`;
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
     if (todaStatusElement) todaStatusElement.textContent = 'Not available';
     if (asdaStatusElement) asdaStatusElement.textContent = 'Not available';
@@ -2789,7 +2996,7 @@ function updateC56xTakeoffFieldLength() {
   setC56xChecklistBadge('c56x-badge-v1', Number.isFinite(speeds?.v1));
 
   const runwayLimitsM = [toraM, todaM, asdaM];
-  if (runwayConditionCode === '5') {
+  if (runwayConditionCode !== '6') {
     let wetRunwayMassLimitLb = null;
     let wetMassLimitCalculationFailed = false;
     if (Number.isFinite(result.wetRequiredDistanceFt) &&
@@ -2807,6 +3014,7 @@ function updateC56xTakeoffFieldLength() {
           antiIce,
           flaps,
           runwayLimitsM,
+          runwayConditionCode,
         });
       } catch (error) {
         wetMassLimitCalculationFailed = true;
@@ -2857,7 +3065,7 @@ function updateC56xTakeoffFieldLength() {
     failedLimits,
     !hasUnavailableLimit,
     'Awaiting performance',
-    result.takeoffFactor
+    result.factorBreakdown
   );
   renderC56xTakeoffChart(selectedDistanceM, toraM, todaM, asdaM);
 }
@@ -2920,13 +3128,10 @@ function updateMaxTakeoffMass() {
           !runwayLimitsM.every((limit) => Number.isFinite(limit) && limit >= 0) ||
           !windInputsValid || !Number.isFinite(minMass) ||
           !Number.isFinite(maxSliderMass) ||
-          step <= 0 || !['5', '6'].includes(runwayConditionCode) ||
+          step <= 0 || !['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode) ||
           ![7, 15].includes(flaps) || !['ON', 'OFF'].includes(antiIce) ||
           !['AVAILABLE', 'INOP'].includes(reverserStatus)) {
-        unavailableReason = Number(runwayConditionCode) >= 1 &&
-          Number(runwayConditionCode) <= 5 && reverserStatus === 'INOP'
-          ? 'Invalid config: RWCC 1–5 requires reversers available.'
-          : 'Enter valid weather, runway limits and C56X take-off configuration values.';
+        unavailableReason = 'Enter valid weather, runway limits and C56X take-off configuration values.';
       } else {
         try {
           pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, elevationValue);

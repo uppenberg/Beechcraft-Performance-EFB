@@ -1001,3 +1001,178 @@ input, select {
     box-shadow: 0 0 0 2px #090c10, 0 24px 80px rgba(0, 0, 0, 0.75);
   }
 }
+
+/* ===== Custom airport ===== */
+
+.custom-airport-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #c9d1d9;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.custom-airport-toggle input,
+.custom-airport-check input {
+  width: auto;
+  margin: 0;
+  flex: none;
+}
+
+.custom-airport-badge {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  color: #1b1200;
+  background: #f0a30a;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+.custom-airport-badge[hidden] {
+  display: none;
+}
+
+input.custom-airport-active {
+  border-color: #f0a30a !important;
+  background: #2b2008 !important;
+  box-shadow: 0 0 0 1px #f0a30a;
+  padding-right: 72px !important;
+}
+
+.custom-airport-dialog {
+  width: min(560px, calc(100vw - 32px));
+  max-height: 90dvh;
+  padding: 0;
+  color: #c9d1d9;
+  background: #161b22;
+  border: 2px solid #f0a30a;
+  border-radius: 10px;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8);
+}
+
+.custom-airport-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.custom-airport-form {
+  padding: 18px;
+}
+
+.custom-airport-form h2 {
+  font-size: 16px;
+}
+
+.custom-airport-form h3 {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+
+.custom-airport-hint {
+  margin: 0 0 12px;
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.custom-airport-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.custom-airport-grid label {
+  color: #c9d1d9;
+  font-size: 12px;
+}
+
+.custom-airport-grid input {
+  margin-top: 4px;
+  background: #0d1117;
+}
+
+.custom-airport-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #c9d1d9;
+  font-size: 13px;
+}
+
+.custom-airport-error {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  color: #ff7b72;
+  background: #3d1414;
+  border: 1px solid #f85149;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.custom-airport-error[hidden] {
+  display: none;
+}
+
+.custom-airport-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.custom-airport-actions button,
+.custom-airport-list button {
+  min-height: 40px;
+  padding: 8px 14px;
+  color: #fff;
+  background: #21262d;
+  border: 1px solid #3d444d;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-airport-actions .custom-airport-save {
+  background: #238636;
+  border-color: #2ea043;
+}
+
+.custom-airport-list {
+  display: grid;
+  gap: 6px;
+}
+
+.custom-airport-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.custom-airport-item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.custom-airport-empty {
+  color: #8b949e;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .custom-airport-grid {
+    grid-template-columns: 1fr;
+  }
+}

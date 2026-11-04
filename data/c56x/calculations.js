@@ -267,21 +267,30 @@ function getC56xTakeoffFieldLengths({
             (!Number.isFinite(direction) || direction < 0 || direction > 360))) {
         return null;
     }
-    if (runwayConditionCode !== '5' && runwayConditionCode !== '6') return null;
+    if (!['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode)) return null;
     if (reverserStatus !== 'AVAILABLE' && reverserStatus !== 'INOP') return null;
     if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
     if (flaps !== 7 && flaps !== 15) return null;
     // AFM: field length x1.15 with Type II/III/IV fluid on the airplane (dry, wet and contaminated).
     const deiceFluidFactor = deiceFluidApplied ? 1.15 : 1;
-    const takeoffFactor = getC56xTakeoffFactor({
+    const takeoffFactorBreakdown = getC56xTakeoffFactorBreakdown({
         runwayConditionCode,
         flaps,
         reverserStatus,
-        antiIce,
-    }) * deiceFluidFactor;
+    });
+    const takeoffFactor = takeoffFactorBreakdown
+        ? takeoffFactorBreakdown.rccFactor * takeoffFactorBreakdown.performanceFactor * deiceFluidFactor
+        : null;
     if (!Number.isFinite(takeoffFactor)) return null;
     // The dry distance used on a wet runway carries the dry (RCC 6) factor.
-    const dryTakeoffFactor = getC56xTakeoffFactor({ runwayConditionCode: '6', flaps, reverserStatus, antiIce }) * deiceFluidFactor;
+    const dryFactorBreakdown = getC56xTakeoffFactorBreakdown({
+        runwayConditionCode: '6',
+        flaps,
+        reverserStatus,
+    });
+    const dryTakeoffFactor = dryFactorBreakdown
+        ? dryFactorBreakdown.rccFactor * dryFactorBreakdown.performanceFactor * deiceFluidFactor
+        : null;
     if (!Number.isFinite(dryTakeoffFactor)) return null;
 
     const headwindKnots = speed === 0
@@ -417,6 +426,9 @@ function getC56xTakeoffFieldLengths({
             wetChartDistanceFt: null,
             wetRequiredDistanceFt: null,
             selectedDistanceFt: runwayConditionCode === '6' ? dryRequiredDistanceFt : null,
+            factorBreakdown: runwayConditionCode === '6'
+                ? { ...dryFactorBreakdown, deiceFluidFactor, totalFactor: dryTakeoffFactor, usedDryFloor: false }
+                : null,
             antiIce,
         };
     }
@@ -443,13 +455,16 @@ function getC56xTakeoffFieldLengths({
             wetChartDistanceFt: null,
             wetRequiredDistanceFt: null,
             selectedDistanceFt: runwayConditionCode === '6' ? dryRequiredDistanceFt : null,
+            factorBreakdown: runwayConditionCode === '6'
+                ? { ...dryFactorBreakdown, deiceFluidFactor, totalFactor: dryTakeoffFactor, usedDryFloor: false }
+                : null,
             antiIce,
         };
     }
 
     const wetChartRequiredDistanceFt = wetChartDistanceFt * takeoffFactor;
     const wetRequiredDistanceFt = Math.max(dryRequiredDistanceFt, wetChartRequiredDistanceFt);
-    const selectedDistanceFt = runwayConditionCode === '5'
+    const selectedDistanceFt = runwayConditionCode !== '6'
         ? wetRequiredDistanceFt
         : dryRequiredDistanceFt;
     return {
@@ -463,9 +478,12 @@ function getC56xTakeoffFieldLengths({
         selectedDistanceFt,
         dryShaded: dryTracker.shaded,
         wetChartShaded: wetTracker.shaded,
-        takeoffFactor: runwayConditionCode === '5' && dryRequiredDistanceFt > wetChartRequiredDistanceFt
+        takeoffFactor: runwayConditionCode !== '6' && dryRequiredDistanceFt > wetChartRequiredDistanceFt
             ? dryTakeoffFactor
             : takeoffFactor,
+        factorBreakdown: runwayConditionCode !== '6' && dryRequiredDistanceFt > wetChartRequiredDistanceFt
+            ? { ...dryFactorBreakdown, deiceFluidFactor, totalFactor: dryTakeoffFactor, usedDryFloor: true }
+            : { ...takeoffFactorBreakdown, deiceFluidFactor, totalFactor: takeoffFactor, usedDryFloor: false },
     };
 }
 
@@ -480,12 +498,12 @@ function getC56xTakeoffSpeeds({
     antiIce = 'ON',
     flaps = 7,
 }) {
-    const useWetTable = runwayConditionCode === '5';
+    const useWetTable = runwayConditionCode !== '6';
     if (flaps !== 7 && flaps !== 15) return null;
     if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
     if (useWetTable && reverserStatus !== 'AVAILABLE' &&
         !(reverserStatus === 'INOP' && flaps === 15)) return null;
-    if (runwayConditionCode !== '5' && runwayConditionCode !== '6') return null;
+    if (!['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode)) return null;
     const tables = flaps === 15
         ? useWetTable
             ? reverserStatus === 'INOP'
