@@ -2637,7 +2637,7 @@ function updateC56xTakeoffDistanceCard(
     ? ` (${takeoffFactorBreakdown.performanceFactor.toFixed(2)} perf × ` +
       `${takeoffFactorBreakdown.rccFactor.toFixed(2)} RWCC × ` +
       `${takeoffFactorBreakdown.deiceFluidFactor.toFixed(2)} fluid = ` +
-      `${takeoffFactorBreakdown.totalFactor.toFixed(2)}${takeoffFactorBreakdown.usedDryFloor ? ', dry floor' : ''})`
+      `${takeoffFactorBreakdown.totalFactor.toFixed(2)})`
     : '';
   status.textContent = `TKOF ${distanceM.toLocaleString('en-US')} m${factorLabel} · ` +
     (failedLimits.length
@@ -2719,7 +2719,7 @@ function getC56xWetRunwayMassLimit({
       flaps,
       deiceFluidApplied: isC56xDeiceFluidApplied(),
     });
-    const requiredDistanceFt = result?.wetRequiredDistanceFt;
+    const requiredDistanceFt = result?.rccAdjustedDryDistanceFt;
     if (Number.isFinite(requiredDistanceFt) &&
         requiredDistanceFt * 0.3048 <= availableDistanceM) {
       return weightLb;
@@ -2762,7 +2762,7 @@ function updateC56xTakeoffFieldLength() {
   const v1Element = document.getElementById('c56x-v1-check');
   const v1CorrectionElement = document.getElementById('c56x-v1-correction');
   const dryCompareElement = document.getElementById('c56x-compare-dry');
-  const wetCompareElement = document.getElementById('c56x-compare-wet');
+  const rccCompareElement = document.getElementById('c56x-compare-rcc');
   const massLimitLabelElement = document.getElementById('c56x-wet-mass-limit-label');
   const runwayConditionCode = document.getElementById('to-rwcc')?.value;
   const antiIce = document.getElementById('to-anti-ice')?.value || 'OFF';
@@ -2773,24 +2773,24 @@ function updateC56xTakeoffFieldLength() {
     const metres = Math.ceil(distanceFt * 0.3048);
     return `${feet.toLocaleString('en-US')} ft (${metres.toLocaleString('en-US')} m)`;
   };
-  const setDistanceComparison = (dryDistanceFt, wetDistanceFt, conditionCode) => {
+  const setDistanceComparison = (dryDistanceFt, rccDistanceFt, conditionCode) => {
     const dryAvailable = Number.isFinite(dryDistanceFt);
-    const wetAvailable = Number.isFinite(wetDistanceFt);
+    const rccAvailable = Number.isFinite(rccDistanceFt);
     const dryIsSelected = conditionCode === '6' ||
-      (dryAvailable && (!wetAvailable || dryDistanceFt >= wetDistanceFt));
+      (dryAvailable && (!rccAvailable || dryDistanceFt >= rccDistanceFt));
     if (dryCompareElement) {
       dryCompareElement.textContent = dryAvailable
         ? formatDistance(dryDistanceFt)
         : 'Not available';
       dryCompareElement.style.fontWeight = dryAvailable && dryIsSelected ? '700' : '400';
     }
-    if (wetCompareElement) {
-      wetCompareElement.textContent = conditionCode === '6'
+    if (rccCompareElement) {
+      rccCompareElement.textContent = conditionCode === '6'
         ? 'Not applicable'
-        : wetAvailable ? formatDistance(wetDistanceFt) : 'Not available';
-      wetCompareElement.style.fontWeight =
-        wetAvailable && conditionCode !== '6' &&
-        (!dryAvailable || wetDistanceFt >= dryDistanceFt)
+        : rccAvailable ? formatDistance(rccDistanceFt) : 'Not available';
+      rccCompareElement.style.fontWeight =
+        rccAvailable && conditionCode !== '6' &&
+        (!dryAvailable || rccDistanceFt >= dryDistanceFt)
           ? '700'
           : '400';
     }
@@ -2971,13 +2971,11 @@ function updateC56xTakeoffFieldLength() {
 
   setDistanceComparison(
     result.dryRequiredDistanceFt,
-    result.wetChartRequiredDistanceFt,
+    result.rccAdjustedDryDistanceFt,
     runwayConditionCode
   );
   if (!Number.isFinite(result.selectedDistanceFt)) {
-    const reason = reverserStatus === 'INOP' && flaps === 7
-      ? `Wet RWCC ${runwayConditionCode} Flaps 7 data without reversers is not available.`
-      : `Wet RWCC ${runwayConditionCode} field length is not available for this setup.`;
+    const reason = `RWCC ${runwayConditionCode} field length is not available for this setup.`;
     if (toraStatusElement) toraStatusElement.textContent = 'Not available';
     if (todaStatusElement) todaStatusElement.textContent = 'Not available';
     if (asdaStatusElement) asdaStatusElement.textContent = 'Not available';
@@ -3010,7 +3008,7 @@ function updateC56xTakeoffFieldLength() {
   if (runwayConditionCode !== '6') {
     let wetRunwayMassLimitLb = null;
     let wetMassLimitCalculationFailed = false;
-    if (Number.isFinite(result.wetRequiredDistanceFt) &&
+    if (Number.isFinite(result.rccAdjustedDryDistanceFt) &&
         runwayLimitsM.every(Number.isFinite)) {
       try {
         wetRunwayMassLimitLb = getC56xWetRunwayMassLimit({
@@ -3036,7 +3034,7 @@ function updateC56xTakeoffFieldLength() {
       'c56x-badge-mass-limit',
       Number.isFinite(wetRunwayMassLimitLb)
         ? weightLb <= wetRunwayMassLimitLb
-        : result.wetRequiredDistanceFt === null || wetMassLimitCalculationFailed
+        : result.rccAdjustedDryDistanceFt === null || wetMassLimitCalculationFailed
           ? null
           : runwayLimitsM.every(Number.isFinite) ? false : null
     );

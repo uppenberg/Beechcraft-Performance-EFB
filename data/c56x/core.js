@@ -8,28 +8,23 @@ const factorsRunwayConditionCodesTakeoff = [
 ];
 
 const c56xTakeoffPerformanceFactors = [
-    // Dry data exists only without reversers, so no reverserStatus is matched (reversers are never credited on dry).
+    // RCC takeoff distances use dry-chart values; reversers are not credited.
     { surface: "dry", label: "Dry, Flaps 7°, no reversers", flaps: 7, factor: 1.10 },
     { surface: "dry", label: "Dry, Flaps 15°, no reversers", flaps: 15, factor: 1.16 },
-    { surface: "wet", label: "Wet, Flaps 7°, reversers", flaps: 7, reverserStatus: "AVAILABLE", factor: 1.10 },
-    { surface: "wet", label: "Wet, Flaps 15°, no reversers", flaps: 15, reverserStatus: "INOP", factor: 1.11 },
-    { surface: "wet", label: "Wet, Flaps 15°, reversers", flaps: 15, reverserStatus: "AVAILABLE", factor: 1.16 }
 ];
 
 // Dry/wet factor is independent of RCC and anti-ice; the RCC factor is applied on top.
-function getC56xTakeoffFactorBreakdown({ runwayConditionCode, flaps, reverserStatus }) {
+function getC56xTakeoffFactorBreakdown({ runwayConditionCode, flaps }) {
     const runwayFactor = factorsRunwayConditionCodesTakeoff.find((entry) =>
         entry.code === String(runwayConditionCode)
     )?.factor;
-    const surface = String(runwayConditionCode) === '6' ? 'dry' : 'wet';
     const performanceEntry = c56xTakeoffPerformanceFactors.find((entry) =>
-        entry.surface === surface &&
-        entry.flaps === flaps &&
-        (entry.reverserStatus === undefined || entry.reverserStatus === reverserStatus)
+        entry.surface === 'dry' &&
+        entry.flaps === flaps
     );
     if (!Number.isFinite(runwayFactor) || !Number.isFinite(performanceEntry?.factor)) return null;
     return {
-        surface,
+        surface: String(runwayConditionCode) === '6' ? 'dry' : 'wet',
         rccFactor: runwayFactor,
         performanceFactor: performanceEntry.factor,
     };

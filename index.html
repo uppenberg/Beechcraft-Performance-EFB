@@ -291,7 +291,7 @@
                         </tbody>
                     </table>
                     <div class="help-note help-note--warn">
-                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X dry field-length charts support Flaps 7/15 with anti-ice ON/OFF. Wet charts with reversers available support Flaps 7 anti-ice ON and Flaps 15 anti-ice ON/OFF. With reversers INOP, wet Flaps 15 data is available with anti-ice ON/OFF; Wet Flaps 7 data is not available. RWCC 1–4 use the wet-runway charts with the RWCC factor.
+                        <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X RCC take-off distances use the dry field-length charts for Flaps 7/15 and anti-ice ON/OFF, then apply the selected RCC factor. Reversers are not credited in this calculation.
                     </div>
                     <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
                 </section>
@@ -393,7 +393,7 @@
                                 <li><strong>Flaps Up</strong> — standard configuration (all types)</li>
                                 <li><strong>Approach</strong> — all types; typically used when field length is limiting</li>
                                 <li><strong>Take-off</strong> — B190 only; intermediate setting between Up and Approach</li>
-                                <li><strong>Flaps 7° / Flaps 15°</strong> — C56X only (replaces Up/Approach). Flaps 7° is recommended with deice fluid; wet runway with reversers INOP is available only with Flaps 15°</li>
+                                <li><strong>Flaps 7° / Flaps 15°</strong> — C56X only (replaces Up/Approach). Flaps 7° is recommended with deice fluid.</li>
                             </ul>
                             Different flap settings yield different V-speeds and distances.
                         </dd>
@@ -412,7 +412,7 @@
                         </dd>
 
                                                     <dt>Reversers — Available / INOP (C56X only)</dt>
-                                                    <dd>Select <strong>Available</strong> or <strong>INOP</strong>. The selection chooses the AFM wet-runway table (with or without reversers) and the matching RWCC and performance factors. On a <strong>dry</strong> runway reversers are never credited, so the setting has no effect. Wet Flaps 7° with reversers INOP has no AFM data — the card then shows "not available"; use Flaps 15°. RWCC 1–4 can be calculated with reversers INOP at Flaps 15°.</dd>
+                                                    <dd>Select <strong>Available</strong> or <strong>INOP</strong>. Reversers are not credited in the C56X take-off distance calculation, which uses the dry field-length chart and applies the selected RWCC factor.</dd>
 
                                                     <dt>Deice fluid — Type II/III/IV applied (C56X only)</dt>
                                                     <dd>Set to <strong>YES</strong> when Type II, III or IV anti-icing fluid has been applied. Per AFM, take-off field length on dry, wet and contaminated runways is multiplied by <strong>1.15</strong>; Flaps 7° is recommended. Type I fluid needs no correction — leave on NO.</dd>
@@ -427,7 +427,7 @@
                         <dd>Decision speed, rotation speed and take-off safety speed (KIAS). For C56X, V1 includes the runway-gradient correction; the next more conservative published slope step is used where applicable, and downhill uses the SHADED correction. Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
 
                         <dt>Takeoff distances</dt>
-                        <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed. For C56X the text shows how the distance is built, e.g. <em>TKOF 1,633 m (1.11 perf × 1.11 RWCC × 1.00 fluid = 1.23) · Within limits</em>: performance factor × RWCC factor × deice-fluid factor. A "dry floor" note means the wet result was limited to the dry distance × dry factor.</dd>
+                        <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed. For C56X the text shows how the distance is built, e.g. <em>TKOF 1,633 m (1.11 perf × 1.11 RWCC × 1.00 fluid = 1.23) · Within limits</em>: dry-chart distance × performance factor × RWCC factor × deice-fluid factor.</dd>
 
                         <dt>Climb gradient OEI / Req</dt>
                         <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). For C56X, the AFM correction for turning climb up to 15° bank is applied only for turning climbs (airport column Engine out climb path = Turning, or missing, shown in amber): take-off mass is multiplied by 1.035 at or below 19,323 lbs; above that, 1.2 percentage points are subtracted from the gradient. Straight-out departures use the chart value unchanged. The card shows which climb path was used. If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
@@ -925,7 +925,7 @@
                         <span id="c56x-badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · Wet <strong id="c56x-compare-wet">-</strong></span>
+                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · RCC-adjusted dry <strong id="c56x-compare-rcc">-</strong></span>
                         <span id="c56x-badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                 </div>
