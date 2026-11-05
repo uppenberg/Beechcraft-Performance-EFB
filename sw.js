@@ -87,6 +87,10 @@ self.addEventListener('fetch', (event) => {
 
       try {
         const response = await fetch(event.request);
+        if (event.request.mode === 'navigate' && !response.ok) {
+          const offlinePage = await caches.match('./index.html');
+          if (offlinePage) return offlinePage;
+        }
         return response;
       } catch (error) {
         if (event.request.mode === 'navigate') {
