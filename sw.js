@@ -9,6 +9,25 @@ const ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './js/app.js',
+  './data/c56x/index.js',
+  './data/c56x/core.js',
+  './data/c56x/takeoff-gradient-dry.js',
+  './data/c56x/takeoff-dry-flaps7.js',
+  './data/c56x/takeoff-gradient-wet.js',
+  './data/c56x/takeoff-dry-flaps15.js',
+  './data/c56x/climb-flightpath-flaps7.js',
+  './data/c56x/climb-gradient-flaps7.js',
+  './data/c56x/climb-gradient-flaps15-off.js',
+  './data/c56x/climb-gradient-flaps15-on.js',
+  './data/c56x/gross-climb-gradient-flaps15-off.js',
+  './data/c56x/gross-climb-gradient-flaps15-on.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-off.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-on.js',
+  './data/c56x/landing-distance-flaps35.js',
+  './data/c56x/landing-weight-flaps15-35-off.js',
+  './data/c56x/calculations.js',
+  './data/c56x/landing-weight-flaps15-35-on.js',
+  './data/c56x/landing-calculations.js',
   './data/airports.json',
   './data/lib/xlsx.full.min.js',
   './data/lib/hyperformula.full.min.js',
@@ -68,6 +87,10 @@ self.addEventListener('fetch', (event) => {
 
       try {
         const response = await fetch(event.request);
+        if (event.request.mode === 'navigate' && !response.ok) {
+          const offlinePage = await caches.match('./index.html');
+          if (offlinePage) return offlinePage;
+        }
         return response;
       } catch (error) {
         if (event.request.mode === 'navigate') {

@@ -1,0 +1,17 @@
+{
+  "file": "data/c56x/takeoff-dry-flaps7.js",
+  "defaultTag": "off",
+  "tags": {
+    "off": {
+      "template": "takeoffFieldLength_Dry_Flaps7_{alt}ft_Complete",
+      "alt0": "takeoffFieldLength_Dry_Flaps7_0ft",
+      "cols": [70, 158, 264, 361, 466, 563, 670, 766, 872, 970, 1075, 1171, 1253],
+      "yMin": 200, "yMax": 960
+    },
+    "on": {
+      "template": "takeoffFieldLength_Dry_Flaps7_AntiIceOn_{alt}ft",
+      "cols": [57, 148, 246, 346, 444, 544, 643, 742, 841, 940, 1041, 1138, 1209],
+      "yMin": 200, "yMax": 960
+    }
+  }
+}

@@ -1,0 +1,553 @@
+function interpolateC56xTakeoffAxis(points, target, getCoordinate, getValue) {
+    if (!Number.isFinite(target) || !Array.isArray(points) || points.length === 0) return null;
+    const sorted = points.slice().sort((a, b) => getCoordinate(a) - getCoordinate(b));
+    if (target < getCoordinate(sorted[0]) || target > getCoordinate(sorted[sorted.length - 1])) return null;
+
+    for (const point of sorted) {
+        if (target === getCoordinate(point)) {
+            const value = getValue(point);
+            return Number.isFinite(value) ? value : null;
+        }
+    }
+
+    for (let index = 1; index < sorted.length; index += 1) {
+        const upper = sorted[index];
+        const lower = sorted[index - 1];
+        const lowerCoordinate = getCoordinate(lower);
+        const upperCoordinate = getCoordinate(upper);
+        if (target > upperCoordinate) continue;
+
+        const lowerValue = getValue(lower);
+        const upperValue = getValue(upper);
+        if (!Number.isFinite(lowerValue) || !Number.isFinite(upperValue)) return null;
+        const fraction = (target - lowerCoordinate) / (upperCoordinate - lowerCoordinate);
+        return lowerValue + (upperValue - lowerValue) * fraction;
+    }
+    return null;
+}
+
+// A wind cell is shaded in the AFM when it is stored under `<key>_shaded` instead of `<key>`.
+// Reading a shaded cell marks the tracker, so callers know the result depends on shaded data.
+function readC56xWindCell(temperatureRow, key, tracker) {
+    const cell = temperatureRow[key];
+    if (cell !== undefined) return cell;
+    const shadedCell = temperatureRow[`${key}_shaded`];
+    if (shadedCell !== undefined && tracker) tracker.shaded = true;
+    return shadedCell;
+}
+
+function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots, tracker) {
+    const windSamples = [
+        { knots: -10, key: 'tailwind10' },
+        { knots: 0, key: 'zeroWind' },
+        { knots: 10, key: 'headwind10' },
+        { knots: 20, key: 'headwind20' },
+        { knots: 30, key: 'headwind30' },
+    ];
+    const interpolateWind = (temperatureRow) => interpolateC56xTakeoffAxis(
+        windSamples,
+        headwindKnots,
+        (sample) => sample.knots,
+        (sample) => readC56xWindCell(temperatureRow, sample.key, tracker)?.dist
+    );
+    const interpolateTemperature = (weightRow) => interpolateC56xTakeoffAxis(
+        weightRow.data,
+        oatC,
+        (row) => row.temp,
+        interpolateWind
+    );
+    return interpolateC56xTakeoffAxis(
+        rows,
+        weightLb,
+        (row) => row.weight,
+        interpolateTemperature
+    );
+}
+
+function interpolateC56xTakeoffAltitude(tables, pressureAltitudeFt, weightLb, oatC, headwindKnots, tracker) {
+    return interpolateC56xTakeoffAxis(
+        tables,
+        pressureAltitudeFt,
+        (table) => table.altitudeFt,
+        (table) => interpolateC56xTakeoffTableDistance(
+            table.rows,
+            weightLb,
+            oatC,
+            headwindKnots,
+            tracker
+        )
+    );
+}
+
+function interpolateC56xGradientTable(rows, distanceFt, distanceKey, correctionKey) {
+    return interpolateC56xTakeoffAxis(
+        rows,
+        distanceFt,
+        (row) => row[distanceKey],
+        (row) => row[correctionKey]
+    );
+}
+
+function getC56xV1GradientAdjustment(adjustments, slopePercent, shaded = false) {
+    if (!Number.isFinite(slopePercent)) return null;
+    if (Math.abs(slopePercent) < 0.000001) return 0;
+
+    const parseAdjustment = (value) => {
+        if (typeof value !== 'string') return null;
+        const match = value.match(/^(?:V1\s*)?([+-])\s*(\d+(?:\.\d+)?)$/i);
+        if (!match) return null;
+        const magnitude = Number(match[2]);
+        return Number.isFinite(magnitude)
+            ? (match[1] === '-' ? -magnitude : magnitude)
+            : null;
+    };
+
+    // Linear interpolation between 0 (no adjustment) and the published steps.
+    const direction = slopePercent > 0 ? 'uphill' : 'downhill';
+    const magnitude = Math.abs(slopePercent);
+    const steps = direction === 'uphill' ? [0.5, 1, 1.5, 2] : [1, 2];
+    if (magnitude > 2) return null;
+    const downhillGroup = shaded ? 'downhillShaded' : 'downhillNonShaded';
+    const readStep = (step) => direction === 'uphill'
+        ? parseAdjustment(adjustments?.uphill?.[`${step.toFixed(1)}%`] ??
+            adjustments?.[`uphill${String(step).replace('.', '_')}pct`])
+        : parseAdjustment(adjustments?.[downhillGroup]?.[`-${step}%`] ??
+            adjustments?.[`${downhillGroup}_${step}pct`]);
+    let lowerSlope = 0;
+    let lowerValue = 0;
+    for (const step of steps) {
+        const upperValue = readStep(step);
+        if (upperValue === null) return null;
+        if (magnitude <= step) {
+            return lowerValue + (upperValue - lowerValue) * ((magnitude - lowerSlope) / (step - lowerSlope));
+        }
+        lowerSlope = step;
+        lowerValue = upperValue;
+    }
+    return null;
+}
+function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7, shaded = false) {
+    if (!Number.isFinite(distanceFt) || !Number.isFinite(slopePercent)) return null;
+    if (Math.abs(slopePercent) < 0.000001) return distanceFt;
+
+    const uphillSteps = [
+        { slope: 0.5, dryKey: '0.5%', wetKey: 'uphill0_5pct' },
+        { slope: 1, dryKey: '1.0%', wetKey: 'uphill1pct' },
+        { slope: 1.5, dryKey: '1.5%', wetKey: 'uphill1_5pct' },
+        { slope: 2, dryKey: '2.0%', wetKey: 'uphill2pct' },
+    ];
+    if (slopePercent > 0) {
+        // Interpolate linearly between 0% (unadjusted distance) and the published uphill corrections.
+        const stepIndex = uphillSteps.findIndex((entry) => entry.slope >= slopePercent);
+        if (stepIndex < 0) return null;
+        const step = uphillSteps[stepIndex];
+        const lowerSlope = stepIndex === 0 ? 0 : uphillSteps[stepIndex - 1].slope;
+        const lowerDistance = stepIndex === 0
+            ? distanceFt
+            : applyC56xRunwayGradient(distanceFt, lowerSlope, isWet, antiIce, flaps, shaded);
+        const upperDistance = applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps);
+        if (lowerDistance === null || upperDistance === null) return null;
+        const fraction = (slopePercent - lowerSlope) / (step.slope - lowerSlope);
+        return lowerDistance + (upperDistance - lowerDistance) * fraction;
+    }
+
+    return applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps, shaded);
+}
+
+function applyC56xUphillStep(distanceFt, step, isWet, antiIce, flaps) {
+    {
+        if (isWet && flaps === 15) {
+            const rows = (antiIce === 'OFF'
+                ? takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOff
+                : takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOn).map((row) => ({
+                baseFieldLength: row.baseFieldLength,
+                correction: row.uphill[step.dryKey],
+            }));
+            return interpolateC56xGradientTable(
+                rows,
+                distanceFt,
+                'baseFieldLength',
+                'correction'
+            );
+        }
+        const dryGradientRows = flaps === 15
+            ? antiIce === 'OFF'
+                ? takeoffFieldLengthGradient_Dry_Flaps15_AntiIceOff
+                : takeoffFieldLengthGradient_Dry_Flaps15_AntiIceOn
+            : antiIce === 'OFF'
+                ? takeoffFieldLengthGradient_Dry_Flaps7
+                : takeoffFieldLengthGradient_Dry_Flaps7_AntiIceOn;
+        const rows = isWet
+            ? (antiIce === 'OFF'
+                ? takeoffGradientAdjustment_wet_reversers_Flaps7_AntiIceOff.data
+                : takeoffGradientAdjustment_reversers_wet_Flaps7_AntiIceOn.data)
+            : dryGradientRows.map((row) => ({
+                baseFieldLength: row.baseFieldLength,
+                correction: row.uphill[step.dryKey],
+            }));
+        return interpolateC56xGradientTable(
+            rows,
+            distanceFt,
+            isWet ? 'zeroGradient' : 'baseFieldLength',
+            isWet ? step.wetKey : 'correction'
+        );
+    }
+}
+
+function applyC56xDownhillGradient(distanceFt, slopePercent, isWet, antiIce, flaps, shaded = false) {
+    if (slopePercent < -2) return null;
+
+    const dryGradientRows = flaps === 15
+        ? antiIce === 'OFF'
+            ? takeoffFieldLengthGradient_Dry_Flaps15_AntiIceOff
+            : takeoffFieldLengthGradient_Dry_Flaps15_AntiIceOn
+        : antiIce === 'OFF'
+            ? takeoffFieldLengthGradient_Dry_Flaps7
+            : takeoffFieldLengthGradient_Dry_Flaps7_AntiIceOn;
+    const wetRows = isWet && flaps === 15
+        ? (antiIce === 'OFF'
+            ? takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOff
+            : takeoffFieldLengthGradient_Wet_Flaps15_AntiIceOn)
+        : isWet
+            ? (antiIce === 'OFF'
+                ? takeoffGradientAdjustment_wet_reversers_Flaps7_AntiIceOff.data
+                : takeoffGradientAdjustment_reversers_wet_Flaps7_AntiIceOn.data)
+            : null;
+    const chartRows = wetRows ?? dryGradientRows;
+    const useChartKeys = !isWet || flaps === 15;
+
+    // The AFM takes downhill corrections from the SHADED columns when the table cell is shaded
+    // (stored under `*_shaded` keys in the data), otherwise from the NON-SHADED columns.
+    const group = shaded ? 'downhillShaded' : 'downhillNonShaded';
+    const getStepDistance = (step) => useChartKeys
+        ? interpolateC56xGradientTable(
+            chartRows.map((row) => ({
+                baseFieldLength: row.baseFieldLength,
+                adjusted: row[group][`-${step}%`],
+            })),
+            distanceFt,
+            'baseFieldLength',
+            'adjusted'
+        )
+        : interpolateC56xGradientTable(chartRows, distanceFt, 'zeroGradient', `${group}_${step}pct`);
+
+    const oneDistance = getStepDistance(1);
+    if (oneDistance === null) return null;
+    if (slopePercent >= -1) {
+        return distanceFt + (oneDistance - distanceFt) * Math.abs(slopePercent);
+    }
+    const twoDistance = getStepDistance(2);
+    if (twoDistance === null) return null;
+    return oneDistance + (twoDistance - oneDistance) * (Math.abs(slopePercent) - 1);
+}
+function getC56xTakeoffFieldLengths({
+    qnhHpa,
+    fieldElevationFt,
+    oatC,
+    weightLb,
+    windDirectionDeg,
+    windSpeedKnots,
+    runwayHeadingDeg,
+    runwaySlopePercent = 0,
+    runwayConditionCode,
+    reverserStatus = 'AVAILABLE',
+    antiIce = 'ON',
+    flaps = 7,
+    deiceFluidApplied = false,
+}) {
+    const pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, fieldElevationFt);
+    const direction = Number(windDirectionDeg);
+    const speed = Number(windSpeedKnots);
+    const heading = Number(runwayHeadingDeg);
+    if (pressureAltitudeFt === null || !Number.isFinite(Number(oatC)) ||
+        !Number.isFinite(Number(weightLb)) || !Number.isFinite(speed) || speed < 0 ||
+        !Number.isFinite(Number(runwaySlopePercent)) ||
+        !Number.isFinite(heading) || heading < 0 || heading > 360 ||
+        (speed !== 0 &&
+            (!Number.isFinite(direction) || direction < 0 || direction > 360))) {
+        return null;
+    }
+    if (!['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode)) return null;
+    if (reverserStatus !== 'AVAILABLE' && reverserStatus !== 'INOP') return null;
+    if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
+    if (flaps !== 7 && flaps !== 15) return null;
+    // AFM: field length x1.15 with Type II/III/IV fluid on the airplane (dry, wet and contaminated).
+    const deiceFluidFactor = deiceFluidApplied ? 1.15 : 1;
+    const takeoffFactorBreakdown = getC56xTakeoffFactorBreakdown({
+        runwayConditionCode,
+        flaps,
+    });
+    const takeoffFactor = takeoffFactorBreakdown
+        ? takeoffFactorBreakdown.rccFactor * takeoffFactorBreakdown.performanceFactor * deiceFluidFactor
+        : null;
+    if (!Number.isFinite(takeoffFactor)) return null;
+    // Keep the dry-runway comparison separate from the selected RCC-adjusted distance.
+    const dryFactorBreakdown = getC56xTakeoffFactorBreakdown({
+        runwayConditionCode: '6',
+        flaps,
+    });
+    const dryTakeoffFactor = dryFactorBreakdown
+        ? dryFactorBreakdown.rccFactor * dryFactorBreakdown.performanceFactor * deiceFluidFactor
+        : null;
+    if (!Number.isFinite(dryTakeoffFactor)) return null;
+
+    const headwindKnots = speed === 0
+        ? 0
+        : speed * Math.cos((((direction - heading + 540) % 360) - 180) * Math.PI / 180);
+    const dryTables = flaps === 15
+        ? antiIce === 'OFF'
+            ? [
+                { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps15_SeaLevel },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps15_1000ft },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps15_2000ft },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps15_3000ft },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps15_4000ft },
+                { altitudeFt: 5000, rows: takeoffFieldLengthDry_Flaps15_5000ft },
+                { altitudeFt: 6000, rows: takeoffFieldLengthDry_Flaps15_6000ft },
+            ]
+            : [
+                { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps15_SeaLevel_AntiIceOn },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps15_1000ft_AntiIceOn },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps15_2000ft_AntiIceOn },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps15_3000ft_AntiIceOn },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps15_4000ft_AntiIceOn },
+                { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps15_5000ft_AntiIceOn },
+                { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps15_6000ft_AntiIceOn },
+            ]
+        : antiIce === 'OFF'
+        ? [
+            { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps7_0ft },
+            { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps7_1000ft_Complete },
+            { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps7_2000ft_Complete },
+            { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps7_3000ft_Complete },
+            { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps7_4000ft_Complete },
+            { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps7_5000ft_Complete },
+            { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps7_6000ft_Complete },
+        ]
+        : [
+            { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_0ft },
+            { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_1000ft },
+            { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_2000ft },
+            { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_3000ft },
+            { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_4000ft },
+            { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_5000ft },
+            { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_6000ft },
+        ];
+    const tableArgs = [pressureAltitudeFt, Number(weightLb), Number(oatC), headwindKnots];
+    const dryTracker = { shaded: false };
+    const dryUncorrectedFt = interpolateC56xTakeoffAltitude(dryTables, ...tableArgs, dryTracker);
+    if (dryUncorrectedFt === null) return null;
+
+    const dryDistanceFt = applyC56xRunwayGradient(
+        dryUncorrectedFt,
+        Number(runwaySlopePercent),
+        false,
+        antiIce,
+        flaps,
+        dryTracker.shaded
+    );
+    if (dryDistanceFt === null) return null;
+    const dryRequiredDistanceFt = dryDistanceFt * dryTakeoffFactor;
+    const rccAdjustedDryDistanceFt = dryDistanceFt * takeoffFactor;
+    return {
+        pressureAltitudeFt,
+        headwindKnots,
+        dryDistanceFt,
+        dryRequiredDistanceFt,
+        rccAdjustedDryDistanceFt,
+        selectedDistanceFt: rccAdjustedDryDistanceFt,
+        dryShaded: dryTracker.shaded,
+        takeoffFactor,
+        factorBreakdown: {
+            ...takeoffFactorBreakdown,
+            deiceFluidFactor,
+            totalFactor: takeoffFactor,
+        },
+    };
+}
+
+function getC56xTakeoffSpeeds({
+    pressureAltitudeFt,
+    weightLb,
+    oatC,
+    headwindKnots,
+    runwayConditionCode,
+    runwaySlopePercent = 0,
+    reverserStatus = 'AVAILABLE',
+    antiIce = 'ON',
+    flaps = 7,
+}) {
+    if (flaps !== 7 && flaps !== 15) return null;
+    if (antiIce !== 'ON' && antiIce !== 'OFF') return null;
+    if (!['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode)) return null;
+    const tables = flaps === 15
+        ? antiIce === 'OFF'
+            ? [
+                    { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps15_SeaLevel },
+                    { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps15_1000ft },
+                    { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps15_2000ft },
+                    { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps15_3000ft },
+                    { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps15_4000ft },
+                    { altitudeFt: 5000, rows: takeoffFieldLengthDry_Flaps15_5000ft },
+                    { altitudeFt: 6000, rows: takeoffFieldLengthDry_Flaps15_6000ft },
+                ]
+            : [
+                    { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps15_SeaLevel_AntiIceOn },
+                    { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps15_1000ft_AntiIceOn },
+                    { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps15_2000ft_AntiIceOn },
+                    { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps15_3000ft_AntiIceOn },
+                    { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps15_4000ft_AntiIceOn },
+                    { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps15_5000ft_AntiIceOn },
+                    { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps15_6000ft_AntiIceOn },
+                ]
+        : antiIce === 'OFF'
+            ? [
+                { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps7_0ft },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps7_1000ft_Complete },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps7_2000ft_Complete },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps7_3000ft_Complete },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps7_4000ft_Complete },
+                { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps7_5000ft_Complete },
+                { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps7_6000ft_Complete },
+            ]
+            : [
+                { altitudeFt: 0, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_0ft },
+                { altitudeFt: 1000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_1000ft },
+                { altitudeFt: 2000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_2000ft },
+                { altitudeFt: 3000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_3000ft },
+                { altitudeFt: 4000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_4000ft },
+                { altitudeFt: 5000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_5000ft },
+                { altitudeFt: 6000, rows: takeoffFieldLength_Dry_Flaps7_AntiIceOn_6000ft },
+            ];
+    const windSamples = [
+        { knots: -10, key: 'tailwind10' },
+        { knots: 0, key: 'zeroWind' },
+        { knots: 10, key: 'headwind10' },
+        { knots: 20, key: 'headwind20' },
+        { knots: 30, key: 'headwind30' },
+    ];
+    const v1Tracker = { shaded: false };
+    const interpolateAtWeightAndTemperature = (rows, valueKey) =>
+        interpolateC56xTakeoffAxis(
+            rows,
+            weightLb,
+            (row) => row.weight,
+            (weightRow) => interpolateC56xTakeoffAxis(
+                weightRow.data,
+                oatC,
+                (row) => row.temp,
+                (temperatureRow) => valueKey === 'v1'
+                    ? interpolateC56xTakeoffAxis(
+                        windSamples,
+                        headwindKnots,
+                        (sample) => sample.knots,
+                        (sample) => readC56xWindCell(temperatureRow, sample.key, v1Tracker)?.v1
+                    )
+                    : temperatureRow[valueKey]
+            )
+        );
+    const interpolateAtAltitude = (valueKey) => interpolateC56xTakeoffAxis(
+        tables,
+        pressureAltitudeFt,
+        (table) => table.altitudeFt,
+        (table) => interpolateAtWeightAndTemperature(table.rows, valueKey)
+    );
+
+    const v1 = interpolateAtAltitude('v1');
+    const vr = interpolateAtAltitude('vr');
+    const v2 = interpolateAtAltitude('v2');
+    if (![v1, vr, v2].every(Number.isFinite)) return null;
+
+    const adjustments = flaps === 7
+        ? antiIce === 'OFF'
+            ? v1Adjustments
+            : v1Adjustments_AntiIceOn
+        : antiIce === 'OFF'
+            ? v1Adjustments_Dry_Flaps15_AntiIceOff
+            : v1Adjustments_Dry_Flaps15_AntiIceOn;
+    const v1Adjustment = getC56xV1GradientAdjustment    (adjustments, runwaySlopePercent, v1Tracker.shaded);
+    if (v1Adjustment === null) return null;
+    return {
+            shaded: v1Tracker.shaded,
+        v1: v1 + v1Adjustment,
+        vr,
+        v2,
+        v1CorrectionKnots: v1Adjustment,
+    };
+}
+
+function getC56xSecondSegmentClimbGradient({
+    pressureAltitudeFt,
+    weightLb,
+    oatC,
+    headwindKnots,
+    flaps = 7,
+    antiIce = 'ON',
+    turningClimb = false,
+}) {
+    const data = flaps === 15
+        ? antiIce === 'OFF'
+            ? secondSegmentClimbGradient_flaps15_anti_ice_off
+            : secondSegmentClimbGradient_flaps15_anti_ice_on
+        : flaps === 7
+            ? antiIce === 'OFF'
+                ? secondSegmentClimbGradient_flaps7_anti_ice_off
+                : secondSegmentClimbGradient_flaps7_anti_ice_on
+            : [];
+    const dataByAltitude = new Map();
+    data.forEach((altitudeData) => {
+        const existing = dataByAltitude.get(altitudeData.altitudeFt) || [];
+        const weightTables = altitudeData.data || altitudeData.weights || [];
+        existing.push(...weightTables.map((weightTable) => {
+            if (Array.isArray(weightTable.temperatures)) return weightTable;
+            return {
+                weight: weightTable.weight,
+                temperatures: (weightTable.data || []).map((row) => ({
+                    temp: row.temp,
+                    windMinus10: row.windKnots?.['-10'],
+                    wind0: row.windKnots?.['0'],
+                    wind10: row.windKnots?.['10'],
+                    wind20: row.windKnots?.['20'],
+                    wind30: row.windKnots?.['30'],
+                })),
+            };
+        }));
+        dataByAltitude.set(altitudeData.altitudeFt, existing);
+    });
+    const altitudeTables = [...dataByAltitude.entries()]
+        .map(([altitudeFt, rows]) => ({ altitudeFt, rows }));
+    const windSamples = [
+        { knots: -10, key: 'windMinus10' },
+        { knots: 0, key: 'wind0' },
+        { knots: 10, key: 'wind10' },
+        { knots: 20, key: 'wind20' },
+        { knots: 30, key: 'wind30' },
+    ];
+    // The AFM weight/gradient correction applies to turning climbs up to 15° bank only.
+    const adjustedWeightLb = turningClimb && weightLb <= 19323
+        ? weightLb * 1.035
+        : weightLb;
+    const gradient = interpolateC56xTakeoffAxis(
+        altitudeTables,
+        pressureAltitudeFt,
+        (table) => table.altitudeFt,
+        (altitudeTable) => interpolateC56xTakeoffAxis(
+            altitudeTable.rows,
+            adjustedWeightLb,
+            (row) => row.weight,
+            (weightRow) => interpolateC56xTakeoffAxis(
+                weightRow.temperatures,
+                oatC,
+                (row) => row.temp,
+                (temperatureRow) => interpolateC56xTakeoffAxis(
+                    windSamples,
+                    headwindKnots,
+                    (sample) => sample.knots,
+                    (sample) => temperatureRow[sample.key]
+                )
+            )
+        )
+    );
+    if (gradient === null || !turningClimb || weightLb <= 19323) return gradient;
+    return gradient - 1.2;
+}

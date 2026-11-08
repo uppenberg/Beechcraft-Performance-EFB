@@ -1,0 +1,54 @@
+{
+  "format": "c56x-figure-4-43-landing-weight",
+  "coverage": {
+    "altitudesFt": [0, 1000, 2000, 3000, 4000, 5000, 6000],
+    "antiIce": "OFF",
+    "approachFlapsDeg": 15,
+    "landingFlapsDeg": 35,
+    "windKnots": [-10, 0, 10, 20, 30],
+    "runwayGradientPercent": [-2, 0, 1, 2]
+  },
+  "weightsPerTemperatureRow": 20,
+  "temperatureRowsC": {
+    "0": [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 54],
+    "1000": [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 52],
+    "2000": [-25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+    "3000": [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 48],
+    "4000": [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 46],
+    "5000": [-35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 44],
+    "6000": [-35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 42]
+  },
+  "weightColumnOrder": [
+    {"windKnots": -10, "runwayGradientPercent": -2},
+    {"windKnots": -10, "runwayGradientPercent": 0},
+    {"windKnots": -10, "runwayGradientPercent": 1},
+    {"windKnots": -10, "runwayGradientPercent": 2},
+    {"windKnots": 0, "runwayGradientPercent": -2},
+    {"windKnots": 0, "runwayGradientPercent": 0},
+    {"windKnots": 0, "runwayGradientPercent": 1},
+    {"windKnots": 0, "runwayGradientPercent": 2},
+    {"windKnots": 10, "runwayGradientPercent": -2},
+    {"windKnots": 10, "runwayGradientPercent": 0},
+    {"windKnots": 10, "runwayGradientPercent": 1},
+    {"windKnots": 10, "runwayGradientPercent": 2},
+    {"windKnots": 20, "runwayGradientPercent": -2},
+    {"windKnots": 20, "runwayGradientPercent": 0},
+    {"windKnots": 20, "runwayGradientPercent": 1},
+    {"windKnots": 20, "runwayGradientPercent": 2},
+    {"windKnots": 30, "runwayGradientPercent": -2},
+    {"windKnots": 30, "runwayGradientPercent": 0},
+    {"windKnots": 30, "runwayGradientPercent": 1},
+    {"windKnots": 30, "runwayGradientPercent": 2}
+  ],
+  "manualCorrections": [
+    {
+      "altitudeFt": 2000,
+      "temperatureC": 45,
+      "windKnots": 30,
+      "runwayGradientPercent": -2,
+      "ocrValueLb": 8060,
+      "correctedValueLb": 18060,
+      "evidence": "Visually read from Figure 4-43, 2,000-ft table, 45 C row."
+    }
+  ]
+}

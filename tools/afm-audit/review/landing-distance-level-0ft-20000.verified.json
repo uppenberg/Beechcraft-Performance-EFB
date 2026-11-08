@@ -1,0 +1,35 @@
+{
+  "status": "MANUALLY_VERIFIED",
+  "sourcePdf": "LD f35_zero.pdf",
+  "sourcePage": 1,
+  "figure": "4-44",
+  "runwayGradientPercent": 0,
+  "altitudeFt": 0,
+  "weightLb": 20000,
+  "windKnots": [-10, 0, 10, 20, 30],
+  "verifiedCellCount": 96,
+  "rows": [
+    { "temp": -30, "distancesFt": [3500, 2960, 2800, 2640, 2490] },
+    { "temp": -25, "distancesFt": [3550, 3000, 2840, 2680, 2530] },
+    { "temp": -20, "distancesFt": [3590, 3040, 2880, 2720, 2570] },
+    { "temp": -15, "distancesFt": [3640, 3090, 2920, 2760, 2610] },
+    { "temp": -10, "distancesFt": [3680, 3130, 2970, 2810, 2650] },
+    { "temp": -5, "distancesFt": [3730, 3170, 3010, 2850, 2690] },
+    { "temp": 0, "distancesFt": [3780, 3220, 3050, 2890, 2730] },
+    { "temp": 5, "distancesFt": [3820, 3260, 3090, 2930, 2770] },
+    { "temp": 10, "distancesFt": [3870, 3300, 3140, 2970, 2810] },
+    { "temp": 15, "distancesFt": [3920, 3350, 3180, 3020, 2860] },
+    { "temp": 20, "distancesFt": [3960, 3390, 3220, 3060, 2900] },
+    { "temp": 25, "distancesFt": [4010, 3440, 3270, 3100, 2940] },
+    { "temp": 30, "distancesFt": [4060, 3480, 3310, 3140, 2980] },
+    { "temp": 35, "distancesFt": [4100, 3520, 3350, 3180, 3020] },
+    { "temp": 40, "distancesFt": [4150, 3570, 3390, 3230, 3060] },
+    { "temp": 44, "distancesFt": [4190, 3600, 3430, 3260, 3090] }
+  ],
+  "candidateCorrection": {
+    "temp": 15,
+    "windKnots": 30,
+    "candidateFt": 2850,
+    "verifiedFt": 2860
+  }
+}

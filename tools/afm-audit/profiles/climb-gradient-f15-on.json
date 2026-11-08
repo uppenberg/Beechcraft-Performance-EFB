@@ -1,0 +1,30 @@
+{
+  "format": "climb-gradient",
+  "name": "Flaps 15 anti-ice ON",
+  "pageAltitudes": [0, 0, 6000, 6000, 12000, 12000],
+  "pageWeights": [
+    [20000, 19500, 19000, 18500, 18000],
+    [17500, 16500, 15500, 14500, 13500]
+  ],
+  "temperatures": [-35, -30, -25, -20, -15, -10, -5, 0, 5, 10],
+  "valueRange": [0, 25],
+  "altitudeStepFt": 1000,
+  "altitudesPerPage": 6,
+  "rowsPerAltitude": 10,
+  "altitudeBandStep600Dpi": 622,
+  "firstRowY600Dpi": 1638,
+  "rowStep600Dpi": 62,
+  "bandTopOffset600Dpi": 40,
+  "bandHeight600Dpi": 640,
+  "pageXOffsets600Dpi": [0, 296, 0, 296, 0, 296],
+  "weightPanelLeftPadding600Dpi": 64,
+  "weightPanelWidth600Dpi": 720,
+  "xCenters600Dpi": [
+    684, 830, 976, 1124, 1272,
+    1412, 1566, 1712, 1858, 2000,
+    2152, 2300, 2446, 2592, 2740,
+    2886, 3034, 3180, 3326, 3474,
+    3622, 3768, 3914, 4060, 4208
+  ],
+  "cellXTolerance600Dpi": 70
+}

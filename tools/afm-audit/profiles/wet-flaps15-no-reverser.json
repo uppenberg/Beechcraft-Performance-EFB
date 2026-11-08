@@ -1,0 +1,14 @@
+{
+  "file": "data/c56x/takeoff-wet-flaps15-no-reverser.js",
+  "defaultTag": "off",
+  "tags": {
+    "off": {
+      "template": "takeoffFieldLength_NoRev_Flaps15_{alt}ft_AntiIceOff",
+      "alt0": "takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOff"
+    },
+    "on": {
+      "template": "takeoffFieldLength_NoRev_Flaps15_{alt}ft_AntiIceOn",
+      "alt0": "takeoffFieldLength_NoRev_Flaps15_SeaLevel_AntiIceOn"
+    }
+  }
+}

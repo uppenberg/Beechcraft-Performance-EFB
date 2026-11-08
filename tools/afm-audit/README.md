@@ -1,0 +1,352 @@
+# AFM-auditverktyg för takeoff-tabeller
+
+Det här paketet är generaliserat för takeoff-filerna i [data/c56x/](/home/uppenberg1/Github/Beechcraft-Performance-EFB/data/c56x).
+Det stöder samma radformat som `temp/tailwind/zero/headwind/vr/v2`-tabellerna använder.
+
+## Vad som stöds nu
+
+- `takeoff-dry-flaps7.js`
+- `takeoff-dry-flaps15.js`
+- `takeoff-wet-flaps7.js`
+- `takeoff-wet-flaps15.js`
+- `takeoff-wet-flaps15-no-reverser.js`
+- `climb-gradient`-tabeller i formatet `altitudeFt / weights / data / windKnots`
+
+Profiler finns i [tools/afm-audit/profiles/](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/profiles).
+
+## Vad som inte stöds ännu
+
+Filer med annan struktur, till exempel takeoff-gradient och climb-flightpath, kräver extra parserstöd.
+
+## Viktig princip
+
+OCR används bara som sållning. Ändra aldrig data enbart från OCR – verifiera alltid visuellt mot PDF.
+
+## Kommandon
+
+Kör från repo-roten:
+
+```bash
+node tools/afm-audit/show.js --profile dry-flaps7 off:3000-14500
+node tools/afm-audit/show.js --profile wet-flaps15 on:0-15000
+```
+
+```bash
+node tools/afm-audit/apply.js --profile dry-flaps7 /tmp/c56w/b18.txt
+```
+
+```bash
+node tools/afm-audit/analyze.js --profile dry-flaps7 --crops /tmp/c56-ocr-crops
+```
+
+```bash
+node tools/afm-audit/sort-rows.js data/c56x/takeoff-wet-flaps15.js
+```
+
+```bash
+node tools/afm-audit/compare.js --profile dry-flaps15 batch.txt   # jämför utan att ändra
+node tools/afm-audit/check.js batch.txt                           # rimlighetskontroll av avläsning
+```
+
+```bash
+node tools/afm-audit/columns.js /tmp/afm-crops/off-3000-14500.tsv
+```
+
+## Spec-format
+
+`show.js` accepterar:
+
+- `[tagg:]höjd-vikt` (ex. `off:3000-14500`, `on:0-16000`)
+- `KONSTANT@vikt`
+- unik del av konstantnamn + `@vikt` (om träffen är unik)
+
+`apply.js` batchfil:
+
+1. Rubrikrad: `<tabellspec>|<vikt>`
+2. Därefter en rad per temperatur med exakt 13 heltal:
+   `temp tailV1 tailDist zeroV1 zeroDist h10V1 h10Dist h20V1 h20Dist h30V1 h30Dist vr v2`
+
+Exempel:
+
+```txt
+off:3000|14500
+-30 95 3760 95 3200 95 2980 95 2780 95 2610 96 109
+...
+```
+
+## Profiler
+
+En profil innehåller minst:
+
+- `file`: målfil
+- `defaultTag`: fallback-tag
+- `tags.<tag>.template` och ev. `alt0` / `alts`
+- valfritt OCR-upplägg: `cols`, `yMin`, `yMax`
+
+`resolveConst` stöder:
+
+- exakt konstantnamn
+- `[tagg:]höjd` via profilmall
+- unik delsträng
+
+## OCR-flöde för nya PDF:er
+
+1. Rendera PDF till bild (externa verktyg krävs).
+2. Beskär tabeller till `*.png` (se [crop_png.py](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/crop_png.py)).
+3. Kör Tesseract till `*.tsv`.
+4. Kalibrera kolumner med `columns.js` och lägg in `cols` i profil.
+5. Kör `analyze.js` för att prioritera tabeller.
+6. Verifiera visuellt och applicera hela block med `apply.js`.
+
+## Radordning
+
+Efter `apply.js` sorteras temperaturerna stigande inom varje `data`-array automatiskt.
+Du kan också köra [sort-rows.js](/home/uppenberg1/Github/Beechcraft-Performance-EFB/tools/afm-audit/sort-rows.js) separat.
+
+## Runway-gradient-tabeller (takeoff-gradient-*.js)
+
+`read_gradient_tables.py` läser de rastrerade gradient-sidorna (Figures 4-74, 4-124, 4-142, 4-174, 4-192, 4-224, 4-242, 4-274)
+och jämför varje cell med koden. Sidbilderna extraheras ur AFM-PDF:en (inbäddad bild per sida, ca 310 dpi, vit text på svart)
+till `out/grad/<nyckel>.png` (nycklar: se `TABLES` i skriptet). Siffrorna segmenteras som sammanhängande komponenter och
+klassas med närmaste granne mot kolumn 0 (fältlängderna, som är kända). Kod-tabellerna dumpas av `dump-gradient-tables.js`.
+Avvikelser skrivs med y-position så att raden kan beskäras och granskas visuellt. V1-justeringsraden läses inte, kontrollera den manuellt.
+
+## Shaded-celler (`_shaded`)
+
+En vindcell vars nyckel slutar på `_shaded` (t.ex. `tailwind10_shaded`) är en skuggad AFM-cell; nyckel utan suffix är non-shaded.
+Appen ([calculations.js](../../data/c56x/calculations.js)) väljer då Shaded- resp. NonShaded-kolumnen för nedförslutning (distans och V1)
+i stället för att ta det konservativa maxvärdet. Skuggad om någon bidragande cell i interpolationen är skuggad.
+`compare.js`, `analyze.js` och `show.js` läser båda varianterna (show.js markerar skuggade med `*`);
+`apply.js` behåller befintliga `_shaded`-markeringar per temperaturrad, så markera nya skuggade celler manuellt efteråt.
+
+## Arbetsflöde och lärdomar (Flaps 7 och Flaps 15)
+
+1. Gör backup av datafilen först (utanför repot).
+2. Läs av AFM till en batchfil (`<tabell>|<vikt>` + 13 heltal/rad). Alla tabeller i en fil kan ligga i samma batch.
+3. `check.js batch.txt` – flaggar felavläsningar innan något skrivs.
+4. `compare.js` – visar exakt vad som skiljer (rad/kolumn, kod mot AFM, saknade/extra temperaturer).
+5. Visa användaren statistiken och be om stickprov när hela block ersätts. Ersätt sedan med `apply.js`
+   (sorterar lägsta temp först, kontrollerar syntax och CRLF).
+6. Kör `compare.js` igen: målet är 0 skillnader (jämförelsen är mot din avläsning, så visuell kontroll behövs fortfarande).
+
+### Läs alltid från samma tabell
+Jämför höjd, vikt och anti-ice-läge mot rätt PDF-sida. Flaps 15 OFF har två sidor per höjd
+(udda sida: 20000/19000/18000 vänster, 19500/18500/17500 höger; jämn sida: 17000/16000/14500 och 16500/15500/13500).
+Flaps 15 ON har en sida per höjd med 10 vikter och temperaturer -30..10.
+
+### Bildbaserade PDF:er utan textlager och utan tesseract
+- Rendera sidor med pymupdf (300 dpi), tröskla (gråvärde < 140), ta bort långa linjer och hitta tecken
+  som sammanhängande komponenter.
+- Klustra tecken med k-means (K≈48) och märk varje kluster till en siffra visuellt en gång. Tunga OCR-motorer
+  (rapidocr) var alldeles för långsamma (~1 min/sida).
+- Minustecken är mycket låga, breda komponenter. Sammanslagna tecken (bredare än en siffra) delas via kolumnprojektion.
+- En giltig rad har exakt 13 ord. Rader med okända tecken (`?`) ska aldrig gissas – läs dem visuellt från en beskärning.
+
+### Fallgropar
+- **Skuggade (dithrade) celler** ger tyst felaktiga siffror (V1 som 405/465, avstånd som 6840 i stället för 6810).
+  Hitta dem genom att leta efter täta områden med många små komponenter (≤4 px) och läs dem manuellt.
+  Typiskt: heta, tunga rader i motvindskolumnen (flaps 15 OFF 4000–6000 ft, 20000 lb).
+- Avstånd ska sluta på 0, minska med motvind och V1 ligga ca 80–110. Avvikelser = misstänkt avläsning.
+- Avstånd som minskar när temperaturen ökar vid vissa vikter är äkta AFM-data (V1-begränsning), inte fel.
+- Låga VR/V2 vid 13500 lb är normalt.
+- Några tabeller har andra temperatursteg/ändar än förväntat (t.ex. 46, 48 eller 50 °C i översta raden) – kopiera exakt från AFM.
+- Kontrollera att PDF:en täcker alla höjder i filen; höjder som saknas i PDF:en kan inte granskas.
+- `view`-verktyget behöver ibland en nyskapad PNG-fil i ett separat anrop.
+
+## Automatisk avläsning av bild-PDF:er (glyph-pipeline)
+
+AFM-PDF:erna saknar textlager. Tesseract fungerar INTE (hänger utan `OMP_THREAD_LIMIT=1`, slår ihop/tappar siffror). Använd i stället:
+
+- Miljö: `python3 -m venv --system-site-packages /tmp/afmenv && /tmp/afmenv/bin/pip install pymupdf pillow numpy scipy scikit-learn`
+- `read_pages.py PDF TAG OUT.txt --weights w1,w2,.. [--two-per-alt] [--pages 1,2] [--maxd 4.5]`
+  - ON-sidor (flaps7 wet): 10 block/sida, vikter 20000,19500,19000,18500,18000,17500,16500,15500,14500,13500.
+  - OFF-sidor: 6 block/sida, 2 sidor per höjd, `--two-per-alt`, vikter 20000..17500 resp. 17000,16500,16000,15500,14500,13500.
+  - Skriver OUT.txt (rena rader, kan matas direkt till compare/apply), OUT.txt.todo (VERIFIERA/OSÄKER) och OUT.txt.rows.json.
+- `crop.py PDF OUT.txt.rows.json PREFIX --per 12` ger bilder av flaggade rader med avläst text i rött ovanför → granska visuellt, rätta i en korrigeringsfil.
+- Mallar: `glyph_templates.json` (k-means-centroider + etiketter), `glyphs.py` (rendering, radborttagning, sammanvuxna siffror delas där summan av klassdistans är lägst).
+- Lärdomar: raster-/skuggade celler (tung, varm, hög temp, tail-kolumnen) läses fel → alltid visuell kontroll av flaggade rader; temp "5" intill ramen är falskt larm; 5-siffriga avstånd (10120) ger OSÄKER och måste läsas manuellt; kör alltid `check.js` på batchen, sedan `compare.js`, sedan `apply.js` (säkerhetskopiera först).
+- Hela flödet för wet flaps7 tog ~4 min läsning + ~60 manuellt rättade rader.
+
+## Climb-gradient-tabeller
+
+För sekundsegmentets nettostiggradient används en separat profil eftersom AFM-tabellen
+har höjdblock, viktkolumner och fem vindkolumner i ett annat format än takeoff-tabellerna.
+Tesseract används endast för första avläsning; granska alltid värdena visuellt mot PDF:en.
+Läsaren OCR:ar en viktpanel i taget, och profilen kan ange separata horisontella sidförskjutningar.
+Avläsningar med saknade, oparsade eller lågsäkra celler skrivs till `.todo` och ger statuskod 2.
+
+## Figure 4-43 landing-weight review candidates
+
+For the 56XFM-13 anti-ice-OFF maximum landing-weight tables, the reader below
+renders each requested table and stores OCR output as **unverified review
+candidates**. It does not write runtime data. Check every candidate and raw OCR
+line against the rendered PDF table before transcribing any values.
+
+```bash
+.venv/bin/python tools/afm-audit/read_landing_weight_443.py \
+  "/path/to/Max land weight by climb or brake limits.pdf" \
+  tools/afm-audit/review/figure-4-43-off-0-6000.candidates.json
+```
+
+By default this covers pressure altitudes 0 through 6,000 ft, with approach
+flaps 15°, landing flaps 35°, winds −10 through 30 kt, and runway gradients
+−2%, 0%, 1%, and 2%. `--altitudes 0,1000,2000` narrows the review range.
+The reader now uses 450-dpi table crops and compares Tesseract PSM 11 and 12.
+The candidate JSON retains both token sequences and flags disagreements; OCR
+agreement does not certify the values.
+
+To create a JavaScript review artifact from a complete, dual-OCR candidate:
+
+```bash
+.venv/bin/python tools/afm-audit/import_landing_weight_443.py \
+  tools/afm-audit/review/figure-4-43-off-0-6000.candidates.json \
+  data/c56x/landing-weight-flaps15-35-off.js
+```
+
+The importer checks the 20-column mapping, expected temperature rows, OCR
+agreement, weight range/resolution, and temperature/wind/gradient/altitude
+ordering. Profile-backed manual corrections are recorded in the JS audit
+metadata. The generated JS is included in the C56X data loader and offline
+cache, but remains marked `OCR_CROSS_CHECKED_NOT_VISUALLY_CERTIFIED` with
+`runtimeReady: false`. Treat it as a review artifact and do not use its values
+operationally until every cell has been visually checked against the approved
+AFM.
+
+```bash
+.venv/bin/python tools/afm-audit/read_gradient.py input.pdf /tmp/climb-on.js \
+  --profile tools/afm-audit/profiles/climb-gradient-f7-on.json \
+  --const secondSegmentClimbGradient_flaps7_anti_ice_on \
+  --max-altitude 6000 \
+  --corrections tools/afm-audit/profiles/climb-gradient-f7-on-corrections.json
+node tools/afm-audit/compare-gradient.js data/c56x/climb-gradient-flaps7.js \
+  secondSegmentClimbGradient_flaps7_anti_ice_on /tmp/climb-on.js.json
+```
+
+The reader emits the JavaScript constant, an adjacent `.json` reference for comparison,
+and a `.todo` list for OCR cells needing review. A non-empty `.todo` makes the reader
+exit with status 2; do not treat such output as verified AFM data. After checking flagged
+cells against the AFM, pass a JSON object of corrections keyed by
+`altitudeFt/weight/temp/wind`, for example `{"0/20000/-35/-10": 5.6}`, using
+`--corrections corrections.json`. Unmatched corrections are rejected. For another climb
+gradient chart with the same grid, copy and adjust the profile's page mappings, altitude
+and weight sets, temperature rows, and cell-center calibration. Profiles can set
+`pageAltitudeCounts` when the last sheet has fewer altitude blocks, or use
+`temperaturesByAltitude` when each altitude has a different temperature grid.
+
+### Snabbare nästa gång (ny climb-gradient-PDF)
+
+1. Kopiera en profil (`profiles/climb-gradient-f15-on.json` passar 6-sidiga ark med 6 höjder/sida och
+   temperaturraderna -35..10; `f7-on` är identisk) och justera `pageAltitudes`, `pageWeights`, `temperatures`.
+2. Kör `read_gradient.py` (se ovan). Utdata är redan kompakt, en rad per temperatur.
+3. Titta på `.todo`: `crop_gradient_rows.py PDF PROFIL.json ut.png 1000/20000/-25 ...` ger en bildremsa per
+   cell (höjd/vikt/temp) för visuell kontroll; lägg värdena i `*-corrections.json` och kör om.
+4. `check-gradient-monotonic.js ut.js.json` flaggar orimliga värden (gradient ska inte minska med mer vind,
+   lägre vikt eller lägre temperatur; höjd är inte monoton i AFM) – fångar tysta OCR-fel.
+5. `compare-gradient.js datafil.js CONST ut.js.json` jämför mot befintlig datafil.
+
+### Flaps 15 approach gross climb gradient (Figures 4-47*/4-48*)
+
+Separate from the second-segment `climb-gradient-flaps15-*` data. Profiles:
+`profiles/gross-climb-gradient-f15-{on,off}.json`. OFF has a temperature grid
+that varies by altitude (verified from the PDF; 4000 ft = -30..45 + 46,
+13000 ft = -35..25 + 28 – wrong grids shift every later row, so check them first).
+Only 0–6000 ft is imported (`--max-altitude 6000`).
+
+One-command rerun of the whole pipeline (read, apply corrections, syntax check, plausibility check):
+
+```bash
+tools/afm-audit/run_gross_climb_f15.sh /path/to/c56 [max_altitude]
+```
+
+Manual steps:
+
+1. `read_gradient.py PDF OUT.js --profile P.json --const NAME --max-altitude 6000 --corrections review/gross-climb-f15-{on,off}-gap-corrections.json`
+   (exit status 2 = `.todo` not empty, expected). `.js.json`/`.js.todo` sidecars are
+   work files: the script writes them to `tools/afm-audit/out/` (gitignored) and copies only the `.js` to `data/c56x/`.
+2. Tesseract is unreliable here (3/8, lost leading `.`, `.0`->`.O`). Never trust OCR or
+   voting alone: `reocr_gradient_gaps.py` only gives hints for missing cells.
+3. `render_gradient_cells.py --profile P.json --keys keys.json --output-prefix /tmp/x PDF`
+   renders the full 5-wind row for each key (`alt/weight/temp/wind`, list or key->note
+   dict) into review sheets. Read the values visually and add them to the
+   corrections JSON (flat `{ "alt/weight/temp/wind": value }`), then rerun step 1.
+4. `check-gradient-monotonic.js OUT.js CONST` screens for implausible values.
+   Remaining `non-monotonic` entries for 20000 lb at 4000–6000 ft (negative
+   gradients) were checked against the PDF and are correct.
+
+Verified corrections are stored in `review/`; they are keyed by cell and make
+the import reproducible. The files are loaded by `data/c56x/index.js` and cached in `sw.js`.
+
+## C56X Flaps 35 landing-distance charts
+
+`profiles/landing-distance-f35.json` maps the supplied 14-page figures to two weight sheets per altitude, from sea level through 6,000 ft. Use `read_landing_distance.py` to produce a JSON review candidate:
+
+```bash
+.venv/bin/python tools/afm-audit/read_landing_distance.py \
+  "/path/to/LD f35_2dn.pdf" /tmp/landing-2dn.candidate.json
+```
+
+The same reader accepts `LD f35_1dn.pdf` and `LD f35_zero.pdf`. It uses the local glyph-template pipeline and marks its output `GLYPH_CANDIDATE_NOT_VERIFIED`. Every value must be compared with the source charts before being moved into runtime data; cells above the profile's glyph-distance threshold are counted separately.
+
+The JSON candidate is written before the reader exits with status 2 when review
+items are present. This status means manual review is required; it does not mean
+that the candidate file was not created.
+
+To generate a cross-checked JavaScript import from the three Flaps 35
+landing-distance figures, run:
+
+```bash
+.venv/bin/python tools/afm-audit/import_landing_distance.py \
+  --pdf-dir "/path/to/c56-pdfs"
+```
+
+The importer compares matching table panels across Figures 4-44, 4-45, and
+4-46, checks row completeness and wind/gradient ordering, and writes an audit
+JSON alongside `data/c56x/landing-distance-flaps35.js`. OCR agreement is not a
+substitute for visual verification against the approved AFM.
+
+The generated constants cover sea level through 6,000 ft for all 12 weight
+panels on each figure. They are loaded by `data/c56x/index.js`, but remain
+marked `OCR_CROSS_CHECKED_NOT_VISUALLY_CERTIFIED` until every cell is checked
+against the approved PDF. The audit JSON records OCR repairs and differences
+from the glyph-reader candidates.
+
+## Raster climb-gradient grids: dot-anchored reader (Flaps 35 landing gross climb, Figures 4-49*/4-50*)
+
+Generic pipeline for any "ALT | TEMP | N weights x 5 wind columns" sheet where all values are `dd.d`
+and the PDF is only a scanned image. Much more reliable than the OCR/word-gap readers above (0 suspect
+cells on 56 k glyphs; the low-margin glyphs were all re-checked visually).
+
+```bash
+tools/afm-audit/run_landing_gross_climb_f35.sh "/path/to/c56"   # whole pipeline, both figures
+```
+
+Steps (each script has a docstring with details):
+
+1. `read_afm_grid.py PDF OUT.json` – renders at 300 dpi, strips ruling lines, finds the thick horizontal lines
+   (altitude blocks, count auto-detected per sheet), clusters the **decimal points** into the 25 value columns and
+   attaches every glyph to the nearest dot. Value digits and the smaller ALT/TEMP digits use separate template sets
+   (`glyph_templates_afm.json`, `glyph_templates_afm_side.json`). Cells that do not match `-?dd.d` or whose glyph
+   distance is above `--maxd` are listed as `suspect`.
+2. `build_grid_js.py OUT.json OUT.js --const NAME --weights "heavy;light"` – numbers altitudes by sequence
+   (sheets 2p/2p+1 share altitudes: even sheet = heavy weights, odd = light), requires the heavy/light temperature
+   columns to agree, rejects null/suspect cells, and writes the `data/c56x` format (`"-10"` wind first).
+   Temperature fixes from a visual check go in `review/*-temp-corrections.json` (`"sheet/block/row": temp`).
+3. `check-gradient-monotonic.js OUT.js CONST` – plausibility screen. The 7 remaining hits in the OFF table
+   (1000 ft, 13000/14000 lb, 15 -> 20 deg C rising by 0.2) were checked against the PDF and are real AFM values.
+
+New PDF of the same family: if the font/scale differs, rebuild templates once with `build_templates.py`:
+`cluster PDFS PREFIX K value|side` writes a montage PNG, label each cluster index in `PREFIX.labels.json`
+(`"?"` for junk such as header letters), then `save PREFIX templates.json`. Use K around 40 for value digits and
+~36 for the side columns: with fewer clusters rare glyphs (6/8) get merged into 3/5 and the reader silently
+misreads them. The last temperature of each block is the usual place to look for that (54, 52, 50 ... 26 here).
+
+Facts for these figures: altitude blocks are in 1000 ft steps from 0 to 14000 ft; OFF has 4/4/4/3 blocks per
+sheet pair and a block-dependent temperature grid (-25..54, ..., -35..26), ON has 6/6/3 blocks with -35..10;
+20000 lb is the emergency-only weight (asterisk). Output files: `data/c56x/landing-gross-climb-gradient-flaps35-{off,on}.js`
+(loaded in `data/c56x/index.js` and cached in `sw.js`).
+
+## Flaps 7 anti-ice OFF grid layout (4 altitudes per sheet, variable temperature rows)
+
+- `read_gradient_grid.py` splits each row into 25 numbers, but the glyph classifier still confuses `6`/`8` and drops minus signs here. Treat its output as a hint only.
+- Reliable workflow: run `check-gradient-monotonic.js` (ignore "missing" lines), then render the flagged weight block at 400 dpi, crop the temperature column plus the 5 wind columns, and compare by eye. `show-weight.js` is a template for printing one weight table from the const.
+- The monotonic check does not catch duplicated or shifted neighbour values; a full visual pass is needed for those.
