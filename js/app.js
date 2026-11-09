@@ -47,7 +47,12 @@ const uiActions = Object.freeze({
   handleTakeoffDeice: () => workbookEngine.handleTakeoffDeice(),
   updateEngineCellVal: (sheetType, field, value) =>
     workbookEngine.updateEngineCellVal(sheetType, field, value),
-  selectText: (element) => element.select(),
+  selectText: (element) => {
+    if (element.matches('#to-wind-spd, #ldg-wind-spd')) {
+      element.dataset.lastValidValue = element.value;
+    }
+    element.select();
+  },
 });
 
 function resolveActionArgument(argument, element, event) {

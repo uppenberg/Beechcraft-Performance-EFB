@@ -408,6 +408,27 @@ export function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 export function handleManualWeatherInput(sheetType, paramKey, inputElement) {
     const val = inputElement.value;
 
+    if (paramKey === 'windSpeed') {
+      // Number inputs can temporarily report an empty value while the user types
+      // a minus sign. Keep the previous calculation until the entry is complete.
+      if (inputElement.validity.badInput) return;
+
+      if (val.trim() !== '' && Number(val) < 0) {
+        inputElement.value = inputElement.dataset.lastValidValue ?? '';
+        inputElement.setAttribute('aria-invalid', 'true');
+        inputElement.title = 'Wind speed must be zero or greater.';
+        inputElement.style.borderColor = '#f85149';
+        inputElement.style.background = '#2a1010';
+        return;
+      }
+
+      inputElement.dataset.lastValidValue = val;
+      inputElement.removeAttribute('aria-invalid');
+      if (inputElement.title === 'Wind speed must be zero or greater.') {
+        inputElement.removeAttribute('title');
+      }
+    }
+
     if (val.trim() !== "") {
         inputElement.style.color = "#d29922";
         inputElement.style.borderColor = "#d29922";
