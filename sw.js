@@ -8,6 +8,7 @@ const ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
+  './js/app.js',
   './js/metar-weather.js',
   './js/app-state.js',
   './js/aircraft-ui.js',

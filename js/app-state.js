@@ -1,22 +1,25 @@
 // App state and aircraft/workbook configuration
 
-let hfInstance;
-let globalData = { airports: [], factors: {} };
-const airportSelection = {
-  to: { icao: '', runway: '', intersection: '' },
-  ldg: { icao: '', runway: '', intersection: '' },
+export const AppState = {
+  hfInstance: undefined,
+  globalData: { airports: [], factors: {} },
+  airportSelection: {
+    to: { icao: '', runway: '', intersection: '' },
+    ldg: { icao: '', runway: '', intersection: '' },
+  },
+  runwaySuggestions: { to: null, ldg: null },
+  runwaySuggestionRefreshTimer: null,
+  appServiceWorkerRegistration: null,
+  reloadAfterServiceWorkerChange: false,
+  appInitializationFailed: false,
+  pendingRegistrationChange: null,
 };
-const runwaySuggestions = { to: null, ldg: null };
-let runwaySuggestionRefreshTimer = null;
-let appServiceWorkerRegistration = null;
-let reloadAfterServiceWorkerChange = false;
-let appInitializationFailed = false;
-const PERSISTED_FORM_STATE_KEY_PREFIX = 'performance_form_state_v2_';
-function getPersistedFormStateKey() {
+export const PERSISTED_FORM_STATE_KEY_PREFIX = 'performance_form_state_v2_';
+export function getPersistedFormStateKey() {
   const registration = document.getElementById('global-registration')?.value;
   return PERSISTED_FORM_STATE_KEY_PREFIX + (AIRCRAFT_TYPE_BY_REGISTRATION[registration] || 'default');
 }
-const AIRPORT_CONTROL_IDS = new Set([
+export const AIRPORT_CONTROL_IDS = new Set([
   'to-airport-icao',
   'to-airport-rwy',
   'to-airport-intersection',
@@ -25,7 +28,7 @@ const AIRPORT_CONTROL_IDS = new Set([
   'ldg-airport-intersection',
 ]);
 
-const CELL_MAPPING = {
+export const CELL_MAPPING = {
   airport: {
     sheetName: 'Airport data',
     inputs: {
@@ -115,11 +118,11 @@ const CELL_MAPPING = {
     }
   }
 };
-const OPTIONAL_AIRPORT_DATA_FIELDS = [
+export const OPTIONAL_AIRPORT_DATA_FIELDS = [
   'LDA [m](F6)',
   'Routing(L6)',
 ];
-const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
+export const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
   to: {
     'RWY Elev [ft] (B6)': 'C16',
     'Slope [%](G6)': 'C17',
@@ -138,7 +141,7 @@ const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
     'LDA [m](F6)': 'C18',
   },
 };
-const AIRCRAFT_MODELS = {
+export const AIRCRAFT_MODELS = {
   BE20: {
     performanceEngine: 'workbook',
     registrations: [
@@ -189,7 +192,7 @@ const AIRCRAFT_MODELS = {
     maxDesignLandingWeightLb: 18700,
   },
 };
-const AIRCRAFT_REGISTRATIONS = {};
+export const AIRCRAFT_REGISTRATIONS = {};
 Object.entries(AIRCRAFT_MODELS).forEach(([type, model]) => {
   model.registrations.forEach(({ id, workbook }) => {
     AIRCRAFT_REGISTRATIONS[id] = {
@@ -199,23 +202,23 @@ Object.entries(AIRCRAFT_MODELS).forEach(([type, model]) => {
     };
   });
 });
-const AIRCRAFT_TYPE_BY_REGISTRATION = Object.fromEntries(
+export const AIRCRAFT_TYPE_BY_REGISTRATION = Object.fromEntries(
   Object.entries(AIRCRAFT_REGISTRATIONS)
     .map(([registration, aircraft]) => [registration, aircraft.type])
 );
-const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = Object.fromEntries(
+export const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = Object.fromEntries(
   Object.entries(AIRCRAFT_MODELS).map(([type, model]) => [type, model.takeoffFlaps])
 );
-const MASS_SLIDER_RANGES_BY_TYPE = Object.fromEntries(
+export const MASS_SLIDER_RANGES_BY_TYPE = Object.fromEntries(
   Object.entries(AIRCRAFT_MODELS).map(([type, model]) => [type, model.massRanges])
 );
-const MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE = Object.fromEntries(
+export const MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE = Object.fromEntries(
   Object.entries(AIRCRAFT_MODELS)
     .filter(([, model]) => Number.isFinite(model.maxDesignLandingWeightLb))
     .map(([type, model]) => [type, model.maxDesignLandingWeightLb])
 );
 
-function configureAircraftRegistrationOptions(select) {
+export function configureAircraftRegistrationOptions(select) {
   if (!select) return;
   const registrations = [];
   Object.entries(AIRCRAFT_MODELS).forEach(([type, model]) => {
@@ -227,8 +230,7 @@ function configureAircraftRegistrationOptions(select) {
   select.value = registrations[0]?.value || '';
 }
 
-function isC56xSelected() {
+export function isC56xSelected() {
   return AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X';
 }
-const TAKEOFF_RESULT_COLUMN_BY_FLAPS = { UP: 'C', TAKE: 'D', APP: 'E' };
-let pendingRegistrationChange = null;
+export const TAKEOFF_RESULT_COLUMN_BY_FLAPS = { UP: 'C', TAKE: 'D', APP: 'E' };

@@ -1,6 +1,15 @@
+import { getAirportRows, showAirportSelectionError, switchTab } from './airport-ui.js';
+import { AIRCRAFT_REGISTRATIONS, AIRCRAFT_TYPE_BY_REGISTRATION, AppState, CELL_MAPPING, MASS_SLIDER_RANGES_BY_TYPE, MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE, TAKEOFF_FLAPS_OPTIONS_BY_TYPE, configureAircraftRegistrationOptions } from './app-state.js';
+import { updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
+import { checkOfflineData, registerAppServiceWorker, setupSettingsMenu } from './offline-ui.js';
+import { fetchMetarForAirport } from './results-ui.js';
+import { loadAirportDatabase, loadC56xPerformanceData, loadData, populateAirportSelects, restorePersistedFormState, setupEventListeners } from './workbook-data.js';
+import { getOutputVal, handleLandingMass, handleTakeoffMass, updateC56xLanding, updateEngineCellVal } from './workbook-engine.js';
+
+
 // Aircraft selection and application startup
 
-function configureTakeoffFlaps(registration) {
+export function configureTakeoffFlaps(registration) {
   const select = document.getElementById('to-flaps');
   const options = TAKEOFF_FLAPS_OPTIONS_BY_TYPE[AIRCRAFT_TYPE_BY_REGISTRATION[registration]];
   if (!select || !options) return;
@@ -12,7 +21,7 @@ function configureTakeoffFlaps(registration) {
   select.value = selectedValue;
 }
 
-function configureC56xRunwayInputs(registration) {
+export function configureC56xRunwayInputs(registration) {
   if (AIRCRAFT_TYPE_BY_REGISTRATION[registration] !== 'C56X') return;
 
   const antiIceSelect = document.getElementById('to-anti-ice');
@@ -39,7 +48,7 @@ function configureC56xRunwayInputs(registration) {
   }
 }
 
-function configureC56xLandingPage(registration) {
+export function configureC56xLandingPage(registration) {
   if (AIRCRAFT_TYPE_BY_REGISTRATION[registration] !== 'C56X') return;
 
   document.querySelectorAll('.ldg-excel-only').forEach((element) => { element.hidden = true; });
@@ -81,7 +90,7 @@ function configureC56xLandingPage(registration) {
   if (ldgTitle) ldgTitle.textContent = 'C56X Landing Performance';
 }
 
-function updateLandingOverweightWarning() {
+export function updateLandingOverweightWarning() {
   const aircraftType = AIRCRAFT_TYPE_BY_REGISTRATION[
     document.getElementById('global-registration')?.value
   ];
@@ -107,7 +116,7 @@ function updateLandingOverweightWarning() {
   return overweight;
 }
 
-function configureMassSliders(registration) {
+export function configureMassSliders(registration) {
   const ranges = MASS_SLIDER_RANGES_BY_TYPE[AIRCRAFT_TYPE_BY_REGISTRATION[registration]];
   if (!ranges) return;
 
@@ -125,7 +134,7 @@ function configureMassSliders(registration) {
   updateLandingOverweightWarning();
 }
 
-function configureTakeoffTechnique(registration, syncFromWorkbook = false) {
+export function configureTakeoffTechnique(registration, syncFromWorkbook = false) {
   const row = document.getElementById('to-technique-row');
   const select = document.getElementById('to-technique');
   const isB190 = AIRCRAFT_TYPE_BY_REGISTRATION[registration] === 'B190';
@@ -138,27 +147,27 @@ function configureTakeoffTechnique(registration, syncFromWorkbook = false) {
   }
 }
 
-function showRegistrationError(message) {
+export function showRegistrationError(message) {
   const errorElement = document.getElementById('registration-error');
   if (!errorElement) return;
   errorElement.textContent = message;
   errorElement.hidden = false;
 }
 
-function clearRegistrationError() {
+export function clearRegistrationError() {
   const errorElement = document.getElementById('registration-error');
   if (!errorElement) return;
   errorElement.textContent = '';
   errorElement.hidden = true;
 }
 
-function applyRegistrationChange(registration) {
+export function applyRegistrationChange(registration) {
   localStorage.setItem('selected_reg', registration);
   clearRegistrationError();
   window.location.reload();
 }
 
-function handleRegistrationChange(registration) {
+export function handleRegistrationChange(registration) {
   const registrationSelect = document.getElementById('global-registration');
   if (!registrationSelect) return;
 
@@ -182,7 +191,7 @@ function handleRegistrationChange(registration) {
       showRegistrationError('Cannot confirm the aircraft type change because the warning dialog is unavailable.');
       return;
     }
-    pendingRegistrationChange = { previousRegistration, registration };
+    AppState.pendingRegistrationChange = { previousRegistration, registration };
     if (!warningDialog.open) warningDialog.showModal();
     return;
   }
@@ -190,27 +199,27 @@ function handleRegistrationChange(registration) {
   applyRegistrationChange(registration);
 }
 
-function cancelAircraftTypeChange() {
-  if (pendingRegistrationChange) {
+export function cancelAircraftTypeChange() {
+  if (AppState.pendingRegistrationChange) {
     const registrationSelect = document.getElementById('global-registration');
-    if (registrationSelect) registrationSelect.value = pendingRegistrationChange.previousRegistration;
+    if (registrationSelect) registrationSelect.value = AppState.pendingRegistrationChange.previousRegistration;
   }
-  pendingRegistrationChange = null;
+  AppState.pendingRegistrationChange = null;
   const warningDialog = document.getElementById('aircraft-change-dialog');
   if (warningDialog?.open) warningDialog.close();
 }
 
-function confirmAircraftTypeChange() {
-  if (!pendingRegistrationChange) return;
-  const { registration } = pendingRegistrationChange;
-  pendingRegistrationChange = null;
+export function confirmAircraftTypeChange() {
+  if (!AppState.pendingRegistrationChange) return;
+  const { registration } = AppState.pendingRegistrationChange;
+  AppState.pendingRegistrationChange = null;
   const warningDialog = document.getElementById('aircraft-change-dialog');
   if (warningDialog?.open) warningDialog.close();
   applyRegistrationChange(registration);
 }
 
 // 1. Huvudfunktion som kör igång allt i rätt ordning
-async function init() {
+export async function init() {
   try {
     const warningDialog = document.getElementById('aircraft-change-dialog');
     warningDialog?.addEventListener('cancel', cancelAircraftTypeChange);
@@ -262,7 +271,7 @@ async function init() {
       const maxMassTitle = document.getElementById('max-to-mass-title');
       if (maxMassTitle) maxMassTitle.textContent = 'Max take-off mass, current setup';
 
-      globalData.airports = await loadAirportDatabase();
+      AppState.globalData.airports = await loadAirportDatabase();
       populateAirportSelects();
       setupEventListeners();
       restorePersistedFormState();
@@ -273,12 +282,12 @@ async function init() {
       updateC56xLanding();
       if (localStorage.getItem('selected_tab') === 'landing') switchTab('landing');
       ['to', 'ldg'].forEach((prefix) => {
-        if (getAirportRows(airportSelection[prefix].icao).length) {
+        if (getAirportRows(AppState.airportSelection[prefix].icao).length) {
           fetchMetarForAirport(prefix);
         }
       });
       clearRegistrationError();
-      appInitializationFailed = false;
+      AppState.appInitializationFailed = false;
       setupSettingsMenu();
       registerAppServiceWorker();
       return;
@@ -300,7 +309,7 @@ async function init() {
       handleTakeoffMass(document.getElementById('to-mass').value);
       handleLandingMass(document.getElementById('ldg-mass').value);
     }
-    globalData.airports = await loadAirportDatabase();
+    AppState.globalData.airports = await loadAirportDatabase();
 
     // Fyll rullistor och koppla eventlyssnare
     populateAirportSelects();
@@ -309,7 +318,7 @@ async function init() {
     const savedTab = localStorage.getItem('selected_tab');
     switchTab(savedTab === 'landing' ? 'landing' : 'takeoff');
     ['to', 'ldg'].forEach((prefix) => {
-      if (getAirportRows(airportSelection[prefix].icao).length) {
+      if (getAirportRows(AppState.airportSelection[prefix].icao).length) {
         fetchMetarForAirport(prefix);
       }
     });
@@ -318,14 +327,14 @@ async function init() {
       updateEngineCellVal('takeoff', 'antiIce', antiIceSelect.value);
     }
 
-    appInitializationFailed = false;
+    AppState.appInitializationFailed = false;
     setupSettingsMenu();
     registerAppServiceWorker();
 
     console.log("Appen är helt initierad!");
   } catch (error) {
     console.error("Kunde inte slutföra init():", error);
-    appInitializationFailed = true;
+    AppState.appInitializationFailed = true;
     setupSettingsMenu();
     showAirportSelectionError(
       `Could not initialize the performance calculator: ${error.message} ` +

@@ -1,6 +1,13 @@
+import { getAirportRows, getRunwayRows, getSelectedAirportRecord, syncAirportControls, updateCustomAirportData } from './airport-ui.js';
+import { AIRCRAFT_REGISTRATIONS, AIRPORT_CONTROL_IDS, AppState, CELL_MAPPING, getPersistedFormStateKey } from './app-state.js';
+import { MetarWeather } from './metar-weather.js';
+import { setMetarWeatherStatus } from './results-ui.js';
+import { parseCellRef, refreshOutputs } from './workbook-engine.js';
+
+
 // Workbook loading, persistence, and formula import
 
-async function loadData(registration) {
+export async function loadData(registration) {
   console.log("1. loadData har startat!");
   try {
     const aircraft = AIRCRAFT_REGISTRATIONS[registration];
@@ -32,12 +39,12 @@ async function loadData(registration) {
       sheetsData[sheetName] = worksheetToHyperFormulaData(worksheet);
     });
 
-    hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
+    AppState.hfInstance = HyperFormula.buildFromSheets(sheetsData, { licenseKey: 'gpl-v3' });
     const landingConfig = CELL_MAPPING.landing;
-    const landingSheet = hfInstance.getSheetId(landingConfig.sheetName);
+    const landingSheet = AppState.hfInstance.getSheetId(landingConfig.sheetName);
     const landingLdaPosition = parseCellRef(landingConfig.outputs.lda);
     if (!landingLdaPosition) throw new Error('Invalid landing LDA cell reference.');
-    hfInstance.setCellContents(
+    AppState.hfInstance.setCellContents(
       { sheet: landingSheet, col: landingLdaPosition.col, row: landingLdaPosition.row },
       [["='Airport data'!F6"]]
     );
@@ -53,7 +60,7 @@ async function loadData(registration) {
   }
 }
 
-function getDataFilePath(fileName) {
+export function getDataFilePath(fileName) {
   return window.location.hostname.includes('github.io')
     ? `/Beechcraft-Performance-EFB/data/${fileName}`
     : `data/${fileName}`;
@@ -61,7 +68,7 @@ function getDataFilePath(fileName) {
 
 let c56xPerformanceDataPromise;
 
-async function loadC56xPerformanceData() {
+export async function loadC56xPerformanceData() {
   if (typeof getC56xMaxTakeoffWeight === 'function') return;
 
   if (!c56xPerformanceDataPromise) {
@@ -85,14 +92,14 @@ async function loadC56xPerformanceData() {
   return c56xPerformanceDataPromise;
 }
 
-const CUSTOM_AIRPORT_ENABLED_KEY = 'custom_airport_enabled';
-const CUSTOM_AIRPORTS_KEY = 'custom_airports';
+export const CUSTOM_AIRPORT_ENABLED_KEY = 'custom_airport_enabled';
+export const CUSTOM_AIRPORTS_KEY = 'custom_airports';
 
-function isCustomAirportEnabled() {
+export function isCustomAirportEnabled() {
   return localStorage.getItem(CUSTOM_AIRPORT_ENABLED_KEY) === 'true';
 }
 
-function loadCustomAirports() {
+export function loadCustomAirports() {
   try {
     const rows = JSON.parse(localStorage.getItem(CUSTOM_AIRPORTS_KEY) || '[]');
     return Array.isArray(rows)
@@ -103,11 +110,11 @@ function loadCustomAirports() {
   }
 }
 
-function saveCustomAirports(rows) {
+export function saveCustomAirports(rows) {
   localStorage.setItem(CUSTOM_AIRPORTS_KEY, JSON.stringify(rows));
 }
 
-async function loadAirportDatabase() {
+export async function loadAirportDatabase() {
   if (isCustomAirportEnabled()) return loadCustomAirports();
 
   const response = await fetch(getDataFilePath('airports.json'));
@@ -128,7 +135,7 @@ async function loadAirportDatabase() {
 }
 
 // 3. Dummy för eventlyssnare så den inte kraschar
-function setupEventListeners() {
+export function setupEventListeners() {
   const persistFormChange = (event) => {
     const control = event.target;
     if (!(control instanceof HTMLInputElement || control instanceof HTMLSelectElement) ||
@@ -139,7 +146,7 @@ function setupEventListeners() {
   document.addEventListener('change', persistFormChange);
 }
 
-function getPersistedFormState() {
+export function getPersistedFormState() {
   const savedState = localStorage.getItem(getPersistedFormStateKey());
   if (!savedState) return {};
 
@@ -154,7 +161,7 @@ function getPersistedFormState() {
   }
 }
 
-function persistFormState() {
+export function persistFormState() {
   const formState = {};
   document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
     if (AIRPORT_CONTROL_IDS.has(control.id)) return;
@@ -165,7 +172,7 @@ function persistFormState() {
   localStorage.setItem(getPersistedFormStateKey(), JSON.stringify(formState));
 }
 
-function restorePersistedFormState() {
+export function restorePersistedFormState() {
   const formState = getPersistedFormState();
   document.querySelectorAll('main input[id], main select[id]').forEach((control) => {
     if (AIRPORT_CONTROL_IDS.has(control.id) ||
@@ -190,11 +197,11 @@ function restorePersistedFormState() {
   return formState;
 }
 
-function metarStorageKey(prefix, icao) {
+export function metarStorageKey(prefix, icao) {
   return `saved_metar_${prefix}_${icao}`;
 }
 
-function saveMetar(prefix, icao, metar) {
+export function saveMetar(prefix, icao, metar) {
   localStorage.setItem(metarStorageKey(prefix, icao), JSON.stringify({
     text: metar.text,
     ageMinutes: metar.ageMinutes,
@@ -202,8 +209,8 @@ function saveMetar(prefix, icao, metar) {
   }));
 }
 
-function restoreSavedMetar(prefix) {
-  const icao = airportSelection[prefix].icao;
+export function restoreSavedMetar(prefix) {
+  const icao = AppState.airportSelection[prefix].icao;
   if (!/^[A-Z0-9]{4}$/.test(icao) || !getAirportRows(icao).length) return;
 
   const savedMetar = localStorage.getItem(metarStorageKey(prefix, icao));
@@ -231,9 +238,9 @@ function restoreSavedMetar(prefix) {
   }
 }
 
-function populateAirportSelects() {
+export function populateAirportSelects() {
   ['to', 'ldg'].forEach((prefix) => {
-    const selection = airportSelection[prefix];
+    const selection = AppState.airportSelection[prefix];
     const legacyIcao = localStorage.getItem('selected_airport_icao') || '';
     const savedIcao = localStorage.getItem(`selected_${prefix}_airport_icao`);
     const savedRunway = localStorage.getItem(`selected_${prefix}_airport_runway`);
@@ -267,7 +274,7 @@ function populateAirportSelects() {
 }
 
 // Convert a SheetJS worksheet without losing formulas
-function worksheetToHyperFormulaData(worksheet) {
+export function worksheetToHyperFormulaData(worksheet) {
   if (!worksheet || !worksheet['!ref']) return [];
 
   const range = XLSX.utils.decode_range(worksheet['!ref']);
@@ -300,7 +307,7 @@ function worksheetToHyperFormulaData(worksheet) {
   return rows;
 }
 
-function normalizeFormulaForHyperFormula(formula) {
+export function normalizeFormulaForHyperFormula(formula) {
   const normalizedBooleans = formula.replace(
     /\b(TRUE|FALSE)\b(?!\s*\()/gi,
     '$1()'
@@ -308,7 +315,7 @@ function normalizeFormulaForHyperFormula(formula) {
   return normalizeHorizontalIndexCalls(normalizedBooleans);
 }
 
-function normalizeHorizontalIndexCalls(formula) {
+export function normalizeHorizontalIndexCalls(formula) {
   let result = '';
   let index = 0;
 
@@ -356,7 +363,7 @@ function normalizeHorizontalIndexCalls(formula) {
   return result;
 }
 
-function findFormulaQuoteEnd(formula, start, quote) {
+export function findFormulaQuoteEnd(formula, start, quote) {
   let index = start + 1;
   while (index < formula.length) {
     if (formula[index] === quote) {
@@ -371,7 +378,7 @@ function findFormulaQuoteEnd(formula, start, quote) {
   return formula.length;
 }
 
-function findMatchingFormulaParen(formula, openParen) {
+export function findMatchingFormulaParen(formula, openParen) {
   let depth = 0;
   for (let index = openParen; index < formula.length; index += 1) {
     const char = formula[index];
@@ -387,7 +394,7 @@ function findMatchingFormulaParen(formula, openParen) {
   return -1;
 }
 
-function splitFormulaArguments(argumentsText) {
+export function splitFormulaArguments(argumentsText) {
   const args = [];
   let depth = 0;
   let argumentStart = 0;
@@ -409,7 +416,7 @@ function splitFormulaArguments(argumentsText) {
   return args;
 }
 
-function isSingleRowRange(expression) {
+export function isSingleRowRange(expression) {
   const compactExpression = expression.replace(/\s+/g, '');
   const rangeMatch = compactExpression.match(
     /^(?:(?:'(?:[^']|'')+'|[A-Z_][A-Z0-9_.]*)!)?\$?[A-Z]{1,3}\$?(\d+):\$?[A-Z]{1,3}\$?(\d+)$/i
@@ -417,7 +424,7 @@ function isSingleRowRange(expression) {
   return Boolean(rangeMatch && rangeMatch[1] === rangeMatch[2]);
 }
 
-function isFormulaIdentifierCharacter(char) {
+export function isFormulaIdentifierCharacter(char) {
   return Boolean(char && /[A-Z0-9_.]/i.test(char));
 }
 

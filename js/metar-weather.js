@@ -1,4 +1,4 @@
-(() => {
+const METAR_WEATHER = (() => {
   'use strict';
 
   const WIND_REGEX = /\b(?<direction>VRB|\d{3})(?<speed>\d{2,3})(?:G(?<gust>\d{2,3}))?(?<unit>KT|MPS)\b/i;
@@ -64,5 +64,7 @@
     return value.startsWith('M') ? -Number(value.slice(1)) : Number(value);
   }
 
-  window.MetarWeather = Object.freeze({ parse: parseWeather });
+  return Object.freeze({ parse: parseWeather });
 })();
+
+export const MetarWeather = METAR_WEATHER;

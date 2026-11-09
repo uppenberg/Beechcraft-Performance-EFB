@@ -37,27 +37,41 @@ test.beforeEach(async ({ context, request }) => {
   await blockExternalRequests(context);
 });
 
+test('UI actions are externalized and delegated without inline event handlers', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+
+  await expect(page.locator('[onclick], [onchange], [oninput], [onkeydown], [onfocus]'))
+    .toHaveCount(0);
+  await page.locator('#landing-tab-button').click();
+  await expect(page.locator('#page-landing')).toBeVisible();
+});
+
 test('takeoff runway availability checks restore serialized workbook input cells', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   await chooseAirport(page, 'to', 'ESSA', '01L');
 
   const result = await page.evaluate(() => {
-    const candidate = getAirportRows('ESSA').find((airport) => airport.RWY !== '01L');
+    const candidate = BeechcraftApp.airports.getAirportRows('ESSA')
+      .find((airport) => airport.RWY !== '01L');
     if (!candidate) throw new Error('Expected a second ESSA runway for the restoration check.');
 
-    const config = CELL_MAPPING.takeoff;
-    const sheet = hfInstance.getSheetId(config.sheetName);
+    const config = BeechcraftApp.state.CELL_MAPPING.takeoff;
+    const sheet = BeechcraftApp.state.AppState.hfInstance.getSheetId(config.sheetName);
     const cellRefs = [
       config.inputs.airportAndRwy,
-      ...Object.values(AIRPORT_LOOKUP_CELLS_BY_PAGE.to),
+      ...Object.values(BeechcraftApp.state.AIRPORT_LOOKUP_CELLS_BY_PAGE.to),
     ];
     const addresses = cellRefs.map((cellRef) => {
-      const position = parseCellRef(cellRef);
+      const position = BeechcraftApp.workbookEngine.parseCellRef(cellRef);
       return { sheet, col: position.col, row: position.row };
     });
-    const before = addresses.map((address) => hfInstance.getCellSerialized(address) ?? null);
-    const availability = evaluateTakeoffRunwayAvailability(candidate);
-    const after = addresses.map((address) => hfInstance.getCellSerialized(address) ?? null);
+    const before = addresses.map((address) =>
+      BeechcraftApp.state.AppState.hfInstance.getCellSerialized(address) ?? null
+    );
+    const availability = BeechcraftApp.airports.evaluateTakeoffRunwayAvailability(candidate);
+    const after = addresses.map((address) =>
+      BeechcraftApp.state.AppState.hfInstance.getCellSerialized(address) ?? null
+    );
 
     return { availability, before, after };
   });
@@ -113,7 +127,7 @@ for (const aircraft of aircraftCases) {
       await expect(page.locator('#check-asd-val')).toHaveText(/^\d+(?:\.\d+)?$/);
     }
 
-    await page.evaluate(() => window.switchTab('landing'));
+    await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
     await chooseAirport(page, 'ldg', inputs.airport, inputs.runway);
     await fillWeather(page, 'ldg', {
       direction: String(inputs.windDirectionDeg).padStart(3, '0'),
@@ -134,13 +148,13 @@ for (const aircraft of aircraftCases) {
       await expect(page.locator('#res-ldg-vrefdown')).not.toHaveText('-');
       await expect(page.locator('#res-ldg-distdown')).not.toHaveText('-');
     }
-    await page.evaluate(() => window.switchTab('takeoff'));
+    await page.evaluate(() => BeechcraftApp.airports.switchTab('takeoff'));
     if (aircraft.model === 'C56X') {
       await expect(page.locator('#c56x-tora-status')).not.toHaveText('-');
       await expect(page.locator('#c56x-toda-status')).not.toHaveText('-');
       await expect(page.locator('#c56x-asda-status')).not.toHaveText('-');
     }
-    await page.evaluate(() => window.switchTab('landing'));
+    await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
     await expect(page.locator('#page-landing')).toBeVisible();
     await expect(page.locator(`#${aircraft.landingValue}`)).not.toHaveText('-');
     const actualOutputs = await page.evaluate((ids) => Object.fromEntries(ids.map((id) => [
@@ -190,7 +204,7 @@ for (const aircraft of [
       }
     }
 
-    await page.evaluate(() => window.switchTab('landing'));
+    await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
     await chooseAirport(page, 'ldg', 'ESSA', '01L');
     await fillWeather(page, 'ldg', { direction: '020', speed: '8', oat: '15', qnh: '1013' });
     await page.locator('#ldg-flaps').selectOption('DOWN');
@@ -247,7 +261,7 @@ for (const aircraft of [
     if (aircraft.model === 'B190') await page.locator('#to-technique').selectOption({ index: 0 });
     await expect(page.locator('#takeoff-exceedance-status')).toContainText('Exceeded');
 
-    await page.evaluate(() => window.switchTab('landing'));
+    await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
     await chooseAirport(page, 'ldg', 'ZZZA', '09');
     await fillWeather(page, 'ldg', { direction: '090', speed: '5', oat: '15', qnh: '1013' });
     await page.locator('#ldg-mass').evaluate((element, value) => {
@@ -267,7 +281,7 @@ test('BE20 takeoff and landing inputs and selected airport persist through reloa
   await page.locator('#to-flaps').selectOption('APP');
   await page.locator('#to-rwcc').selectOption('5');
 
-  await page.evaluate(() => window.switchTab('landing'));
+  await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
   await chooseAirport(page, 'ldg', 'ESSA', '01L');
   await fillWeather(page, 'ldg', { direction: '030', speed: '6', oat: '12', qnh: '1009' });
   await setSlider(page, 'ldg-mass', 10500);
@@ -352,7 +366,7 @@ test('custom airports can be created, selected, reused after reload, edited and 
     element.value = '17500';
     element.dispatchEvent(new Event('input', { bubbles: true }));
   });
-  await page.evaluate(() => window.switchTab('landing'));
+  await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
   await chooseAirport(page, 'ldg', 'ZZZZ', '09');
   await fillWeather(page, 'ldg', { direction: '090', speed: '5', oat: '15', qnh: '1013' });
   await expect(page.locator('#c56x-tora-status')).toContainText('/ 200 m');
@@ -397,7 +411,7 @@ test('missing and invalid fields stay recoverable without unhandled browser erro
   await page.locator('#to-qnh').fill('');
   await expect(page.locator('#c56x-tora-status')).toContainText('Not available');
 
-  await page.evaluate(() => window.switchTab('landing'));
+  await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
   await page.locator('#ldg-oat').fill('80');
   await page.locator('#ldg-qnh').fill('1013');
   await page.locator('#ldg-wind-dir').fill('020');

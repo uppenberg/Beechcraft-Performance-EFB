@@ -1,6 +1,13 @@
+import { getAirportRows, suggestRunwayFromMetar, updateRunwaySuggestion } from './airport-ui.js';
+import { AppState, CELL_MAPPING } from './app-state.js';
+import { MetarWeather } from './metar-weather.js';
+import { persistFormState, saveMetar } from './workbook-data.js';
+import { getTakeoffOutput, parseCellRef, refreshOutputs, updateEngineCellValues } from './workbook-engine.js';
+
+
 // Performance cards, charts, and METAR interaction
 
-function updateBadgeStatus(elementId, val1, val2, conditionFn) {
+export function updateBadgeStatus(elementId, val1, val2, conditionFn) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
 
@@ -33,44 +40,18 @@ function updateBadgeStatus(elementId, val1, val2, conditionFn) {
   }
 }
 
-function safeSetText(elementId, text) {
+export function safeSetText(elementId, text) {
   const el = document.getElementById(elementId);
   if (el) el.innerText = text;
 }
 
-function safeSetValue(elementId, value) {
+export function safeSetValue(elementId, value) {
   const el = document.getElementById(elementId);
   if (el) el.value = (value !== '-' && value !== null && value !== undefined) ? value : '';
 }
 
-// Exportera funktioner globalt
-window.switchTab = switchTab;
-window.handleAirportIcaoInput = handleAirportIcaoInput;
-window.handleAirportIcaoKeydown = handleAirportIcaoKeydown;
-window.showAirportIcaoSuggestions = showAirportIcaoSuggestions;
-window.handleAirportRunwayChange = handleAirportRunwayChange;
-window.handleLandingAirportRunwayChange = handleLandingAirportRunwayChange;
-window.handleAirportIntersectionChange = handleAirportIntersectionChange;
-window.applySuggestedRunway = applySuggestedRunway;
-window.handleTakeoffMass = handleTakeoffMass;
-window.handleLandingMass = handleLandingMass;
-window.handleTakeoffFlaps = handleTakeoffFlaps;
-window.handleLandingFlaps = handleLandingFlaps;
-window.handleLandingAntiIce = handleLandingAntiIce;
-window.handleLandingReversers = handleLandingReversers;
-window.handleLandingRwcc = handleLandingRwcc;
-window.handleWeather = handleWeather;
-window.handleWeatherOverride = handleWeatherOverride;
-window.handleManualWeatherInput = handleManualWeatherInput;
-window.updateEngineCellVal = updateEngineCellVal;
-window.handleRegistrationChange = handleRegistrationChange;
-window.cancelAircraftTypeChange = cancelAircraftTypeChange;
-window.confirmAircraftTypeChange = confirmAircraftTypeChange;
-
-document.addEventListener('DOMContentLoaded', init);
-
 // Uppdaterad METAR-hämtning med färglogik (<35 min grön, 35-60 min amber, >60 min eller icao-fel röd)
-async function fetchMetarText(targetUrl, sourceName) {
+export async function fetchMetarText(targetUrl, sourceName) {
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 sekunder
@@ -86,7 +67,7 @@ async function fetchMetarText(targetUrl, sourceName) {
   }
 }
 
-function validateMetar(metarText, expectedIcao) {
+export function validateMetar(metarText, expectedIcao) {
   const report = metarText.split(/\r?\n/).map(line => line.trim()).find(Boolean) || '';
   const stationMatch = report.match(/^(?:(?:METAR|SPECI)\s+)?([A-Z]{4})\b/i);
   if (!stationMatch || stationMatch[1].toUpperCase() !== expectedIcao) {
@@ -133,14 +114,14 @@ function validateMetar(metarText, expectedIcao) {
   };
 }
 
-function setMetarWeatherStatus(prefix, message) {
+export function setMetarWeatherStatus(prefix, message) {
   const status = document.getElementById(`${prefix}-metar-weather-status`);
   if (!status) return;
   status.textContent = message;
   status.hidden = !message;
 }
 
-function clearAirportMetar(prefix) {
+export function clearAirportMetar(prefix) {
   const displaySpan = document.getElementById(`${prefix}-metar-display`);
   if (displaySpan) {
     displaySpan.textContent = '-';
@@ -149,8 +130,8 @@ function clearAirportMetar(prefix) {
   setMetarWeatherStatus(prefix, '');
 }
 
-async function fetchMetarForAirport(prefix, populateWeather = true) {
-  const icaoCode = airportSelection[prefix].icao;
+export async function fetchMetarForAirport(prefix, populateWeather = true) {
+  const icaoCode = AppState.airportSelection[prefix].icao;
   const displaySpan = document.getElementById(`${prefix}-metar-display`);
   setMetarWeatherStatus(prefix, '');
   updateRunwaySuggestion(prefix, 'Checking METAR wind for a runway suggestion...');
@@ -192,7 +173,7 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
     }
     if (!validatedMetar) throw lastError;
 
-    if (airportSelection[prefix].icao !== icaoCode) return;
+    if (AppState.airportSelection[prefix].icao !== icaoCode) return;
     console.info(`METAR hämtad från ${sourceName}.`);
 
     if (displaySpan) {
@@ -209,7 +190,7 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
     }
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
-    if (airportSelection[prefix].icao !== icaoCode) return;
+    if (AppState.airportSelection[prefix].icao !== icaoCode) return;
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR could not be retrieved.');
     if (displaySpan && (!displaySpan.textContent || displaySpan.textContent === '-' ||
         displaySpan.textContent === 'Downloading METAR...')) {
@@ -221,17 +202,15 @@ async function fetchMetarForAirport(prefix, populateWeather = true) {
   }
 }
 
-function fetchMetarForSelectedAirport(prefix) {
+export function fetchMetarForSelectedAirport(prefix) {
   fetchMetarForAirport(prefix);
 }
 
-window.fetchMetarForSelectedAirport = fetchMetarForSelectedAirport;
-
-function parseAndPopulateMetarData(metarText) {
+export function parseAndPopulateMetarData(metarText) {
   return populateWeatherFromMetar(metarText, 'to');
 }
 
-function populateWeatherFromMetar(metarText, prefix) {
+export function populateWeatherFromMetar(metarText, prefix) {
   if (!metarText || metarText.includes('INGEN METAR') || metarText.includes('OFFLINE')) return false;
 
   const parsed = MetarWeather.parse(metarText);
@@ -258,7 +237,7 @@ function populateWeatherFromMetar(metarText, prefix) {
   });
 
   const sheetType = prefix === 'to' ? 'takeoff' : 'landing';
-  if (hfInstance) {
+  if (AppState.hfInstance) {
     try {
       updateEngineCellValues(sheetType, parsed.values);
     } catch (error) {
@@ -288,14 +267,14 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function checkContaminationLogic() {
-  if (!hfInstance) return true;
+export function checkContaminationLogic() {
+  if (!AppState.hfInstance) return true;
 
   const config = CELL_MAPPING.takeoff;
-  const sheetId = hfInstance.getSheetId(config.sheetName);
+  const sheetId = AppState.hfInstance.getSheetId(config.sheetName);
 
   const rccPos = parseCellRef("C10");
-  const currentRccVal = hfInstance.getCellValue({ sheet: sheetId, col: rccPos.col, row: rccPos.row });
+  const currentRccVal = AppState.hfInstance.getCellValue({ sheet: sheetId, col: rccPos.col, row: rccPos.row });
 
   if (currentRccVal === 6 || currentRccVal === '6' || currentRccVal === '-' || currentRccVal === 'Dry' || currentRccVal === '') {
     return true;
@@ -303,9 +282,9 @@ function checkContaminationLogic() {
 
   const currentTor = Number(getTakeoffOutput('tor'));
 
-  hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
+  AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
   const dryTor = Number(getTakeoffOutput('tor'));
-  hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
+  AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
 
   if (!isNaN(currentTor) && !isNaN(dryTor) && dryTor > 0) {
     return currentTor >= dryTor;
@@ -314,14 +293,14 @@ function checkContaminationLogic() {
   return true;
 }
 
-function finiteDistance(value) {
+export function finiteDistance(value) {
     if (value === null || value === undefined || String(value).trim() === '' ||
         String(value).startsWith('#')) return null;
     const number = Number(value);
     return Number.isFinite(number) ? number : null;
 }
 
-function exceedsDistanceLimit(distance, limit) {
+export function exceedsDistanceLimit(distance, limit) {
     const distanceValue = finiteDistance(distance);
     const limitValue = finiteDistance(limit);
     return distanceValue === null || limitValue === null
@@ -329,7 +308,7 @@ function exceedsDistanceLimit(distance, limit) {
         : distanceValue > limitValue;
 }
 
-function updateRunwayExceedanceCard(cardId, statusId, checks) {
+export function updateRunwayExceedanceCard(cardId, statusId, checks) {
     const card = document.getElementById(cardId);
     const status = document.getElementById(statusId);
     if (!card || !status) return;
@@ -351,14 +330,14 @@ function updateRunwayExceedanceCard(cardId, statusId, checks) {
 }
 
 // Largest distance/runway ratio that still fits inside the free space after the runway end
-function getRunwayMaxRatio(runwayStrip) {
+export function getRunwayMaxRatio(runwayStrip) {
     const container = runwayStrip?.parentElement;
     if (!runwayStrip || !container || runwayStrip.clientWidth <= 0) return 1;
     const margin = parseFloat(getComputedStyle(container).getPropertyValue('--runway-end-margin')) || 0;
     return 1 + Math.max(margin - 4, 0) / runwayStrip.clientWidth;
 }
 
-function renderC56xTakeoffChart(takeoffDistanceM, toraM, todaM, asdaM) {
+export function renderC56xTakeoffChart(takeoffDistanceM, toraM, todaM, asdaM) {
     const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
     const usedRunway = document.getElementById('takeoff-used-runway');
     const tkofMarker = document.getElementById('tor-marker');
@@ -399,7 +378,7 @@ function renderC56xTakeoffChart(takeoffDistanceM, toraM, todaM, asdaM) {
     if (usedRunway) usedRunway.style.width = `${ratio * 100}%`;
 }
 
-function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
+export function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     const exceeded = [
         exceedsDistanceLimit(tor, tora),
         exceedsDistanceLimit(tod, toda),
@@ -447,7 +426,7 @@ function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     }
 }
 
-function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
+export function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     // Hämta vald flaps-setting (UP eller DOWN)
     const flapsSelect = document.getElementById('ldg-flaps');
     const currentFlaps = flapsSelect ? flapsSelect.value : 'DOWN';
@@ -507,7 +486,7 @@ function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
     }
 }
 
-function updateClimbCheckCard(actualValue, reqValue) {
+export function updateClimbCheckCard(actualValue, reqValue) {
     const actualNum = parseFloat(actualValue);
     const reqNum = parseFloat(reqValue);
 
@@ -534,7 +513,7 @@ function updateClimbCheckCard(actualValue, reqValue) {
     }
 }
 
-function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
+export function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
     const cardContainer = document.getElementById('card-wind-check');
     const hwTwSpan = document.getElementById('res-to-hwtw');
     const xwSpan = document.getElementById('res-to-xw');
@@ -591,7 +570,7 @@ function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
     }
 }
 
-function onManualInputChange(inputElement) {
+export function onManualInputChange(inputElement) {
     if (inputElement.value.trim() !== "") {
         inputElement.style.color = "#d29922";
         inputElement.style.borderColor = "#d29922";
@@ -603,7 +582,7 @@ function onManualInputChange(inputElement) {
     }
 }
 
-function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
+export function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
     const cardContainer = document.getElementById('card-wind-check-ldg');
     const hwTwSpan = document.getElementById('res-ldg-hwtw');
     const xwSpan = document.getElementById('res-ldg-xw');
@@ -665,6 +644,6 @@ function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
 }
 
 //--------------AUTOPOPULATEMETAR_LAND BELOW-----------------
-function parseAndPopulateLandingMetarData(metarText) {
+export function parseAndPopulateLandingMetarData(metarText) {
   return populateWeatherFromMetar(metarText, 'ldg');
 }

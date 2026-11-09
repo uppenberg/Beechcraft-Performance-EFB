@@ -1,6 +1,13 @@
+import { updateLandingOverweightWarning } from './aircraft-ui.js';
+import { airportCellValue, getSelectedAirportRecord, scheduleTakeoffSuggestionRefresh, updateClimbPathLabel } from './airport-ui.js';
+import { AppState, CELL_MAPPING, TAKEOFF_RESULT_COLUMN_BY_FLAPS, isC56xSelected } from './app-state.js';
+import { renderEngineOutCard, scheduleMaxTakeoffMassUpdate, updateC56xEngineOutCard, updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
+import { checkContaminationLogic, exceedsDistanceLimit, renderLandingChart, renderTakeoffChart, safeSetText, safeSetValue, updateBadgeStatus, updateClimbCheckCard, updateRunwayExceedanceCard, updateWindCheckCard, updateWindCheckCardLdg } from './results-ui.js';
+
+
 // Workbook cell access and shared calculation outputs
 
-function colLetterToIndex(letter) {
+export function colLetterToIndex(letter) {
   let column = 0;
   for (let i = 0; i < letter.length; i++) {
     column += (letter.charCodeAt(i) - 64) * Math.pow(26, letter.length - i - 1);
@@ -8,7 +15,7 @@ function colLetterToIndex(letter) {
   return column - 1;
 }
 
-function parseCellRef(cellRef) {
+export function parseCellRef(cellRef) {
   const match = cellRef.match(/^([A-Z]+)(\d+)$/);
   if (!match) return null;
   const col = colLetterToIndex(match[1]);
@@ -16,11 +23,11 @@ function parseCellRef(cellRef) {
   return { col, row };
 }
 
-function setWorkbookCellValues(sheetId, updates) {
-  if (!hfInstance || updates.length === 0) return;
-  hfInstance.batch(() => {
+export function setWorkbookCellValues(sheetId, updates) {
+  if (!AppState.hfInstance || updates.length === 0) return;
+  AppState.hfInstance.batch(() => {
     updates.forEach(({ position, value }) => {
-      hfInstance.setCellContents(
+      AppState.hfInstance.setCellContents(
         { sheet: sheetId, col: position.col, row: position.row },
         [[value]]
       );
@@ -28,31 +35,31 @@ function setWorkbookCellValues(sheetId, updates) {
   });
 }
 
-function updateEngineCellVal(sheetType, fieldKey, value) {
-  if (!hfInstance) return;
+export function updateEngineCellVal(sheetType, fieldKey, value) {
+  if (!AppState.hfInstance) return;
   const config = CELL_MAPPING[sheetType];
   if (!config) return;
   const cellRef = config.inputs[fieldKey];
   if (!cellRef) return;
 
   try {
-    const sheetId = hfInstance.getSheetId(config.sheetName);
+    const sheetId = AppState.hfInstance.getSheetId(config.sheetName);
     const pos = parseCellRef(cellRef);
     if (!pos) return;
 
-    hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
+    AppState.hfInstance.setCellContents({ sheet: sheetId, col: pos.col, row: pos.row }, [[value]]);
     refreshOutputs();
   } catch (e) {
     console.error(`Fel vid uppdatering av cell ${fieldKey} på ${sheetType}:`, e);
   }
 }
 
-function updateEngineCellValues(sheetType, values) {
-  if (!hfInstance) return;
+export function updateEngineCellValues(sheetType, values) {
+  if (!AppState.hfInstance) return;
   const config = CELL_MAPPING[sheetType];
   if (!config) throw new Error(`Unknown workbook sheet type: ${sheetType}`);
 
-  const sheetId = hfInstance.getSheetId(config.sheetName);
+  const sheetId = AppState.hfInstance.getSheetId(config.sheetName);
   const updates = Object.entries(values).map(([fieldKey, value]) => {
     const cellRef = config.inputs[fieldKey];
     const position = cellRef ? parseCellRef(cellRef) : null;
@@ -62,15 +69,15 @@ function updateEngineCellValues(sheetType, values) {
   setWorkbookCellValues(sheetId, updates);
 }
 
-function getOutputVal(sheetName, cellRef, roundNumber = true) {
-  if (!hfInstance) return '-';
+export function getOutputVal(sheetName, cellRef, roundNumber = true) {
+  if (!AppState.hfInstance) return '-';
   if (!cellRef) return '-';
   try {
-    const sheetId = hfInstance.getSheetId(sheetName);
+    const sheetId = AppState.hfInstance.getSheetId(sheetName);
     const pos = parseCellRef(cellRef);
     if (!pos) return '-';
 
-    let val = hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
+    let val = AppState.hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
     if (roundNumber && typeof val === 'number') {
       val = Math.round(val);
     }
@@ -81,7 +88,7 @@ function getOutputVal(sheetName, cellRef, roundNumber = true) {
   }
 }
 
-function getTakeoffOutput(outputKey, roundNumber = true) {
+export function getTakeoffOutput(outputKey, roundNumber = true) {
   const config = CELL_MAPPING.takeoff;
   const cellRef = config.outputs[outputKey];
   if (!cellRef) return '-';
@@ -95,7 +102,7 @@ function getTakeoffOutput(outputKey, roundNumber = true) {
   return getOutputVal(config.sheetName, selectedCellRef, roundNumber);
 }
 
-function updateMissedClimbCard(value) {
+export function updateMissedClimbCard(value) {
   const card = document.getElementById('kpi-missed-climb-card');
   const valueElement = document.getElementById('ldg-missed-climb');
   if (!card || !valueElement) return;
@@ -114,7 +121,7 @@ function updateMissedClimbCard(value) {
   card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
 }
 
-function updateC56xLandingClimbCard(approachGradient, landingGradient) {
+export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
   const card = document.getElementById('kpi-missed-climb-card');
   if (!card) return;
 
@@ -139,7 +146,7 @@ function updateC56xLandingClimbCard(approachGradient, landingGradient) {
   card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
 }
 
-function updateC56xLanding() {
+export function updateC56xLanding() {
   if (!isC56xSelected() || typeof getC56xLandingPerformance !== 'function') return;
 
   const readNumber = (id) => {
@@ -313,7 +320,7 @@ function updateC56xLanding() {
   renderLandingChart(requiredDistanceM, requiredDistanceM, ldaM);
 }
 
-function handleTakeoffMass(val) {
+export function handleTakeoffMass(val) {
   const span = document.getElementById('to-mass-val');
   if (span) span.innerText = val;
   updateEngineCellVal('takeoff', 'mass', Number(val));
@@ -323,7 +330,7 @@ function handleTakeoffMass(val) {
   }
 }
 
-function handleLandingMass(val) {
+export function handleLandingMass(val) {
   const span = document.getElementById('ldg-mass-val');
   if (span) span.innerText = val;
   updateEngineCellVal('landing', 'mass', Number(val));
@@ -331,7 +338,7 @@ function handleLandingMass(val) {
   if (isC56xSelected()) updateC56xLanding();
 }
 
-function handleTakeoffFlaps(val) {
+export function handleTakeoffFlaps(val) {
   updateEngineCellVal('takeoff', 'flaps', val);
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
@@ -339,7 +346,7 @@ function handleTakeoffFlaps(val) {
   }
 }
 
-function handleTakeoffAntiIce(val) {
+export function handleTakeoffAntiIce(val) {
   updateEngineCellVal('takeoff', 'antiIce', val);
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
@@ -347,25 +354,25 @@ function handleTakeoffAntiIce(val) {
   }
 }
 
-function handleTakeoffReversers(val) {
+export function handleTakeoffReversers(val) {
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
 }
 
-function isC56xDeiceFluidApplied() {
+export function isC56xDeiceFluidApplied() {
   return document.getElementById('to-deice')?.value === 'YES';
 }
 
-function handleTakeoffDeice() {
+export function handleTakeoffDeice() {
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
   }
 }
 
-function handleTakeoffRwcc(val) {
+export function handleTakeoffRwcc(val) {
   updateEngineCellVal('takeoff', 'rwcc', val);
   if (typeof refreshOutputs === 'function') refreshOutputs();
   if (isC56xSelected()) {
@@ -374,31 +381,31 @@ function handleTakeoffRwcc(val) {
   }
 }
 
-function handleLandingFlaps() { refreshOutputs(); }
+export function handleLandingFlaps() { refreshOutputs(); }
 
-function handleLandingAntiIce() {
+export function handleLandingAntiIce() {
   if (isC56xSelected()) updateC56xLanding();
 }
 
-function handleLandingReversers() {
+export function handleLandingReversers() {
   if (isC56xSelected()) updateC56xLanding();
 }
 
-function handleLandingRwcc(val) {
+export function handleLandingRwcc(val) {
   updateEngineCellVal('landing', 'rwcc', val);
   if (isC56xSelected()) updateC56xLanding();
 }
 
-function handleWeather(sheetType, param, val) {
+export function handleWeather(sheetType, param, val) {
   updateEngineCellVal(sheetType, param, val === "" ? "" : Number(val));
 }
 
-function handleWeatherOverride(sheetType, paramOverrideKey, val) {
+export function handleWeatherOverride(sheetType, paramOverrideKey, val) {
   updateEngineCellVal(sheetType, paramOverrideKey, val === "" ? "" : Number(val));
 }
 
 // Ny funktion för manuell väderinmatning med amber-styling
-function handleManualWeatherInput(sheetType, paramKey, inputElement) {
+export function handleManualWeatherInput(sheetType, paramKey, inputElement) {
     const val = inputElement.value;
 
     if (val.trim() !== "") {
@@ -420,8 +427,8 @@ function handleManualWeatherInput(sheetType, paramKey, inputElement) {
     if (sheetType === 'landing' && isC56xSelected()) updateC56xLanding();
 }
 
-function refreshOutputs() {
-  if (!hfInstance) {
+export function refreshOutputs() {
+  if (!AppState.hfInstance) {
     if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();

@@ -1,6 +1,15 @@
+import { AIRPORT_LOOKUP_CELLS_BY_PAGE, AppState, CELL_MAPPING, OPTIONAL_AIRPORT_DATA_FIELDS, isC56xSelected } from './app-state.js';
+import { updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
+import { MetarWeather } from './metar-weather.js';
+import { updateCustomAirportIndicator } from './offline-ui.js';
+import { clearAirportMetar, exceedsDistanceLimit, fetchMetarForAirport, finiteDistance, renderLandingChart, renderTakeoffChart } from './results-ui.js';
+import { isCustomAirportEnabled, restoreSavedMetar } from './workbook-data.js';
+import { getOutputVal, getTakeoffOutput, parseCellRef, refreshOutputs, setWorkbookCellValues, updateC56xLanding } from './workbook-engine.js';
+
+
 // Airport selection and runway interaction
 
-function switchTab(tabName, event) {
+export function switchTab(tabName, event) {
   if (tabName !== 'takeoff' && tabName !== 'landing') return;
   localStorage.setItem('selected_tab', tabName);
 
@@ -57,11 +66,11 @@ let airportIndexSource = null;
 let airportIndex = new Map();
 let airportIcaoCodes = [];
 
-function ensureAirportIndex() {
-  if (airportIndexSource === globalData.airports) return;
-  airportIndexSource = globalData.airports;
+export function ensureAirportIndex() {
+  if (airportIndexSource === AppState.globalData.airports) return;
+  airportIndexSource = AppState.globalData.airports;
   airportIndex = new Map();
-  globalData.airports.forEach((airport) => {
+  AppState.globalData.airports.forEach((airport) => {
     const key = airport.ICAO.trim().toUpperCase();
     if (!airportIndex.has(key)) airportIndex.set(key, []);
     airportIndex.get(key).push(airport);
@@ -69,19 +78,19 @@ function ensureAirportIndex() {
   airportIcaoCodes = [...airportIndex.keys()].sort();
 }
 
-function getAirportRows(icao) {
+export function getAirportRows(icao) {
   if (!icao) return [];
   ensureAirportIndex();
   return airportIndex.get(icao.trim().toUpperCase()) || [];
 }
 
-function getRunwayRows(icao, runway) {
+export function getRunwayRows(icao, runway) {
   if (!runway) return [];
   return getAirportRows(icao).filter((airport) => airport.RWY === runway);
 }
 
-function getSelectedAirportRecord(prefix) {
-  const selection = airportSelection[prefix];
+export function getSelectedAirportRecord(prefix) {
+  const selection = AppState.airportSelection[prefix];
   const runwayRows = getRunwayRows(selection.icao, selection.runway);
   if (prefix === 'ldg') return getLandingAirportRecord(selection.icao, selection.runway);
   if (selection.intersection) {
@@ -90,16 +99,16 @@ function getSelectedAirportRecord(prefix) {
   return runwayRows.find((airport) => !airport.Intersection) || null;
 }
 
-function getLandingAirportRecord(icao, runway) {
+export function getLandingAirportRecord(icao, runway) {
   const runwayRows = getRunwayRows(icao, runway);
   return runwayRows.find((airport) => !airport.Intersection) || runwayRows[0] || null;
 }
 
-function updateRunwayVisualizationTitle() {
+export function updateRunwayVisualizationTitle() {
   const takeoffTitle = document.getElementById('takeoff-runway-visualization-title');
   const landingTitle = document.getElementById('landing-runway-visualization-title');
-  const takeoff = airportSelection.to;
-  const landing = airportSelection.ldg;
+  const takeoff = AppState.airportSelection.to;
+  const landing = AppState.airportSelection.ldg;
   if (takeoffTitle) {
     const intersectionLabel = takeoff.intersection ? ` intersection ${takeoff.intersection}` : '';
     takeoffTitle.textContent = takeoff.runway
@@ -117,10 +126,10 @@ setInterval(() => {
   });
 }, 700);
 
-function syncAirportControls() {
+export function syncAirportControls() {
   updateCustomAirportIndicator();
   ['to', 'ldg'].forEach((prefix) => {
-    const selection = airportSelection[prefix];
+    const selection = AppState.airportSelection[prefix];
     const icao = selection.icao;
     const airportRows = getAirportRows(icao);
     const runways = [...new Set(airportRows.map((airport) => airport.RWY))];
@@ -164,8 +173,8 @@ function syncAirportControls() {
   updateRunwayVisualizationTitle();
 }
 
-function updateRunwaySuggestion(prefix, message, suggestion = null) {
-  runwaySuggestions[prefix] = suggestion;
+export function updateRunwaySuggestion(prefix, message, suggestion = null) {
+  AppState.runwaySuggestions[prefix] = suggestion;
   {
     const row = document.getElementById(`${prefix}-runway-suggestion-row`);
     const text = document.getElementById(`${prefix}-runway-suggestion-text`);
@@ -177,7 +186,7 @@ function updateRunwaySuggestion(prefix, message, suggestion = null) {
     optionsContainer.replaceChildren();
     if (!suggestion) return;
 
-    const selection = airportSelection[prefix];
+    const selection = AppState.airportSelection[prefix];
     const runwayRows = getRunwayRows(selection.icao, suggestion.runway);
     const landingRecord = getLandingAirportRecord(selection.icao, suggestion.runway);
     const displayRows = prefix === 'ldg'
@@ -248,7 +257,7 @@ function updateRunwaySuggestion(prefix, message, suggestion = null) {
           return;
         }
         if (!applySuggestedRunway(suggestion.runway, airport.Intersection || '', prefix)) return;
-        const currentSelection = airportSelection[prefix];
+        const currentSelection = AppState.airportSelection[prefix];
         const intersectionLabel = currentSelection.intersection
           ? `, intersection ${currentSelection.intersection}`
           : '';
@@ -264,8 +273,8 @@ function updateRunwaySuggestion(prefix, message, suggestion = null) {
   }
 }
 
-function refreshRunwaySuggestionSelection(prefix) {
-  const suggestion = runwaySuggestions[prefix];
+export function refreshRunwaySuggestionSelection(prefix) {
+  const suggestion = AppState.runwaySuggestions[prefix];
   if (!suggestion) return;
   updateRunwaySuggestion(
     prefix,
@@ -274,16 +283,16 @@ function refreshRunwaySuggestionSelection(prefix) {
   );
 }
 
-function scheduleTakeoffSuggestionRefresh() {
-  if (!runwaySuggestions.to) return;
-  window.clearTimeout(runwaySuggestionRefreshTimer);
-  runwaySuggestionRefreshTimer = window.setTimeout(() => {
-    runwaySuggestionRefreshTimer = null;
+export function scheduleTakeoffSuggestionRefresh() {
+  if (!AppState.runwaySuggestions.to) return;
+  window.clearTimeout(AppState.runwaySuggestionRefreshTimer);
+  AppState.runwaySuggestionRefreshTimer = window.setTimeout(() => {
+    AppState.runwaySuggestionRefreshTimer = null;
     refreshRunwaySuggestionSelection('to');
   }, 150);
 }
 
-function suggestRunwayFromMetar(metarText, prefix) {
+export function suggestRunwayFromMetar(metarText, prefix) {
   const { wind } = MetarWeather.parse(metarText);
   if (!wind || wind.directionDegrees === null) {
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR wind direction is variable or unavailable.');
@@ -300,7 +309,7 @@ function suggestRunwayFromMetar(metarText, prefix) {
 
   const runwayCandidates = new Map();
   const runwaysByName = new Map();
-  getAirportRows(airportSelection[prefix].icao).forEach((airport) => {
+  getAirportRows(AppState.airportSelection[prefix].icao).forEach((airport) => {
     if (!runwaysByName.has(airport.RWY)) runwaysByName.set(airport.RWY, []);
     runwaysByName.get(airport.RWY).push(airport);
   });
@@ -337,10 +346,10 @@ function suggestRunwayFromMetar(metarText, prefix) {
   );
 }
 
-function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
-  const suggestion = runwaySuggestions[pagePrefix];
+export function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
+  const suggestion = AppState.runwaySuggestions[pagePrefix];
   if (!suggestion || suggestion.runway !== runway) return false;
-  const selection = airportSelection[pagePrefix];
+  const selection = AppState.airportSelection[pagePrefix];
   selection.runway = runway;
   if (pagePrefix === 'ldg') {
     const airport = getLandingAirportRecord(selection.icao, runway);
@@ -354,12 +363,12 @@ function applySuggestedRunway(runway, intersection, pagePrefix = 'to') {
   return true;
 }
 
-function getAirportIcaoCodes() {
+export function getAirportIcaoCodes() {
   ensureAirportIndex();
   return airportIcaoCodes;
 }
 
-function hideAirportIcaoSuggestions(inputId) {
+export function hideAirportIcaoSuggestions(inputId) {
   const input = document.getElementById(inputId);
   if (!input) return;
   const suggestions = document.getElementById(input.getAttribute('aria-controls'));
@@ -369,7 +378,7 @@ function hideAirportIcaoSuggestions(inputId) {
   input.removeAttribute('aria-activedescendant');
 }
 
-function showAirportIcaoSuggestions(value, inputId) {
+export function showAirportIcaoSuggestions(value, inputId) {
   const input = document.getElementById(inputId);
   const suggestions = document.getElementById(input.getAttribute('aria-controls'));
   if (!suggestions) return;
@@ -409,7 +418,7 @@ function showAirportIcaoSuggestions(value, inputId) {
   input.setAttribute('aria-expanded', String(matches.length > 0));
 }
 
-function handleAirportIcaoKeydown(event, inputId) {
+export function handleAirportIcaoKeydown(event, inputId) {
   const input = document.getElementById(inputId);
   const suggestions = document.getElementById(input.getAttribute('aria-controls'));
   if (!suggestions || suggestions.hidden) {
@@ -437,21 +446,21 @@ function handleAirportIcaoKeydown(event, inputId) {
   }
 }
 
-function persistAirportSelection(prefix) {
-  const selection = airportSelection[prefix];
+export function persistAirportSelection(prefix) {
+  const selection = AppState.airportSelection[prefix];
   localStorage.setItem(`selected_${prefix}_airport_icao`, selection.icao);
   localStorage.setItem(`selected_${prefix}_airport_runway`, selection.runway);
   localStorage.setItem(`selected_${prefix}_airport_intersection`, selection.intersection);
 }
 
-function showAirportSelectionError(message) {
+export function showAirportSelectionError(message) {
   const errorElement = document.getElementById('airport-selection-error');
   if (!errorElement) return;
   errorElement.textContent = message;
   errorElement.hidden = !message;
 }
 
-function airportCellValue(value) {
+export function airportCellValue(value) {
   if (value === null || value === undefined || String(value).trim() === '') return null;
   const text = String(value).trim();
   const number = Number(text);
@@ -460,7 +469,7 @@ function airportCellValue(value) {
 
 // Airport column "Engine out climb path": "Straight" or "Turning". Missing data is treated as
 // turning (up to 15° bank), which applies the conservative AFM weight/gradient correction.
-function getC56xEngineOutClimbPath(airport) {
+export function getC56xEngineOutClimbPath(airport) {
   const key = airport
     ? Object.keys(airport).find((name) => /^engine out climb path/i.test(name.trim()))
     : null;
@@ -470,14 +479,14 @@ function getC56xEngineOutClimbPath(airport) {
   return { turning: true, label: 'Turning climb (no airport data)', assumed: true };
 }
 
-function updateClimbPathLabel(climbPath) {
+export function updateClimbPathLabel(climbPath) {
   const element = document.getElementById('res-to-climb-path');
   if (!element) return;
   element.textContent = climbPath ? `Climb path: ${climbPath.label}` : '';
   element.style.color = climbPath?.assumed ? '#9a8a63' : '#6e7681';
 }
 
-function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
+export function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
   let value = airport ? airportCellValue(airport[dataField]) : null;
   if (prefix === 'to' && ['C19', 'C20', 'C21'].includes(cellRef) &&
       typeof value === 'number') {
@@ -486,7 +495,7 @@ function getAirportLookupCellValue(airport, prefix, dataField, cellRef) {
   return value;
 }
 
-function updateTakeoffAirportElevation(airport) {
+export function updateTakeoffAirportElevation(airport) {
   const elevationElement = document.getElementById('to-airport-elevation');
   if (!elevationElement) return null;
 
@@ -497,11 +506,11 @@ function updateTakeoffAirportElevation(airport) {
   return elevation;
 }
 
-function evaluateTakeoffRunwayAvailability(airport) {
+export function evaluateTakeoffRunwayAvailability(airport) {
   if (isC56xSelected()) {
     return { available: true, reasons: [] };
   }
-  if (!hfInstance) {
+  if (!AppState.hfInstance) {
     return { available: false, reasons: ['Performance calculator unavailable'] };
   }
 
@@ -513,7 +522,7 @@ function evaluateTakeoffRunwayAvailability(airport) {
   }
 
   const config = CELL_MAPPING.takeoff;
-  const sheet = hfInstance.getSheetId(config.sheetName);
+  const sheet = AppState.hfInstance.getSheetId(config.sheetName);
   const candidateValues = new Map([[config.inputs.airportAndRwy, 'Custom airport']]);
   Object.entries(AIRPORT_LOOKUP_CELLS_BY_PAGE.to).forEach(([dataField, cellRef]) => {
     candidateValues.set(
@@ -528,7 +537,7 @@ function evaluateTakeoffRunwayAvailability(airport) {
     return {
       cellRef,
       position,
-      value: hfInstance.getCellSerialized({ sheet, col: position.col, row: position.row }) ?? null,
+      value: AppState.hfInstance.getCellSerialized({ sheet, col: position.col, row: position.row }) ?? null,
     };
   });
 
@@ -571,9 +580,9 @@ function evaluateTakeoffRunwayAvailability(airport) {
   }
 }
 
-function updateCustomAirportData(airport, prefix) {
+export function updateCustomAirportData(airport, prefix) {
   if (prefix === 'to') updateTakeoffAirportElevation(airport);
-  if (!hfInstance) {
+  if (!AppState.hfInstance) {
     if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
@@ -585,11 +594,11 @@ function updateCustomAirportData(airport, prefix) {
   try {
     const sheetType = prefix === 'to' ? 'takeoff' : 'landing';
     const config = CELL_MAPPING[sheetType];
-    const sheet = hfInstance.getSheetId(config.sheetName);
+    const sheet = AppState.hfInstance.getSheetId(config.sheetName);
     const airportKeyPosition = parseCellRef(config.inputs.airportAndRwy);
     if (!airportKeyPosition) throw new Error(`Invalid ${sheetType} airport cell reference.`);
-    hfInstance.batch(() => {
-      hfInstance.setCellContents(
+    AppState.hfInstance.batch(() => {
+      AppState.hfInstance.setCellContents(
         { sheet, col: airportKeyPosition.col, row: airportKeyPosition.row },
         [[airport ? 'Custom airport' : '']]
       );
@@ -598,7 +607,7 @@ function updateCustomAirportData(airport, prefix) {
         const position = parseCellRef(cellRef);
         if (!position) throw new Error(`Invalid ${prefix} airport lookup cell reference: ${cellRef}`);
         const value = getAirportLookupCellValue(airport, prefix, dataField, cellRef);
-        hfInstance.setCellContents(
+        AppState.hfInstance.setCellContents(
           { sheet, col: position.col, row: position.row },
           [[value]]
         );
@@ -628,9 +637,9 @@ function updateCustomAirportData(airport, prefix) {
   }
 }
 
-function handleAirportIcaoInput(value, prefix = 'to') {
+export function handleAirportIcaoInput(value, prefix = 'to') {
   const icao = value.trim().toUpperCase();
-  const selection = airportSelection[prefix];
+  const selection = AppState.airportSelection[prefix];
   if (icao === selection.icao) {
     syncAirportControls();
     showAirportIcaoSuggestions(icao, document.activeElement.id);
@@ -661,8 +670,8 @@ function handleAirportIcaoInput(value, prefix = 'to') {
   }
 }
 
-function handleAirportRunwayChange(runway, prefix = 'to') {
-  const selection = airportSelection[prefix];
+export function handleAirportRunwayChange(runway, prefix = 'to') {
+  const selection = AppState.airportSelection[prefix];
   selection.runway = runway;
   selection.intersection = '';
   persistAirportSelection(prefix);
@@ -673,8 +682,8 @@ function handleAirportRunwayChange(runway, prefix = 'to') {
   refreshRunwaySuggestionSelection(prefix);
 }
 
-function handleLandingAirportRunwayChange(runway, prefix = 'ldg') {
-  const selection = airportSelection[prefix];
+export function handleLandingAirportRunwayChange(runway, prefix = 'ldg') {
+  const selection = AppState.airportSelection[prefix];
   selection.runway = runway;
   const airport = getLandingAirportRecord(selection.icao, runway);
   selection.intersection = airport && airport.Intersection ? airport.Intersection : '';
@@ -684,8 +693,8 @@ function handleLandingAirportRunwayChange(runway, prefix = 'ldg') {
   refreshRunwaySuggestionSelection(prefix);
 }
 
-function handleAirportIntersectionChange(intersection, prefix = 'to') {
-  airportSelection[prefix].intersection = intersection;
+export function handleAirportIntersectionChange(intersection, prefix = 'to') {
+  AppState.airportSelection[prefix].intersection = intersection;
   persistAirportSelection(prefix);
   syncAirportControls();
 

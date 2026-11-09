@@ -203,11 +203,11 @@ test('C56X landing factors, wind, mass and runway-limit boundaries are internall
 test('runway-limit comparison passes at equality and fails just above the limit', async ({ page }) => {
   await loadC56xPerformanceData(page);
   const results = await page.evaluate(() => ({
-    exactLimit: exceedsDistanceLimit(100, 100),
-    belowLimit: exceedsDistanceLimit(99.9, 100),
-    aboveLimit: exceedsDistanceLimit(100.1, 100),
-    missingDistance: exceedsDistanceLimit('#N/A', 100),
-    missingRunwayLimit: exceedsDistanceLimit(100, ''),
+    exactLimit: BeechcraftApp.results.exceedsDistanceLimit(100, 100),
+    belowLimit: BeechcraftApp.results.exceedsDistanceLimit(99.9, 100),
+    aboveLimit: BeechcraftApp.results.exceedsDistanceLimit(100.1, 100),
+    missingDistance: BeechcraftApp.results.exceedsDistanceLimit('#N/A', 100),
+    missingRunwayLimit: BeechcraftApp.results.exceedsDistanceLimit(100, ''),
   }));
 
   expect(results).toEqual({

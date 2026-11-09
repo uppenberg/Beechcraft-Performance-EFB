@@ -1,6 +1,12 @@
+import { persistAirportSelection, showAirportSelectionError, updateRunwaySuggestion } from './airport-ui.js';
+import { AppState } from './app-state.js';
+import { clearAirportMetar } from './results-ui.js';
+import { CUSTOM_AIRPORT_ENABLED_KEY, isCustomAirportEnabled, loadAirportDatabase, loadCustomAirports, populateAirportSelects, restoreSavedMetar, saveCustomAirports } from './workbook-data.js';
+
+
 // Custom airports, settings, and service worker controls
 
-function updateCustomAirportIndicator() {
+export function updateCustomAirportIndicator() {
   const enabled = isCustomAirportEnabled();
   ['to', 'ldg'].forEach((prefix) => {
     const input = document.getElementById(`${prefix}-airport-icao`);
@@ -12,8 +18,8 @@ function updateCustomAirportIndicator() {
   });
 }
 
-async function applyAirportSource() {
-  globalData.airports = await loadAirportDatabase();
+export async function applyAirportSource() {
+  AppState.globalData.airports = await loadAirportDatabase();
   populateAirportSelects();
   ['to', 'ldg'].forEach((prefix) => {
     persistAirportSelection(prefix);
@@ -25,7 +31,7 @@ async function applyAirportSource() {
   updateCustomAirportIndicator();
 }
 
-function setupCustomAirportUi() {
+export function setupCustomAirportUi() {
   const checkbox = document.getElementById('custom-airport-checkbox');
   const editButton = document.getElementById('edit-custom-airports-button');
   const dialog = document.getElementById('custom-airport-dialog');
@@ -158,7 +164,7 @@ function setupCustomAirportUi() {
   });
 }
 
-function setupSettingsMenu() {
+export function setupSettingsMenu() {
   const toggle = document.getElementById('settings-toggle');
   const panel = document.getElementById('settings-panel');
   const updateButton = document.getElementById('check-updates-button');
@@ -236,12 +242,12 @@ function setupSettingsMenu() {
   });
 }
 
-function setUpdateStatus(message) {
+export function setUpdateStatus(message) {
   const status = document.getElementById('update-status');
   if (status) status.textContent = message;
 }
 
-function setOfflineDataStatus(message, state = '') {
+export function setOfflineDataStatus(message, state = '') {
   const status = document.getElementById('offline-data-status');
   if (!status) return;
   status.textContent = message;
@@ -249,7 +255,7 @@ function setOfflineDataStatus(message, state = '') {
   status.classList.toggle('is-error', state === 'error');
 }
 
-async function waitForServiceWorkerReady(timeoutMs = 60000) {
+export async function waitForServiceWorkerReady(timeoutMs = 60000) {
   return new Promise((resolve, reject) => {
     const timeout = window.setTimeout(() => {
       reject(new Error('Timed out while starting offline support.'));
@@ -267,13 +273,13 @@ async function waitForServiceWorkerReady(timeoutMs = 60000) {
   });
 }
 
-async function getOfflineDataWorker({ retry = false } = {}) {
+export async function getOfflineDataWorker({ retry = false } = {}) {
   if (!('serviceWorker' in navigator)) {
     throw new Error('Offline file checks are not supported in this browser.');
   }
 
-  let registration = appServiceWorkerRegistration || await navigator.serviceWorker.getRegistration();
-  if (registration) appServiceWorkerRegistration = registration;
+  let registration = AppState.appServiceWorkerRegistration || await navigator.serviceWorker.getRegistration();
+  if (registration) AppState.appServiceWorkerRegistration = registration;
   let worker = navigator.serviceWorker.controller || registration?.active;
   if (worker) return worker;
   if (!retry) throw new Error('Open the app online once so offline support can start.');
@@ -289,14 +295,14 @@ async function getOfflineDataWorker({ retry = false } = {}) {
     registration = await navigator.serviceWorker.register('./sw.js', {
       updateViaCache: 'none',
     });
-    appServiceWorkerRegistration = registration;
+    AppState.appServiceWorkerRegistration = registration;
   }
 
   const installingWorker = registration.installing;
   if (installingWorker) await waitForServiceWorkerInstall(installingWorker);
   if (!registration.active && !registration.waiting) {
     registration = await waitForServiceWorkerReady();
-    appServiceWorkerRegistration = registration;
+    AppState.appServiceWorkerRegistration = registration;
   }
 
   worker = navigator.serviceWorker.controller || registration.active || registration.waiting;
@@ -304,7 +310,7 @@ async function getOfflineDataWorker({ retry = false } = {}) {
   return worker;
 }
 
-async function requestOfflineDataWorkerMessage(type) {
+export async function requestOfflineDataWorkerMessage(type) {
   const worker = await getOfflineDataWorker({ retry: type === 'RETRY_OFFLINE_DATA' });
 
   return new Promise((resolve, reject) => {
@@ -334,7 +340,7 @@ async function requestOfflineDataWorkerMessage(type) {
   });
 }
 
-async function updatePersistentStorageStatus(request = false) {
+export async function updatePersistentStorageStatus(request = false) {
   const status = document.getElementById('offline-storage-status');
   if (!status) return;
   const storage = navigator.storage;
@@ -355,7 +361,7 @@ async function updatePersistentStorageStatus(request = false) {
   }
 }
 
-async function checkOfflineData({ retry = false, requestPersistence = false } = {}) {
+export async function checkOfflineData({ retry = false, requestPersistence = false } = {}) {
   const button = document.getElementById('offline-data-retry');
   const reloadButton = document.getElementById('offline-app-reload');
   if (button) button.disabled = true;
@@ -368,12 +374,12 @@ async function checkOfflineData({ retry = false, requestPersistence = false } = 
     );
     if (result.ready) {
       setOfflineDataStatus(
-        appInitializationFailed && retry
+        AppState.appInitializationFailed && retry
           ? `✓ All ${result.total} files are available offline. Reload to retry app initialization.`
           : `✓ All ${result.total} app and performance files are available offline.`,
         'ready'
       );
-      if (appInitializationFailed && retry && reloadButton) reloadButton.hidden = false;
+      if (AppState.appInitializationFailed && retry && reloadButton) reloadButton.hidden = false;
     } else if (result.error) {
       setOfflineDataStatus(`Could not check offline files: ${result.error}`, 'error');
     } else if (retry) {
@@ -394,7 +400,7 @@ async function checkOfflineData({ retry = false, requestPersistence = false } = 
   }
 }
 
-function setupOfflineReadiness() {
+export function setupOfflineReadiness() {
   const button = document.getElementById('offline-data-retry');
   const reloadButton = document.getElementById('offline-app-reload');
   button?.addEventListener('click', () => {
@@ -404,7 +410,7 @@ function setupOfflineReadiness() {
   updatePersistentStorageStatus();
 }
 
-function setUpdateAvailable(isAvailable) {
+export function setUpdateAvailable(isAvailable) {
   const toggle = document.getElementById('settings-toggle');
   const updateButton = document.getElementById('check-updates-button');
   if (!toggle || !updateButton) return;
@@ -419,7 +425,7 @@ function setUpdateAvailable(isAvailable) {
   }
 }
 
-function watchForServiceWorkerUpdate(registration) {
+export function watchForServiceWorkerUpdate(registration) {
   registration.addEventListener('updatefound', () => {
     const installingWorker = registration.installing;
     if (!installingWorker) return;
@@ -434,7 +440,7 @@ function watchForServiceWorkerUpdate(registration) {
   });
 }
 
-async function registerAppServiceWorker() {
+export async function registerAppServiceWorker() {
   if (!('serviceWorker' in navigator)) {
     setUpdateStatus('App updates are not supported in this browser.');
     setOfflineDataStatus('Offline file verification is not supported in this browser.', 'error');
@@ -442,26 +448,26 @@ async function registerAppServiceWorker() {
   }
 
   try {
-    appServiceWorkerRegistration = await navigator.serviceWorker.register('./sw.js', {
+    AppState.appServiceWorkerRegistration = await navigator.serviceWorker.register('./sw.js', {
       updateViaCache: 'none'
     });
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (reloadAfterServiceWorkerChange) window.location.reload();
+      if (AppState.reloadAfterServiceWorkerChange) window.location.reload();
     });
 
-    watchForServiceWorkerUpdate(appServiceWorkerRegistration);
+    watchForServiceWorkerUpdate(AppState.appServiceWorkerRegistration);
 
-    if (appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+    if (AppState.appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
       setUpdateAvailable(true);
     } else {
       setUpdateStatus('Checking for app updates…');
     }
 
-    await appServiceWorkerRegistration.update();
-    if (appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
+    await AppState.appServiceWorkerRegistration.update();
+    if (AppState.appServiceWorkerRegistration.waiting && navigator.serviceWorker.controller) {
       setUpdateAvailable(true);
-    } else if (!appServiceWorkerRegistration.installing) {
+    } else if (!AppState.appServiceWorkerRegistration.installing) {
       setUpdateStatus('The app is up to date.');
     }
     navigator.serviceWorker.ready
@@ -485,7 +491,7 @@ async function registerAppServiceWorker() {
   }
 }
 
-function waitForServiceWorkerInstall(worker) {
+export function waitForServiceWorkerInstall(worker) {
   return new Promise((resolve, reject) => {
     let settled = false;
     const finish = (error) => {
@@ -512,16 +518,16 @@ function waitForServiceWorkerInstall(worker) {
   });
 }
 
-function activateAppUpdate(worker) {
-  reloadAfterServiceWorkerChange = true;
+export function activateAppUpdate(worker) {
+  AppState.reloadAfterServiceWorkerChange = true;
   setUpdateStatus('Installing the update and refreshing the app…');
   const updateButton = document.getElementById('check-updates-button');
   if (updateButton) updateButton.disabled = true;
   worker.postMessage({ type: 'SKIP_WAITING' });
 }
 
-async function checkForAppUpdate() {
-  const registration = appServiceWorkerRegistration;
+export async function checkForAppUpdate() {
+  const registration = AppState.appServiceWorkerRegistration;
   const updateButton = document.getElementById('check-updates-button');
   if (!registration || !updateButton) {
     setUpdateStatus('App updates are not available until the app is connected securely.');

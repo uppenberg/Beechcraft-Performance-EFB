@@ -80,7 +80,7 @@ async function captureModel(browser, baseURL, aircraft) {
   } else if (aircraft.model === 'B190') {
     await page.locator('#to-technique').selectOption('Static T/O power');
   }
-  await page.evaluate(() => window.switchTab('landing'));
+  await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
   await page.locator('#ldg-airport-icao').fill('ESSA');
   await page.locator('#ldg-airport-rwy').selectOption('01L');
   const landingWeather = {

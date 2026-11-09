@@ -1,7 +1,13 @@
+import { airportCellValue, getC56xEngineOutClimbPath, getSelectedAirportRecord, updateClimbPathLabel, updateTakeoffAirportElevation } from './airport-ui.js';
+import { AIRCRAFT_TYPE_BY_REGISTRATION, AppState, CELL_MAPPING } from './app-state.js';
+import { checkContaminationLogic, finiteDistance, renderC56xTakeoffChart, safeSetText, updateClimbCheckCard, updateWindCheckCard } from './results-ui.js';
+import { getOutputVal, getTakeoffOutput, isC56xDeiceFluidApplied, parseCellRef } from './workbook-engine.js';
+
+
 // C56X performance calculations and presentation
 
 let maxTakeoffMassTimer = null;
-function scheduleMaxTakeoffMassUpdate() {
+export function scheduleMaxTakeoffMassUpdate() {
   window.clearTimeout(maxTakeoffMassTimer);
   maxTakeoffMassTimer = window.setTimeout(() => {
     maxTakeoffMassTimer = null;
@@ -9,7 +15,7 @@ function scheduleMaxTakeoffMassUpdate() {
   }, 120);
 }
 
-function takeoffLimitsOk() {
+export function takeoffLimitsOk() {
   const to = CELL_MAPPING.takeoff;
   const within = (distance, limit) => {
     const d = finiteDistance(distance);
@@ -36,7 +42,7 @@ if (requiredClimb > actualClimb) {
 return true;
 }
 
-function updateC56xPerformanceCards({
+export function updateC56xPerformanceCards({
   speeds = null,
   secondSegmentGradient = null,
   climbPath = null,
@@ -61,7 +67,7 @@ function updateC56xPerformanceCards({
   );
 }
 
-function updateC56xTakeoffDistanceCard(
+export function updateC56xTakeoffDistanceCard(
   distanceM,
   failedLimits = [],
   limitsAvailable = true,
@@ -92,7 +98,7 @@ function updateC56xTakeoffDistanceCard(
   card.classList.toggle('is-within-limits', failedLimits.length === 0 && limitsAvailable);
 }
 
-function setC56xChecklistBadge(elementId, result) {
+export function setC56xChecklistBadge(elementId, result) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
   const styles = result === true
@@ -105,7 +111,7 @@ function setC56xChecklistBadge(elementId, result) {
   badge.style.color = styles.color;
 }
 
-function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
+export function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
   if (!Number.isFinite(slopePercent) || !Number.isFinite(correctionKnots)) {
     return 'V1 correction applied: unavailable';
   }
@@ -126,7 +132,7 @@ function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
   return `V1 correction applied: ${correction} · ${slopePercent}% downhill (SHADED ${afmStep}% step)`;
 }
 
-function getC56xWetRunwayMassLimit({
+export function getC56xWetRunwayMassLimit({
   qnhHpa,
   fieldElevationFt,
   oatC,
@@ -174,7 +180,7 @@ function getC56xWetRunwayMassLimit({
 }
 
 // Shared by all models: the card is hidden when there is no routing text.
-function renderEngineOutCard(escapeVal) {
+export function renderEngineOutCard(escapeVal) {
   const card = document.getElementById('card-engine-out');
   if (!card) return;
   const hasEscape = !(escapeVal === null || escapeVal === undefined ||
@@ -185,10 +191,10 @@ function renderEngineOutCard(escapeVal) {
   card.style.display = hasEscape ? 'block' : 'none';
 }
 
-function updateC56xEngineOutCard(airport) {
+export function updateC56xEngineOutCard(airport) {
   renderEngineOutCard(airportCellValue(airport?.['Routing(L6)']) ?? '-');
 }
-function updateC56xTakeoffFieldLength() {
+export function updateC56xTakeoffFieldLength() {
   const card = document.getElementById('c56x-takeoff-distance-card');
   if (!card) return;
 
@@ -526,7 +532,7 @@ function updateC56xTakeoffFieldLength() {
 
 // Finds the highest mass (50 lbs steps) that satisfies all take-off limits for the
 // current setup, without changing the mass selected by the user.
-function updateMaxTakeoffMass() {
+export function updateMaxTakeoffMass() {
   const valueElement = document.getElementById('max-to-mass-val');
   const slider = document.getElementById('to-mass');
   if (!valueElement || !slider) return;
@@ -700,10 +706,10 @@ function updateMaxTakeoffMass() {
     return;
   }
 
-  if (!hfInstance) return;
+  if (!AppState.hfInstance) return;
 
   const config = CELL_MAPPING.takeoff;
-  const sheetId = hfInstance.getSheetId(config.sheetName);
+  const sheetId = AppState.hfInstance.getSheetId(config.sheetName);
   const pos = parseCellRef(config.inputs.mass);
   if (!pos) return;
   const address = { sheet: sheetId, col: pos.col, row: pos.row };
@@ -714,7 +720,7 @@ function updateMaxTakeoffMass() {
 
   let result = null;
   try {
-    const setMass = (mass) => hfInstance.setCellContents(address, [[mass]]);
+    const setMass = (mass) => AppState.hfInstance.setCellContents(address, [[mass]]);
     const lastIndex = Math.floor((max - min) / step);
     const okAt = (index) => { setMass(min + index * step); return takeoffLimitsOk(); };
     for (let index = lastIndex; index >= 0; index--) {
@@ -723,7 +729,7 @@ function updateMaxTakeoffMass() {
   } catch (e) {
     console.error('Max take-off mass calculation failed:', e);
   } finally {
-    hfInstance.setCellContents(address, [[selectedMass]]);
+    AppState.hfInstance.setCellContents(address, [[selectedMass]]);
   }
 
   const card = document.getElementById('max-to-mass-card');

@@ -85,10 +85,10 @@ test('KT METAR continues to fill available takeoff and landing weather fields', 
 test('shared METAR parser normalizes wind once and keeps MPS out of calculator values', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   const parsed = await page.evaluate(() => ({
-    mps: MetarWeather.parse('METAR ESSA 011230Z 02010G15MPS 15/10 Q1013'),
-    knots: MetarWeather.parse('METAR ESSA 011230Z 34008G14KT M01/M03 A2992'),
-    variable: MetarWeather.parse('METAR ESSA 011230Z VRB03KT 15/10 Q1013'),
-    invalid: MetarWeather.parse(null),
+    mps: BeechcraftApp.metar.MetarWeather.parse('METAR ESSA 011230Z 02010G15MPS 15/10 Q1013'),
+    knots: BeechcraftApp.metar.MetarWeather.parse('METAR ESSA 011230Z 34008G14KT M01/M03 A2992'),
+    variable: BeechcraftApp.metar.MetarWeather.parse('METAR ESSA 011230Z VRB03KT 15/10 Q1013'),
+    invalid: BeechcraftApp.metar.MetarWeather.parse(null),
   }));
 
   expect(parsed.mps).toEqual({

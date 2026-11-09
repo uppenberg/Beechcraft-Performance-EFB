@@ -1,6 +1,6 @@
 # Automated test suite
 
-The tests exercise the static app in a local HTTP server with real browser engines. They cover C56X table calculations and limits, BE20/B190 workbook-backed calculations, common takeoff and landing flows, aircraft changes, custom airports, saved inputs, invalid inputs, METAR parsing and MPS field preservation, HyperFormula runway-check restoration, and the service-worker download/retry/offline/update lifecycle.
+The app starts through the native ES module entry point `js/app.js`; feature modules import their shared functions and state explicitly. UI actions are declared as `data-action-*` attributes and delegated through an explicit action map. The tests exercise the static app in a local HTTP server with real browser engines. They cover C56X table calculations and limits, BE20/B190 workbook-backed calculations, common takeoff and landing flows, aircraft changes, custom airports, saved inputs, invalid inputs, METAR parsing and MPS field preservation, HyperFormula runway-check restoration, externalized UI actions, and the service-worker download/retry/offline/update lifecycle.
 
 ## Run locally
 
