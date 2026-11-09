@@ -372,7 +372,7 @@
                                 <li><span style="color:#d29922">Amber</span> — 35–60 minutes old (use with caution)</li>
                                 <li><span style="color:#f85149">Red</span> — unavailable or older than 60 minutes</li>
                             </ul>
-                            When a valid METAR loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
+                            When a valid METAR with wind in kt loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. If wind is reported in m/s, the weather fields are left unchanged; enter wind manually in kt. Press <strong>Update</strong> to manually re-fetch.
                         </dd>
 
                         <dt>Wind Direction (°)</dt>
@@ -735,6 +735,7 @@
                                 </div>
                                 <!-- Ej editerbar textrad utan box med färgning enligt regel -->
                                 <span id="to-metar-display" class="metar-display-line">-</span>
+                                <span id="to-metar-weather-status" class="metar-weather-status" role="status" aria-live="polite" hidden></span>
                             </td>
                         </tr>
                         
@@ -1027,6 +1028,7 @@
                                     <button onclick="fetchMetarForSelectedAirport('ldg')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <span id="ldg-metar-display" class="metar-display-line">-</span>
+                                <span id="ldg-metar-weather-status" class="metar-weather-status" role="status" aria-live="polite" hidden></span>
                             </td>
                         </tr>
                         
@@ -1193,6 +1195,14 @@
         </section>
     </main>
 
-    <script src="js/app.js"></script>
+    <script src="js/metar-weather.js"></script>
+    <script src="js/app-state.js"></script>
+    <script src="js/aircraft-ui.js"></script>
+    <script src="js/offline-ui.js"></script>
+    <script src="js/workbook-data.js"></script>
+    <script src="js/airport-ui.js"></script>
+    <script src="js/workbook-engine.js"></script>
+    <script src="js/c56x-ui.js"></script>
+    <script src="js/results-ui.js"></script>
 </body>
 </html>

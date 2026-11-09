@@ -319,6 +319,13 @@ input, select {
   box-sizing: border-box;
 }
 
+.metar-weather-status {
+    display: block;
+    margin-top: 4px;
+    color: #d29922;
+    font-size: 11px;
+}
+
 .global-reg {
   position: relative;
 }
