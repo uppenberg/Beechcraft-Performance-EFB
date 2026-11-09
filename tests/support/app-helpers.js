@@ -1,4 +1,5 @@
 const { expect } = require('@playwright/test');
+const { randomUUID } = require('node:crypto');
 
 async function setServerMode(request, mode) {
   const response = await request.post('/__test__/mode', { data: { mode } });
@@ -16,10 +17,13 @@ async function blockExternalRequests(context) {
 }
 
 async function openApp(page, registration = 'SE-LTL') {
-  await page.addInitScript((initialRegistration) => {
-    if (!sessionStorage.getItem('__testInitialRegistrationSet')) {
+  const storageSessionId = randomUUID();
+  await page.addInitScript(({ initialRegistration, storageSessionId }) => {
+    if (sessionStorage.getItem('__testStorageSessionId') !== storageSessionId) {
+      localStorage.clear();
+      sessionStorage.clear();
       localStorage.setItem('selected_reg', initialRegistration);
-      sessionStorage.setItem('__testInitialRegistrationSet', 'true');
+      sessionStorage.setItem('__testStorageSessionId', storageSessionId);
     }
     const nativeAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (type, listener, options) {
@@ -36,7 +40,7 @@ async function openApp(page, registration = 'SE-LTL') {
       }
       return nativeAddEventListener.call(this, type, listener, options);
     };
-  }, registration);
+  }, { initialRegistration: registration, storageSessionId });
   await page.goto('/');
   await expect(page.locator('#global-registration')).toHaveValue(registration);
   await page.waitForFunction(() => {
@@ -52,6 +56,12 @@ async function chooseAirport(page, prefix, icao, runway) {
   await expect(runwaySelect.locator(`option[value="${runway}"]`)).toHaveCount(1);
   await runwaySelect.selectOption(runway);
   await expect(input).toHaveValue(icao);
+
+  // Airport selection starts an asynchronous METAR request. Let it finish before
+  // the test enters fixed weather values, so a late response cannot change them.
+  const metarStatus = page.locator(`#${prefix}-runway-suggestion-text`);
+  await expect(metarStatus).not.toHaveText('', { timeout: 10_000 });
+  await expect(metarStatus).not.toContainText('Checking METAR wind', { timeout: 20_000 });
 }
 
 async function fillWeather(page, prefix, { direction = '020', speed = '5', oat = '15', qnh = '1013' } = {}) {

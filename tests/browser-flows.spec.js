@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+test.use({ serviceWorkers: 'block' });
 const regressionBaseline = require('./references/app-update-regression.json');
 const regressionReferences = Object.fromEntries(
   regressionBaseline.references.map((reference) => [reference.model, reference])

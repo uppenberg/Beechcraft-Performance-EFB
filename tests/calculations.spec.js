@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+test.use({ serviceWorkers: 'block' });
 const appUpdateBaseline = require('./references/app-update-regression.json');
 const { blockExternalRequests, loadC56xPerformanceData } = require('./support/app-helpers');
 
