@@ -428,6 +428,41 @@ input, select {
   font-size: 14px;
 }
 
+.offline-readiness {
+  margin: 0 0 12px;
+  padding: 10px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+}
+
+.offline-readiness h3 {
+  margin: 0 0 6px;
+  color: #c9d1d9;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.offline-data-status,
+.offline-storage-status {
+  margin: 0 0 8px;
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.offline-data-status.is-ready {
+  color: #3fb950;
+}
+
+.offline-data-status.is-error {
+  color: #ff7b72;
+}
+
+.offline-storage-status {
+  margin: 8px 0 0;
+}
+
 .mass-slider {
   /* Ändra height för touchytan och --mass-slider-thumb-size för den runda knoppen. */
   --mass-slider-thumb-size: 32px;

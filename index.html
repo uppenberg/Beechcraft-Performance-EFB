@@ -168,12 +168,6 @@
             </a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
             <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
-                <option value="SE-LTL" selected>SE-LTL (BE20)</option>
-                <option value="SE-KVL">SE-KVL (BE20)</option>
-                <option value="SE-MJU">SE-MJU (BE20)</option>
-                <option value="SE-MHU">SE-MHU (B190)</option>
-                <option value="SE-MJV">SE-MJV (B190)</option>
-                <option value="SE-RIJ">SE-RIJ (C56X)</option>
             </select>
             <div class="settings-menu">
                 <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">
@@ -184,6 +178,13 @@
                 </button>
                 <div id="settings-panel" class="settings-panel" hidden>
                     <h2>Settings</h2>
+                    <section class="offline-readiness" aria-labelledby="offline-readiness-title">
+                        <h3 id="offline-readiness-title">Offline use</h3>
+                        <p id="offline-data-status" class="offline-data-status" role="status" aria-live="polite">Checking offline files…</p>
+                        <button id="offline-data-retry" class="check-updates-button" type="button">Check / download offline files</button>
+                        <button id="offline-app-reload" class="check-updates-button" type="button" hidden>Reload app to retry initialization</button>
+                        <p id="offline-storage-status" class="offline-storage-status" role="status" aria-live="polite"></p>
+                    </section>
                     <button id="check-updates-button" class="check-updates-button" type="button">Check for updates and install</button>
                     <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
                     <button id="open-help-button" class="check-updates-button" type="button" style="margin-top: 8px;">User Guide</button>
@@ -748,7 +749,7 @@
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" min="0" inputmode="decimal" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- OAT (C8) -->
@@ -1035,7 +1036,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-spd" oninput="handleManualWeatherInput('landing', 'windSpeed', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" min="0" inputmode="decimal" class="form-control" id="ldg-wind-spd" oninput="handleManualWeatherInput('landing', 'windSpeed', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>

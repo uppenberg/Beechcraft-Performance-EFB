@@ -8,6 +8,7 @@ const runwaySuggestions = { to: null, ldg: null };
 let runwaySuggestionRefreshTimer = null;
 let appServiceWorkerRegistration = null;
 let reloadAfterServiceWorkerChange = false;
+let appInitializationFailed = false;
 const PERSISTED_FORM_STATE_KEY_PREFIX = 'performance_form_state_v2_';
 function getPersistedFormStateKey() {
   const registration = document.getElementById('global-registration')?.value;
@@ -135,58 +136,100 @@ const AIRPORT_LOOKUP_CELLS_BY_PAGE = {
     'LDA [m](F6)': 'C18',
   },
 };
-const AIRCRAFT_REGISTRATIONS = {
-  'SE-LTL': { type: 'BE20', workbook: 'se-ltl.xlsx' },
-  'SE-KVL': { type: 'BE20', workbook: 'se-kvl.xlsx' },
-  'SE-MJU': { type: 'BE20', workbook: 'se-mju.xlsx' },
-  'SE-MJV': { type: 'B190', workbook: 'B190.xlsx' },
-  'SE-MHU': { type: 'B190', workbook: 'B190.xlsx' },
-  'SE-RIJ': { type: 'C56X', workbook: null },
+const AIRCRAFT_MODELS = {
+  BE20: {
+    performanceEngine: 'workbook',
+    registrations: [
+      { id: 'SE-LTL', workbook: 'se-ltl.xlsx' },
+      { id: 'SE-KVL', workbook: 'se-kvl.xlsx' },
+      { id: 'SE-MJU', workbook: 'se-mju.xlsx' },
+    ],
+    takeoffFlaps: [
+      { value: 'UP', label: 'Flaps Up' },
+      { value: 'APP', label: 'Approach' },
+    ],
+    massRanges: {
+      takeoff: { min: 9200, max: 12500, default: 12500 },
+      landing: { min: 9000, max: 12500, default: 12500 },
+    },
+    maxDesignLandingWeightLb: null,
+  },
+  B190: {
+    performanceEngine: 'workbook',
+    registrations: [
+      { id: 'SE-MHU', workbook: 'B190.xlsx' },
+      { id: 'SE-MJV', workbook: 'B190.xlsx' },
+    ],
+    takeoffFlaps: [
+      { value: 'UP', label: 'Flaps Up' },
+      { value: 'TAKE', label: 'Take-off' },
+      { value: 'APP', label: 'Approach' },
+    ],
+    massRanges: {
+      takeoff: { min: 10000, max: 16600, default: 16600 },
+      landing: { min: 10000, max: 16600, default: 16100 },
+    },
+    maxDesignLandingWeightLb: 16100,
+  },
+  C56X: {
+    performanceEngine: 'c56x',
+    registrations: [
+      { id: 'SE-RIJ', workbook: null },
+    ],
+    takeoffFlaps: [
+      { value: '7', label: 'Flaps 7°' },
+      { value: '15', label: 'Flaps 15°' },
+    ],
+    massRanges: {
+      takeoff: { min: 13500, max: 20000, default: 20000 },
+      landing: { min: 13000, max: 20000, default: 18700 },
+    },
+    maxDesignLandingWeightLb: 18700,
+  },
 };
-const WORKBOOK_BY_REGISTRATION = Object.fromEntries(
-  Object.entries(AIRCRAFT_REGISTRATIONS)
-    .filter(([, aircraft]) => aircraft.workbook)
-    .map(([registration, aircraft]) => [registration, aircraft.workbook])
-);
+const AIRCRAFT_REGISTRATIONS = {};
+Object.entries(AIRCRAFT_MODELS).forEach(([type, model]) => {
+  model.registrations.forEach(({ id, workbook }) => {
+    AIRCRAFT_REGISTRATIONS[id] = {
+      type,
+      workbook,
+      performanceEngine: model.performanceEngine,
+    };
+  });
+});
 const AIRCRAFT_TYPE_BY_REGISTRATION = Object.fromEntries(
   Object.entries(AIRCRAFT_REGISTRATIONS)
     .map(([registration, aircraft]) => [registration, aircraft.type])
 );
+const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = Object.fromEntries(
+  Object.entries(AIRCRAFT_MODELS).map(([type, model]) => [type, model.takeoffFlaps])
+);
+const MASS_SLIDER_RANGES_BY_TYPE = Object.fromEntries(
+  Object.entries(AIRCRAFT_MODELS).map(([type, model]) => [type, model.massRanges])
+);
+const MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE = Object.fromEntries(
+  Object.entries(AIRCRAFT_MODELS)
+    .filter(([, model]) => Number.isFinite(model.maxDesignLandingWeightLb))
+    .map(([type, model]) => [type, model.maxDesignLandingWeightLb])
+);
+
+function configureAircraftRegistrationOptions(select) {
+  if (!select) return;
+  const registrations = [];
+  Object.entries(AIRCRAFT_MODELS).forEach(([type, model]) => {
+    model.registrations.forEach(({ id }) => {
+      registrations.push(new Option(`${id} (${type})`, id));
+    });
+  });
+  select.replaceChildren(...registrations);
+  select.value = registrations[0]?.value || '';
+}
+
 function isC56xSelected() {
   return AIRCRAFT_TYPE_BY_REGISTRATION[document.getElementById('global-registration')?.value] === 'C56X';
 }
-const TAKEOFF_FLAPS_OPTIONS_BY_TYPE = {
-  BE20: [
-    { value: 'UP', label: 'Flaps Up' },
-    { value: 'APP', label: 'Approach' },
-  ],
-  B190: [
-    { value: 'UP', label: 'Flaps Up' },
-    { value: 'TAKE', label: 'Take-off' },
-    { value: 'APP', label: 'Approach' },
-  ],
-  C56X: [
-    { value: '7', label: 'Flaps 7°' },
-    { value: '15', label: 'Flaps 15°' },
-  ],
-};
 const TAKEOFF_RESULT_COLUMN_BY_FLAPS = { UP: 'C', TAKE: 'D', APP: 'E' };
-const MASS_SLIDER_RANGES_BY_TYPE = {
-  BE20: {
-    takeoff: { min: 9200, max: 12500, default: 12500 },
-    landing: { min: 9000, max: 12500, default: 12500 },
-  },
-  B190: {
-    takeoff: { min: 10000, max: 16600, default: 16600 },
-    landing: { min: 10000, max: 16600, default: 16100 },
-  },
-    C56X: {
-    takeoff: { min: 13500, max: 20000, default: 20000 },
-    landing: { min: 13000, max: 20000, default: 18700 },
-  },
-};
 let pendingRegistrationChange = null;
-const MAX_DESIGN_LANDING_WEIGHT_LB_BY_TYPE = { B190: 16100, C56X: 18700 };
 
 function configureTakeoffFlaps(registration) {
   const select = document.getElementById('to-flaps');
@@ -409,6 +452,7 @@ async function init() {
     console.log("Startar PWA och laddar data...");
 
     const registrationSelect = document.getElementById('global-registration');
+    configureAircraftRegistrationOptions(registrationSelect);
     const savedRegistration = localStorage.getItem('selected_reg');
     if (registrationSelect && savedRegistration && AIRCRAFT_TYPE_BY_REGISTRATION[savedRegistration]) {
       registrationSelect.value = savedRegistration;
@@ -424,7 +468,12 @@ async function init() {
     configureMassSliders(selectedRegistration);
     configureTakeoffTechnique(selectedRegistration);
 
-    if (!WORKBOOK_BY_REGISTRATION[selectedRegistration]) {
+    const selectedAircraft = AIRCRAFT_REGISTRATIONS[selectedRegistration];
+    if (!selectedAircraft) {
+      throw new Error(`No aircraft configuration is available for ${selectedRegistration}.`);
+    }
+
+    if (selectedAircraft.performanceEngine === 'c56x') {
       configureC56xRunwayInputs(selectedRegistration);
       configureC56xLandingPage(selectedRegistration);
       await loadC56xPerformanceData();
@@ -460,9 +509,19 @@ async function init() {
         }
       });
       clearRegistrationError();
+      appInitializationFailed = false;
       setupSettingsMenu();
       registerAppServiceWorker();
       return;
+    }
+
+    if (selectedAircraft.performanceEngine !== 'workbook') {
+      throw new Error(
+        `Unsupported performance engine "${selectedAircraft.performanceEngine}" for ${selectedRegistration}.`
+      );
+    }
+    if (!selectedAircraft.workbook) {
+      throw new Error(`No workbook is configured for ${selectedRegistration}.`);
     }
     
     // Ladda in Excel och skapa HyperFormula-instansen
@@ -490,13 +549,20 @@ async function init() {
       updateEngineCellVal('takeoff', 'antiIce', antiIceSelect.value);
     }
     
+    appInitializationFailed = false;
     setupSettingsMenu();
     registerAppServiceWorker();
     
     console.log("Appen är helt initierad!");
   } catch (error) {
     console.error("Kunde inte slutföra init():", error);
-    showAirportSelectionError(`Could not initialize the performance calculator: ${error.message}`);
+    appInitializationFailed = true;
+    setupSettingsMenu();
+    showAirportSelectionError(
+      `Could not initialize the performance calculator: ${error.message} ` +
+      'Open Settings → Offline use to check or download missing files.'
+    );
+    checkOfflineData();
   }
 }
 
@@ -672,6 +738,7 @@ function setupSettingsMenu() {
 
   if (!toggle || !panel || !updateButton) return;
   setupCustomAirportUi();
+  setupOfflineReadiness();
 
   toggle.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -740,6 +807,169 @@ function setUpdateStatus(message) {
   if (status) status.textContent = message;
 }
 
+function setOfflineDataStatus(message, state = '') {
+  const status = document.getElementById('offline-data-status');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('is-ready', state === 'ready');
+  status.classList.toggle('is-error', state === 'error');
+}
+
+async function waitForServiceWorkerReady(timeoutMs = 60000) {
+  return new Promise((resolve, reject) => {
+    const timeout = window.setTimeout(() => {
+      reject(new Error('Timed out while starting offline support.'));
+    }, timeoutMs);
+    navigator.serviceWorker.ready.then(
+      (registration) => {
+        window.clearTimeout(timeout);
+        resolve(registration);
+      },
+      (error) => {
+        window.clearTimeout(timeout);
+        reject(error);
+      }
+    );
+  });
+}
+
+async function getOfflineDataWorker({ retry = false } = {}) {
+  if (!('serviceWorker' in navigator)) {
+    throw new Error('Offline file checks are not supported in this browser.');
+  }
+
+  let registration = appServiceWorkerRegistration || await navigator.serviceWorker.getRegistration();
+  if (registration) appServiceWorkerRegistration = registration;
+  let worker = navigator.serviceWorker.controller || registration?.active;
+  if (worker) return worker;
+  if (!retry) throw new Error('Open the app online once so offline support can start.');
+
+  // A failed first install can leave a stale registration without a usable worker.
+  // Registering again restarts that path; register() already starts its update check.
+  const hasUsableRegistration = registration && (
+    registration.active ||
+    registration.waiting ||
+    (registration.installing && registration.installing.state !== 'redundant')
+  );
+  if (!hasUsableRegistration) {
+    registration = await navigator.serviceWorker.register('./sw.js', {
+      updateViaCache: 'none',
+    });
+    appServiceWorkerRegistration = registration;
+  }
+
+  const installingWorker = registration.installing;
+  if (installingWorker) await waitForServiceWorkerInstall(installingWorker);
+  if (!registration.active && !registration.waiting) {
+    registration = await waitForServiceWorkerReady();
+    appServiceWorkerRegistration = registration;
+  }
+
+  worker = navigator.serviceWorker.controller || registration.active || registration.waiting;
+  if (!worker) throw new Error('Offline support could not start. Connect to the internet and retry.');
+  return worker;
+}
+
+async function requestOfflineDataWorkerMessage(type) {
+  const worker = await getOfflineDataWorker({ retry: type === 'RETRY_OFFLINE_DATA' });
+
+  return new Promise((resolve, reject) => {
+    const channel = new MessageChannel();
+    const timeout = window.setTimeout(() => {
+      channel.port1.close();
+      reject(new Error('The offline file check timed out.'));
+    }, 60000);
+    channel.port1.onmessage = (event) => {
+      window.clearTimeout(timeout);
+      channel.port1.close();
+      resolve(event.data);
+    };
+    channel.port1.onmessageerror = () => {
+      window.clearTimeout(timeout);
+      channel.port1.close();
+      reject(new Error('Could not read the offline file check result.'));
+    };
+    try {
+      worker.postMessage({ type }, [channel.port2]);
+    } catch (error) {
+      window.clearTimeout(timeout);
+      channel.port1.close();
+      channel.port2.close();
+      reject(error);
+    }
+  });
+}
+
+async function updatePersistentStorageStatus(request = false) {
+  const status = document.getElementById('offline-storage-status');
+  if (!status) return;
+  const storage = navigator.storage;
+  if (!storage?.persisted) {
+    status.textContent = 'Storage protection is unavailable in this browser.';
+    return;
+  }
+
+  try {
+    let persistent = await storage.persisted();
+    if (!persistent && request && storage.persist) persistent = await storage.persist();
+    status.textContent = persistent
+      ? 'Persistent storage is enabled for this app.'
+      : 'Storage is best-effort; the device may clear offline files. Recheck before relying on offline use.';
+  } catch (error) {
+    status.textContent = 'Could not check storage protection. Recheck offline files before use.';
+    console.warn('Could not check persistent storage:', error);
+  }
+}
+
+async function checkOfflineData({ retry = false, requestPersistence = false } = {}) {
+  const button = document.getElementById('offline-data-retry');
+  const reloadButton = document.getElementById('offline-app-reload');
+  if (button) button.disabled = true;
+  if (reloadButton) reloadButton.hidden = true;
+  setOfflineDataStatus(retry ? 'Checking and downloading missing files…' : 'Checking offline files…');
+  try {
+    if (requestPersistence) await updatePersistentStorageStatus(true);
+    const result = await requestOfflineDataWorkerMessage(
+      retry ? 'RETRY_OFFLINE_DATA' : 'CHECK_OFFLINE_DATA'
+    );
+    if (result.ready) {
+      setOfflineDataStatus(
+        appInitializationFailed && retry
+          ? `✓ All ${result.total} files are available offline. Reload to retry app initialization.`
+          : `✓ All ${result.total} app and performance files are available offline.`,
+        'ready'
+      );
+      if (appInitializationFailed && retry && reloadButton) reloadButton.hidden = false;
+    } else if (result.error) {
+      setOfflineDataStatus(`Could not check offline files: ${result.error}`, 'error');
+    } else if (retry) {
+      setOfflineDataStatus(
+        `${result.missing.length} file(s) could not be downloaded. Connect to the internet and retry.`,
+        'error'
+      );
+    } else {
+      setOfflineDataStatus(
+        `${result.missing.length} file(s) are missing. Connect to the internet and tap Check / download.`,
+        'error'
+      );
+    }
+  } catch (error) {
+    setOfflineDataStatus(`${error.message} Connect to the internet and retry.`, 'error');
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+function setupOfflineReadiness() {
+  const button = document.getElementById('offline-data-retry');
+  const reloadButton = document.getElementById('offline-app-reload');
+  button?.addEventListener('click', () => {
+    checkOfflineData({ retry: true, requestPersistence: true });
+  });
+  reloadButton?.addEventListener('click', () => window.location.reload());
+  updatePersistentStorageStatus();
+}
+
 function setUpdateAvailable(isAvailable) {
   const toggle = document.getElementById('settings-toggle');
   const updateButton = document.getElementById('check-updates-button');
@@ -773,6 +1003,7 @@ function watchForServiceWorkerUpdate(registration) {
 async function registerAppServiceWorker() {
   if (!('serviceWorker' in navigator)) {
     setUpdateStatus('App updates are not supported in this browser.');
+    setOfflineDataStatus('Offline file verification is not supported in this browser.', 'error');
     return;
   }
 
@@ -799,29 +1030,51 @@ async function registerAppServiceWorker() {
     } else if (!appServiceWorkerRegistration.installing) {
       setUpdateStatus('The app is up to date.');
     }
+    navigator.serviceWorker.ready
+      .then(() => checkOfflineData())
+      .catch((error) => setOfflineDataStatus(`Could not start offline check: ${error.message}`, 'error'));
   } catch (error) {
     console.error('Could not register or check the app service worker:', error);
     setUpdateStatus('Could not check for updates. Check your connection and try again.');
+    navigator.serviceWorker.getRegistration()
+      .then((registration) => {
+        if (navigator.serviceWorker.controller || registration?.active) {
+          checkOfflineData();
+        } else {
+          setOfflineDataStatus('Open the app online once, then retry the offline download.', 'error');
+        }
+      })
+      .catch((offlineError) => setOfflineDataStatus(
+        `Could not verify offline files: ${offlineError.message}`,
+        'error'
+      ));
   }
 }
 
 function waitForServiceWorkerInstall(worker) {
   return new Promise((resolve, reject) => {
-    if (worker.state === 'installed') {
-      resolve();
-      return;
-    }
-    if (worker.state === 'redundant') {
-      reject(new Error('The app update worker became redundant before installation.'));
-      return;
-    }
-
-    worker.addEventListener('statechange', () => {
-      if (worker.state === 'installed') resolve();
-      if (worker.state === 'redundant') {
-        reject(new Error('The app update worker became redundant before installation.'));
+    let settled = false;
+    const finish = (error) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      worker.removeEventListener('statechange', onStateChange);
+      if (error) reject(error);
+      else resolve();
+    };
+    const onStateChange = () => {
+      if (worker.state === 'installed' || worker.state === 'activating' || worker.state === 'activated') {
+        finish();
+      } else if (worker.state === 'redundant') {
+        finish(new Error('The app update worker became redundant before installation.'));
       }
-    });
+    };
+    const timeout = window.setTimeout(
+      () => finish(new Error('Timed out while installing the app service worker.')),
+      60000
+    );
+    onStateChange();
+    if (!settled) worker.addEventListener('statechange', onStateChange);
   });
 }
 
@@ -876,8 +1129,12 @@ async function checkForAppUpdate() {
 async function loadData(registration) {
   console.log("1. loadData har startat!");
   try {
-    const workbookName = WORKBOOK_BY_REGISTRATION[registration];
-    if (!workbookName) {
+    const aircraft = AIRCRAFT_REGISTRATIONS[registration];
+    if (aircraft?.performanceEngine !== 'workbook') {
+      throw new Error(`The workbook engine is not configured for ${registration}.`);
+    }
+    const workbookName = aircraft.workbook;
+    if (typeof workbookName !== 'string' || !workbookName.trim()) {
       throw new Error(`No performancedata is available for the registration ${registration}.`);
     }
 

@@ -53,8 +53,50 @@ self.addEventListener('install', (event) => {
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+    return;
   }
+
+  if (!['CHECK_OFFLINE_DATA', 'RETRY_OFFLINE_DATA'].includes(event.data?.type)) return;
+  const port = event.ports?.[0];
+  if (!port) return;
+  event.waitUntil(ensureOfflineData(event.data.type === 'RETRY_OFFLINE_DATA')
+    .then((result) => port.postMessage(result))
+    .catch((error) => port.postMessage({
+      ready: false,
+      total: ASSETS.length,
+      missing: ASSETS,
+      error: error.message || String(error),
+    })));
 });
+
+async function ensureOfflineData(downloadMissing) {
+  const cache = await caches.open(CACHE_NAME);
+  const missing = [];
+  const failed = [];
+
+  for (const asset of ASSETS) {
+    const url = new URL(asset, self.registration.scope).href;
+    const cached = await cache.match(url);
+    if (cached?.ok) continue;
+    missing.push(asset);
+    if (!downloadMissing) continue;
+
+    try {
+      const response = await fetch(new Request(url, { cache: 'reload' }));
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await cache.put(url, response);
+    } catch (error) {
+      failed.push({ asset, reason: error.message || String(error) });
+    }
+  }
+
+  return {
+    ready: failed.length === 0 && (downloadMissing || missing.length === 0),
+    total: ASSETS.length,
+    missing: downloadMissing ? failed.map((entry) => entry.asset) : missing,
+    failed,
+  };
+}
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
