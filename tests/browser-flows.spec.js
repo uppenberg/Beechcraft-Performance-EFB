@@ -37,6 +37,35 @@ test.beforeEach(async ({ context, request }) => {
   await blockExternalRequests(context);
 });
 
+test('takeoff runway availability checks restore serialized workbook input cells', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  await chooseAirport(page, 'to', 'ESSA', '01L');
+
+  const result = await page.evaluate(() => {
+    const candidate = getAirportRows('ESSA').find((airport) => airport.RWY !== '01L');
+    if (!candidate) throw new Error('Expected a second ESSA runway for the restoration check.');
+
+    const config = CELL_MAPPING.takeoff;
+    const sheet = hfInstance.getSheetId(config.sheetName);
+    const cellRefs = [
+      config.inputs.airportAndRwy,
+      ...Object.values(AIRPORT_LOOKUP_CELLS_BY_PAGE.to),
+    ];
+    const addresses = cellRefs.map((cellRef) => {
+      const position = parseCellRef(cellRef);
+      return { sheet, col: position.col, row: position.row };
+    });
+    const before = addresses.map((address) => hfInstance.getCellSerialized(address) ?? null);
+    const availability = evaluateTakeoffRunwayAvailability(candidate);
+    const after = addresses.map((address) => hfInstance.getCellSerialized(address) ?? null);
+
+    return { availability, before, after };
+  });
+
+  expect(result.availability).toHaveProperty('available');
+  expect(result.after).toEqual(result.before);
+});
+
 for (const aircraft of aircraftCases) {
   test(`${aircraft.model}: startup, takeoff/landing calculation and runway limits`, async ({ page }) => {
     const reference = regressionReferences[aircraft.model];

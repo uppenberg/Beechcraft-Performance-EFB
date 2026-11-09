@@ -1,6 +1,6 @@
 # Automated test suite
 
-The tests exercise the static app in a local HTTP server with real browser engines. They cover C56X table calculations and limits, BE20/B190 workbook-backed calculations, common takeoff and landing flows, aircraft changes, custom airports, saved inputs, invalid inputs, and the service-worker download/retry/offline/update lifecycle.
+The tests exercise the static app in a local HTTP server with real browser engines. They cover C56X table calculations and limits, BE20/B190 workbook-backed calculations, common takeoff and landing flows, aircraft changes, custom airports, saved inputs, invalid inputs, METAR parsing and MPS field preservation, HyperFormula runway-check restoration, and the service-worker download/retry/offline/update lifecycle.
 
 ## Run locally
 

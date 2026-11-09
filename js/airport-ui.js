@@ -284,20 +284,20 @@ function scheduleTakeoffSuggestionRefresh() {
 }
 
 function suggestRunwayFromMetar(metarText, prefix) {
-  const windMatch = metarText.match(/\b(VRB|\d{3})(\d{2,3})(?:G\d{2,3})?(KT|MPS)\b/i);
-  if (!windMatch || windMatch[1].toUpperCase() === 'VRB') {
+  const { wind } = MetarWeather.parse(metarText);
+  if (!wind || wind.directionDegrees === null) {
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR wind direction is variable or unavailable.');
     return;
   }
 
-  const direction = Number(windMatch[1]);
-  const speed = Number(windMatch[2]);
-  if (!Number.isFinite(direction) || direction > 360 || !Number.isFinite(speed) || speed === 0) {
+  const direction = wind.directionDegrees;
+  const speedKnots = wind.speedKnots;
+  if (!Number.isFinite(direction) || direction > 360 ||
+      !Number.isFinite(speedKnots) || speedKnots === 0) {
     updateRunwaySuggestion(prefix, 'No runway suggestion: METAR wind is calm or has an invalid direction.');
     return;
   }
 
-  const speedKnots = windMatch[3].toUpperCase() === 'MPS' ? speed * 1.94384 : speed;
   const runwayCandidates = new Map();
   const runwaysByName = new Map();
   getAirportRows(airportSelection[prefix].icao).forEach((airport) => {

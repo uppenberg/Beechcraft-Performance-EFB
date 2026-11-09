@@ -55,6 +55,10 @@ test('MPS METAR leaves takeoff and landing weather fields unchanged', async ({ p
   await expect(page.locator('#ldg-qnh')).toHaveValue('1008');
   await expect(page.locator('#to-metar-weather-status')).toContainText('left unchanged');
   await expect(page.locator('#ldg-metar-weather-status')).toContainText('left unchanged');
+  await expect(page.locator('#to-runway-suggestion-text'))
+    .toContainText(/METAR suggests RWY|Runways have similar headwind components/);
+  await expect(page.locator('#ldg-runway-suggestion-text'))
+    .toContainText(/METAR suggests RWY|Runways have similar headwind components/);
 });
 
 test('KT METAR continues to fill available takeoff and landing weather fields', async ({ page }) => {
@@ -76,4 +80,45 @@ test('KT METAR continues to fill available takeoff and landing weather fields', 
     await expect(page.locator(`#${prefix}-qnh`)).toHaveValue('1013');
     await expect(page.locator(`#${prefix}-metar-weather-status`)).toBeHidden();
   }
+});
+
+test('shared METAR parser normalizes wind once and keeps MPS out of calculator values', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const parsed = await page.evaluate(() => ({
+    mps: MetarWeather.parse('METAR ESSA 011230Z 02010G15MPS 15/10 Q1013'),
+    knots: MetarWeather.parse('METAR ESSA 011230Z 34008G14KT M01/M03 A2992'),
+    variable: MetarWeather.parse('METAR ESSA 011230Z VRB03KT 15/10 Q1013'),
+    invalid: MetarWeather.parse(null),
+  }));
+
+  expect(parsed.mps).toEqual({
+    windUnit: 'MPS',
+    wind: {
+      directionDegrees: 20,
+      speed: 10,
+      gust: 15,
+      unit: 'MPS',
+      speedKnots: 19.4384,
+    },
+    values: {},
+  });
+  expect(parsed.knots).toEqual({
+    windUnit: 'KT',
+    wind: {
+      directionDegrees: 340,
+      speed: 8,
+      gust: 14,
+      unit: 'KT',
+      speedKnots: 8,
+    },
+    values: { windDir: 340, windSpeed: 8, oat: -1, qnh: 1013 },
+  });
+  expect(parsed.variable.wind).toEqual({
+    directionDegrees: null,
+    speed: 3,
+    gust: null,
+    unit: 'KT',
+    speedKnots: 3,
+  });
+  expect(parsed.invalid).toEqual({ windUnit: null, wind: null, values: {} });
 });
