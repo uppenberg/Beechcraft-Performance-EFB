@@ -1,0 +1,26 @@
+{
+  "name": "beechcraft-performance-efb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report",
+    "test:references:generate": "node tests/generate-reference-draft.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uppenberg/Beechcraft-Performance-EFB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/uppenberg/Beechcraft-Performance-EFB/issues"
+  },
+  "homepage": "https://github.com/uppenberg/Beechcraft-Performance-EFB#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
+  }
+}
