@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 const { applyIpadMiniScreenshotAppearance } = require('./support/ipad-mini-appearance');
 const { blockExternalRequests, chooseAirport, fillWeather, openApp } = require('./support/app-helpers');
 

@@ -33,6 +33,7 @@ projects.push({
 module.exports = defineConfig({
   testDir: './tests',
   testMatch: ['**/*.spec.js'],
+  globalSetup: require.resolve('./tests/support/coverage-setup'),
   fullyParallel: false,
   workers: 1,
   retries: process.env.CI ? 1 : 0,

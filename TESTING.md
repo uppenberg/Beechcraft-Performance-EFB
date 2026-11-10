@@ -23,6 +23,23 @@ npm.cmd test -- --project=ipad-mini
 
 `npm test` first checks the offline asset manifest, lints the app modules, service worker and test code, and type-checks the shared input and limit modules.
 
+## JavaScript code coverage
+
+CI gathers JavaScript coverage from the normal Chromium project and uploads a separate **code-coverage** artifact, alongside the Playwright report. Download and extract it into an empty folder, then open `index.html`. The GitHub job summary also contains the overall line, statement, function and branch figures. The HTML report shows individual files and highlights covered and uncovered lines. Newly added JavaScript modules under `js/` are included even if no test loads them, in which case their lines count as uncovered. The C56X loader and calculation code are included as well.
+
+[Playwright's coverage API](https://playwright.dev/docs/api/class-coverage) runs only in Chromium; the prioritized iPad/WebKit tests still run normally, but do not contribute to these figures. Coverage is collected from each test's primary page. It does not include service workers, secondary pages, inline HTML scripts, CSS, workbook files, third-party libraries or the C56X tabular data scripts. V8 function and branch ranges are converted to Istanbul format; completely unloaded files do not contribute to the function and branch denominators because V8 provides no such metadata for them. A covered line means it executed, not that its result was asserted or independently verified. A filtered, failed or interrupted run can produce a partial report; check the associated Playwright report and test selection before comparing percentages. No percentage threshold blocks CI until a meaningful baseline has been reviewed.
+
+To collect coverage locally in PowerShell:
+
+```powershell
+$env:EFB_COVERAGE = '1'
+npm.cmd test
+npm.cmd run coverage:report
+Remove-Item Env:EFB_COVERAGE
+```
+
+Open `coverage-report/index.html`. Generate the report before starting another Playwright run, which would replace the test-result status used by the coverage summary. To measure only selected tests, pass their filenames or `--project=chromium` to Playwright; that report represents only those tests. When Playwright starts a new coverage-enabled run, it removes the preceding local coverage data and report.
+
 Reports are written to `playwright-report/` (HTML), `test-results/results.json` (JSON), and `test-results/junit.xml` (JUnit). Open the HTML report with:
 
 ```sh

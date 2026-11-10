@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 const reference = require('./references/c56x-afm-figure-4-44.json');
 const { attachAfmReport } = require('./support/afm-report');
 const { applyIpadMiniScreenshotAppearance } = require('./support/ipad-mini-appearance');

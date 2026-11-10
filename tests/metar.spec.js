@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 test.use({ serviceWorkers: 'block' });
 
 const {

@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { blockExternalRequests, chooseAirport, fillWeather, openApp, setServerMode } = require('./support/app-helpers');

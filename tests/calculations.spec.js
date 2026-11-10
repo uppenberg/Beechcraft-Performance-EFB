@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 test.use({ serviceWorkers: 'block' });
 const appUpdateBaseline = require('./references/app-update-regression.json');
 const verifiedLandingTable = require('../tools/afm-audit/review/landing-distance-level-0ft-20000.verified.json');

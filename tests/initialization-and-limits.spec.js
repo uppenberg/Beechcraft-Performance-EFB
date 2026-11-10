@@ -1,4 +1,4 @@
-﻿const { test, expect } = require('@playwright/test');
+﻿const { test, expect } = require('./support/coverage-test');
 const { openApp, blockExternalRequests, chooseAirport, fillWeather, setServerMode } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });

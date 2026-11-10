@@ -6,3 +6,5 @@
 /playwright-report/
 /test-results/
 /reference-drafts/
+/coverage-raw/
+/coverage-report/

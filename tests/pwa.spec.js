@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./support/coverage-test');
 const { blockExternalRequests, openApp, setServerMode } = require('./support/app-helpers');
 
 test.beforeEach(async ({ browserName, context, request }) => {

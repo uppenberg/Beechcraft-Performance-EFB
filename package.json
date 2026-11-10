@@ -11,6 +11,7 @@
     "lint": "eslint js sw.js tools/generate-asset-manifest.js tests",
     "typecheck": "tsc --allowJs --checkJs --noEmit --strict --target es2020 --module esnext js/performance-inputs.js js/performance-limits.js",
     "test:report": "playwright show-report",
+    "coverage:report": "node tests/support/coverage-report.js",
     "test:references:generate": "node tests/generate-reference-draft.js"
   },
   "repository": {
@@ -29,7 +30,11 @@
     "@playwright/test": "^1.65.0",
     "eslint": "^10.14.0",
     "globals": "^17.14.0",
-    "typescript": "^5.9.3"
+    "istanbul-lib-coverage": "^3.2.2",
+    "istanbul-lib-report": "^3.0.1",
+    "istanbul-reports": "^3.2.0",
+    "typescript": "^5.9.3",
+    "v8-to-istanbul": "^9.3.0"
   },
   "overrides": {
     "minimatch": "11.0.1"
