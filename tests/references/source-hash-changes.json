@@ -1,0 +1,10 @@
+{
+  "status": "Recorded data change after the 0.544 regression baseline; not an AFM approval",
+  "changes": {
+    "data/airports.json": {
+      "baseline": "0d89b5a6e254a2c66219c909e68478edb1e2e078d9a186715d345b1b3fd04fb0",
+      "current": "8e05fd6c6955dba9d38e3dad637180983a082c52bc5de77dd9983aceb311d78d",
+      "reason": "Airport database update already present in commit f604502 before startup and caching changes."
+    }
+  }
+}

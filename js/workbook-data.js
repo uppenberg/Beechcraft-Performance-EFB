@@ -2,7 +2,7 @@ import { getAirportRows, getRunwayRows, getSelectedAirportRecord, syncAirportCon
 import { AIRCRAFT_REGISTRATIONS, AIRPORT_CONTROL_IDS, AppState, CELL_MAPPING, getPersistedFormStateKey } from './app-state.js';
 import { MetarWeather } from './metar-weather.js';
 import { setMetarWeatherStatus } from './results-ui.js';
-import { parseCellRef, refreshOutputs } from './workbook-engine.js';
+import { parseCellRef } from './workbook-adapter.js';
 
 
 // Workbook loading, persistence, and formula import
@@ -50,7 +50,6 @@ export async function loadData(registration) {
     );
     console.log("6. HyperFormula-instans skapad!");
 
-    refreshOutputs();
     console.log(`${workbookName} har lästs in i HyperFormula!`);
 
     return sheetsData;
@@ -105,7 +104,7 @@ export function loadCustomAirports() {
     return Array.isArray(rows)
       ? rows.filter((row) => row && /^[A-Z0-9]{4}$/.test(row.ICAO) && String(row.RWY || '').trim())
       : [];
-  } catch (error) {
+  } catch {
     return [];
   }
 }

@@ -1,11 +1,19 @@
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const crypto = require('node:crypto');
+const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '../..');
 const PORT = Number(process.env.TEST_PORT || 4173);
 let mode = 'normal';
 let updateMarker = 0;
+
+function updatedIndex(content) {
+  return Buffer.from(content.toString()
+    .replace('<head>', `<head><meta name="test-release" content="${updateMarker}">`)
+    .replace(/(<meta name="app-release" content=")[^"]+(">)/, `$1test-release-${updateMarker}$2`));
+}
 
 const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
@@ -39,11 +47,11 @@ function createTestServer() {
       request.on('end', () => {
         try {
           const payload = JSON.parse(body || '{}');
-          if (!['normal', 'fail-workbook', 'offline', 'updated'].includes(payload.mode)) {
+          if (!['normal', 'fail-workbook', 'offline', 'updated', 'updated-broken'].includes(payload.mode)) {
             return sendJson(response, 400, { error: 'Unknown test server mode.' });
           }
           mode = payload.mode;
-          if (mode === 'updated') updateMarker += 1;
+          if (mode.startsWith('updated')) updateMarker += 1;
           sendJson(response, 200, { mode, updateMarker });
         } catch {
           sendJson(response, 400, { error: 'Invalid JSON.' });
@@ -69,7 +77,7 @@ function createTestServer() {
       response.writeHead(503, { 'cache-control': 'no-store' });
       return response.end('Simulated offline network');
     }
-    if (mode === 'fail-workbook' && /\/(?:se-ltl|se-kvl|se-mju|B190)\.xlsx$/i.test(pathname)) {
+    if ((mode === 'fail-workbook' || mode === 'updated-broken') && /\/(?:se-ltl|se-kvl|se-mju|B190)\.xlsx$/i.test(pathname)) {
       response.writeHead(503, { 'cache-control': 'no-store' });
       return response.end('Simulated workbook download failure');
     }
@@ -94,7 +102,28 @@ function createTestServer() {
       response.writeHead(404);
       return response.end('Not found');
     }
-    if (pathname.endsWith('/sw.js') && mode === 'updated') {
+    if (mode.startsWith('updated') && pathname.endsWith('/version.js')) {
+      content = Buffer.from(`self.APP_VERSION = 'test-release-${updateMarker}';\n`);
+    } else if (mode.startsWith('updated') && (pathname === '/' || pathname.endsWith('/index.html'))) {
+      content = updatedIndex(content);
+    } else if (mode.startsWith('updated') && pathname.endsWith('/js/app.js')) {
+      content = Buffer.concat([content, Buffer.from(`\nwindow.__testRelease = ${updateMarker};\n`)]);
+    } else if (mode.startsWith('updated') && pathname.endsWith('/asset-manifest.js')) {
+      const sandbox = { self: {} };
+      vm.runInNewContext(content.toString(), sandbox);
+      const manifest = sandbox.self.EFB_ASSET_MANIFEST;
+      manifest.version = `test-release-${updateMarker}`;
+      for (const asset of ['./index.html', './version.js', './js/app.js']) {
+        let bytes = fs.readFileSync(path.join(ROOT, asset));
+        if (asset === './index.html') bytes = updatedIndex(bytes);
+        if (asset === './version.js') bytes = Buffer.from(`self.APP_VERSION = 'test-release-${updateMarker}';\n`);
+        if (asset === './js/app.js') bytes = Buffer.concat([bytes, Buffer.from(`\nwindow.__testRelease = ${updateMarker};\n`)]);
+        manifest.hashes[asset] = crypto.createHash('sha256').update(bytes).digest('hex');
+      }
+      manifest.buildId = crypto.createHash('sha256').update(JSON.stringify({ version: manifest.version, hashes: manifest.hashes })).digest('hex');
+      content = Buffer.from(`self.EFB_ASSET_MANIFEST = ${JSON.stringify(manifest)};\n`);
+    }
+    if (pathname.endsWith('/sw.js') && mode.startsWith('updated')) {
       content = Buffer.concat([content, Buffer.from(`\n// Playwright update marker ${updateMarker}\n`)]);
     }
 

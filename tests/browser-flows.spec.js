@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 test.use({ serviceWorkers: 'block' });
 const regressionBaseline = require('./references/app-update-regression.json');
+const startupSyncChanges = require('./references/startup-sync-changes.json');
 const regressionReferences = Object.fromEntries(
   regressionBaseline.references.map((reference) => [reference.model, reference])
 );
@@ -161,7 +162,12 @@ for (const aircraft of aircraftCases) {
       id,
       document.getElementById(id)?.textContent?.trim() ?? null,
     ])), Object.keys(reference.outputs));
-    expect(actualOutputs).toEqual(reference.outputs);
+    const expectedOutputs = { ...reference.outputs };
+    for (const [field, change] of Object.entries(startupSyncChanges.changes[aircraft.model] || {})) {
+      expect(reference.outputs[field], `${field} must remain traceable to the approved baseline`).toBe(change.before);
+      expectedOutputs[field] = change.after;
+    }
+    expect(actualOutputs).toEqual(expectedOutputs);
     expect(pageErrors).toEqual([]);
   });
 }

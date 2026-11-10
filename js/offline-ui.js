@@ -452,8 +452,12 @@ export async function registerAppServiceWorker() {
       updateViaCache: 'none'
     });
 
+    let wasControlled = Boolean(navigator.serviceWorker.controller);
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (AppState.reloadAfterServiceWorkerChange) window.location.reload();
+      // Every open app tab must switch its document and modules together.
+      // Do not reload when the first worker merely claims a newly installed app.
+      if (wasControlled || AppState.reloadAfterServiceWorkerChange) window.location.reload();
+      wasControlled = true;
     });
 
     watchForServiceWorkerUpdate(AppState.appServiceWorkerRegistration);

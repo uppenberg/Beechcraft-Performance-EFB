@@ -1,35 +1,27 @@
+import { finiteNumber, exceedsDistanceLimit, windLimitStatus } from './performance-limits.js';
+export { exceedsDistanceLimit } from './performance-limits.js';
 import { getAirportRows, suggestRunwayFromMetar, updateRunwaySuggestion } from './airport-ui.js';
-import { AppState, CELL_MAPPING } from './app-state.js';
+import { AppState, CELL_MAPPING, isC56xSelected } from './app-state.js';
 import { MetarWeather } from './metar-weather.js';
 import { persistFormState, saveMetar } from './workbook-data.js';
-import { getTakeoffOutput, parseCellRef, refreshOutputs, updateEngineCellValues } from './workbook-engine.js';
+import { getTakeoffOutput, parseCellRef } from './workbook-adapter.js';
+import { refreshOutputs, updateEngineCellValues } from './workbook-engine.js';
 
 
 // Performance cards, charts, and METAR interaction
 
-export function updateBadgeStatus(elementId, val1, val2, conditionFn) {
+export function updateBadgeStatus(elementId, val1, val2) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
-
-  if (val1 === '-' || val2 === '-' || val1 === null || val2 === null ||
-      String(val1).startsWith('#') || String(val2).startsWith('#')) {
+  const exceeded = exceedsDistanceLimit(val1, val2);
+  if (exceeded === null) {
     badge.innerText = "FAIL";
     badge.style.background = "rgba(248, 81, 73, 0.15)";
     badge.style.color = "#f85149";
     return;
   }
 
-  const num1 = Number(val1);
-  const num2 = Number(val2);
-
-  if (isNaN(num1) || isNaN(num2)) {
-    badge.innerText = "FAIL";
-    badge.style.background = "rgba(248, 81, 73, 0.15)";
-    badge.style.color = "#f85149";
-    return;
-  }
-
-  if (conditionFn(num1, num2)) {
+  if (!exceeded) {
     badge.innerText = "OK";
     badge.style.background = "rgba(46, 160, 67, 0.15)";
     badge.style.color = "#3fb950";
@@ -280,33 +272,18 @@ export function checkContaminationLogic() {
     return true;
   }
 
-  const currentTor = Number(getTakeoffOutput('tor'));
-
-  AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
-  const dryTor = Number(getTakeoffOutput('tor'));
-  AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
-
-  if (!isNaN(currentTor) && !isNaN(dryTor) && dryTor > 0) {
-    return currentTor >= dryTor;
+  const currentTor = finiteNumber(getTakeoffOutput('tor', false));
+  let dryTor;
+  try {
+    AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, 6);
+    dryTor = finiteNumber(getTakeoffOutput('tor', false));
+  } finally {
+    AppState.hfInstance.setCellContents({ sheet: sheetId, col: rccPos.col, row: rccPos.row }, currentRccVal);
   }
-
-  return true;
+  return currentTor !== null && dryTor !== null && dryTor > 0 && currentTor >= dryTor;
 }
 
-export function finiteDistance(value) {
-    if (value === null || value === undefined || String(value).trim() === '' ||
-        String(value).startsWith('#')) return null;
-    const number = Number(value);
-    return Number.isFinite(number) ? number : null;
-}
-
-export function exceedsDistanceLimit(distance, limit) {
-    const distanceValue = finiteDistance(distance);
-    const limitValue = finiteDistance(limit);
-    return distanceValue === null || limitValue === null
-        ? null
-        : distanceValue > limitValue;
-}
+export const finiteDistance = finiteNumber;
 
 export function updateRunwayExceedanceCard(cardId, statusId, checks) {
     const card = document.getElementById(cardId);
@@ -373,7 +350,7 @@ export function renderC56xTakeoffChart(takeoffDistanceM, toraM, todaM, asdaM) {
     if (tkofMarker) {
         tkofMarker.style.left =
             `${runwayStrip.offsetLeft + ratio * runwayStrip.clientWidth}px`;
-        tkofMarker.dataset.val = String(takeoffDistanceM);
+        tkofMarker.dataset.val = String(Math.ceil(takeoffDistanceM));
     }
     if (usedRunway) usedRunway.style.width = `${ratio * 100}%`;
 }
@@ -456,7 +433,8 @@ export function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
             ? runwayStrip.offsetLeft + distanceRatio * runwayStrip.clientWidth
             : 0;
         activeMarker.style.left = `${markerLeft}px`;
-        activeMarker.setAttribute('data-val', Math.round(parseFloat(activeDistance) || 0));
+        const distance = parseFloat(activeDistance) || 0;
+        activeMarker.setAttribute('data-val', isC56xSelected() ? Math.ceil(distance) : Math.round(distance));
     }
 
     if (runwayStrip && usedRunway) {
@@ -513,61 +491,33 @@ export function updateClimbCheckCard(actualValue, reqValue) {
     }
 }
 
-export function updateWindCheckCard(hwTwVal, xwVal, xwLimitVal) {
-    const cardContainer = document.getElementById('card-wind-check');
-    const hwTwSpan = document.getElementById('res-to-hwtw');
-    const xwSpan = document.getElementById('res-to-xw');
-    const xwLimitSpan = document.getElementById('res-to-xwlimit');
-
-    if (!cardContainer) return;
-
-    hwTwSpan.textContent = hwTwVal || "-";
-    xwSpan.textContent = xwVal || "-";
-    xwLimitSpan.textContent = xwLimitVal || "-";
-
-    cardContainer.style.background = "#0d1117";
-    cardContainer.style.borderColor = "#30363d";
-    hwTwSpan.style.color = "#fff";
-    xwSpan.style.color = "#fff";
-
-    const hwTwNum = parseFloat(hwTwVal);
-    const xwNum = parseFloat(xwVal);
-    const xwLimitNum = parseFloat(xwLimitVal);
-
-    let isRed = false;
-    let isAmber = false;
-
-    if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
-        isRed = true;
-    }
-
-    if (!isNaN(hwTwNum)) {
-        if (hwTwNum < 0) {
-            if (hwTwNum >= -10) {
-                isAmber = true;
-            } else {
-                isRed = true;
-            }
+// Use raw numbers for the decision and round only the displayed components.
+function renderWindCheckCard(prefix, headwind, crosswind, crosswindLimit) {
+    const suffix = prefix === 'ldg' ? '-ldg' : '';
+    const card = document.getElementById(`card-wind-check${suffix}`);
+    if (!card) return;
+    const display = (value) => {
+        const number = finiteNumber(value);
+        if (number !== null) return String(Math.round(number));
+        if (typeof value === 'string' && /TW/i.test(value)) {
+            return value.replace(/([\d.]+)(?=\s*TW)/i, (_, amount) => String(Math.round(Number(amount))));
         }
-    } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
-        const match = hwTwVal.match(/([\d.]+)\s*TW/i);
-        if (match) {
-            const twVal = parseFloat(match[1]);
-            if (twVal > 0 && twVal <= 10) {
-                isAmber = true;
-            } else if (twVal > 10) {
-                isRed = true;
-            }
+        return '-';
+    };
+    for (const [id, value] of [['hwtw', headwind], ['xw', crosswind], ['xwlimit', crosswindLimit]]) {
+        const element = document.getElementById(`res-${prefix}-${id}`);
+        if (element) {
+            element.textContent = display(value);
+            element.style.color = '#fff';
         }
     }
+    const state = windLimitStatus(headwind, crosswind, crosswindLimit);
+    card.style.background = state === 'red' ? '#3d1414' : state === 'amber' ? '#3b2e0c' : '#0d1117';
+    card.style.borderColor = state === 'red' ? '#f85149' : state === 'amber' ? '#d29922' : '#30363d';
+}
 
-    if (isRed) {
-        cardContainer.style.background = "#3d1414";
-        cardContainer.style.borderColor = "#f85149";
-    } else if (isAmber) {
-        cardContainer.style.background = "#3b2e0c";
-        cardContainer.style.borderColor = "#d29922";
-    }
+export function updateWindCheckCard(headwind, crosswind, crosswindLimit) {
+    renderWindCheckCard('to', headwind, crosswind, crosswindLimit);
 }
 
 export function onManualInputChange(inputElement) {
@@ -582,65 +532,8 @@ export function onManualInputChange(inputElement) {
     }
 }
 
-export function updateWindCheckCardLdg(hwTwVal, xwVal, xwLimitVal) {
-    const cardContainer = document.getElementById('card-wind-check-ldg');
-    const hwTwSpan = document.getElementById('res-ldg-hwtw');
-    const xwSpan = document.getElementById('res-ldg-xw');
-    const xwLimitSpan = document.getElementById('res-ldg-xwlimit');
-
-    if (!cardContainer) return;
-
-    hwTwSpan.textContent = hwTwVal || "-";
-    xwSpan.textContent = xwVal || "-";
-    xwLimitSpan.textContent = xwLimitVal || "-";
-
-    // Standardläge (mörkt)
-    cardContainer.style.background = "#0d1117";
-    cardContainer.style.borderColor = "#30363d";
-    hwTwSpan.style.color = "#fff";
-    xwSpan.style.color = "#fff";
-
-    const hwTwNum = parseFloat(hwTwVal);
-    const xwNum = parseFloat(xwVal);
-    const xwLimitNum = parseFloat(xwLimitVal);
-
-    let isRed = false;
-    let isAmber = false;
-
-    // Kontrollera sidvind mot limit
-    if (!isNaN(xwNum) && !isNaN(xwLimitNum) && xwNum > xwLimitNum) {
-        isRed = true;
-    }
-
-    // Kontrollera medvind / motvind (negativt värde = medvind)
-    if (!isNaN(hwTwNum)) {
-        if (hwTwNum < 0) {
-            if (hwTwNum >= -10) {
-                isAmber = true; // Medvind upp till 10 knop = Amber
-            } else {
-                isRed = true;   // Medvind över 10 knop = Röd
-            }
-        }
-    } else if (typeof hwTwVal === 'string' && hwTwVal.toUpperCase().includes('TW')) {
-        const match = hwTwVal.match(/([\d.]+)\s*TW/i);
-        if (match) {
-            const twVal = parseFloat(match[1]);
-            if (twVal > 0 && twVal <= 10) {
-                isAmber = true;
-            } else if (twVal > 10) {
-                isRed = true;
-            }
-        }
-    }
-
-    // Applicera styling baserat på status
-    if (isRed) {
-        cardContainer.style.background = "#3d1414";
-        cardContainer.style.borderColor = "#f85149";
-    } else if (isAmber) {
-        cardContainer.style.background = "#3b2e0c";
-        cardContainer.style.borderColor = "#d29922";
-    }
+export function updateWindCheckCardLdg(headwind, crosswind, crosswindLimit) {
+    renderWindCheckCard('ldg', headwind, crosswind, crosswindLimit);
 }
 
 //--------------AUTOPOPULATEMETAR_LAND BELOW-----------------

@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 test.use({ serviceWorkers: 'block' });
 const appUpdateBaseline = require('./references/app-update-regression.json');
+const verifiedLandingTable = require('../tools/afm-audit/review/landing-distance-level-0ft-20000.verified.json');
 const { blockExternalRequests, loadC56xPerformanceData } = require('./support/app-helpers');
 
 const takeoffBase = {
@@ -33,6 +34,21 @@ const landingBase = {
 
 test.beforeEach(async ({ context }) => {
   await blockExternalRequests(context);
+});
+
+test('C56X landing calculations match manually verified Figure 4-44 cells', async ({ page }) => {
+  await loadC56xPerformanceData(page);
+  expect(verifiedLandingTable.status).toBe('MANUALLY_VERIFIED');
+  const actual = await page.evaluate((reference) => reference.rows.map((row) =>
+    reference.windKnots.map((wind) => getC56xLandingDistance({
+      pressureAltitudeFt: reference.altitudeFt,
+      weightLb: reference.weightLb,
+      oatC: row.temp,
+      headwindKnots: wind,
+      runwaySlopePercent: reference.runwayGradientPercent,
+    }))
+  ), verifiedLandingTable);
+  expect(actual).toEqual(verifiedLandingTable.rows.map((row) => row.distancesFt));
 });
 
 test('C56X algorithm outputs match the approved app-update regression baseline', async ({ page }) => {

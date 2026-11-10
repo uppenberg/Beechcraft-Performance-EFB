@@ -83,6 +83,7 @@ test('a corrupt workbook shows a recoverable initialization error and reload suc
   await openApp(page, 'SE-LTL');
   await expect(page.locator('#airport-selection-error'))
     .toContainText('Could not initialize the performance calculator');
+  await expect(page.locator('main')).toBeHidden();
   await expect.poll(() => page.evaluate(() => BeechcraftApp.state.AppState.appInitializationFailed))
     .toBeTruthy();
 

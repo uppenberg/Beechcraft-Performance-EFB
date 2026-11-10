@@ -4,7 +4,9 @@ import { updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js
 import { checkOfflineData, registerAppServiceWorker, setupSettingsMenu } from './offline-ui.js';
 import { fetchMetarForAirport } from './results-ui.js';
 import { loadAirportDatabase, loadC56xPerformanceData, loadData, populateAirportSelects, restorePersistedFormState, setupEventListeners } from './workbook-data.js';
-import { getOutputVal, handleLandingMass, handleTakeoffMass, updateC56xLanding, updateEngineCellVal } from './workbook-engine.js';
+import { getOutputVal } from './workbook-adapter.js';
+import { refreshOutputs, updateC56xLanding, updateEngineCellValues } from './workbook-engine.js';
+import { readPerformanceInputs } from './performance-inputs.js';
 
 
 // Aircraft selection and application startup
@@ -147,6 +149,45 @@ export function configureTakeoffTechnique(registration, syncFromWorkbook = false
   }
 }
 
+// Workbook defaults and visible controls must agree before any results are rendered.
+// Weather comes from the workbook when it has a valid number; saved form inputs
+// are restored afterwards. The C56X engine does not use workbook cells.
+export function initializeWorkbookInputs(registration) {
+  if (AIRCRAFT_REGISTRATIONS[registration]?.performanceEngine !== 'workbook' || !AppState.hfInstance) {
+    throw new Error('A workbook must be loaded before synchronizing its inputs.');
+  }
+
+  const weatherFields = { 'wind-dir': 'windDir', 'wind-spd': 'windSpeed', oat: 'oat', qnh: 'qnh' };
+  for (const [prefix, sheetType] of [['to', 'takeoff'], ['ldg', 'landing']]) {
+    const config = CELL_MAPPING[sheetType];
+    for (const [controlName, field] of Object.entries(weatherFields)) {
+      const control = document.getElementById(`${prefix}-${controlName}`);
+      if (!control) throw new Error(`Missing ${prefix} ${controlName} input.`);
+      const value = getOutputVal(config.sheetName, config.inputs[field], false);
+      control.value = typeof value === 'number' && Number.isFinite(value) ? String(value) : '';
+    }
+  }
+
+  const inputs = readPerformanceInputs(document);
+  if (!inputs.takeoff.mass || !inputs.landing.mass || !inputs.takeoff.rwcc || !inputs.landing.rwcc ||
+      !inputs.takeoff.flaps || !inputs.takeoff.antiIce) {
+    throw new Error('A required workbook performance input is missing.');
+  }
+  const takeoff = {
+    mass: Number(inputs.takeoff.mass),
+    rwcc: inputs.takeoff.rwcc,
+    flaps: inputs.takeoff.flaps,
+    antiIce: inputs.takeoff.antiIce,
+  };
+  if (AIRCRAFT_TYPE_BY_REGISTRATION[registration] === 'B190') {
+    if (!inputs.takeoff.technique) throw new Error('A take-off technique is required for B190.');
+    takeoff.technique = inputs.takeoff.technique;
+  }
+  updateEngineCellValues('takeoff', takeoff);
+  updateEngineCellValues('landing', { mass: Number(inputs.landing.mass), rwcc: inputs.landing.rwcc });
+  refreshOutputs();
+}
+
 export function showRegistrationError(message) {
   const errorElement = document.getElementById('registration-error');
   if (!errorElement) return;
@@ -218,9 +259,33 @@ export function confirmAircraftTypeChange() {
   applyRegistrationChange(registration);
 }
 
+function finishInitialization() {
+  const main = document.querySelector('main');
+  if (!main) throw new Error('The performance interface is missing.');
+  main.hidden = false;
+  try {
+    // Render once more when the layout has dimensions (runway charts depend on it).
+    refreshOutputs();
+  } catch (error) {
+    main.hidden = true;
+    throw error;
+  }
+  const registration = document.getElementById('global-registration');
+  if (registration) registration.disabled = false;
+  document.getElementById('initialization-status')?.remove();
+}
+
 // 1. Huvudfunktion som kör igång allt i rätt ordning
 export async function init() {
   try {
+    if (window.APP_RELEASE_MISMATCH !== false) {
+      AppState.appInitializationFailed = true;
+      const status = document.getElementById('initialization-status');
+      if (status) status.textContent = 'App update required. Open Settings and install the available update.';
+      setupSettingsMenu();
+      registerAppServiceWorker();
+      return;
+    }
     const warningDialog = document.getElementById('aircraft-change-dialog');
     warningDialog?.addEventListener('cancel', cancelAircraftTypeChange);
 
@@ -290,6 +355,7 @@ export async function init() {
       AppState.appInitializationFailed = false;
       setupSettingsMenu();
       registerAppServiceWorker();
+      finishInitialization();
       return;
     }
 
@@ -305,10 +371,7 @@ export async function init() {
     // Ladda in Excel och skapa HyperFormula-instansen
     await loadData(selectedRegistration);
     configureTakeoffTechnique(selectedRegistration, true);
-    if (AIRCRAFT_TYPE_BY_REGISTRATION[selectedRegistration] === 'B190') {
-      handleTakeoffMass(document.getElementById('to-mass').value);
-      handleLandingMass(document.getElementById('ldg-mass').value);
-    }
+    initializeWorkbookInputs(selectedRegistration);
     AppState.globalData.airports = await loadAirportDatabase();
 
     // Fyll rullistor och koppla eventlyssnare
@@ -322,19 +385,21 @@ export async function init() {
         fetchMetarForAirport(prefix);
       }
     });
-    const antiIceSelect = document.getElementById('to-anti-ice');
-    if (antiIceSelect) {
-      updateEngineCellVal('takeoff', 'antiIce', antiIceSelect.value);
-    }
-
     AppState.appInitializationFailed = false;
     setupSettingsMenu();
     registerAppServiceWorker();
+    finishInitialization();
 
     console.log("Appen är helt initierad!");
   } catch (error) {
     console.error("Kunde inte slutföra init():", error);
     AppState.appInitializationFailed = true;
+    const main = document.querySelector('main');
+    if (main) main.hidden = true;
+    const registration = document.getElementById('global-registration');
+    if (registration) registration.disabled = false;
+    const initStatus = document.getElementById('initialization-status');
+    if (initStatus) initStatus.textContent = 'Performance data could not be loaded.';
     setupSettingsMenu();
     showAirportSelectionError(
       `Could not initialize the performance calculator: ${error.message} ` +

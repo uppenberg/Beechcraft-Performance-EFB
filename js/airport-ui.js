@@ -4,7 +4,8 @@ import { MetarWeather } from './metar-weather.js';
 import { updateCustomAirportIndicator } from './offline-ui.js';
 import { clearAirportMetar, exceedsDistanceLimit, fetchMetarForAirport, finiteDistance, renderLandingChart, renderTakeoffChart } from './results-ui.js';
 import { isCustomAirportEnabled, restoreSavedMetar } from './workbook-data.js';
-import { getOutputVal, getTakeoffOutput, parseCellRef, refreshOutputs, setWorkbookCellValues, updateC56xLanding } from './workbook-engine.js';
+import { getOutputVal, getTakeoffOutput, parseCellRef, setWorkbookCellValues } from './workbook-adapter.js';
+import { refreshOutputs, updateC56xLanding } from './workbook-engine.js';
 
 
 // Airport selection and runway interaction
@@ -225,7 +226,10 @@ export function updateRunwaySuggestion(prefix, message, suggestion = null) {
       const distanceList = document.createElement('p');
       distanceList.className = 'runway-suggestion-distances';
       distanceList.textContent = distances
-        .map(([name, field]) => `${name}: ${airport[field] || '—'} m`)
+        .map(([name, field]) => {
+          const value = airportCellValue(airport[field]);
+          return `${name}: ${typeof value === 'number' ? Math.round(value) : value ?? '—'} m`;
+        })
         .join(' | ');
       option.appendChild(distanceList);
 

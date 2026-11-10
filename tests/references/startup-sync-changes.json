@@ -1,0 +1,15 @@
+{
+  "status": "EXPECTED SOFTWARE CHANGE; not independent AFM verification",
+  "reason": "The displayed RWCC is now synchronized with each workbook before results are calculated.",
+  "changes": {
+    "BE20": {
+      "check-tor-val": { "before": "558", "after": "522" },
+      "check-tod-val": { "before": "1484", "after": "1387" },
+      "check-asd-val": { "before": "1021", "after": "954" }
+    },
+    "B190": {
+      "res-ldg-distdown": { "before": "1371", "after": "1258" },
+      "res-ldg-distup": { "before": "2112", "after": "1938" }
+    }
+  }
+}

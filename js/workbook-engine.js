@@ -1,39 +1,14 @@
+import { parseCellRef, setWorkbookCellValues, getOutputVal, getTakeoffOutput } from './workbook-adapter.js';
+export { colLetterToIndex, parseCellRef, setWorkbookCellValues, getOutputVal, getTakeoffOutput } from './workbook-adapter.js';
 import { updateLandingOverweightWarning } from './aircraft-ui.js';
 import { airportCellValue, getSelectedAirportRecord, scheduleTakeoffSuggestionRefresh, updateClimbPathLabel } from './airport-ui.js';
-import { AppState, CELL_MAPPING, TAKEOFF_RESULT_COLUMN_BY_FLAPS, isC56xSelected } from './app-state.js';
+import { AppState, CELL_MAPPING, isC56xSelected } from './app-state.js';
 import { renderEngineOutCard, scheduleMaxTakeoffMassUpdate, updateC56xEngineOutCard, updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
 import { checkContaminationLogic, exceedsDistanceLimit, renderLandingChart, renderTakeoffChart, safeSetText, safeSetValue, updateBadgeStatus, updateClimbCheckCard, updateRunwayExceedanceCard, updateWindCheckCard, updateWindCheckCardLdg } from './results-ui.js';
+import { readPerformanceInputs } from './performance-inputs.js';
 
 
 // Workbook cell access and shared calculation outputs
-
-export function colLetterToIndex(letter) {
-  let column = 0;
-  for (let i = 0; i < letter.length; i++) {
-    column += (letter.charCodeAt(i) - 64) * Math.pow(26, letter.length - i - 1);
-  }
-  return column - 1;
-}
-
-export function parseCellRef(cellRef) {
-  const match = cellRef.match(/^([A-Z]+)(\d+)$/);
-  if (!match) return null;
-  const col = colLetterToIndex(match[1]);
-  const row = parseInt(match[2], 10) - 1;
-  return { col, row };
-}
-
-export function setWorkbookCellValues(sheetId, updates) {
-  if (!AppState.hfInstance || updates.length === 0) return;
-  AppState.hfInstance.batch(() => {
-    updates.forEach(({ position, value }) => {
-      AppState.hfInstance.setCellContents(
-        { sheet: sheetId, col: position.col, row: position.row },
-        [[value]]
-      );
-    });
-  });
-}
 
 export function updateEngineCellVal(sheetType, fieldKey, value) {
   if (!AppState.hfInstance) return;
@@ -67,39 +42,6 @@ export function updateEngineCellValues(sheetType, values) {
     return { position, value };
   });
   setWorkbookCellValues(sheetId, updates);
-}
-
-export function getOutputVal(sheetName, cellRef, roundNumber = true) {
-  if (!AppState.hfInstance) return '-';
-  if (!cellRef) return '-';
-  try {
-    const sheetId = AppState.hfInstance.getSheetId(sheetName);
-    const pos = parseCellRef(cellRef);
-    if (!pos) return '-';
-
-    let val = AppState.hfInstance.getCellValue({ sheet: sheetId, col: pos.col, row: pos.row });
-    if (roundNumber && typeof val === 'number') {
-      val = Math.round(val);
-    }
-
-    return (val !== null && val !== undefined && val !== '') ? val : '-';
-  } catch (e) {
-    return '-';
-  }
-}
-
-export function getTakeoffOutput(outputKey, roundNumber = true) {
-  const config = CELL_MAPPING.takeoff;
-  const cellRef = config.outputs[outputKey];
-  if (!cellRef) return '-';
-
-  const column = TAKEOFF_RESULT_COLUMN_BY_FLAPS[
-    document.getElementById('to-flaps')?.value || 'UP'
-  ];
-  const selectedCellRef = ['tor', 'tod', 'asd', 'v1', 'vr', 'v2', 'climbGrad'].includes(outputKey)
-    ? `${column || 'C'}${cellRef.match(/\d+$/)?.[0]}`
-    : cellRef;
-  return getOutputVal(config.sheetName, selectedCellRef, roundNumber);
 }
 
 export function updateMissedClimbCard(value) {
@@ -149,10 +91,8 @@ export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
 export function updateC56xLanding() {
   if (!isC56xSelected() || typeof getC56xLandingPerformance !== 'function') return;
 
-  const readNumber = (id) => {
-    const raw = document.getElementById(id)?.value;
-    return raw === undefined || String(raw).trim() === '' ? NaN : Number(raw);
-  };
+  const inputs = readPerformanceInputs(document).landing;
+  const readNumber = (raw) => raw.trim() === '' ? NaN : Number(raw);
   const setText = (id, value) => {
     const element = document.getElementById(id);
     if (element) element.textContent = value;
@@ -162,22 +102,22 @@ export function updateC56xLanding() {
     const metres = Math.ceil(distanceFt * 0.3048);
     return `${feet.toLocaleString('en-US')} ft (${metres.toLocaleString('en-US')} m)`;
   };
-  const weightLb = readNumber('ldg-mass');
-  const antiIce = document.getElementById('ldg-anti-ice')?.value || 'OFF';
-  const reverserStatus = document.getElementById('ldg-reversers')?.value || 'AVAILABLE';
-  const runwayConditionCode = document.getElementById('ldg-rwcc')?.value;
+  const weightLb = readNumber(inputs.mass);
+  const antiIce = inputs.antiIce || 'OFF';
+  const reverserStatus = inputs.reversers || 'AVAILABLE';
+  const runwayConditionCode = inputs.rwcc;
 
-  const overweight = updateLandingOverweightWarning();
+  updateLandingOverweightWarning();
 
   const airport = getSelectedAirportRecord('ldg');
   const fieldElevationFt = airportCellValue(airport?.['RWY Elev [ft] (B6)']);
   const runwayHeadingDeg = airportCellValue(airport?.['RWYHDG [°](H6)']);
   const runwaySlopePercent = airportCellValue(airport?.['Slope [%](G6)']);
   const ldaM = airportCellValue(airport?.['LDA [m](F6)']);
-  const qnhHpa = readNumber('ldg-qnh');
-  const oatC = readNumber('ldg-oat');
-  const windSpeedKnots = readNumber('ldg-wind-spd');
-  const windDirectionDeg = readNumber('ldg-wind-dir');
+  const qnhHpa = readNumber(inputs.qnh);
+  const oatC = readNumber(inputs.oat);
+  const windSpeedKnots = readNumber(inputs.windSpeed);
+  const windDirectionDeg = readNumber(inputs.windDir);
 
   const windInputsValid = Number.isFinite(runwayHeadingDeg) &&
     Number.isFinite(windSpeedKnots) && windSpeedKnots >= 0 &&
@@ -196,9 +136,9 @@ export function updateC56xLanding() {
   )?.max_XW ?? null;
   const formatKnots = (value) => Number.isFinite(value) ? String(Math.round(value)) : '-';
   updateWindCheckCardLdg(
-    formatKnots(headwindKnots),
-    formatKnots(crosswindKnots),
-    formatKnots(crosswindLimitKnots)
+    headwindKnots,
+    crosswindKnots,
+    crosswindLimitKnots
   );
   setText('res-ldg-hwtw-kpi', formatKnots(headwindKnots));
   setText('res-ldg-xw-kpi', formatKnots(crosswindKnots));
@@ -256,9 +196,9 @@ export function updateC56xLanding() {
     ? 'Max landing weight (lesser of Fig 4-42/4-43):'
     : 'Max landing weight (Fig 4-43):');
   setText('res-ldg-max-weight', Number.isFinite(limitingWeightLb)
-    ? `${limitingWeightLb.toLocaleString('en-US')} lb` +
+    ? `${Math.round(limitingWeightLb).toLocaleString('en-US')} lb` +
       (antiIce === 'ON'
-        ? ` (4-42: ${Number.isFinite(maxLandingWeight.figure442Lb) ? maxLandingWeight.figure442Lb.toLocaleString('en-US') : 'N/A'} / 4-43: ${Number.isFinite(maxLandingWeight.figure443Lb) ? maxLandingWeight.figure443Lb.toLocaleString('en-US') : 'N/A'} lb)`
+        ? ` (4-42: ${Number.isFinite(maxLandingWeight.figure442Lb) ? Math.round(maxLandingWeight.figure442Lb).toLocaleString('en-US') : 'N/A'} / 4-43: ${Number.isFinite(maxLandingWeight.figure443Lb) ? Math.round(maxLandingWeight.figure443Lb).toLocaleString('en-US') : 'N/A'} lb)`
         : '')
     : '-');
   if (maxWeightWarning) {
@@ -266,7 +206,7 @@ export function updateC56xLanding() {
       weightLb > limitingWeightLb && limitingWeightLb < C56X_MAX_DESIGN_LANDING_WEIGHT_LB;
     maxWeightWarning.hidden = !exceedsLimit;
     if (exceedsLimit) {
-      maxWeightWarning.textContent = `Landing mass exceeds the maximum landing weight of ${limitingWeightLb.toLocaleString('en-US')} lb allowed by climb or brake energy limits. Burn off fuel prior to landing.`;
+      maxWeightWarning.textContent = `Landing mass exceeds the maximum landing weight of ${Math.round(limitingWeightLb).toLocaleString('en-US')} lb allowed by climb or brake energy limits. Burn off fuel prior to landing.`;
     }
     if (antiIce === 'ON' && maxLandingWeight.figure442Missing) {
       maxWeightWarning.hidden = false;
@@ -289,7 +229,7 @@ export function updateC56xLanding() {
   setText('res-ldg-vref-vapp', vref === '-' || vapp === '-'
     ? 'Outside AFM speed data'
     : `${vref} / ${vapp} KIAS`);
-  setText('res-ldg-factor', performance.factor === null ? '-' : `x${performance.factor}`);
+  setText('res-ldg-factor', Number.isFinite(performance.factor) ? `x${Number(performance.factor.toFixed(2))}` : '-');
 
   if (performance.distanceFt === null || performance.requiredDistanceFt === null) {
     const reason = runwaySlopePercent < -2
@@ -305,12 +245,12 @@ export function updateC56xLanding() {
     return;
   }
 
-  const requiredDistanceM = Math.ceil(performance.requiredDistanceFt * 0.3048);
+  const requiredDistanceM = performance.requiredDistanceFt * 0.3048;
   setText('res-ldg-afm-distance', formatDistance(performance.distanceFt));
   setText('res-ldg-required-distance', formatDistance(performance.requiredDistanceFt));
   const exceeded = exceedsDistanceLimit(requiredDistanceM, ldaM);
   if (status) {
-    status.textContent = `LD ${requiredDistanceM.toLocaleString('en-US')} m · ` +
+    status.textContent = `LD ${Math.ceil(requiredDistanceM).toLocaleString('en-US')} m · ` +
       (exceeded === null ? 'LDA unavailable' : exceeded ? 'Exceeds LDA' : 'Within limits');
   }
   if (distanceCard) {
@@ -485,24 +425,10 @@ export function refreshOutputs() {
 
   const badgeMass = document.getElementById('badge-mass-limit');
   if (badgeMass) {
-    const torVal = getTakeoffOutput('tor');
-    const toraVal = getOutputVal(to.sheetName, to.outputs.tora);
+    const torVal = getTakeoffOutput('tor', false);
+    const toraVal = getOutputVal(to.sheetName, to.outputs.tora, false);
 
-    let isCheckOk = true;
-
-    if (String(torVal).startsWith('#') || torVal === '-') {
-      isCheckOk = false;
-    } else {
-      const tor = Number(torVal);
-      const tora = Number(toraVal);
-      if (!isNaN(tor) && !isNaN(tora) && tor > tora) {
-        isCheckOk = false;
-      }
-
-      if (isCheckOk && !checkContaminationLogic()) {
-        isCheckOk = false;
-      }
-    }
+    const isCheckOk = exceedsDistanceLimit(torVal, toraVal) === false && checkContaminationLogic();
 
     if (isCheckOk) {
       badgeMass.innerText = "OK";
@@ -515,27 +441,27 @@ export function refreshOutputs() {
     }
 
   }
-const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw);
-const xwValue = getOutputVal(to.sheetName, to.outputs.xw);
-const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit);
+const hwTwValue = getOutputVal(to.sheetName, to.outputs.hwTw, false);
+const xwValue = getOutputVal(to.sheetName, to.outputs.xw, false);
+const xwLimitValue = getOutputVal(to.sheetName, to.outputs.xwLimit, false);
 // Hämta värden för landning (anpassa efter dina egna output-nycklar i ldg)
-const ldgHwTw = getOutputVal(ldg.sheetName, ldg.outputs.hwTw);
-const ldgXw = getOutputVal(ldg.sheetName, ldg.outputs.xw);
-const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit);
+const ldgHwTw = getOutputVal(ldg.sheetName, ldg.outputs.hwTw, false);
+const ldgXw = getOutputVal(ldg.sheetName, ldg.outputs.xw, false);
+const ldgXwLimit = getOutputVal(ldg.sheetName, ldg.outputs.xwLimit, false);
 
   // Kör vindkontrollen för landning
   updateWindCheckCardLdg(ldgHwTw, ldgXw, ldgXwLimit);
-safeSetText('res-ldg-hwtw-kpi', ldgHwTw);
-safeSetText('res-ldg-xw-kpi', ldgXw);
-safeSetText('res-ldg-xwlimit-kpi', ldgXwLimit);
+safeSetText('res-ldg-hwtw-kpi', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
+safeSetText('res-ldg-xw-kpi', getOutputVal(ldg.sheetName, ldg.outputs.xw));
+safeSetText('res-ldg-xwlimit-kpi', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
 
 updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
-  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir));
-  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed));
+  safeSetValue('to-wind-dir', getOutputVal(to.sheetName, to.inputs.windDir, false));
+  safeSetValue('to-wind-spd', getOutputVal(to.sheetName, to.inputs.windSpeed, false));
   if (document.activeElement?.id !== 'to-oat') {
-    safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat));
+    safeSetValue('to-oat', getOutputVal(to.sheetName, to.inputs.oat, false));
   }
-  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh));
+  safeSetValue('to-qnh', getOutputVal(to.sheetName, to.inputs.qnh, false));
 
   safeSetText('res-to-v1', getTakeoffOutput('v1'));
   safeSetText('res-to-vr', getTakeoffOutput('vr'));
@@ -545,9 +471,6 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-tora', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('res-to-asda', getOutputVal(to.sheetName, to.outputs.asda));
   safeSetText('res-to-tor', getTakeoffOutput('tor'));
-  safeSetText('res-to-hwtw', getOutputVal(to.sheetName, to.outputs.hwTw));
-  safeSetText('res-to-xw', getOutputVal(to.sheetName, to.outputs.xw));
-  safeSetText('res-to-xwlimit', getOutputVal(to.sheetName, to.outputs.xwLimit));
   safeSetText('res-to-g19', getOutputVal(to.sheetName, to.outputs.req_climb_grad_to));
   safeSetText('res-to-emup-vref', getOutputVal(to.sheetName, to.outputs.emUpVref));
   safeSetText('res-to-emup-dist', getOutputVal(to.sheetName, to.outputs.emUpDist));
@@ -569,9 +492,9 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('check-toda-val-alt', getOutputVal(to.sheetName, to.outputs.toda)); // Hämtar cell C21 (toda)
   safeSetText('check-v1-val', getTakeoffOutput('v1'));
 
-  updateBadgeStatus('badge-tor', getTakeoffOutput('tor'), getOutputVal(to.sheetName, to.outputs.tora), (a, b) => a <= b);
-  updateBadgeStatus('badge-asd', getTakeoffOutput('asd'), getOutputVal(to.sheetName, to.outputs.asda), (a, b) => a <= b);
-  updateBadgeStatus('badge-tod', getTakeoffOutput('tod'), getOutputVal(to.sheetName, to.outputs.toda), (a, b) => a <= b); // Jämför TOD mot TODA
+  updateBadgeStatus('badge-tor', getTakeoffOutput('tor', false), getOutputVal(to.sheetName, to.outputs.tora, false));
+  updateBadgeStatus('badge-asd', getTakeoffOutput('asd', false), getOutputVal(to.sheetName, to.outputs.asda, false));
+  updateBadgeStatus('badge-tod', getTakeoffOutput('tod', false), getOutputVal(to.sheetName, to.outputs.toda, false));
 
   updateRunwayExceedanceCard('takeoff-exceedance-card', 'takeoff-exceedance-status', [
     { label: 'TOR', distance: getTakeoffOutput('tor', false), limit: getOutputVal(to.sheetName, to.outputs.tora, false) },
@@ -580,9 +503,6 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   ]);
 
   safeSetText('res-ldg-lda', getOutputVal(ldg.sheetName, ldg.outputs.lda));
-  safeSetText('res-ldg-hwtw', getOutputVal(ldg.sheetName, ldg.outputs.hwTw));
-  safeSetText('res-ldg-xw', getOutputVal(ldg.sheetName, ldg.outputs.xw));
-  safeSetText('res-ldg-xwlimit', getOutputVal(ldg.sheetName, ldg.outputs.xwLimit));
   safeSetText('res-ldg-missed', getOutputVal(ldg.sheetName, ldg.outputs.missedClimb));
   const missedClimbValue = getOutputVal(ldg.sheetName, ldg.outputs.missedClimb, false);
   updateMissedClimbCard(missedClimbValue);

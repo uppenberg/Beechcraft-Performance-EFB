@@ -1,7 +1,8 @@
 import { airportCellValue, getC56xEngineOutClimbPath, getSelectedAirportRecord, updateClimbPathLabel, updateTakeoffAirportElevation } from './airport-ui.js';
 import { AIRCRAFT_TYPE_BY_REGISTRATION, AppState, CELL_MAPPING } from './app-state.js';
 import { checkContaminationLogic, finiteDistance, renderC56xTakeoffChart, safeSetText, updateClimbCheckCard, updateWindCheckCard } from './results-ui.js';
-import { getOutputVal, getTakeoffOutput, isC56xDeiceFluidApplied, parseCellRef } from './workbook-engine.js';
+import { getOutputVal, getTakeoffOutput, parseCellRef } from './workbook-adapter.js';
+import { readPerformanceInputs } from './performance-inputs.js';
 
 
 // C56X performance calculations and presentation
@@ -61,9 +62,9 @@ export function updateC56xPerformanceCards({
   updateClimbCheckCard(secondSegmentGradient, requiredGradient);
   updateClimbPathLabel(climbPath);
   updateWindCheckCard(
-    Number.isFinite(headwindKnots) ? String(Math.round(headwindKnots)) : '-',
-    Number.isFinite(crosswindKnots) ? String(Math.round(crosswindKnots)) : '-',
-    Number.isFinite(crosswindLimitKnots) ? String(crosswindLimitKnots) : '-'
+    headwindKnots,
+    crosswindKnots,
+    crosswindLimitKnots
   );
 }
 
@@ -115,21 +116,22 @@ export function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
   if (!Number.isFinite(slopePercent) || !Number.isFinite(correctionKnots)) {
     return 'V1 correction applied: unavailable';
   }
-  const correction = `${correctionKnots > 0 ? '+' : ''}${correctionKnots} kt`;
+  const correction = `${correctionKnots > 0 ? '+' : ''}${Number(correctionKnots.toFixed(1))} kt`;
+  const displayedSlope = Number(slopePercent.toFixed(2));
   if (Math.abs(slopePercent) < 0.000001) {
     return `V1 correction applied: ${correction} · level runway`;
   }
   if (slopePercent > 0) {
     const afmStep = [0.5, 1, 1.5, 2].find((step) => slopePercent <= step);
     if (!afmStep) return 'V1 correction unavailable · slope exceeds published range';
-    return `V1 correction applied: ${correction} · ${slopePercent}% uphill (AFM ${afmStep}% step)`;
+    return `V1 correction applied: ${correction} · ${displayedSlope}% uphill (AFM ${afmStep}% step)`;
   }
   const downhillSlope = Math.abs(slopePercent);
   if (downhillSlope < 1) {
-    return `V1 correction applied: 0 kt · ${slopePercent}% downhill (below 1%)`;
+    return `V1 correction applied: 0 kt · ${displayedSlope}% downhill (below 1%)`;
   }
   const afmStep = downhillSlope <= 1 ? 1 : 2;
-  return `V1 correction applied: ${correction} · ${slopePercent}% downhill (SHADED ${afmStep}% step)`;
+  return `V1 correction applied: ${correction} · ${displayedSlope}% downhill (SHADED ${afmStep}% step)`;
 }
 
 export function getC56xWetRunwayMassLimit({
@@ -145,6 +147,7 @@ export function getC56xWetRunwayMassLimit({
   flaps,
   runwayLimitsM,
   runwayConditionCode = '5',
+  deiceFluidApplied = readPerformanceInputs(document).takeoff.deice === 'YES',
 }) {
   if (!runwayLimitsM.every(Number.isFinite)) return null;
   const slider = document.getElementById('to-mass');
@@ -168,7 +171,7 @@ export function getC56xWetRunwayMassLimit({
       reverserStatus,
       antiIce,
       flaps,
-      deiceFluidApplied: isC56xDeiceFluidApplied(),
+      deiceFluidApplied,
     });
     const requiredDistanceFt = result?.rccAdjustedDryDistanceFt;
     if (Number.isFinite(requiredDistanceFt) &&
@@ -215,10 +218,11 @@ export function updateC56xTakeoffFieldLength() {
   const dryCompareElement = document.getElementById('c56x-compare-dry');
   const rccCompareElement = document.getElementById('c56x-compare-rcc');
   const massLimitLabelElement = document.getElementById('c56x-wet-mass-limit-label');
-  const runwayConditionCode = document.getElementById('to-rwcc')?.value;
-  const antiIce = document.getElementById('to-anti-ice')?.value || 'OFF';
-  const reverserStatus = document.getElementById('to-reversers')?.value || 'AVAILABLE';
-  const flaps = Number(document.getElementById('to-flaps')?.value);
+  const inputs = readPerformanceInputs(document).takeoff;
+  const runwayConditionCode = inputs.rwcc;
+  const antiIce = inputs.antiIce || 'OFF';
+  const reverserStatus = inputs.reversers || 'AVAILABLE';
+  const flaps = Number(inputs.flaps);
   const formatDistance = (distanceFt) => {
     const feet = Math.ceil(distanceFt);
     const metres = Math.ceil(distanceFt * 0.3048);
@@ -283,11 +287,11 @@ export function updateC56xTakeoffFieldLength() {
   const toraM = airportCellValue(airport['TORA [m] (C6)']);
   const todaM = airportCellValue(airport['TODA [m](D6)']);
   const asdaM = airportCellValue(airport['ASDA [m](E6)']);
-  const qnhHpa = Number(document.getElementById('to-qnh')?.value);
-  const oatC = Number(document.getElementById('to-oat')?.value);
-  const windSpeedKnots = Number(document.getElementById('to-wind-spd')?.value);
-  const windDirectionDeg = Number(document.getElementById('to-wind-dir')?.value);
-  const weightLb = Number(document.getElementById('to-mass')?.value);
+  const qnhHpa = Number(inputs.qnh);
+  const oatC = Number(inputs.oat);
+  const windSpeedKnots = Number(inputs.windSpeed);
+  const windDirectionDeg = Number(inputs.windDir);
+  const weightLb = Number(inputs.mass);
   const requiredInputs = [
     fieldElevationFt,
     runwayHeadingDeg,
@@ -301,7 +305,7 @@ export function updateC56xTakeoffFieldLength() {
     Number.isFinite(windSpeedKnots) && windSpeedKnots >= 0 &&
     (windSpeedKnots === 0 ||
       (Number.isFinite(windDirectionDeg) &&
-       String(document.getElementById('to-wind-dir')?.value ?? '').trim()));
+       inputs.windDir.trim()));
   const windAngleRadians = windInputsValid
     ? (((windDirectionDeg - runwayHeadingDeg + 540) % 360) - 180) * Math.PI / 180
     : null;
@@ -315,13 +319,13 @@ export function updateC56xTakeoffFieldLength() {
   updateC56xPerformanceCards({ headwindKnots, crosswindKnots, crosswindLimitKnots });
 
   if (requiredInputs.some((value) => !Number.isFinite(value)) ||
-      !String(document.getElementById('to-qnh')?.value ?? '').trim() ||
-      !String(document.getElementById('to-oat')?.value ?? '').trim() ||
-      !String(document.getElementById('to-wind-spd')?.value ?? '').trim() ||
+      !inputs.qnh.trim() ||
+      !inputs.oat.trim() ||
+      !inputs.windSpeed.trim() ||
       qnhHpa <= 0 || windSpeedKnots < 0 ||
       (windSpeedKnots > 0 &&
         (!Number.isFinite(windDirectionDeg) ||
-         !String(document.getElementById('to-wind-dir')?.value ?? '').trim()))) {
+         !inputs.windDir.trim()))) {
     setUnavailable(
       'Enter valid QNH, OAT and wind values, and select a runway with elevation, heading and slope data.',
       false
@@ -404,7 +408,7 @@ export function updateC56xTakeoffFieldLength() {
       reverserStatus,
       antiIce,
       flaps,
-      deiceFluidApplied: isC56xDeiceFluidApplied(),
+      deiceFluidApplied: inputs.deice === 'YES',
     });
   } catch (error) {
     console.error('C56X take-off field-length calculation failed:', error);
@@ -441,7 +445,7 @@ export function updateC56xTakeoffFieldLength() {
     return;
   }
 
-  const selectedDistanceM = Math.ceil(result.selectedDistanceFt * 0.3048);
+  const selectedDistanceM = result.selectedDistanceFt * 0.3048;
   if (v1Element) {
     v1Element.textContent = Number.isFinite(speeds?.v1)
       ? `${Math.round(speeds.v1)} kt`
@@ -475,6 +479,7 @@ export function updateC56xTakeoffFieldLength() {
           flaps,
           runwayLimitsM,
           runwayConditionCode,
+          deiceFluidApplied: inputs.deice === 'YES',
         });
       } catch (error) {
         wetMassLimitCalculationFailed = true;
@@ -513,7 +518,7 @@ export function updateC56xTakeoffFieldLength() {
     const isWithinLimit = selectedDistanceM <= limit;
     if (!isWithinLimit) failedLimits.push(label);
     if (element) {
-      element.textContent = `${selectedDistanceM.toLocaleString('en-US')} m / ` +
+      element.textContent = `${Math.ceil(selectedDistanceM).toLocaleString('en-US')} m / ` +
         `${Math.round(limit).toLocaleString('en-US')} m`;
     }
     setC56xChecklistBadge(badgeId, isWithinLimit);
@@ -521,7 +526,7 @@ export function updateC56xTakeoffFieldLength() {
   card.classList.toggle('is-exceeded', failedLimits.length > 0);
   card.classList.toggle('is-within-limits', failedLimits.length === 0 && !hasUnavailableLimit);
   updateC56xTakeoffDistanceCard(
-    selectedDistanceM,
+    Math.ceil(selectedDistanceM),
     failedLimits,
     !hasUnavailableLimit,
     'Awaiting performance',
@@ -546,14 +551,13 @@ export function updateMaxTakeoffMass() {
     const airport = getSelectedAirportRecord('to');
     const elevationValue = updateTakeoffAirportElevation(airport);
 
-    const qnhInput = document.getElementById('to-qnh');
-    const oatInput = document.getElementById('to-oat');
-    const qnhHpa = Number(qnhInput?.value);
-    const oatC = Number(oatInput?.value);
-    const antiIce = document.getElementById('to-anti-ice')?.value || 'OFF';
-    const flaps = Number(document.getElementById('to-flaps')?.value);
-    const runwayConditionCode = document.getElementById('to-rwcc')?.value;
-    const reverserStatus = document.getElementById('to-reversers')?.value || 'AVAILABLE';
+    const inputs = readPerformanceInputs(document).takeoff;
+    const qnhHpa = Number(inputs.qnh);
+    const oatC = Number(inputs.oat);
+    const antiIce = inputs.antiIce || 'OFF';
+    const flaps = Number(inputs.flaps);
+    const runwayConditionCode = inputs.rwcc;
+    const reverserStatus = inputs.reversers || 'AVAILABLE';
     const runwayHeadingDeg = airportCellValue(airport?.['RWYHDG [°](H6)']);
     const runwaySlopePercent = airportCellValue(airport?.['Slope [%](G6)']);
     const runwayLimitsM = [
@@ -561,15 +565,13 @@ export function updateMaxTakeoffMass() {
       airportCellValue(airport?.['TODA [m](D6)']),
       airportCellValue(airport?.['ASDA [m](E6)']),
     ];
-    const windSpeedInput = document.getElementById('to-wind-spd');
-    const windDirectionInput = document.getElementById('to-wind-dir');
-    const windSpeedKnots = Number(windSpeedInput?.value);
-    const windDirectionDeg = Number(windDirectionInput?.value);
+    const windSpeedKnots = Number(inputs.windSpeed);
+    const windDirectionDeg = Number(inputs.windDir);
     const windInputsValid = Number.isFinite(windSpeedKnots) && windSpeedKnots >= 0 &&
-      Boolean(String(windSpeedInput?.value ?? '').trim()) &&
+      Boolean(inputs.windSpeed.trim()) &&
       (windSpeedKnots === 0 ||
         (Number.isFinite(windDirectionDeg) &&
-         String(windDirectionInput?.value ?? '').trim()));
+         inputs.windDir.trim()));
     const selectedMass = Number(slider.value);
     const minMass = Number(slider.min);
     const maxSliderMass = Number(slider.max);
@@ -582,7 +584,7 @@ export function updateMaxTakeoffMass() {
     let unavailableReason = 'Select an airport and runway to load aerodrome elevation.';
 
     if (typeof elevationValue === 'number') {
-      if (!String(qnhInput?.value ?? '').trim() || !String(oatInput?.value ?? '').trim() ||
+      if (!inputs.qnh.trim() || !inputs.oat.trim() ||
           !Number.isFinite(qnhHpa) || !Number.isFinite(oatC) || qnhHpa <= 0 ||
           !Number.isFinite(runwayHeadingDeg) || !Number.isFinite(runwaySlopePercent) ||
           !runwayLimitsM.every((limit) => Number.isFinite(limit) && limit >= 0) ||
@@ -635,10 +637,10 @@ export function updateMaxTakeoffMass() {
                 reverserStatus,
                 antiIce,
                 flaps,
-                deiceFluidApplied: isC56xDeiceFluidApplied(),
+                deiceFluidApplied: inputs.deice === 'YES',
               });
               const selectedDistanceM = Number.isFinite(fieldLengths?.selectedDistanceFt)
-                ? Math.ceil(fieldLengths.selectedDistanceFt * 0.3048)
+                ? fieldLengths.selectedDistanceFt * 0.3048
                 : null;
               if (selectedDistanceM === null || selectedDistanceM > shortestRunwayLimitM) {
                 continue;
@@ -692,9 +694,9 @@ export function updateMaxTakeoffMass() {
         ? unavailableReason
         : `PA ${Math.round(pressureAltitudeFt).toLocaleString('en-US')} ft · ` +
           `Anti-ice ${antiIce} · ` +
-          `TKOF at max ${takeoffDistanceAtMaxMassM.toLocaleString('en-US')} m / ` +
-          `${shortestRunwayLimitM.toLocaleString('en-US')} m runway limit · ` +
-          `Climb limit ${climbLimitLb.toLocaleString('en-US')} lbs · ` +
+          `TKOF at max ${Math.ceil(takeoffDistanceAtMaxMassM).toLocaleString('en-US')} m / ` +
+          `${Math.round(shortestRunwayLimitM).toLocaleString('en-US')} m runway limit · ` +
+          `Climb limit ${Math.round(climbLimitLb).toLocaleString('en-US')} lbs · ` +
           (selectedMass <= maxMass
             ? `Selected mass OK (${(maxMass - selectedMass).toLocaleString('en-US')} lbs margin)`
             : `Selected mass exceeds by ${(selectedMass - maxMass).toLocaleString('en-US')} lbs`);

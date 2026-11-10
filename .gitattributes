@@ -1,0 +1,11 @@
+# Release manifests hash exact bytes; use identical text bytes on every platform.
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+
+# Preserve existing C56X source bytes and their historical hashes exactly.
+/data/c56x/*.js -text !eol
+
+*.xlsx binary
+*.png binary
