@@ -22,7 +22,14 @@ export async function loadData(registration) {
     const basePath = getDataFilePath(workbookName);
 
     console.log("2. Försöker hämta fil från:", basePath);
-    const response = await fetch(basePath);
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 20000);
+    let response;
+    try {
+      response = await fetch(basePath, { signal: controller.signal });
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
     console.log("3. Fetch klar, status:", response.status);
 
     if (!response.ok) throw new Error(`Kunde inte hämta filen (${response.statusText})`);
@@ -226,6 +233,7 @@ export function restoreSavedMetar(prefix) {
     const displaySpan = document.getElementById(`${prefix}-metar-display`);
     if (!displaySpan) return;
     displaySpan.textContent = metar.text;
+    displaySpan.dataset.metarObservedAt = String(Date.now() - ageMinutes * 60000);
     displaySpan.style.color = ageMinutes >= 60 ? '#f85149'
       : ageMinutes >= 35 ? '#d29922'
         : '#3fb950';

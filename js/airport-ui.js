@@ -90,10 +90,28 @@ export function getRunwayRows(icao, runway) {
   return getAirportRows(icao).filter((airport) => airport.RWY === runway);
 }
 
+const TAKEOFF_DISTANCE_FIELDS = ['TORA [m] (C6)', 'TODA [m](D6)', 'ASDA [m](E6)'];
+
+function hasUsableDistance(airport, field) {
+  const value = airportCellValue(airport?.[field]);
+  return typeof value === 'number' && Number.isFinite(value) && value > 0;
+}
+
+function runwayRowsForPage(icao, runway, prefix) {
+  const rows = getRunwayRows(icao, runway);
+  return rows.filter((airport) => prefix === 'ldg'
+    ? hasUsableDistance(airport, 'LDA [m](F6)')
+    : TAKEOFF_DISTANCE_FIELDS.every((field) => hasUsableDistance(airport, field)));
+}
+
+function runwayAvailableForPage(icao, runway, prefix) {
+  return runwayRowsForPage(icao, runway, prefix).length > 0;
+}
+
 export function getSelectedAirportRecord(prefix) {
   const selection = AppState.airportSelection[prefix];
-  const runwayRows = getRunwayRows(selection.icao, selection.runway);
-  if (prefix === 'ldg') return getLandingAirportRecord(selection.icao, selection.runway);
+  const runwayRows = runwayRowsForPage(selection.icao, selection.runway, prefix);
+  if (prefix === 'ldg') return runwayRows.find((airport) => !airport.Intersection) || runwayRows[0] || null;
   if (selection.intersection) {
     return runwayRows.find((airport) => airport.Intersection === selection.intersection) || null;
   }
@@ -101,7 +119,7 @@ export function getSelectedAirportRecord(prefix) {
 }
 
 export function getLandingAirportRecord(icao, runway) {
-  const runwayRows = getRunwayRows(icao, runway);
+  const runwayRows = runwayRowsForPage(icao, runway, 'ldg');
   return runwayRows.find((airport) => !airport.Intersection) || runwayRows[0] || null;
 }
 
@@ -133,7 +151,12 @@ export function syncAirportControls() {
     const selection = AppState.airportSelection[prefix];
     const icao = selection.icao;
     const airportRows = getAirportRows(icao);
-    const runways = [...new Set(airportRows.map((airport) => airport.RWY))];
+    const runways = [...new Set(airportRows.map((airport) => airport.RWY))]
+      .filter((runway) => runwayAvailableForPage(icao, runway, prefix));
+    if (!runways.includes(selection.runway)) {
+      selection.runway = '';
+      selection.intersection = '';
+    }
     const icaoInput = document.getElementById(`${prefix}-airport-icao`);
     const runwaySelect = document.getElementById(`${prefix}-airport-rwy`);
     const intersectionSelect = document.getElementById(`${prefix}-airport-intersection`);
@@ -150,7 +173,7 @@ export function syncAirportControls() {
       runwaySelect.classList.toggle('needs-selection', runways.length > 0 && !runwaySelect.value);
     }
 
-    const runwayRows = getRunwayRows(icao, selection.runway);
+    const runwayRows = runwayRowsForPage(icao, selection.runway, prefix);
     const intersections = [...new Set(
       runwayRows.map((airport) => airport.Intersection).filter(Boolean)
     )];
@@ -318,6 +341,7 @@ export function suggestRunwayFromMetar(metarText, prefix) {
     runwaysByName.get(airport.RWY).push(airport);
   });
   runwaysByName.forEach((airportRows, runway) => {
+    if (!runwayAvailableForPage(AppState.airportSelection[prefix].icao, runway, prefix)) return;
     const headings = [...new Set(airportRows
       .map((airport) => airport['RWYHDG [°](H6)'])
       .filter((value) => value !== null && value !== undefined && String(value).trim() !== '')
@@ -588,11 +612,11 @@ export function evaluateTakeoffRunwayAvailability(airport) {
 
 export function updateCustomAirportData(airport, prefix) {
   if (prefix === 'to') updateTakeoffAirportElevation(airport);
+  updateOeiRoutingWarning();
   if (!AppState.hfInstance) {
     if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
-      updateC56xLanding();
     }
     return;
   }
@@ -641,6 +665,16 @@ export function updateCustomAirportData(airport, prefix) {
     showAirportSelectionError('Could not update custom airport data in the workbook.');
     return false;
   }
+}
+
+function updateOeiRoutingWarning() {
+  const warning = document.getElementById('to-oei-routing-warning');
+  if (!warning) return;
+  const runway = getSelectedAirportRecord('to');
+  const routing = airportCellValue(runway?.['Routing(L6)']);
+  const requiredGradient = Number(airportCellValue(runway?.['min climb gradient OEI(I6)']));
+  const routingIsEmpty = routing == null || String(routing).trim() === '' || String(routing).trim() === '-';
+  warning.hidden = !(routingIsEmpty && requiredGradient === 3.3);
 }
 
 export function handleAirportIcaoInput(value, prefix = 'to') {

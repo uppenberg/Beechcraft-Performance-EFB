@@ -10,6 +10,38 @@ import { refreshOutputs, updateEngineCellValues } from './workbook-engine.js';
 
 // Performance cards, charts, and METAR interaction
 
+function metarAgeColor(ageMinutes) {
+  return ageMinutes >= 60 ? '#f85149'
+    : ageMinutes >= 35 ? '#d29922'
+      : '#3fb950';
+}
+
+function updateMetarColors() {
+  const now = Date.now();
+  document.querySelectorAll('[id$="-metar-display"][data-metar-observed-at]').forEach(display => {
+    const observedAt = Number(display.dataset.metarObservedAt);
+    if (!Number.isFinite(observedAt)) return;
+    const color = metarAgeColor((now - observedAt) / 60000);
+    if (display.style.color !== color) display.style.color = color;
+  });
+}
+
+function scheduleMetarColorUpdate() {
+  const now = new Date();
+  const nextCheck = new Date(now);
+  nextCheck.setSeconds(0, 0);
+  nextCheck.setMinutes(now.getMinutes() < 30 ? 30 : 60);
+  window.setTimeout(() => {
+    updateMetarColors();
+    scheduleMetarColorUpdate();
+  }, Math.max(0, nextCheck.getTime() - now.getTime()));
+}
+
+scheduleMetarColorUpdate();
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) updateMetarColors();
+});
+
 export function updateBadgeStatus(elementId, val1, val2) {
   const badge = document.getElementById(elementId);
   if (!badge) return;
@@ -170,9 +202,8 @@ export async function fetchMetarForAirport(prefix, populateWeather = true) {
 
     if (displaySpan) {
       displaySpan.textContent = validatedMetar.text;
-      displaySpan.style.color = validatedMetar.ageMinutes >= 60 ? '#f85149'
-        : validatedMetar.ageMinutes >= 35 ? '#d29922'
-          : '#3fb950';
+      displaySpan.dataset.metarObservedAt = String(Date.now() - validatedMetar.ageMinutes * 60000);
+      displaySpan.style.color = metarAgeColor(validatedMetar.ageMinutes);
     }
     saveMetar(prefix, icaoCode, validatedMetar);
     suggestRunwayFromMetar(validatedMetar.text, prefix);
@@ -365,13 +396,16 @@ export function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
     if (usedRunway) usedRunway.classList.toggle('is-exceeded', exceeded);
 
     const toraNum = parseFloat(tora) || 0;
-    if (toraNum <= 0) return;
+    const availableDistances = [tora, toda, asda]
+        .map((value) => parseFloat(value) || 0)
+        .filter((value) => value > 0);
+    const referenceDistance = Math.max(...availableDistances);
+    if (toraNum <= 0 || referenceDistance <= 0) return;
 
     const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
-    const maxRatio = getRunwayMaxRatio(runwayStrip);
     const getRatio = (val) => {
         const num = parseFloat(val) || 0;
-        return Math.min(Math.max(num / toraNum, 0), maxRatio);
+        return Math.min(Math.max(num / referenceDistance, 0), 1);
     };
     const maxDistance = Math.max(
         parseFloat(tor) || 0,

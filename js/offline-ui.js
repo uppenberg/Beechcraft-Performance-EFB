@@ -6,6 +6,10 @@ import { CUSTOM_AIRPORT_ENABLED_KEY, isCustomAirportEnabled, loadAirportDatabase
 
 // Custom airports, settings, and service worker controls
 
+function isLocalDevelopmentHost() {
+  return ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+}
+
 export function updateCustomAirportIndicator() {
   const enabled = isCustomAirportEnabled();
   ['to', 'ldg'].forEach((prefix) => {
@@ -177,6 +181,16 @@ export function setupSettingsMenu() {
   const helpCloseBtnFooter = document.getElementById('help-close-btn-footer');
 
   if (!toggle || !panel || !updateButton) return;
+  if (isLocalDevelopmentHost()) {
+    updateButton.disabled = true;
+    updateButton.title = 'App updates are disabled while using Live Server.';
+    setUpdateStatus('App updates are disabled while using Live Server.');
+    const offlineButton = document.getElementById('offline-data-retry');
+    if (offlineButton) {
+      offlineButton.disabled = true;
+      offlineButton.title = 'Offline file checks are disabled while using Live Server.';
+    }
+  }
   setupCustomAirportUi();
   setupOfflineReadiness();
 
@@ -274,6 +288,9 @@ export async function waitForServiceWorkerReady(timeoutMs = 60000) {
 }
 
 export async function getOfflineDataWorker({ retry = false } = {}) {
+  if (isLocalDevelopmentHost()) {
+    throw new Error('Offline file checks are unavailable while using Live Server.');
+  }
   if (!('serviceWorker' in navigator)) {
     throw new Error('Offline file checks are not supported in this browser.');
   }
@@ -441,6 +458,8 @@ export function watchForServiceWorkerUpdate(registration) {
 }
 
 export async function registerAppServiceWorker() {
+  if (isLocalDevelopmentHost()) return;
+
   if (!('serviceWorker' in navigator)) {
     setUpdateStatus('App updates are not supported in this browser.');
     setOfflineDataStatus('Offline file verification is not supported in this browser.', 'error');
@@ -531,6 +550,10 @@ export function activateAppUpdate(worker) {
 }
 
 export async function checkForAppUpdate() {
+  if (isLocalDevelopmentHost()) {
+    setUpdateStatus('App updates are disabled while using Live Server.');
+    return;
+  }
   const registration = AppState.appServiceWorkerRegistration;
   const updateButton = document.getElementById('check-updates-button');
   if (!registration || !updateButton) {

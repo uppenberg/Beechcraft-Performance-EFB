@@ -212,6 +212,13 @@ export function handleRegistrationChange(registration) {
   const registrationSelect = document.getElementById('global-registration');
   if (!registrationSelect) return;
 
+  // Ignore transient empty values while the registration options are being rebuilt.
+  if (registration === '') {
+    const fallback = localStorage.getItem('selected_reg');
+    registrationSelect.value = AIRCRAFT_TYPE_BY_REGISTRATION[fallback] ? fallback : 'SE-LTL';
+    return;
+  }
+
   if (!AIRCRAFT_TYPE_BY_REGISTRATION[registration]) {
     registrationSelect.value = 'SE-LTL';
     showRegistrationError(`No performancedata is available for ${registration}. `);

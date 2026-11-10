@@ -212,6 +212,26 @@ input, select {
   display: none;
 }
 
+.oei-warning-banner {
+  background: rgba(210, 153, 34, 0.15);
+  border: 1px solid #d29922;
+  border-radius: 6px;
+  color: #e3b341;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+}
+
+.oei-warning-banner strong {
+  color: #e3b341;
+  text-transform: uppercase;
+}
+
+.oei-warning-banner[hidden] {
+  display: none;
+}
+
 /* Tröskelmarkering fylld över banans hela bredd */
 .runway-threshold-left {
   position: absolute;
