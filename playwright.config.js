@@ -4,18 +4,31 @@ const port = Number(process.env.TEST_PORT || 4173);
 const baseURL = `http://127.0.0.1:${port}`;
 const chromeChannel = process.env.EFB_CHROME_CHANNEL ||
   (process.platform === 'win32' ? 'chrome' : undefined);
-const projects = [
-  {
-    name: 'chromium',
-    use: {
-      ...devices['Desktop Chrome'],
-      ...(chromeChannel ? { channel: chromeChannel } : {}),
-    },
-  },
-];
+const projects = [];
 if (process.env.CI || process.env.EFB_RUN_WEBKIT === '1') {
-  projects.push({ name: 'webkit', use: { ...devices['Desktop Safari'] } });
+  projects.push({
+    name: 'ipad-mini',
+    metadata: { targetDevice: 'iPad mini (A17 Pro), emulated; real-device checks remain required' },
+    use: {
+      // Generic recent iPad Safari UA/touch settings; override screen and scale
+      // for the A17 Pro mini (1488 x 2266 physical pixels, 2x scale).
+      // https://support.apple.com/en-us/121456
+      ...devices['iPad (gen 11)'],
+      viewport: { width: 744, height: 1133 },
+      screen: { width: 744, height: 1133 },
+      deviceScaleFactor: 2,
+      colorScheme: 'dark',
+    },
+  });
 }
+projects.push({
+  name: 'chromium',
+  testIgnore: ['**/ipad-mini.spec.js'],
+  use: {
+    ...devices['Desktop Chrome'],
+    ...(chromeChannel ? { channel: chromeChannel } : {}),
+  },
+});
 
 module.exports = defineConfig({
   testDir: './tests',

@@ -12,11 +12,13 @@ npm test
 
 The test runner starts its own local server on port 4173. Set `TEST_PORT` if that port is occupied. Tests run serially. PWA lifecycle cases use Chromium; the calculation and app interaction checks also run in WebKit in CI. On Windows, local runs default to installed Google Chrome. To request WebKit locally, set `EFB_RUN_WEBKIT=1`. If Windows reports `libGLESv2.dll` missing despite the file being present in the Playwright WebKit folder, temporarily add that folder to the current shell's PATH:
 
+GitHub Actions runs the test suite on Node.js 24 LTS. The workflow uses action releases that run on Node.js 24, so the runner does not need to force older Node.js 20 actions onto its newer runtime.
+
 ```powershell
 $env:EFB_RUN_WEBKIT = '1'
 $webkitFolder = Split-Path (node -p "require('playwright').webkit.executablePath()")
 $env:PATH = "$webkitFolder;$env:PATH"
-npm.cmd test -- --project=webkit
+npm.cmd test -- --project=ipad-mini
 ```
 
 `npm test` first checks the offline asset manifest, lints the app modules and service worker, and type-checks the shared input and limit modules.
@@ -26,6 +28,26 @@ Reports are written to `playwright-report/` (HTML), `test-results/results.json` 
 ```sh
 npm run test:report
 ```
+
+## Supported device and focused UI checks
+
+The product's full-support target is **iPad mini (A17 Pro), in portrait orientation only**. The `ipad-mini` project runs first in CI and uses an emulated 744 x 1133 CSS pixel viewport, scale factor 2, mobile behavior and touch input. It replaces the previous desktop WebKit profile; it does not add another full browser project. The generic recent iPad Safari user agent comes from Playwright, with the A17 Pro mini screen dimensions overridden explicitly. The physical screen is 1488 x 2266 pixels ([Apple specifications](https://support.apple.com/en-us/121456)). This profile does not pin or reproduce the user's installed iPadOS version, Safari chrome, keyboard or PWA standalone environment ([Playwright emulation](https://playwright.dev/docs/emulation)).
+
+`tests/ipad-mini.spec.js` runs only in the `ipad-mini` project and checks all three aircraft families in 744 x 1133 portrait orientation. It tests touch navigation and focus, reads the selected ICAO back, checks horizontal overflow and controls outside the viewport, and attaches takeoff/landing screenshots even on success. On iPad mini screenshots only, a test stylesheet gives closed select controls the dark colors and chevron seen on the supplied iPad image; it does not change app files. The shim makes screenshots easier to compare, but cannot verify how the native iPadOS picker opens or behaves. These are geometric layout checks with screenshots for human review, not pixel-difference tests or complete accessibility certification. The remaining iPad-mini WebKit tests exercise existing app flows using the portrait profile. Chromium remains an engineering check and covers the service-worker lifecycle; it does not define another supported product device.
+
+Before claiming a release is verified on the supported device, use the actual iPad mini and record its iPadOS version. Installation from Safari, offline relaunch of the installed PWA, updating that installation, rotation, the onscreen keyboard and VoiceOver require device checks. They are not verified by the GitHub VM.
+
+## AFM comparison report
+
+`tests/afm-landing.spec.js` adds 12 exact Figure 4-44 table points from the supplied `LD f35_zero.pdf`, across PDF pages 1, 2, 7 and 14. Altitudes are 0, 3000 and 6000 ft, weights are within 13000-18700 lb, and the samples include tailwind, zero wind and headwind. Distances, VREF and VAPP are transcribed from the PDF in `tests/references/c56x-afm-figure-4-44.json`, with source SHA-256, conditions and page references. They are explicitly **pending user review**; passing tests do not approve the transcription. Expected values must not be regenerated from the app to make a failure pass.
+
+The 12 calculations share one page load. Two additional scenarios enter values through the landing form, read back its fields, observe the actual arguments passed to the unmodified calculation and compare the displayed distance and speeds. A synthetic custom runway is created through the app for each altitude, with QNH 1013.25 hPa so the pressure altitude is exactly on the table node. No between-node interpolation is required for these Figure 4-44 distance/speed comparisons. Other results calculated by the app, such as maximum landing mass or climb limits, are outside this PDF comparison.
+
+Each AFM test attaches `afm-comparison.html` and `afm-comparison.json` on success or failure. In the Playwright HTML report, select either test starting with **AFM Figure 4-44** and open its **AFM comparison (html)** attachment. The table shows input values, PDF/AFM page, expected value, actual value and difference. Expand each row's details to see complete inputs; the UI test includes requested form values, actual form values, engine inputs and displayed results. It also attaches screenshots of both successful form scenarios. The reports are self-contained and can be opened directly from the downloaded artifact's `test-results/` subfolders. An interrupted setup may produce a partial report; completed and expected case counts are shown explicitly.
+
+The quantity compared is **AFM actual landing distance in feet**, before operational/runway factors, and the speed headings in KIAS. It is not the app's factored required distance or an approval of allowable landing weight. Positive wind is headwind and negative wind is tailwind. This small, inspectable set complements the pre-existing 80-cell reference and regression/matrix tests. It does not verify all AFM pages, slope charts or interpolation between nodes.
+
+Run only the AFM cases with `npx playwright test tests/afm-landing.spec.js`. Enable `EFB_RUN_WEBKIT=1` locally to include the iPad mini profile, or use `--project=ipad-mini` with that variable to target it. CI runs the iPad mini profile first, then Chromium. The test count stays small by checking multiple reference points per browser session.
 
 The test server has controlled modes for failed workbook requests, simulated offline responses, and a changed service-worker script. They apply only to the test server and do not modify production source files.
 
