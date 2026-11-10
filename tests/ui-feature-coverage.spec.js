@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
-const { blockExternalRequests, openApp, setServerMode } = require('./support/app-helpers');
+const { blockExternalRequests, chooseAirport, fillWeather, openApp, setServerMode } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });
 
@@ -17,11 +17,15 @@ async function stubCurrentMetar(page) {
     String(now.getUTCHours()).padStart(2, '0'),
     String(now.getUTCMinutes()).padStart(2, '0'),
   ].join('');
-  await page.route('**/api/reports/metar**', (route) => route.fulfill({
-    status: 200,
-    contentType: 'text/plain',
-    body: `METAR EFHK ${observation}Z 02008KT 15/10 Q1013`,
-  }));
+  await page.route('**/api/reports/metar**', (route) => {
+    const icao = new URL(route.request().url()).searchParams.get('ids');
+    const wind = icao === 'EETN' ? '08008KT' : '02008KT';
+    return route.fulfill({
+      status: 200,
+      contentType: 'text/plain',
+      body: `METAR ${icao} ${observation}Z ${wind} 15/10 Q1013`,
+    });
+  });
 }
 
 test('all declared UI action names resolve to registered handlers', () => {
@@ -105,7 +109,8 @@ test('ICAO autocomplete supports keyboard selection and runway intersections upd
   await stubCurrentMetar(page);
   const icao = page.locator('#to-airport-icao');
   await icao.fill('EFH');
-  await expect(page.locator('#to-icao-suggestions [role="option"]')).toContainText(['EFHK']);
+  await expect(page.locator('#to-icao-suggestions [role="option"]')).toContainText(['EFHA', 'EFHK']);
+  await icao.press('ArrowDown');
   await icao.press('ArrowDown');
   await expect(icao).toHaveAttribute('aria-activedescendant', /to-airport-icao-suggestion/);
   await icao.press('Enter');
@@ -136,30 +141,30 @@ test('ICAO autocomplete supports keyboard selection and runway intersections upd
 test('METAR runway suggestion can be applied to takeoff and landing', async ({ page }) => {
   await openApp(page, 'SE-RIJ');
   await stubCurrentMetar(page);
-  await page.locator('#to-airport-icao').fill('EFHK');
-  await page.locator('#to-airport-rwy').selectOption('22R');
-  await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 04L');
+  await page.locator('#to-airport-icao').fill('EETN');
+  await page.locator('#to-airport-rwy').selectOption('26');
+  await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
   await page.evaluate(() => {
-    BeechcraftApp.airports.suggestRunwayFromMetar('METAR EFHK 011230Z 02008KT 15/10 Q1013', 'to');
+    BeechcraftApp.airports.suggestRunwayFromMetar('METAR EETN 011230Z 08008KT 15/10 Q1013', 'to');
   });
-  await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 04L');
+  await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
   const takeoffSuggestion = page.locator('#to-runway-suggestion-options .runway-suggestion-button')
-    .filter({ hasText: 'Use RWY 04L, full runway' });
+    .filter({ hasText: 'Use RWY 08, full runway' });
   await expect(takeoffSuggestion).toBeEnabled();
   await takeoffSuggestion.click();
-  await expect(page.locator('#to-airport-rwy')).toHaveValue('04L');
+  await expect(page.locator('#to-airport-rwy')).toHaveValue('08');
   await expect(page.locator('#to-airport-intersection')).toHaveValue('');
 
   await page.locator('#landing-tab-button').click();
-  await page.locator('#ldg-airport-icao').fill('EFHK');
-  await page.locator('#ldg-airport-rwy').selectOption('22R');
-  await expect(page.locator('#ldg-runway-suggestion-text')).toContainText('METAR suggests RWY 04L');
+  await page.locator('#ldg-airport-icao').fill('EETN');
+  await page.locator('#ldg-airport-rwy').selectOption('26');
+  await expect(page.locator('#ldg-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
   await page.evaluate(() => {
-    BeechcraftApp.airports.suggestRunwayFromMetar('METAR EFHK 011230Z 02008KT 15/10 Q1013', 'ldg');
+    BeechcraftApp.airports.suggestRunwayFromMetar('METAR EETN 011230Z 08008KT 15/10 Q1013', 'ldg');
   });
-  await expect(page.locator('#ldg-runway-suggestion-text')).toContainText('METAR suggests RWY 04L');
-  await page.getByRole('button', { name: 'Use RWY 04L' }).click();
-  await expect(page.locator('#ldg-airport-rwy')).toHaveValue('04L');
+  await expect(page.locator('#ldg-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
+  await page.getByRole('button', { name: 'Use RWY 08', exact: true }).click();
+  await expect(page.locator('#ldg-airport-rwy')).toHaveValue('08');
 });
 
 test('custom-airport validation rejects invalid form values and duplicate runways update in place', async ({ page }) => {
@@ -200,6 +205,8 @@ test('custom-airport validation rejects invalid form values and duplicate runway
 
 test('runway status cards, climb and wind cards, and chart markers render their states', async ({ page }) => {
   await openApp(page, 'SE-LTL');
+  await chooseAirport(page, 'to', 'ESSA', '01L');
+  await fillWeather(page, 'to');
   const state = await page.evaluate(() => {
     const app = BeechcraftApp;
     app.results.updateRunwayExceedanceCard('takeoff-exceedance-card', 'takeoff-exceedance-status', [
@@ -311,6 +318,7 @@ for (const item of [
 ]) {
   test(`${item.registration}: landing mass warning follows its design limit`, async ({ page }) => {
     await openApp(page, item.registration);
+    await page.locator('#landing-tab-button').click();
     const setSlider = async (value) => page.locator('#ldg-mass').evaluate((control, next) => {
       control.value = String(next);
       control.dispatchEvent(new Event('input', { bubbles: true }));
@@ -346,7 +354,7 @@ for (const item of [
     if (item.takeoffReversers) await page.locator('#to-reversers').selectOption(item.takeoffReversers);
     if (item.deice) await page.locator('#to-deice').selectOption(item.deice);
     if (item.technique) await page.locator('#to-technique').selectOption(item.technique);
-    await page.locator('#to-wind-dir').fill('035');
+    await page.locator('#to-wind-dir').fill('35');
     await page.locator('#to-wind-spd').fill('9');
     await page.locator('#to-oat').fill('12');
     await page.locator('#to-qnh').fill('1008');
@@ -354,7 +362,8 @@ for (const item of [
     await page.locator('#landing-tab-button').click();
     await setSlider('ldg-mass', item.landingMass);
     await page.locator('#ldg-flaps').selectOption(item.landingFlaps);
-    await page.locator('#ldg-anti-ice').selectOption('OFF');
+    if (item.registration === 'SE-RIJ') await page.locator('#ldg-anti-ice').selectOption('OFF');
+    else await expect(page.locator('#ldg-anti-ice-row')).toBeHidden();
     await page.locator('#ldg-rwcc').selectOption('4');
     if (item.landingReversers) await page.locator('#ldg-reversers').selectOption(item.landingReversers);
     await page.locator('#ldg-wind-dir').fill('210');
@@ -370,8 +379,9 @@ for (const item of [
     for (const [id, value] of Object.entries({
       'to-mass': item.takeoffMass, 'to-flaps': item.flaps, 'to-anti-ice': 'OFF', 'to-rwcc': '4',
       'to-wind-dir': '35', 'to-wind-spd': '9', 'to-oat': '12', 'to-qnh': '1008',
-      'ldg-mass': item.landingMass, 'ldg-flaps': item.landingFlaps, 'ldg-anti-ice': 'OFF', 'ldg-rwcc': '4',
+      'ldg-mass': item.landingMass, 'ldg-flaps': item.landingFlaps, 'ldg-rwcc': '4',
       'ldg-wind-dir': '210', 'ldg-wind-spd': '7', 'ldg-oat': '9', 'ldg-qnh': '1009',
+      ...(item.registration === 'SE-RIJ' ? { 'ldg-anti-ice': 'OFF' } : {}),
       ...(item.takeoffReversers ? { 'to-reversers': item.takeoffReversers } : {}),
       ...(item.deice ? { 'to-deice': item.deice } : {}),
       ...(item.technique ? { 'to-technique': item.technique } : {}),

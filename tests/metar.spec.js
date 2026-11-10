@@ -161,23 +161,23 @@ test('METAR validation rejects station mismatch, stale observations and invalid 
 
 test('runway suggestions handle variable, calm, pure crosswind and reciprocal runway wind', async ({ page }) => {
   await openApp(page, 'SE-RIJ');
-  await page.locator('#to-airport-icao').fill('EFHK');
+  await page.locator('#to-airport-icao').fill('EETN');
   const states = await page.evaluate(() => {
     const suggest = BeechcraftApp.airports.suggestRunwayFromMetar;
-    suggest('METAR EFHK 011230Z VRB03KT 15/10 Q1013', 'to');
+    suggest('METAR EETN 011230Z VRB03KT 15/10 Q1013', 'to');
     const variable = document.getElementById('to-runway-suggestion-text').textContent;
-    suggest('METAR EFHK 011230Z 00000KT 15/10 Q1013', 'to');
+    suggest('METAR EETN 011230Z 00000KT 15/10 Q1013', 'to');
     const calm = document.getElementById('to-runway-suggestion-text').textContent;
-    suggest('METAR EFHK 011230Z 12708KT 15/10 Q1013', 'to');
+    suggest('METAR EETN 011230Z 17008KT 15/10 Q1013', 'to');
     const crosswind = document.getElementById('to-runway-suggestion-text').textContent;
-    suggest('METAR EFHK 011230Z 25008KT 15/10 Q1013', 'to');
+    suggest('METAR EETN 011230Z 26008KT 15/10 Q1013', 'to');
     const tailwindOpposite = document.getElementById('to-runway-suggestion-text').textContent;
     return { variable, calm, crosswind, tailwindOpposite };
   });
   expect(states.variable).toContain('variable or unavailable');
   expect(states.calm).toContain('calm');
   expect(states.crosswind).toContain('No runway has a headwind');
-  expect(states.tailwindOpposite).toContain('METAR suggests RWY 22R');
+  expect(states.tailwindOpposite).toContain('METAR suggests RWY 26');
 });
 
 test('an invalid fetched METAR leaves manually entered weather unchanged', async ({ page }) => {
