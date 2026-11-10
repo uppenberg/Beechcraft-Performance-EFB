@@ -15,7 +15,8 @@ const performanceGlobals = Object.fromEntries([
   'XLSX', 'HyperFormula', 'maxXwindByRCC', 'calculateC56xPressureAltitude',
   'getC56xTakeoffFieldLengths', 'getC56xTakeoffSpeeds',
   'getC56xSecondSegmentClimbGradient', 'getC56xMaxTakeoffWeight',
-  'getC56xLandingPerformance', 'C56X_MAX_DESIGN_LANDING_WEIGHT_LB',
+  'getC56xLandingPerformance', 'getC56xLandingDistance', 'getC56xLandingSpeeds',
+  'C56X_MAX_DESIGN_LANDING_WEIGHT_LB',
   'C56X_MIN_APPROACH_CLIMB_GRADIENT_PERCENT', 'C56X_MIN_LANDING_CLIMB_GRADIENT_PERCENT',
 ].map((name) => [name, 'readonly']));
 
@@ -26,4 +27,13 @@ module.exports = [
   { files: ['sw.js'], languageOptions: { sourceType: 'script', globals: globals.serviceworker }, rules },
   { files: ['tools/generate-asset-manifest.js', 'tests/support/server.js'],
     languageOptions: { sourceType: 'commonjs', globals: globals.node }, rules },
+  { files: ['tests/**/*.js'], languageOptions: {
+    sourceType: 'commonjs',
+    globals: {
+      ...globals.node,
+      ...globals.browser,
+      ...performanceGlobals,
+      BeechcraftApp: 'readonly',
+    },
+  }, rules },
 ];

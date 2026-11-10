@@ -332,7 +332,9 @@ export function suggestRunwayFromMetar(metarText, prefix) {
   });
 
   const candidates = [...runwayCandidates.values()].sort((left, right) => right.headwind - left.headwind);
-  if (candidates.length === 0 || candidates[0].headwind <= 0) {
+  // Ignore floating-point noise around a pure crosswind. A runway suggestion
+  // must have a meaningful positive headwind component, not a rounded 0 kt.
+  if (candidates.length === 0 || candidates[0].headwind <= 0.1) {
     updateRunwaySuggestion(prefix, 'No runway has a headwind component; select a runway manually.');
     return;
   }

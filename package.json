@@ -8,7 +8,7 @@
     "test": "playwright test",
     "assets:generate": "node tools/generate-asset-manifest.js",
     "assets:check": "node tools/generate-asset-manifest.js --check",
-    "lint": "eslint js sw.js tools/generate-asset-manifest.js tests/support/server.js",
+    "lint": "eslint js sw.js tools/generate-asset-manifest.js tests",
     "typecheck": "tsc --allowJs --checkJs --noEmit --strict --target es2020 --module esnext js/performance-inputs.js js/performance-limits.js",
     "test:report": "playwright show-report",
     "test:references:generate": "node tests/generate-reference-draft.js"

@@ -278,6 +278,12 @@
                     <h3>Overview</h3>
                     <p>The Jonair Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong>, <strong>Beechcraft 1900C (B190)</strong> and <strong>Cessna Citation 560XL (C56X)</strong>. All calculations are performed locally on the unit using the aircraft's verified performance engine — no data is sent to any server.</p>
                     <p>The app operates fully offline once installed as a PWA (Progressive Web App). Performance data is based on EASA Performance Class A regulations.</p>
+                    <div class="help-note help-note--warn">
+                        <strong>Before relying on offline calculations:</strong> Open Settings while online and use <em>Check / download offline files</em>. Wait until the status confirms the files are ready, then confirm the app can initialize and calculate. If prompted, use <em>Reload app to retry initialization</em>. METAR and update checks still need internet.
+                    </div>
+                    <div class="help-note help-note--warn">
+                        <strong>How to read results:</strong> When all displayed performance checks are complete and none is red, the app indicates that the selected aircraft and entered conditions meet its calculated performance limits. Make sure the correct aircraft is selected and all required results and inputs are present before relying on the indication.
+                    </div>
                     <p>Your last-used tab, form inputs, airport selections and most recently fetched METARs are saved locally and restored on your next visit.</p>
                     <div class="help-note help-note--info">
                         <strong>&#128225; Internet required for:</strong> Fetching live METAR data and checking for app updates. All performance calculations work without an internet connection.
@@ -301,6 +307,7 @@
                     <div class="help-note help-note--warn">
                         <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X RCC take-off distances use the dry field-length charts for Flaps 7/15 and anti-ice ON/OFF, then apply the selected RCC factor. Reversers are not credited in this calculation.
                     </div>
+                    <p>In the confirmation dialog, choose <strong>Cancel</strong> to keep the current aircraft and close the warning, or <strong>Yes, switch aircraft</strong> to load the selected registration's performance data. The app reloads after the switch; verify the registration shown in the header before using results.</p>
                     <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
                 </section>
 
@@ -426,7 +433,7 @@
                                                     <dd>Set to <strong>YES</strong> when Type II, III or IV anti-icing fluid has been applied. Per AFM, take-off field length on dry, wet and contaminated runways is multiplied by <strong>1.15</strong>; Flaps 7° is recommended. Type I fluid needs no correction — leave on NO.</dd>
 
                                                     <dt>Max take-off mass, current setup</dt>
-                                                    <dd>The card under the mass slider shows the highest mass (50 lb steps) that satisfies <em>all</em> take-off limits for the current airport, runway, weather, flaps, anti-ice, RWCC (and for C56X reversers and deice): TORA/TODA/ASDA, OEI climb gradient and speeds. It also shows the margin to the selected mass (green = selected mass OK, red = exceeds). It does not move the slider. "Not available" or "None" means no mass in range fits, or an input is missing.</dd>
+                                                    <dd>The card under the mass slider searches in 50 lb steps for the highest mass within the aircraft's available range that meets the calculated take-off limits for the current airport/runway, weather, flaps, anti-ice and RWCC; for C56X it also uses reverser and deice selections. It checks TORA/TODA/ASDA, OEI climb gradient and speeds. It shows the margin to the selected mass and does not move the slider. "Not available" or "None" is not an approval: it can mean no mass in range meets the limits or required input/performance data is missing. Check the inputs and individual result cards.</dd>
                                                 </dl>
 
                                                 <h4>Take-off Result Cards</h4>
@@ -464,7 +471,8 @@
                     <p>Calculates required landing distances under EASA CAT rules.</p>
 
                     <h4>Airport &amp; Weather Card</h4>
-                    <p>Identical fields to the Take-off tab, but for the destination airport and arrival conditions. The landing ICAO/runway are stored independently from the take-off values.</p>
+                    <p>Identical fields to the Take-off tab, but for the destination airport and arrival conditions. The landing airport, runway and weather are stored independently from the take-off values. METAR auto-fetch or pressing <strong>Update</strong> overwrites manually entered weather fields; re-enter any manual corrections afterwards.</p>
+                    <p>After a METAR is fetched, the runway suggestion may show runways ordered by headwind component. Select <strong>Use RWY</strong> to load a suggested runway, then verify it against the actual wind and operational conditions. It is a wind-based aid, not a substitute for runway selection by the pilot.</p>
 
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
@@ -541,14 +549,14 @@
                     <div class="help-note help-note--info">
                         The visualization is a schematic aid only. Always use the numerical values for operational decisions.
                     </div>
-                    <p>The graphic updates live: the bar and markers slide to their new position whenever airport, runway, weather or setup changes. The runway suggestion in the Airport &amp; Weather card (see Airport &amp; Weather, <em>Runway suggestion</em>) is based on the METAR headwind component per runway.</p>
+                    <p>The graphic updates live: the bar and markers slide to their new position whenever airport, runway, weather or setup changes. The runway suggestion in the Airport &amp; Weather card (see Airport &amp; Weather, <em>Runway suggestion</em>) is based on the METAR headwind component per runway and appears on both tabs.</p>
                 </section>
 
                 <section id="help-saved">
                     <h3>Saved Data</h3>
                     <p>The app stores your inputs on this device so they are there when you reopen it:</p>
                     <ul>
-                        <li><strong>Airport &amp; Weather</strong> and <strong>Setup &amp; Mass</strong> cards on <em>both</em> the Take-off and Landing tabs: airport, runway, intersection, wind, OAT, QNH, mass, flaps, anti-ice, RWCC, reversers and deice are saved separately per aircraft type.</li>
+                        <li><strong>Airport &amp; Weather</strong> and <strong>Setup &amp; Mass</strong> cards on <em>both</em> the Take-off and Landing tabs: airport, runway, intersection, wind, OAT, QNH, mass, flaps, anti-ice, RWCC, reversers and deice are saved separately for take-off and landing and per aircraft type. A new METAR fetch overwrites manually entered wind, OAT and QNH.</li>
                         <li>The last METAR for each airport is kept, and its age is recalculated on restore (so it turns amber/red as time passes).</li>
                         <li>Selected registration, active tab, and custom airports.</li>
                     </ul>
@@ -581,7 +589,7 @@
 
                 <section id="help-rwcc">
                     <h3>Runway Condition Code (GRF/RWCC)</h3>
-                    <p>The Global Reporting Format defines 6 runway condition codes. Obtain the current code from ATIS, SNOWTAM or ATC.</p>
+                    <p>The Global Reporting Format defines 6 runway condition codes. Obtain the current code from ATIS, SNOWTAM or ATC. A green result confirms only that the app's displayed checks pass for the entered code and other inputs; it does not replace verifying runway conditions and applicable operational requirements.</p>
                 </section>
 
                 <section id="help-eop">

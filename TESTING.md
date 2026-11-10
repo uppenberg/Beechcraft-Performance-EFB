@@ -21,7 +21,7 @@ $env:PATH = "$webkitFolder;$env:PATH"
 npm.cmd test -- --project=ipad-mini
 ```
 
-`npm test` first checks the offline asset manifest, lints the app modules and service worker, and type-checks the shared input and limit modules.
+`npm test` first checks the offline asset manifest, lints the app modules, service worker and test code, and type-checks the shared input and limit modules.
 
 Reports are written to `playwright-report/` (HTML), `test-results/results.json` (JSON), and `test-results/junit.xml` (JUnit). Open the HTML report with:
 
@@ -36,6 +36,12 @@ The product's full-support target is **iPad mini (A17 Pro), in portrait orientat
 `tests/ipad-mini.spec.js` runs only in the `ipad-mini` project and checks all three aircraft families in 744 x 1133 portrait orientation. It tests touch navigation and focus, reads the selected ICAO back, checks horizontal overflow and controls outside the viewport, and attaches takeoff/landing screenshots even on success. On iPad mini screenshots only, a test stylesheet gives closed select controls the dark colors and chevron seen on the supplied iPad image; it does not change app files. The shim makes screenshots easier to compare, but cannot verify how the native iPadOS picker opens or behaves. These are geometric layout checks with screenshots for human review, not pixel-difference tests or complete accessibility certification. The remaining iPad-mini WebKit tests exercise existing app flows using the portrait profile. Chromium remains an engineering check and covers the service-worker lifecycle; it does not define another supported product device.
 
 Before claiming a release is verified on the supported device, use the actual iPad mini and record its iPadOS version. Installation from Safari, offline relaunch of the installed PWA, updating that installation, rotation, the onscreen keyboard and VoiceOver require device checks. They are not verified by the GitHub VM.
+
+## Functional coverage map
+
+The suite is organized around application code and user-visible behavior; the user guide is a secondary cross-check. `tests/ui-feature-coverage.spec.js` covers the explicit UI-action registry, workbook formula import/conversion, settings and help navigation, update notices, ForeFlight URI, ICAO keyboard autocomplete, runway intersections and suggestions, invalid custom-airport values, result cards and chart markers, engine-out path display, runway availability, landing-mass warnings, registration errors and representative saved inputs for every aircraft family. `tests/metar.spec.js` covers parser, station/time validation, stale reports, weather preservation and runway suggestions for variable, calm, crosswind and reciprocal-runway wind. Existing calculation, initialization, stress and PWA specs cover the calculation engines, limits, recovery, offline cache and update lifecycle.
+
+This matrix is functional regression coverage, not an exhaustive Cartesian product of every field value. New controls and branches should get a corresponding test when added. Playwright cannot verify that ForeFlight opens on a device, nor can the GitHub VM certify iPadOS installation, standalone relaunch, native keyboard behavior or VoiceOver; use the physical-device check above for those. AFM correctness and reference-value approval remain separate from this battery.
 
 ## AFM comparison report
 
