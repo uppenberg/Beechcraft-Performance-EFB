@@ -1,4 +1,5 @@
 ﻿// Each worker is tied to an immutable, SHA-256-verified release snapshot.
+// Release build: 4fcce0c21364906aed8cea9f8b8cb80d7ecea221d940ca4a096ac4a2605907ca
 importScripts('./version.js', './asset-manifest.js');
 const MANIFEST = self.EFB_ASSET_MANIFEST;
 if (!MANIFEST || MANIFEST.version !== self.APP_VERSION) {

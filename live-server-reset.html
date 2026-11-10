@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reset local EFB cache</title>
+  <style>
+    body { max-width: 40rem; margin: 4rem auto; padding: 0 1rem; background: #0d1117; color: #c9d1d9; font: 1rem/1.5 system-ui, sans-serif; }
+    a { color: #79c0ff; }
+  </style>
+</head>
+<body>
+  <h1>Reset local EFB cache</h1>
+  <p id="status" role="status">Removing the old local service worker and offline files…</p>
+  <p><a id="open-app" href="./" target="_blank" rel="noopener" hidden>Open the app in a new tab</a></p>
+  <script>
+    (async () => {
+      const status = document.getElementById('status');
+      const localHost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+      if (!localHost || location.port !== '5500') {
+        status.textContent = 'This reset is available only from Live Server on port 5500.';
+        return;
+      }
+
+      try {
+        const appRoot = new URL('./', location.href);
+        const registrations = 'serviceWorker' in navigator
+          ? await navigator.serviceWorker.getRegistrations()
+          : [];
+        for (const registration of registrations) {
+          if (registration.scope === appRoot.href && !await registration.unregister()) {
+            throw new Error('Could not unregister the old service worker.');
+          }
+        }
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.filter(name => name.startsWith('be20-efb-v'))
+          .map(name => caches.delete(name)));
+        sessionStorage.removeItem('efb-local-service-worker-cleanup');
+        status.textContent = 'The local EFB cache is reset. Your saved form values are preserved.';
+        const link = document.getElementById('open-app');
+        link.href = appRoot.href;
+        link.hidden = false;
+      } catch (error) {
+        status.textContent = `Could not reset the local EFB cache: ${error.message}`;
+      }
+    })();
+  </script>
+</body>
+</html>
