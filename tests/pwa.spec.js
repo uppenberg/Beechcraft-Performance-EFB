@@ -132,10 +132,14 @@ test('a forced update moves other open tabs to the same verified release', async
     await registration.update();
     return Boolean(registration.waiting);
   }), { timeout: 30_000 }).toBe(true);
+  // Activating the worker makes every already-controlled tab reload. Wait for
+  // the second tab's navigation before evaluating its new document context.
+  const secondReload = second.waitForEvent('load', { timeout: 30_000 });
   await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     BeechcraftApp.offline.activateAppUpdate(registration.waiting);
   });
+  await secondReload;
   await expect.poll(() => second.evaluate(() => ({
     version: window.APP_VERSION,
     html: document.querySelector('meta[name="test-release"]')?.content || null,
