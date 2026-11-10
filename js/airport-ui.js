@@ -617,6 +617,7 @@ export function updateCustomAirportData(airport, prefix) {
     if (isC56xSelected()) {
       updateMaxTakeoffMass();
       updateC56xTakeoffFieldLength();
+      updateC56xLanding();
     }
     return;
   }

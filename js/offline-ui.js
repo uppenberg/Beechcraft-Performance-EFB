@@ -6,8 +6,9 @@ import { CUSTOM_AIRPORT_ENABLED_KEY, isCustomAirportEnabled, loadAirportDatabase
 
 // Custom airports, settings, and service worker controls
 
-function isLocalDevelopmentHost() {
-  return ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname);
+export function isLocalDevelopmentHost(location = window.location) {
+  return ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname) &&
+    location.port === '5500';
 }
 
 export function updateCustomAirportIndicator() {

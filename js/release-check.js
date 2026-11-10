@@ -5,7 +5,8 @@
   window.APP_RELEASE_MISMATCH = !expected || String(window.APP_VERSION) !== expected;
 
   const hostname = window.location.hostname;
-  const isLocalDevelopment = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+  const isLocalDevelopment = (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]') &&
+    window.location.port === '5500';
   if (isLocalDevelopment && 'serviceWorker' in navigator) {
     const reloadKey = 'efb-local-service-worker-cleanup';
     navigator.serviceWorker.getRegistrations().then(async (registrations) => {
