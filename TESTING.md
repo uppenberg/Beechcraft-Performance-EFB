@@ -103,7 +103,7 @@ The original baseline recorded BE20 takeoff TOR 558 m and B190 landing distance 
 
 The service worker uses the version in `version.js` as the release identifier and cache name. Each version is downloaded into its own offline snapshot. Installation failures retain the previous snapshot, and activating a new snapshot reloads open app tabs so they switch together. The version file is checked online whenever the app opens, with the cached copy used while offline.
 
-For each release, increment `self.APP_VERSION` in `version.js`. Add any new runtime files to the list in `asset-files.js`. Then run:
+For each release, increment `self.APP_VERSION` in `version.js`. Add any new runtime files to the `ASSETS` list in `sw.js`. Then run:
 
 ```sh
 npm test

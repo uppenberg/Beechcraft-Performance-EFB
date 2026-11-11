@@ -9,11 +9,11 @@ const recordedChanges = require('./references/source-hash-changes.json');
 
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file));
-const readAssetList = () => fs.readFileSync(path.join(root, 'asset-files.js'), 'utf8');
 const sha256 = (content) => crypto.createHash('sha256').update(content).digest('hex');
-const assetListContext = { self: {} };
-vm.runInNewContext(readAssetList(), assetListContext);
-const assets = assetListContext.self.EFB_OFFLINE_ASSETS;
+const serviceWorkerSource = read('sw.js').toString('utf8');
+const assetListMatch = serviceWorkerSource.match(/const ASSETS = (\[[\s\S]*?\]);/);
+if (!assetListMatch) throw new Error('The service worker offline asset list is missing.');
+const assets = vm.runInNewContext(assetListMatch[1]);
 
 function matchesHistoricalHash(file, bytes, expected) {
   if (sha256(bytes) === expected) return true;
@@ -67,7 +67,7 @@ test('offline asset checkout attributes preserve identical bytes across platform
 test('all app module imports and C56X loader files are included in the offline asset list', () => {
   const included = new Set(assets.map((asset) => asset.replace(/^\.\//, '')));
   for (const file of included) expect(fs.existsSync(path.join(root, file)), file).toBe(true);
-  expect(read('sw.js').toString('utf8')).toContain("importScripts('./version.js', './asset-files.js')");
+  expect(serviceWorkerSource).toContain("importScripts('./version.js')");
   const modules = fs.readdirSync(path.join(root, 'js')).filter((name) => name.endsWith('.js'));
   for (const name of modules) {
     expect(included.has(`js/${name}`), name).toBe(true);

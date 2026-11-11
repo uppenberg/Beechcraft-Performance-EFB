@@ -1,14 +1,59 @@
-// Bump version.js for every release. Each release gets its own offline snapshot.
-importScripts('./version.js', './asset-files.js');
+// Bump version.js for every release. Keep this complete offline list in sync
+// with the files loaded by the app.
+importScripts('./version.js');
 
 if (!self.APP_VERSION) throw new Error('The app release version is missing.');
 
 const CACHE_PREFIX = 'be20-efb-v';
 const CACHE_NAME = `${CACHE_PREFIX}${self.APP_VERSION}`;
-const ASSETS = self.EFB_OFFLINE_ASSETS;
-if (!Array.isArray(ASSETS) || ASSETS.length === 0) {
-  throw new Error('The offline asset list is missing.');
-}
+const ASSETS = [
+  './index.html',
+  './style.css',
+  './version.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './js/release-check.js',
+  './js/app.js',
+  './js/metar-weather.js',
+  './js/app-state.js',
+  './js/aircraft-ui.js',
+  './js/offline-ui.js',
+  './js/workbook-data.js',
+  './js/airport-ui.js',
+  './js/workbook-adapter.js',
+  './js/workbook-engine.js',
+  './js/c56x-ui.js',
+  './js/performance-inputs.js',
+  './js/performance-limits.js',
+  './js/results-ui.js',
+  './data/c56x/index.js',
+  './data/c56x/core.js',
+  './data/c56x/takeoff-gradient-dry.js',
+  './data/c56x/takeoff-dry-flaps7.js',
+  './data/c56x/takeoff-gradient-wet.js',
+  './data/c56x/takeoff-dry-flaps15.js',
+  './data/c56x/climb-flightpath-flaps7.js',
+  './data/c56x/climb-gradient-flaps7.js',
+  './data/c56x/climb-gradient-flaps15-off.js',
+  './data/c56x/climb-gradient-flaps15-on.js',
+  './data/c56x/gross-climb-gradient-flaps15-off.js',
+  './data/c56x/gross-climb-gradient-flaps15-on.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-off.js',
+  './data/c56x/landing-gross-climb-gradient-flaps35-on.js',
+  './data/c56x/landing-distance-flaps35.js',
+  './data/c56x/landing-weight-flaps15-35-off.js',
+  './data/c56x/calculations.js',
+  './data/c56x/landing-weight-flaps15-35-on.js',
+  './data/c56x/landing-calculations.js',
+  './data/airports.json',
+  './data/lib/xlsx.full.min.js',
+  './data/lib/hyperformula.full.min.js',
+  './data/se-ltl.xlsx',
+  './data/se-kvl.xlsx',
+  './data/se-mju.xlsx',
+  './data/B190.xlsx',
+];
 const SCOPE_URL = new URL(self.registration.scope);
 const assetUrls = new Map(ASSETS.map((asset) => {
   const url = new URL(asset, SCOPE_URL);
@@ -29,23 +74,47 @@ async function downloadAsset(url) {
   return response;
 }
 
+async function addAssetsAtomically(cache, entries) {
+  if (!entries.length) return [];
+  const requests = entries.map(({ url }) => releaseRequest(url));
+  let batchError = null;
+  try {
+    await cache.addAll(requests);
+  } catch (error) {
+    batchError = error;
+  }
+
+  return Promise.all(entries.map(async (entry, index) => {
+    const response = await cache.match(requests[index]);
+    if (!response?.ok) {
+      return { asset: entry.asset, reason: batchError?.message || 'Download failed.' };
+    }
+    try {
+      // Store assets under stable URLs for normal fetches and offline checks.
+      await cache.put(entry.url, response);
+      await cache.delete(requests[index]);
+      return null;
+    } catch (error) {
+      return { asset: entry.asset, reason: error.message || String(error) };
+    }
+  }));
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
+    const existingCaches = await caches.keys();
+    const cacheAlreadyExisted = existingCaches.includes(CACHE_NAME);
     const cache = await caches.open(CACHE_NAME);
     const missing = [];
     for (const entry of assetUrls.values()) {
       if (!await cache.match(entry.url)) missing.push(entry);
     }
-    try {
-      for (const { url } of missing) {
-        await cache.put(url, await downloadAsset(url));
-      }
-    } catch (error) {
-      // Preserve a snapshot already used by the active worker.
-      if (!(await caches.keys()).includes(CACHE_NAME) || missing.length === ASSETS.length) {
-        await caches.delete(CACHE_NAME);
-      }
-      throw error;
+    const failures = (await addAssetsAtomically(cache, missing)).filter(Boolean);
+    if (failures.length) {
+      // A failed new release must not leave a partial snapshot. Keep an
+      // existing same-version cache intact so offline repair can retry it.
+      if (!cacheAlreadyExisted) await caches.delete(CACHE_NAME);
+      throw new Error(`Could not install offline assets: ${failures.map(({ asset }) => asset).join(', ')}`);
     }
   })());
 });
@@ -72,22 +141,20 @@ self.addEventListener('message', (event) => {
 async function ensureOfflineData(downloadMissing) {
   const cache = await caches.open(CACHE_NAME);
   const missing = [];
-  const failed = [];
   for (const { asset, url } of assetUrls.values()) {
     const cached = await cache.match(url);
     if (cached?.ok) continue;
     missing.push(asset);
-    if (!downloadMissing) continue;
-    try {
-      await cache.put(url, await downloadAsset(url));
-    } catch (error) {
-      failed.push({ asset, reason: error.message || String(error) });
-    }
   }
+  if (!downloadMissing || !missing.length) {
+    return { ready: missing.length === 0, total: ASSETS.length, missing, failed: [] };
+  }
+  const entries = missing.map((asset) => assetUrls.get(new URL(asset, SCOPE_URL).pathname));
+  const failed = (await addAssetsAtomically(cache, entries)).filter(Boolean);
   return {
-    ready: failed.length === 0 && (downloadMissing || missing.length === 0),
+    ready: failed.length === 0,
     total: ASSETS.length,
-    missing: downloadMissing ? failed.map((entry) => entry.asset) : missing,
+    missing: failed.map((entry) => entry.asset),
     failed,
   };
 }
