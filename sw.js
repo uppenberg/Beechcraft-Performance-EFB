@@ -1,13 +1,14 @@
-﻿// Each worker is tied to an immutable, SHA-256-verified release snapshot.
-// Release build: 4fcce0c21364906aed8cea9f8b8cb80d7ecea221d940ca4a096ac4a2605907ca
-importScripts('./version.js', './asset-manifest.js');
-const MANIFEST = self.EFB_ASSET_MANIFEST;
-if (!MANIFEST || MANIFEST.version !== self.APP_VERSION) {
-  throw new Error('Offline asset manifest does not match the app version.');
-}
+// Bump version.js for every release. Each release gets its own offline snapshot.
+importScripts('./version.js', './asset-files.js');
+
+if (!self.APP_VERSION) throw new Error('The app release version is missing.');
+
 const CACHE_PREFIX = 'be20-efb-v';
-const CACHE_NAME = `${CACHE_PREFIX}${self.APP_VERSION}-${MANIFEST.buildId}`;
-const ASSETS = Object.keys(MANIFEST.hashes);
+const CACHE_NAME = `${CACHE_PREFIX}${self.APP_VERSION}`;
+const ASSETS = self.EFB_OFFLINE_ASSETS;
+if (!Array.isArray(ASSETS) || ASSETS.length === 0) {
+  throw new Error('The offline asset list is missing.');
+}
 const SCOPE_URL = new URL(self.registration.scope);
 const assetUrls = new Map(ASSETS.map((asset) => {
   const url = new URL(asset, SCOPE_URL);
@@ -16,41 +17,34 @@ const assetUrls = new Map(ASSETS.map((asset) => {
 const indexUrl = new URL('./index.html', SCOPE_URL).href;
 let updateInitiatorClientId = null;
 
-async function matchesAsset(response, asset) {
-  if (!response || !response.ok) return false;
-  const bytes = await response.clone().arrayBuffer();
-  const digest = await crypto.subtle.digest('SHA-256', bytes);
-  const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
-  return actual === MANIFEST.hashes[asset];
+function releaseRequest(url) {
+  const requestUrl = new URL(url);
+  requestUrl.searchParams.set('v', self.APP_VERSION);
+  return new Request(requestUrl.href, { cache: 'reload' });
 }
 
-async function downloadVerified(asset, url) {
-  const response = await fetch(new Request(url, { cache: 'reload' }));
+async function downloadAsset(url) {
+  const response = await fetch(releaseRequest(url));
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  if (!await matchesAsset(response, asset)) throw new Error('File does not match this app release');
   return response;
 }
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
-    const alreadyExists = (await caches.keys()).includes(CACHE_NAME);
     const cache = await caches.open(CACHE_NAME);
-    if (alreadyExists) {
-      // An active worker may share this exact snapshot. Never mutate or delete it
-      // during installation of another worker.
-      for (const { asset, url } of assetUrls.values()) {
-        if (!await matchesAsset(await cache.match(url), asset)) {
-          throw new Error(`Existing offline snapshot is incomplete: ${asset}`);
-        }
-      }
-      return;
+    const missing = [];
+    for (const entry of assetUrls.values()) {
+      if (!await cache.match(entry.url)) missing.push(entry);
     }
     try {
-      for (const { asset, url } of assetUrls.values()) {
-        await cache.put(url, await downloadVerified(asset, url));
+      for (const { url } of missing) {
+        await cache.put(url, await downloadAsset(url));
       }
     } catch (error) {
-      await caches.delete(CACHE_NAME);
+      // Preserve a snapshot already used by the active worker.
+      if (!(await caches.keys()).includes(CACHE_NAME) || missing.length === ASSETS.length) {
+        await caches.delete(CACHE_NAME);
+      }
       throw error;
     }
   })());
@@ -80,11 +74,12 @@ async function ensureOfflineData(downloadMissing) {
   const missing = [];
   const failed = [];
   for (const { asset, url } of assetUrls.values()) {
-    if (await matchesAsset(await cache.match(url), asset)) continue;
+    const cached = await cache.match(url);
+    if (cached?.ok) continue;
     missing.push(asset);
     if (!downloadMissing) continue;
     try {
-      await cache.put(url, await downloadVerified(asset, url));
+      await cache.put(url, await downloadAsset(url));
     } catch (error) {
       failed.push({ asset, reason: error.message || String(error) });
     }
@@ -104,13 +99,8 @@ self.addEventListener('activate', (event) => {
     );
     await self.clients.claim();
     if (oldCaches.length) {
-      // A forced update controls every open tab. Reload them before removing the
-      // old snapshot so that an old document cannot request new lazy-loaded data.
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       for (const client of clients) {
-        // The initiating app reloads itself on controllerchange. Start legacy
-        // tabs navigating, but do not await: their requests need activation to
-        // finish before this worker can serve the new release.
         if (client.url.startsWith(SCOPE_URL.href) && client.id !== updateInitiatorClientId) {
           client.navigate(client.url).catch((error) => console.error('Could not reload app tab:', error));
         }
@@ -132,15 +122,24 @@ self.addEventListener('fetch', (event) => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(managedAsset.url);
+
+    // Always check the central release number online; fall back to the saved copy offline.
+    if (managedAsset.asset === './version.js') {
+      try {
+        return await downloadAsset(managedAsset.url);
+      } catch {
+        if (cached) return cached;
+        throw new Error('The app release version is unavailable.');
+      }
+    }
+
     if (cached) return cached;
     try {
-      // A missing file can be repaired without the UI, but only when the
-      // server still has exactly the bytes belonging to this snapshot.
-      const response = await downloadVerified(managedAsset.asset, managedAsset.url);
+      const response = await downloadAsset(managedAsset.url);
       await cache.put(managedAsset.url, response.clone());
       return response;
     } catch {
-      return new Response('Offline app file unavailable. Retry the offline download.', {
+      return new Response('Offline app file unavailable. Reconnect and retry the offline download.', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
       });

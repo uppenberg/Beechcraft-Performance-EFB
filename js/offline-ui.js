@@ -310,7 +310,8 @@ export async function getOfflineDataWorker({ retry = false } = {}) {
     (registration.installing && registration.installing.state !== 'redundant')
   );
   if (!hasUsableRegistration) {
-    registration = await navigator.serviceWorker.register('./sw.js', {
+    const workerUrl = `./sw.js?v=${encodeURIComponent(window.APP_VERSION)}`;
+    registration = await navigator.serviceWorker.register(workerUrl, {
       updateViaCache: 'none',
     });
     AppState.appServiceWorkerRegistration = registration;
@@ -463,12 +464,13 @@ export async function registerAppServiceWorker() {
 
   if (!('serviceWorker' in navigator)) {
     setUpdateStatus('App updates are not supported in this browser.');
-    setOfflineDataStatus('Offline file verification is not supported in this browser.', 'error');
+    setOfflineDataStatus('Offline file checks are not supported in this browser.', 'error');
     return;
   }
 
   try {
-    AppState.appServiceWorkerRegistration = await navigator.serviceWorker.register('./sw.js', {
+    const workerUrl = `./sw.js?v=${encodeURIComponent(window.APP_VERSION)}`;
+    AppState.appServiceWorkerRegistration = await navigator.serviceWorker.register(workerUrl, {
       updateViaCache: 'none'
     });
 
@@ -509,7 +511,7 @@ export async function registerAppServiceWorker() {
         }
       })
       .catch((offlineError) => setOfflineDataStatus(
-        `Could not verify offline files: ${offlineError.message}`,
+        `Could not check offline files: ${offlineError.message}`,
         'error'
       ));
   }

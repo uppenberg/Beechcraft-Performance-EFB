@@ -2,14 +2,18 @@ const { test, expect } = require('./support/coverage-test');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
+const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 const baseline = require('./references/app-update-regression.json');
 const recordedChanges = require('./references/source-hash-changes.json');
-const assets = require('../asset-files.json');
 
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file));
+const readAssetList = () => fs.readFileSync(path.join(root, 'asset-files.js'), 'utf8');
 const sha256 = (content) => crypto.createHash('sha256').update(content).digest('hex');
+const assetListContext = { self: {} };
+vm.runInNewContext(readAssetList(), assetListContext);
+const assets = assetListContext.self.EFB_OFFLINE_ASSETS;
 
 function matchesHistoricalHash(file, bytes, expected) {
   if (sha256(bytes) === expected) return true;
@@ -60,8 +64,10 @@ test('offline asset checkout attributes preserve identical bytes across platform
   }
 });
 
-test('all app module imports and C56X loader files are included in the offline manifest', () => {
+test('all app module imports and C56X loader files are included in the offline asset list', () => {
   const included = new Set(assets.map((asset) => asset.replace(/^\.\//, '')));
+  for (const file of included) expect(fs.existsSync(path.join(root, file)), file).toBe(true);
+  expect(read('sw.js').toString('utf8')).toContain("importScripts('./version.js', './asset-files.js')");
   const modules = fs.readdirSync(path.join(root, 'js')).filter((name) => name.endsWith('.js'));
   for (const name of modules) {
     expect(included.has(`js/${name}`), name).toBe(true);

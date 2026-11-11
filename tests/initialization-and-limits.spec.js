@@ -30,15 +30,14 @@ test('performance stays hidden until the workbook and visible inputs are synchro
   await expect(page.locator('#initialization-status')).toHaveCount(0);
 });
 
-test('mixed HTML and version files keep the calculator hidden and request an update', async ({ page }) => {
+test('version.js is the single release marker and does not block calculator startup', async ({ page }) => {
   await page.route('**/version.js', (route) => route.fulfill({
-    status: 200, contentType: 'text/javascript', body: "self.APP_VERSION = 'older-release';",
+    status: 200, contentType: 'text/javascript', body: "self.APP_VERSION = 'test-release';",
   }));
   await page.goto('/');
-  await expect(page.locator('main')).toBeHidden();
-  await expect(page.locator('#global-registration')).toBeDisabled();
-  await expect(page.locator('#initialization-status')).toContainText('App update required');
-  await expect(page.locator('#settings-toggle')).toBeEnabled();
+  await expect(page.locator('main')).toBeVisible();
+  await expect(page.locator('#app-version')).toContainText('test-release');
+  await expect(page.locator('#initialization-status')).toHaveCount(0);
 });
 
 test('limit decisions reject missing data and use unrounded boundaries', async ({ page }) => {

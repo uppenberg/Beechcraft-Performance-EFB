@@ -1,8 +1,6 @@
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
-const crypto = require('node:crypto');
-const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '../..');
 const PORT = Number(process.env.TEST_PORT || 4173);
@@ -11,8 +9,7 @@ let updateMarker = 0;
 
 function updatedIndex(content) {
   return Buffer.from(content.toString()
-    .replace('<head>', `<head><meta name="test-release" content="${updateMarker}">`)
-    .replace(/(<meta name="app-release" content=")[^"]+(">)/, `$1test-release-${updateMarker}$2`));
+    .replace('<head>', `<head><meta name="test-release" content="${updateMarker}">`));
 }
 
 const MIME_TYPES = {
@@ -108,25 +105,7 @@ function createTestServer() {
       content = updatedIndex(content);
     } else if (mode.startsWith('updated') && pathname.endsWith('/js/app.js')) {
       content = Buffer.concat([content, Buffer.from(`\nwindow.__testRelease = ${updateMarker};\n`)]);
-    } else if (mode.startsWith('updated') && pathname.endsWith('/asset-manifest.js')) {
-      const sandbox = { self: {} };
-      vm.runInNewContext(content.toString(), sandbox);
-      const manifest = sandbox.self.EFB_ASSET_MANIFEST;
-      manifest.version = `test-release-${updateMarker}`;
-      for (const asset of ['./index.html', './version.js', './js/app.js']) {
-        let bytes = fs.readFileSync(path.join(ROOT, asset));
-        if (asset === './index.html') bytes = updatedIndex(bytes);
-        if (asset === './version.js') bytes = Buffer.from(`self.APP_VERSION = 'test-release-${updateMarker}';\n`);
-        if (asset === './js/app.js') bytes = Buffer.concat([bytes, Buffer.from(`\nwindow.__testRelease = ${updateMarker};\n`)]);
-        manifest.hashes[asset] = crypto.createHash('sha256').update(bytes).digest('hex');
-      }
-      manifest.buildId = crypto.createHash('sha256').update(JSON.stringify({ version: manifest.version, hashes: manifest.hashes })).digest('hex');
-      content = Buffer.from(`self.EFB_ASSET_MANIFEST = ${JSON.stringify(manifest)};\n`);
     }
-    if (pathname.endsWith('/sw.js') && mode.startsWith('updated')) {
-      content = Buffer.concat([content, Buffer.from(`\n// Playwright update marker ${updateMarker}\n`)]);
-    }
-
     const headers = {
       'content-type': MIME_TYPES[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
       'content-length': String(content.length),

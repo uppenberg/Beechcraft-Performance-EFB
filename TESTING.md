@@ -21,7 +21,7 @@ $env:PATH = "$webkitFolder;$env:PATH"
 npm.cmd test -- --project=ipad-mini
 ```
 
-`npm test` first checks the offline asset manifest, lints the app modules, service worker and test code, and type-checks the shared input and limit modules.
+`npm test` first lints the app modules, service worker and test code, then type-checks the shared input and limit modules.
 
 ## JavaScript code coverage
 
@@ -101,16 +101,15 @@ The original baseline recorded BE20 takeoff TOR 558 m and B190 landing distance 
 
 ## Offline release snapshots
 
-The service worker verifies each precached file against the generated SHA-256 manifest. A cached release serves its own files and app shell, including root navigation. If a cached file is missing, the worker can restore it from the server only when its hash matches; repair rejects files from another release. Installing a replacement uses a separate cache; failed installation retains the previous snapshot. An activated update reloads open app tabs so they load the new snapshot together.
+The service worker uses the version in `version.js` as the release identifier and cache name. Each version is downloaded into its own offline snapshot. Installation failures retain the previous snapshot, and activating a new snapshot reloads open app tabs so they switch together. The version file is checked online whenever the app opens, with the cached copy used while offline.
 
-For each release, update the version in `version.js` and the `app-release` meta tag in `index.html`. The bootstrap blocks the calculator if those two values differ, including when an older service worker serves a stale `version.js`. After all runtime files have been finalized, run:
+For each release, increment `self.APP_VERSION` in `version.js`. Add any new runtime files to the list in `asset-files.js`. Then run:
 
 ```sh
-npm run assets:generate
 npm test
 ```
 
-Commit `asset-files.json` and the generated `asset-manifest.js` together with the release. Add new runtime files to `asset-files.json`; CI checks the manifest and tests verify app imports and C56X loader files are included. `.gitattributes` fixes release text assets to LF and preserves the original C56X data files byte for byte, so the same manifest works on Windows and Linux. Save other release text files with LF before regenerating the manifest. The separate lint/type checks can be run with `npm run lint` and `npm run typecheck`. ESLint uses a pinned minimatch override for a patched development dependency; review it when upgrading ESLint.
+No generated release manifest or commit hook is used. The service worker installs files under a fresh cache based on the version, but it no longer verifies file contents against SHA-256; publish the complete release together and increment the version for every code or data change. The separate lint/type checks can be run with `npm run lint` and `npm run typecheck`. ESLint uses a pinned minimatch override for a patched development dependency; review it when upgrading ESLint.
 
 ## Code boundaries and precision
 

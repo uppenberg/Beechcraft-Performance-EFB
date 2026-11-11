@@ -25,7 +25,7 @@ module.exports = [
   { files: ['js/performance-limits.js'], languageOptions: { sourceType: 'module' }, rules },
   { files: ['js/performance-inputs.js'], languageOptions: { sourceType: 'module' }, rules },
   { files: ['sw.js'], languageOptions: { sourceType: 'script', globals: globals.serviceworker }, rules },
-  { files: ['tools/generate-asset-manifest.js', 'tests/support/server.js'],
+  { files: ['tests/support/server.js'],
     languageOptions: { sourceType: 'commonjs', globals: globals.node }, rules },
   { files: ['tests/**/*.js'], languageOptions: {
     sourceType: 'commonjs',

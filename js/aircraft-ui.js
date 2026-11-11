@@ -285,14 +285,6 @@ function finishInitialization() {
 // 1. Huvudfunktion som kör igång allt i rätt ordning
 export async function init() {
   try {
-    if (window.APP_RELEASE_MISMATCH !== false) {
-      AppState.appInitializationFailed = true;
-      const status = document.getElementById('initialization-status');
-      if (status) status.textContent = 'App update required. Open Settings and install the available update.';
-      setupSettingsMenu();
-      registerAppServiceWorker();
-      return;
-    }
     const warningDialog = document.getElementById('aircraft-change-dialog');
     warningDialog?.addEventListener('cancel', cancelAircraftTypeChange);
 

@@ -19,9 +19,16 @@ async function waitForOfflineReady(page) {
   );
 }
 
-test('offline asset installation verifies all app, workbook and C56X files', async ({ page }) => {
+test('offline asset installation downloads the complete current release', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   await waitForOfflineReady(page);
+  const snapshot = await page.evaluate(async () => {
+    const name = (await caches.keys()).find((item) => item === `be20-efb-v${window.APP_VERSION}`);
+    const cache = await caches.open(name);
+    return { name, count: (await cache.keys()).length };
+  });
+  expect(snapshot.name).toBe(`be20-efb-v${await page.evaluate(() => window.APP_VERSION)}`);
+  expect(snapshot.count).toBeGreaterThanOrEqual(40);
   await openSettings(page);
   await expect(page.locator('#offline-data-status')).toHaveClass(/is-ready/);
   await expect(page.locator('#offline-data-retry')).toBeEnabled();
@@ -72,11 +79,22 @@ test('service worker update can be detected, installed and activated', async ({ 
   await openSettings(page);
 
   await setServerMode(request, 'updated');
-  await expect(await request.get('/sw.js').then((response) => response.text()))
-    .toContain('Playwright update marker');
+  await page.reload();
+  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
+  await page.evaluate(() => window.__testAppInitPromise);
+  await openSettings(page);
+  await expect(page.locator('#app-version')).toContainText('test-release');
+  await expect.poll(() => page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.getRegistration();
+    return Boolean(registration.waiting);
+  }), { timeout: 30_000 }).toBe(true);
+  const activate = page.evaluate(async () => {
+    const registration = await navigator.serviceWorker.getRegistration();
+    BeechcraftApp.offline.activateAppUpdate(registration.waiting);
+  });
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 45_000 }),
-    page.locator('#check-updates-button').click(),
+    activate,
   ]);
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
@@ -85,7 +103,7 @@ test('service worker update can be detected, installed and activated', async ({ 
   await waitForOfflineReady(page);
 });
 
-test('root navigation uses the same release as cached scripts until update activation', async ({ page, request }) => {
+test('version.js selects a new cache while the old app shell remains active until update', async ({ page, request }) => {
   await openApp(page, 'SE-LTL');
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
@@ -94,11 +112,13 @@ test('root navigation uses the same release as cached scripts until update activ
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
+  await openSettings(page);
   expect(await page.evaluate(() => ({
     version: window.APP_VERSION,
     html: document.querySelector('meta[name="test-release"]')?.content || null,
     script: window.__testRelease || null,
-  }))).toEqual({ version: oldVersion, html: null, script: null });
+  }))).toEqual({ version: `test-release-${updateMarker}`, html: null, script: null });
+  expect(await page.evaluate(() => window.APP_VERSION)).not.toBe(oldVersion);
 
   await expect.poll(() => page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
@@ -119,7 +139,7 @@ test('root navigation uses the same release as cached scripts until update activ
   })), { timeout: 30_000 }).toEqual({ version: `test-release-${updateMarker}`, html: String(updateMarker), script: updateMarker });
 });
 
-test('a forced update moves other open tabs to the same verified release', async ({ page, context, request }) => {
+test('a forced update moves other open tabs to the same versioned release', async ({ page, context, request }) => {
   await openApp(page, 'SE-LTL');
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
@@ -127,6 +147,9 @@ test('a forced update moves other open tabs to the same verified release', async
   await second.goto('/');
   await expect(second.locator('main')).toBeVisible();
   const { updateMarker } = await setServerMode(request, 'updated');
+  await page.reload();
+  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
+  await page.evaluate(() => window.__testAppInitPromise);
   await expect.poll(() => page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     await registration.update();
@@ -180,24 +203,21 @@ test('a failed update retains the previously usable offline snapshot', async ({ 
   await waitForOfflineReady(page);
 });
 
-test('offline repair rejects a file from a different release', async ({ page, request }) => {
+test('offline repair downloads a missing file into the selected release cache', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
-  await setServerMode(request, 'updated');
   const result = await page.evaluate(async () => {
     const names = await caches.keys();
     const cache = await caches.open(names.find((name) => name.startsWith('be20-efb-v')));
     await cache.delete(new URL('./js/app.js', location.href));
     return BeechcraftApp.offline.requestOfflineDataWorkerMessage('RETRY_OFFLINE_DATA');
   });
-  expect(result.ready).toBe(false);
-  expect(result.missing).toContain('./js/app.js');
-  expect(result.failed.find((item) => item.asset === './js/app.js').reason)
-    .toContain('does not match this app release');
+  expect(result.ready).toBe(true);
+  expect(result.missing).toEqual([]);
 });
 
-test('a missing cached file is repaired only from the same release', async ({ page, request }) => {
+test('a missing cached file can be repaired from the current server release', async ({ page, request }) => {
   await openApp(page, 'SE-LTL');
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
@@ -212,8 +232,7 @@ test('a missing cached file is repaired only from the same release', async ({ pa
   }, file);
   expect(await removeAndFetch()).toEqual({ status: 200, cached: true });
 
-  // The test server changes the app script in the next release; the original
-  // release's immutable hash must stop that new file entering the old cache.
+  // A missing file can be fetched back into the current version cache.
   await setServerMode(request, 'updated');
   const changedFile = await page.evaluate(async () => {
     const name = (await caches.keys()).find((item) => item.startsWith('be20-efb-v'));
@@ -223,5 +242,5 @@ test('a missing cached file is repaired only from the same release', async ({ pa
     const response = await fetch(url);
     return { status: response.status, cached: Boolean(await cache.match(url)) };
   });
-  expect(changedFile).toEqual({ status: 503, cached: false });
+  expect(changedFile).toEqual({ status: 200, cached: true });
 });
