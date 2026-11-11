@@ -14,7 +14,8 @@ async function openSettings(page) {
 
 async function dismissUpdatePrompt(page) {
   const dialog = page.locator('#app-update-dialog');
-  if (await dialog.isVisible()) await page.locator('#app-update-later').click();
+  await expect(dialog).toBeVisible({ timeout: 30_000 });
+  await page.locator('#app-update-later').click();
 }
 
 async function waitForOfflineReady(page) {
@@ -87,7 +88,6 @@ test('service worker update can be detected, installed and activated', async ({ 
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
-  await expect(page.locator('#app-update-dialog')).toBeVisible({ timeout: 30_000 });
   await dismissUpdatePrompt(page);
   await openSettings(page);
   await expect(page.locator('#app-version')).toContainText('test-release');
