@@ -12,6 +12,11 @@ async function openSettings(page) {
   if (await toggle.getAttribute('aria-expanded') !== 'true') await toggle.click();
 }
 
+async function dismissUpdatePrompt(page) {
+  const dialog = page.locator('#app-update-dialog');
+  if (await dialog.isVisible()) await page.locator('#app-update-later').click();
+}
+
 async function waitForOfflineReady(page) {
   await expect(page.locator('#offline-data-status')).toContainText(
     /All \d+(?: app and performance)? files are available offline/,
@@ -82,6 +87,8 @@ test('service worker update can be detected, installed and activated', async ({ 
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
+  await expect(page.locator('#app-update-dialog')).toBeVisible({ timeout: 30_000 });
+  await dismissUpdatePrompt(page);
   await openSettings(page);
   await expect(page.locator('#app-version')).toContainText('test-release');
   await expect.poll(() => page.evaluate(async () => {
@@ -112,6 +119,7 @@ test('version.js selects a new cache while the old app shell remains active unti
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
+  await dismissUpdatePrompt(page);
   await openSettings(page);
   expect(await page.evaluate(() => ({
     version: window.APP_VERSION,
