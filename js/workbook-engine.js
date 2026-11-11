@@ -3,7 +3,7 @@ export { colLetterToIndex, parseCellRef, setWorkbookCellValues, getOutputVal, ge
 import { updateLandingOverweightWarning } from './aircraft-ui.js';
 import { airportCellValue, getSelectedAirportRecord, scheduleTakeoffSuggestionRefresh, updateClimbPathLabel } from './airport-ui.js';
 import { AppState, CELL_MAPPING, isC56xSelected } from './app-state.js';
-import { renderEngineOutCard, scheduleMaxTakeoffMassUpdate, updateC56xEngineOutCard, updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
+import { renderEngineOutCard, scheduleMaxTakeoffMassUpdate, updateC56xAntiIceOatWarning, updateC56xEngineOutCard, updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
 import { checkContaminationLogic, exceedsDistanceLimit, renderLandingChart, renderTakeoffChart, safeSetText, safeSetValue, updateBadgeStatus, updateClimbCheckCard, updateRunwayExceedanceCard, updateWindCheckCard, updateWindCheckCardLdg } from './results-ui.js';
 import { readPerformanceInputs } from './performance-inputs.js';
 
@@ -89,6 +89,7 @@ export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
 }
 
 export function updateC56xLanding() {
+  updateC56xAntiIceOatWarning('ldg');
   if (!isC56xSelected() || typeof getC56xLandingPerformance !== 'function') return;
 
   const inputs = readPerformanceInputs(document).landing;
@@ -208,7 +209,7 @@ export function updateC56xLanding() {
     if (exceedsLimit) {
       maxWeightWarning.textContent = `Landing mass exceeds the maximum landing weight of ${Math.round(limitingWeightLb).toLocaleString('en-US')} lb allowed by climb or brake energy limits. Burn off fuel prior to landing.`;
     }
-    if (antiIce === 'ON' && maxLandingWeight.figure442Missing) {
+    if (antiIce === 'ON' && oatC <= 10 && maxLandingWeight.figure442Missing) {
       maxWeightWarning.hidden = false;
       maxWeightWarning.textContent = 'Figure 4-42 landing weight is unavailable for these altitude/temperature conditions. Do not use the Figure 4-43 limit alone.';
     } else if (!Number.isFinite(maxLandingWeight.figure443Lb)) {

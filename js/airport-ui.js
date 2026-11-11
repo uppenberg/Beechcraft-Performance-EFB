@@ -673,9 +673,12 @@ function updateOeiRoutingWarning() {
   if (!warning) return;
   const runway = getSelectedAirportRecord('to');
   const routing = airportCellValue(runway?.['Routing(L6)']);
-  const requiredGradient = Number(airportCellValue(runway?.['min climb gradient OEI(I6)']));
+  const requiredGradient = airportCellValue(runway?.['min climb gradient OEI(I6)']);
   const routingIsEmpty = routing == null || String(routing).trim() === '' || String(routing).trim() === '-';
-  warning.hidden = !(routingIsEmpty && requiredGradient === 3.3);
+  const requiredGradientMissing = typeof requiredGradient !== 'number';
+  warning.hidden = !(
+    runway && (requiredGradientMissing || (routingIsEmpty && requiredGradient === 3.3))
+  );
 }
 
 export function handleAirportIcaoInput(value, prefix = 'to') {

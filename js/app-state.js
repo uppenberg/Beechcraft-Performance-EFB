@@ -120,6 +120,7 @@ export const CELL_MAPPING = {
 };
 export const OPTIONAL_AIRPORT_DATA_FIELDS = [
   'LDA [m](F6)',
+  'min climb gradient OEI(I6)',
   'Routing(L6)',
 ];
 export const AIRPORT_LOOKUP_CELLS_BY_PAGE = {

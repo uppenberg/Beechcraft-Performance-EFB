@@ -505,16 +505,14 @@ export function updateClimbCheckCard(actualValue, reqValue) {
     const actualSpan = document.getElementById('res-to-oei');
     const reqSpan = document.getElementById('res-to-req');
     const cardContainer = document.getElementById('card-climb-check');
-    if (isNaN(actualNum) || isNaN(reqNum)) {
-        actualSpan.textContent = "-";
-        reqSpan.textContent = "-";
+    if (!actualSpan || !reqSpan || !cardContainer) return;
+    actualSpan.textContent = Number.isFinite(actualNum) ? actualNum.toFixed(1) + "%" : "-";
+    reqSpan.textContent = Number.isFinite(reqNum) ? reqNum.toFixed(1) + "%" : "-";
+    if (!Number.isFinite(actualNum) || !Number.isFinite(reqNum)) {
         cardContainer.style.background = "#0d1117";
         cardContainer.style.borderColor = "#30363d";
         return;
     }
-
-    actualSpan.textContent = actualNum.toFixed(1) + "%";
-    reqSpan.textContent = reqNum.toFixed(1) + "%";
 
     if (reqNum > actualNum) {
         cardContainer.style.background = "#3d1414";

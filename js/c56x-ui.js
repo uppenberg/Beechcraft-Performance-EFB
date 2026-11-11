@@ -1,5 +1,5 @@
 import { airportCellValue, getC56xEngineOutClimbPath, getSelectedAirportRecord, updateClimbPathLabel, updateTakeoffAirportElevation } from './airport-ui.js';
-import { AIRCRAFT_TYPE_BY_REGISTRATION, AppState, CELL_MAPPING } from './app-state.js';
+import { AIRCRAFT_TYPE_BY_REGISTRATION, AppState, CELL_MAPPING, OPTIONAL_AIRPORT_DATA_FIELDS } from './app-state.js';
 import { checkContaminationLogic, finiteDistance, renderC56xTakeoffChart, safeSetText, updateClimbCheckCard, updateWindCheckCard } from './results-ui.js';
 import { getOutputVal, getTakeoffOutput, parseCellRef } from './workbook-adapter.js';
 import { readPerformanceInputs } from './performance-inputs.js';
@@ -66,6 +66,16 @@ export function updateC56xPerformanceCards({
     crosswindKnots,
     crosswindLimitKnots
   );
+}
+
+export function updateC56xAntiIceOatWarning(phase) {
+  const warning = document.getElementById(`${phase}-anti-ice-oat-warning`);
+  if (!warning) return;
+  const registration = document.getElementById('global-registration')?.value;
+  const inputs = readPerformanceInputs(document)[phase === 'ldg' ? 'landing' : 'takeoff'];
+  const oatC = inputs.oat.trim() === '' ? NaN : Number(inputs.oat);
+  warning.hidden = AIRCRAFT_TYPE_BY_REGISTRATION[registration] !== 'C56X' ||
+    inputs.antiIce !== 'ON' || !Number.isFinite(oatC) || oatC <= 10;
 }
 
 export function updateC56xTakeoffDistanceCard(
@@ -198,6 +208,7 @@ export function updateC56xEngineOutCard(airport) {
   renderEngineOutCard(airportCellValue(airport?.['Routing(L6)']) ?? '-');
 }
 export function updateC56xTakeoffFieldLength() {
+  updateC56xAntiIceOatWarning('to');
   const card = document.getElementById('c56x-takeoff-distance-card');
   if (!card) return;
 
@@ -582,6 +593,7 @@ export function updateMaxTakeoffMass() {
     let climbLimitLb = null;
     const shortestRunwayLimitM = Math.min(...runwayLimitsM);
     let unavailableReason = 'Select an airport and runway to load aerodrome elevation.';
+    let requiredDataMissing = true;
 
     if (typeof elevationValue === 'number') {
       if (!inputs.qnh.trim() || !inputs.oat.trim() ||
@@ -593,7 +605,7 @@ export function updateMaxTakeoffMass() {
           step <= 0 || !['1', '2', '3', '4', '5', '6'].includes(runwayConditionCode) ||
           ![7, 15].includes(flaps) || !['ON', 'OFF'].includes(antiIce) ||
           !['AVAILABLE', 'INOP'].includes(reverserStatus)) {
-        unavailableReason = 'Enter valid weather, runway limits and C56X take-off configuration values.';
+        unavailableReason = 'Required data missing, verify manually';
       } else {
         try {
           pressureAltitudeFt = calculateC56xPressureAltitude(qnhHpa, elevationValue);
@@ -613,6 +625,7 @@ export function updateMaxTakeoffMass() {
           );
           const climbPath = getC56xEngineOutClimbPath(airport);
           if (climbLimitLb !== null && Number.isFinite(requiredGradient)) {
+            requiredDataMissing = false;
             const lastIndex = Math.floor(
               (Math.min(maxSliderMass, climbLimitLb) - minMass) / step
             );
@@ -677,7 +690,9 @@ export function updateMaxTakeoffMass() {
               unavailableReason = 'No mass in range meets all current take-off limits.';
             }
           } else if (climbLimitLb !== null) {
-            unavailableReason = 'Required runway climb gradient is unavailable.';
+            unavailableReason = 'Required data missing, verify manually';
+          } else {
+            unavailableReason = 'Required data missing, verify manually';
           }
         } catch (error) {
           console.error('Max C56X take-off mass calculation failed:', error);
@@ -687,11 +702,12 @@ export function updateMaxTakeoffMass() {
     }
 
     valueElement.textContent = maxMass === null
-      ? 'Not available'
+      ? (requiredDataMissing ? 'Required data missing, verify manually' : 'None')
       : `${maxMass.toLocaleString('en-US')} lbs`;
+    valueElement.style.color = maxMass === null && requiredDataMissing ? '#d29922' : '#fff';
     if (marginElement) {
       marginElement.textContent = maxMass === null
-        ? unavailableReason
+        ? (requiredDataMissing ? '' : unavailableReason)
         : `PA ${Math.round(pressureAltitudeFt).toLocaleString('en-US')} ft · ` +
           `Anti-ice ${antiIce} · ` +
           `TKOF at max ${Math.ceil(takeoffDistanceAtMaxMassM).toLocaleString('en-US')} m / ` +
@@ -702,7 +718,11 @@ export function updateMaxTakeoffMass() {
             : `Selected mass exceeds by ${(selectedMass - maxMass).toLocaleString('en-US')} lbs`);
     }
     if (card) {
-      card.classList.toggle('is-exceeded', maxMass === null || selectedMass > maxMass);
+      card.classList.toggle('is-missing-data', maxMass === null && requiredDataMissing);
+      card.classList.toggle(
+        'is-exceeded',
+        (maxMass === null && !requiredDataMissing) || selectedMass > maxMass
+      );
       card.classList.toggle('is-within-limits', maxMass !== null && selectedMass <= maxMass);
     }
     return;
@@ -721,6 +741,17 @@ export function updateMaxTakeoffMass() {
   const selectedMass = Number(slider.value);
 
   let result = null;
+  const airport = getSelectedAirportRecord('to');
+  const requiredAirportFields = Object.keys(CELL_MAPPING.airport.inputs)
+    .filter((field) => !OPTIONAL_AIRPORT_DATA_FIELDS.includes(field));
+  const inputs = readPerformanceInputs(document).takeoff;
+  const requiredInputMissing = !inputs.qnh.trim() || !inputs.oat.trim() ||
+    !inputs.rwcc || !inputs.flaps || !inputs.antiIce || !inputs.windSpeed.trim() ||
+    (Number(inputs.windSpeed) !== 0 && !inputs.windDir.trim());
+  const requiredDataMissing = !airport ||
+    requiredAirportFields.some((field) => airportCellValue(airport[field]) === null) ||
+    airportCellValue(airport?.['min climb gradient OEI(I6)']) === null ||
+    requiredInputMissing;
   try {
     const setMass = (mass) => AppState.hfInstance.setCellContents(address, [[mass]]);
     const lastIndex = Math.floor((max - min) / step);
@@ -736,16 +767,23 @@ export function updateMaxTakeoffMass() {
 
   const card = document.getElementById('max-to-mass-card');
   const marginElement = document.getElementById('max-to-mass-margin');
-  valueElement.textContent = result === null ? 'None' : `${result} lbs`;
+  valueElement.textContent = result === null
+    ? (requiredDataMissing ? 'Required data missing, verify manually' : 'None')
+    : `${result} lbs`;
+  valueElement.style.color = result === null && requiredDataMissing ? '#d29922' : '#fff';
   if (marginElement) {
     marginElement.textContent = result === null
-      ? 'No mass in range meets all limits'
+      ? (requiredDataMissing ? '' : 'No mass in range meets all limits')
       : selectedMass <= result
         ? `Selected mass OK (${result - selectedMass} lbs margin)`
         : `Selected mass exceeds by ${selectedMass - result} lbs`;
   }
   if (card) {
-    card.classList.toggle('is-exceeded', result === null || selectedMass > result);
+    card.classList.toggle('is-missing-data', result === null && requiredDataMissing);
+    card.classList.toggle(
+      'is-exceeded',
+      (result === null && !requiredDataMissing) || selectedMass > result
+    );
     card.classList.toggle('is-within-limits', result !== null && selectedMass <= result);
   }
 }
