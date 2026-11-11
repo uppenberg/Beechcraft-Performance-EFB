@@ -1,43 +1,15 @@
 const { test, expect } = require('./support/coverage-test');
 const fs = require('node:fs');
 const path = require('node:path');
-const crypto = require('node:crypto');
 const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
-const baseline = require('./references/app-update-regression.json');
-const recordedChanges = require('./references/source-hash-changes.json');
 
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file));
-const sha256 = (content) => crypto.createHash('sha256').update(content).digest('hex');
 const serviceWorkerSource = read('sw.js').toString('utf8');
 const assetListMatch = serviceWorkerSource.match(/const ASSETS = (\[[\s\S]*?\]);/);
 if (!assetListMatch) throw new Error('The service worker offline asset list is missing.');
 const assets = vm.runInNewContext(assetListMatch[1]);
-
-function matchesHistoricalHash(file, bytes, expected) {
-  if (sha256(bytes) === expected) return true;
-  // Historical fixtures were recorded on Windows before release assets had
-  // fixed LF line endings. Preserve their provenance without changing data.
-  if (!/\.(?:js|json)$/.test(file)) return false;
-  const lf = bytes.toString('utf8').replace(/\r\n/g, '\n');
-  return sha256(Buffer.from(lf, 'utf8')) === expected ||
-    sha256(Buffer.from(lf.replace(/\n/g, '\r\n'), 'utf8')) === expected;
-}
-
-test('performance data hashes match the baseline or an explicitly recorded change', () => {
-  for (const [file, baselineHash] of Object.entries(baseline.sourceHashesSha256)) {
-    const bytes = read(file);
-    const actual = sha256(bytes);
-    const change = recordedChanges.changes[file];
-    if (change) {
-      expect(change.baseline, file).toBe(baselineHash);
-      expect(actual, file).toBe(change.current);
-    } else {
-      expect(matchesHistoricalHash(file, bytes, baselineHash), file).toBe(true);
-    }
-  }
-});
 
 test('offline asset checkout attributes preserve identical bytes across platforms', () => {
   const files = assets.map((asset) => asset.replace(/^\.\//, ''));

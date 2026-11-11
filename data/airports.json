@@ -2,7 +2,7 @@
     "Sheet1": [
         {
             "ICAO": "EETN",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "130",
             "TORA [m] (C6)": "3480",
             "TODA [m](D6)": "3540",
@@ -28,7 +28,7 @@
         },
         {
             "ICAO": "EFET",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "999.5",
             "TORA [m] (C6)": "2001",
             "TODA [m](D6)": "2001",
@@ -392,7 +392,7 @@
         },
         {
             "ICAO": "EFIV",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "481.2",
             "TORA [m] (C6)": "2499",
             "TODA [m](D6)": "2499",
@@ -405,7 +405,7 @@
         },
         {
             "ICAO": "EFIV",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "E",
             "RWY Elev [ft] (B6)": "481.2",
             "TORA [m] (C6)": "1389",
@@ -691,7 +691,7 @@
         },
         {
             "ICAO": "EFKI",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "430.5",
             "TORA [m] (C6)": "2499",
             "TODA [m](D6)": "2499",
@@ -704,7 +704,7 @@
         },
         {
             "ICAO": "EFKI",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "430.5",
             "TORA [m] (C6)": "2071",
@@ -730,7 +730,7 @@
         },
         {
             "ICAO": "EFKK",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "79.2",
             "TORA [m] (C6)": "2500",
             "TODA [m](D6)": "2500",
@@ -743,7 +743,7 @@
         },
         {
             "ICAO": "EFKK",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "79.2",
             "TORA [m] (C6)": "1261",
@@ -1016,7 +1016,7 @@
         },
         {
             "ICAO": "EFLP",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "349.1",
             "TORA [m] (C6)": "2500",
             "TODA [m](D6)": "2500",
@@ -1042,7 +1042,7 @@
         },
         {
             "ICAO": "EFMA",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "5.3",
             "TORA [m] (C6)": "1903",
             "TODA [m](D6)": "1903",
@@ -1341,7 +1341,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "3002",
             "TODA [m](D6)": "3002",
@@ -1354,7 +1354,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "2131",
@@ -1367,7 +1367,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "1282",
@@ -1380,7 +1380,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "H",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "1802",
@@ -1393,7 +1393,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "J",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "1231",
@@ -1406,7 +1406,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "L",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "2482",
@@ -1419,7 +1419,7 @@
         },
         {
             "ICAO": "EFRO",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "N",
             "RWY Elev [ft] (B6)": "633.9",
             "TORA [m] (C6)": "1802",
@@ -1575,7 +1575,7 @@
         },
         {
             "ICAO": "EFTP",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "391.4",
             "TORA [m] (C6)": "2700",
             "TODA [m](D6)": "2700",
@@ -1588,7 +1588,7 @@
         },
         {
             "ICAO": "EFTP",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "391.4",
             "TORA [m] (C6)": "2515",
@@ -1601,7 +1601,7 @@
         },
         {
             "ICAO": "EFTP",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "391.4",
             "TORA [m] (C6)": "2117",
@@ -1614,7 +1614,7 @@
         },
         {
             "ICAO": "EFTP",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "J",
             "RWY Elev [ft] (B6)": "391.4",
             "TORA [m] (C6)": "1815",
@@ -1627,7 +1627,7 @@
         },
         {
             "ICAO": "EFTP",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "K",
             "RWY Elev [ft] (B6)": "391.4",
             "TORA [m] (C6)": "1186",
@@ -1718,7 +1718,7 @@
         },
         {
             "ICAO": "EFTU",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "132.8",
             "TORA [m] (C6)": "2500",
             "TODA [m](D6)": "2500",
@@ -1731,7 +1731,7 @@
         },
         {
             "ICAO": "EFTU",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "D",
             "RWY Elev [ft] (B6)": "132.8",
             "TORA [m] (C6)": "1020",
@@ -1744,7 +1744,7 @@
         },
         {
             "ICAO": "EFTU",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "E",
             "RWY Elev [ft] (B6)": "132.8",
             "TORA [m] (C6)": "1815",
@@ -1926,7 +1926,7 @@
         },
         {
             "ICAO": "EKBI",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "215",
             "TORA [m] (C6)": "3101",
             "TODA [m](D6)": "3101",
@@ -1939,7 +1939,7 @@
         },
         {
             "ICAO": "EKBI",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "D",
             "RWY Elev [ft] (B6)": "215",
             "TORA [m] (C6)": "2951",
@@ -2288,7 +2288,7 @@
         },
         {
             "ICAO": "ENBO",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "18.9",
             "TORA [m] (C6)": "2794",
             "TODA [m](D6)": "3063",
@@ -2335,7 +2335,7 @@
         },
         {
             "ICAO": "ENCN",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "40.3",
             "TORA [m] (C6)": "1987",
             "TODA [m](D6)": "2160",
@@ -2426,7 +2426,7 @@
         },
         {
             "ICAO": "ENKB",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "180.3",
             "TORA [m] (C6)": "2083",
             "TODA [m](D6)": "2383",
@@ -2473,7 +2473,7 @@
         },
         {
             "ICAO": "ENVA",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "16.7",
             "TORA [m] (C6)": "2694",
             "TODA [m](D6)": "3054",
@@ -2560,7 +2560,7 @@
         },
         {
             "ICAO": "ESDF",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "181.3",
             "TORA [m] (C6)": "2331",
             "TODA [m](D6)": "2931",
@@ -2599,7 +2599,7 @@
         },
         {
             "ICAO": "ESGG",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "478.3",
             "TORA [m] (C6)": "3299",
             "TODA [m](D6)": "3299",
@@ -2612,7 +2612,7 @@
         },
         {
             "ICAO": "ESGG",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "478.3",
             "TORA [m] (C6)": "3083",
@@ -2625,7 +2625,7 @@
         },
         {
             "ICAO": "ESGG",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "478.3",
             "TORA [m] (C6)": "2189",
@@ -2638,7 +2638,7 @@
         },
         {
             "ICAO": "ESGG",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "D",
             "RWY Elev [ft] (B6)": "478.3",
             "TORA [m] (C6)": "1811",
@@ -2690,7 +2690,7 @@
         },
         {
             "ICAO": "ESGJ",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "734.3",
             "TORA [m] (C6)": "2203",
             "TODA [m](D6)": "2653",
@@ -2703,7 +2703,7 @@
         },
         {
             "ICAO": "ESGJ",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "734.3",
             "TORA [m] (C6)": "1640",
@@ -2729,7 +2729,7 @@
         },
         {
             "ICAO": "ESGP",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "51",
             "TORA [m] (C6)": "1205",
             "TODA [m](D6)": "1205",
@@ -2742,7 +2742,7 @@
         },
         {
             "ICAO": "ESGP",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "51",
             "TORA [m] (C6)": "675",
@@ -2835,7 +2835,7 @@
         },
         {
             "ICAO": "ESKN",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "114",
             "TORA [m] (C6)": "2878",
             "TODA [m](D6)": "2878",
@@ -3017,7 +3017,7 @@
         },
         {
             "ICAO": "ESMK",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "77",
             "TORA [m] (C6)": "2215",
             "TODA [m](D6)": "2465",
@@ -3030,7 +3030,7 @@
         },
         {
             "ICAO": "ESMK",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "77",
             "TORA [m] (C6)": "1050",
@@ -3043,7 +3043,7 @@
         },
         {
             "ICAO": "ESMK",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "77",
             "TORA [m] (C6)": "848",
@@ -3056,7 +3056,7 @@
         },
         {
             "ICAO": "ESMK",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "77",
             "TORA [m] (C6)": "923",
@@ -3160,7 +3160,7 @@
         },
         {
             "ICAO": "ESMT",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "64",
             "TORA [m] (C6)": "2268",
             "TODA [m](D6)": "2268",
@@ -3173,7 +3173,7 @@
         },
         {
             "ICAO": "ESMT",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "APRON EAST",
             "RWY Elev [ft] (B6)": "64",
             "TORA [m] (C6)": "2195",
@@ -3186,7 +3186,7 @@
         },
         {
             "ICAO": "ESMT",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "64",
             "TORA [m] (C6)": "2232",
@@ -3199,7 +3199,7 @@
         },
         {
             "ICAO": "ESMT",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "M",
             "RWY Elev [ft] (B6)": "64",
             "TORA [m] (C6)": "1584",
@@ -3225,7 +3225,7 @@
         },
         {
             "ICAO": "ESMV",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "557",
             "TORA [m] (C6)": "2050",
             "TODA [m](D6)": "2050",
@@ -3251,7 +3251,7 @@
         },
         {
             "ICAO": "ESMX",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "610",
             "TORA [m] (C6)": "2106",
             "TODA [m](D6)": "2606",
@@ -3277,7 +3277,7 @@
         },
         {
             "ICAO": "ESND",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "1172.7",
             "TORA [m] (C6)": "1701",
             "TODA [m](D6)": "1701",
@@ -3435,7 +3435,7 @@
         },
         {
             "ICAO": "ESNQ",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "1509",
             "TORA [m] (C6)": "2502",
             "TODA [m](D6)": "2652",
@@ -3448,7 +3448,7 @@
         },
         {
             "ICAO": "ESNQ",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "1509",
             "TORA [m] (C6)": "1482",
@@ -3663,7 +3663,7 @@
         },
         {
             "ICAO": "ESOE",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "161.3",
             "TORA [m] (C6)": "3270",
             "TODA [m](D6)": "3570",
@@ -3676,7 +3676,7 @@
         },
         {
             "ICAO": "ESOE",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "161.3",
             "TORA [m] (C6)": "958",
@@ -3689,7 +3689,7 @@
         },
         {
             "ICAO": "ESOE",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "161.3",
             "TORA [m] (C6)": "1293",
@@ -3767,7 +3767,7 @@
         },
         {
             "ICAO": "ESOK",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "333",
             "TORA [m] (C6)": "2516",
             "TODA [m](D6)": "2516",
@@ -3780,7 +3780,7 @@
         },
         {
             "ICAO": "ESOK",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "N",
             "RWY Elev [ft] (B6)": "333",
             "TORA [m] (C6)": "969",
@@ -3793,7 +3793,7 @@
         },
         {
             "ICAO": "ESOK",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "S",
             "RWY Elev [ft] (B6)": "333",
             "TORA [m] (C6)": "1395",
@@ -4105,7 +4105,7 @@
         },
         {
             "ICAO": "ESSA",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "108",
             "TORA [m] (C6)": "2500",
             "TODA [m](D6)": "2800",
@@ -4118,7 +4118,7 @@
         },
         {
             "ICAO": "ESSA",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "X3",
             "RWY Elev [ft] (B6)": "108",
             "TORA [m] (C6)": "1879",
@@ -4274,7 +4274,7 @@
         },
         {
             "ICAO": "ESSP",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "13.3",
             "TORA [m] (C6)": "2205",
             "TODA [m](D6)": "2205",
@@ -4339,7 +4339,7 @@
         },
         {
             "ICAO": "ESSV",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "140",
             "TORA [m] (C6)": "2000",
             "TODA [m](D6)": "2000",
@@ -4352,7 +4352,7 @@
         },
         {
             "ICAO": "ESSV",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "140",
             "TORA [m] (C6)": "1403",
@@ -4614,7 +4614,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "2750",
             "TODA [m](D6)": "3050",
@@ -4686,7 +4686,7 @@
         },
         {
             "ICAO": "EEPU",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "29",
             "TORA [m] (C6)": "1970",
             "TODA [m](D6)": "2030",
@@ -4710,7 +4710,7 @@
         },
         {
             "ICAO": "EETU",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "210",
             "TORA [m] (C6)": "1800",
             "TODA [m](D6)": "1990",
@@ -4734,7 +4734,7 @@
         },
         {
             "ICAO": "EFHA",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "479.3",
             "TORA [m] (C6)": "2601",
             "TODA [m](D6)": "2601",
@@ -4758,7 +4758,7 @@
         },
         {
             "ICAO": "EFUT",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "329.1",
             "TORA [m] (C6)": "2000",
             "TODA [m](D6)": "2000",
@@ -4782,7 +4782,7 @@
         },
         {
             "ICAO": "ENAL",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "35.2",
             "TORA [m] (C6)": "2164",
             "TODA [m](D6)": "2314",
@@ -4848,7 +4848,7 @@
         },
         {
             "ICAO": "ENBL",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "1",
             "TORA [m] (C6)": "931",
             "TODA [m](D6)": "1111",
@@ -4870,7 +4870,7 @@
         },
         {
             "ICAO": "ENBN",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "14.5",
             "TORA [m] (C6)": "1199",
             "TODA [m](D6)": "1199",
@@ -4892,7 +4892,7 @@
         },
         {
             "ICAO": "ENBS",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "479.6",
             "TORA [m] (C6)": "940",
             "TODA [m](D6)": "1120",
@@ -4914,7 +4914,7 @@
         },
         {
             "ICAO": "ENBV",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "42.5",
             "TORA [m] (C6)": "879",
             "TODA [m](D6)": "1059",
@@ -4958,7 +4958,7 @@
         },
         {
             "ICAO": "ENEG",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "634.3",
             "TORA [m] (C6)": "1765",
             "TODA [m](D6)": "1765",
@@ -4980,7 +4980,7 @@
         },
         {
             "ICAO": "ENFL",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "37.2",
             "TORA [m] (C6)": "1199",
             "TODA [m](D6)": "1199",
@@ -5024,7 +5024,7 @@
         },
         {
             "ICAO": "ENHF",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "261.5",
             "TORA [m] (C6)": "891",
             "TODA [m](D6)": "891",
@@ -5068,7 +5068,7 @@
         },
         {
             "ICAO": "ENHV",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "24.1",
             "TORA [m] (C6)": "860",
             "TODA [m](D6)": "860",
@@ -5090,7 +5090,7 @@
         },
         {
             "ICAO": "ENKR",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "279",
             "TORA [m] (C6)": "2195",
             "TODA [m](D6)": "2195",
@@ -5112,7 +5112,7 @@
         },
         {
             "ICAO": "ENLK",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "73.1",
             "TORA [m] (C6)": "891",
             "TODA [m](D6)": "1071",
@@ -5156,7 +5156,7 @@
         },
         {
             "ICAO": "ENML",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "9.9",
             "TORA [m] (C6)": "2121",
             "TODA [m](D6)": "2421",
@@ -5222,7 +5222,7 @@
         },
         {
             "ICAO": "ENNM",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "7.5",
             "TORA [m] (C6)": "814",
             "TODA [m](D6)": "937",
@@ -5288,7 +5288,7 @@
         },
         {
             "ICAO": "ENOV",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "241.5",
             "TORA [m] (C6)": "951",
             "TODA [m](D6)": "1131",
@@ -5310,7 +5310,7 @@
         },
         {
             "ICAO": "ENRM",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "11",
             "TORA [m] (C6)": "891",
             "TODA [m](D6)": "891",
@@ -5354,7 +5354,7 @@
         },
         {
             "ICAO": "ENRS",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "8.6",
             "TORA [m] (C6)": "870",
             "TODA [m](D6)": "1030",
@@ -5398,7 +5398,7 @@
         },
         {
             "ICAO": "ENSB",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "70.8",
             "TORA [m] (C6)": "2207",
             "TODA [m](D6)": "2507",
@@ -5420,7 +5420,7 @@
         },
         {
             "ICAO": "ENSD",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "173.9",
             "TORA [m] (C6)": "820",
             "TODA [m](D6)": "1013",
@@ -5442,7 +5442,7 @@
         },
         {
             "ICAO": "ENSG",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "1",
             "TORA [m] (C6)": "930",
             "TODA [m](D6)": "1110",
@@ -5486,7 +5486,7 @@
         },
         {
             "ICAO": "ENSK",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "10.2",
             "TORA [m] (C6)": "889",
             "TODA [m](D6)": "889",
@@ -5574,7 +5574,7 @@
         },
         {
             "ICAO": "ENST",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "33.7",
             "TORA [m] (C6)": "1199",
             "TODA [m](D6)": "1414",
@@ -5618,7 +5618,7 @@
         },
         {
             "ICAO": "ENVD",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "126.9",
             "TORA [m] (C6)": "871",
             "TODA [m](D6)": "1051",
@@ -5640,7 +5640,7 @@
         },
         {
             "ICAO": "ESCF",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "250.7",
             "TORA [m] (C6)": "2214",
             "TODA [m](D6)": "2634",
@@ -5664,7 +5664,7 @@
         },
         {
             "ICAO": "ESCF",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "309",
             "TORA [m] (C6)": "1870",
             "TODA [m](D6)": "1870",
@@ -5688,7 +5688,7 @@
         },
         {
             "ICAO": "ESCM",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "42",
             "TORA [m] (C6)": "1963",
             "TODA [m](D6)": "1963",
@@ -5712,7 +5712,7 @@
         },
         {
             "ICAO": "ESCM",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "60",
             "TORA [m] (C6)": "1906",
             "TODA [m](D6)": "1906",
@@ -5736,7 +5736,7 @@
         },
         {
             "ICAO": "ESIA",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "307",
             "TORA [m] (C6)": "2289",
             "TODA [m](D6)": "2289",
@@ -5760,7 +5760,7 @@
         },
         {
             "ICAO": "ESIB",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "169.4",
             "TORA [m] (C6)": "2264",
             "TODA [m](D6)": "2264",
@@ -5808,7 +5808,7 @@
         },
         {
             "ICAO": "ESOW",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "6",
             "TORA [m] (C6)": "2581",
             "TODA [m](D6)": "2581",
@@ -5832,7 +5832,7 @@
         },
         {
             "ICAO": "GCFV",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "37",
             "TORA [m] (C6)": "3406",
             "TODA [m](D6)": "3466",
@@ -5942,7 +5942,7 @@
         },
         {
             "ICAO": "GCRR",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "19",
             "TORA [m] (C6)": "2400",
             "TODA [m](D6)": "2460",
@@ -5964,7 +5964,7 @@
         },
         {
             "ICAO": "GCTS",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "188",
             "TORA [m] (C6)": "3200",
             "TODA [m](D6)": "3260",
@@ -6030,7 +6030,7 @@
         },
         {
             "ICAO": "LEAB",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "2281",
             "TORA [m] (C6)": "2700",
             "TODA [m](D6)": "3080",
@@ -6074,7 +6074,7 @@
         },
         {
             "ICAO": "LEAM",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "26",
             "TORA [m] (C6)": "3165",
             "TODA [m](D6)": "3225",
@@ -6118,7 +6118,7 @@
         },
         {
             "ICAO": "LEBA",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "291",
             "TORA [m] (C6)": "2076",
             "TODA [m](D6)": "2136",
@@ -6184,7 +6184,7 @@
         },
         {
             "ICAO": "LEBG",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "2941",
             "TORA [m] (C6)": "2099",
             "TODA [m](D6)": "2099",
@@ -6206,7 +6206,7 @@
         },
         {
             "ICAO": "LEBL",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "7",
             "TORA [m] (C6)": "2528",
             "TODA [m](D6)": "2600",
@@ -6294,7 +6294,7 @@
         },
         {
             "ICAO": "LECH",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "1093",
             "TORA [m] (C6)": "2700",
             "TODA [m](D6)": "2770",
@@ -6316,7 +6316,7 @@
         },
         {
             "ICAO": "LECO",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "329",
             "TORA [m] (C6)": "2188",
             "TODA [m](D6)": "2488",
@@ -6360,7 +6360,7 @@
         },
         {
             "ICAO": "LEGE",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "403",
             "TORA [m] (C6)": "2400",
             "TODA [m](D6)": "2460",
@@ -6382,7 +6382,7 @@
         },
         {
             "ICAO": "LEGR",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "1842",
             "TORA [m] (C6)": "2900",
             "TODA [m](D6)": "2960",
@@ -6404,7 +6404,7 @@
         },
         {
             "ICAO": "LEGT",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "2032",
             "TORA [m] (C6)": "2477",
             "TODA [m](D6)": "2627",
@@ -6448,7 +6448,7 @@
         },
         {
             "ICAO": "LEIB",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "2799",
             "TODA [m](D6)": "2859",
@@ -6470,7 +6470,7 @@
         },
         {
             "ICAO": "LEJR",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "68",
             "TORA [m] (C6)": "2300",
             "TODA [m](D6)": "2300",
@@ -6536,7 +6536,7 @@
         },
         {
             "ICAO": "LELN",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "2994",
             "TORA [m] (C6)": "3000",
             "TODA [m](D6)": "3000",
@@ -6690,7 +6690,7 @@
         },
         {
             "ICAO": "LEMH",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "278",
             "TORA [m] (C6)": "2350",
             "TODA [m](D6)": "2425",
@@ -6712,7 +6712,7 @@
         },
         {
             "ICAO": "LEMI",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "641",
             "TORA [m] (C6)": "3000",
             "TODA [m](D6)": "3060",
@@ -6734,7 +6734,7 @@
         },
         {
             "ICAO": "LEMO",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "285",
             "TORA [m] (C6)": "3596",
             "TODA [m](D6)": "3901",
@@ -6800,7 +6800,7 @@
         },
         {
             "ICAO": "LERS",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "230",
             "TORA [m] (C6)": "2459",
             "TODA [m](D6)": "2699",
@@ -6844,7 +6844,7 @@
         },
         {
             "ICAO": "LESO",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "10",
             "TORA [m] (C6)": "1590",
             "TODA [m](D6)": "1753",
@@ -6888,7 +6888,7 @@
         },
         {
             "ICAO": "LESU",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "2628",
             "TORA [m] (C6)": "1267",
             "TODA [m](D6)": "1327",
@@ -6910,7 +6910,7 @@
         },
         {
             "ICAO": "LETO",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "1976",
             "TORA [m] (C6)": "2752",
             "TODA [m](D6)": "2752",
@@ -6954,7 +6954,7 @@
         },
         {
             "ICAO": "LEVD",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "2767",
             "TORA [m] (C6)": "3005",
             "TODA [m](D6)": "3305",
@@ -6998,7 +6998,7 @@
         },
         {
             "ICAO": "LEVT",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "1651.5",
             "TORA [m] (C6)": "3498",
             "TODA [m](D6)": "3598",
@@ -7020,7 +7020,7 @@
         },
         {
             "ICAO": "LEVX",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "856",
             "TORA [m] (C6)": "2384",
             "TODA [m](D6)": "2534",
@@ -7108,7 +7108,7 @@
         },
         {
             "ICAO": "LEZL",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "83",
             "TORA [m] (C6)": "3364",
             "TODA [m](D6)": "3424",
@@ -7130,7 +7130,7 @@
         },
         {
             "ICAO": "LFAC",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "11",
             "TORA [m] (C6)": "1535",
             "TODA [m](D6)": "1535",
@@ -7152,7 +7152,7 @@
         },
         {
             "ICAO": "LFAQ",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "343",
             "TORA [m] (C6)": "2200",
             "TODA [m](D6)": "2200",
@@ -7284,7 +7284,7 @@
         },
         {
             "ICAO": "LFBC",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "74",
             "TORA [m] (C6)": "2398",
             "TODA [m](D6)": "2716",
@@ -7306,7 +7306,7 @@
         },
         {
             "ICAO": "LFBD",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "3100",
             "TODA [m](D6)": "3500",
@@ -7350,7 +7350,7 @@
         },
         {
             "ICAO": "LFBE",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "166",
             "TORA [m] (C6)": "2145",
             "TODA [m](D6)": "2145",
@@ -7394,7 +7394,7 @@
         },
         {
             "ICAO": "LFBG",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "79",
             "TORA [m] (C6)": "2362",
             "TODA [m](D6)": "2362",
@@ -7416,7 +7416,7 @@
         },
         {
             "ICAO": "LFBG",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "87",
             "TORA [m] (C6)": "1809",
             "TODA [m](D6)": "1809",
@@ -7438,7 +7438,7 @@
         },
         {
             "ICAO": "LFBH",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "59",
             "TORA [m] (C6)": "2140",
             "TODA [m](D6)": "2140",
@@ -7460,7 +7460,7 @@
         },
         {
             "ICAO": "LFBI",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "417",
             "TORA [m] (C6)": "2350",
             "TODA [m](D6)": "2400",
@@ -7532,7 +7532,7 @@
         },
         {
             "ICAO": "LFBL",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "1273",
             "TORA [m] (C6)": "2350",
             "TODA [m](D6)": "2800",
@@ -7554,7 +7554,7 @@
         },
         {
             "ICAO": "LFBM",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "164",
             "TORA [m] (C6)": "3555",
             "TODA [m](D6)": "3605",
@@ -7578,7 +7578,7 @@
         },
         {
             "ICAO": "LFBN",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "144",
             "TORA [m] (C6)": "1783",
             "TODA [m](D6)": "1783",
@@ -7714,7 +7714,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "3000",
             "TODA [m](D6)": "3000",
@@ -7782,7 +7782,7 @@
         },
         {
             "ICAO": "LFBZ",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "241",
             "TORA [m] (C6)": "2250",
             "TODA [m](D6)": "2310",
@@ -7852,7 +7852,7 @@
         },
         {
             "ICAO": "LFCI",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "553",
             "TORA [m] (C6)": "1560",
             "TODA [m](D6)": "1560",
@@ -7994,7 +7994,7 @@
         },
         {
             "ICAO": "LFDJ",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "1111",
             "TORA [m] (C6)": "1300",
             "TODA [m](D6)": "1300",
@@ -8038,7 +8038,7 @@
         },
         {
             "ICAO": "LFEV",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "666",
             "TORA [m] (C6)": "1185",
             "TODA [m](D6)": "1185",
@@ -8082,7 +8082,7 @@
         },
         {
             "ICAO": "LFFK",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "73",
             "TORA [m] (C6)": "970",
             "TODA [m](D6)": "970",
@@ -8130,7 +8130,7 @@
         },
         {
             "ICAO": "LFGA",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "627",
             "TORA [m] (C6)": "1610",
             "TODA [m](D6)": "1610",
@@ -8178,7 +8178,7 @@
         },
         {
             "ICAO": "LFGJ",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "639",
             "TORA [m] (C6)": "2230",
             "TODA [m](D6)": "2230",
@@ -8269,7 +8269,7 @@
         },
         {
             "ICAO": "LFHY",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "890",
             "TORA [m] (C6)": "1300",
             "TODA [m](D6)": "1300",
@@ -8291,7 +8291,7 @@
         },
         {
             "ICAO": "LFJL",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "858",
             "TORA [m] (C6)": "3050",
             "TODA [m](D6)": "3050",
@@ -8313,7 +8313,7 @@
         },
         {
             "ICAO": "LFJR",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "165",
             "TORA [m] (C6)": "1800",
             "TODA [m](D6)": "1800",
@@ -8431,7 +8431,7 @@
         },
         {
             "ICAO": "LFKF",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "40",
             "TORA [m] (C6)": "2480",
             "TODA [m](D6)": "2480",
@@ -8453,7 +8453,7 @@
         },
         {
             "ICAO": "LFKJ",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "2300",
             "TODA [m](D6)": "2300",
@@ -8543,7 +8543,7 @@
         },
         {
             "ICAO": "LFLC",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "1089",
             "TORA [m] (C6)": "3013",
             "TODA [m](D6)": "3013",
@@ -8567,7 +8567,7 @@
         },
         {
             "ICAO": "LFLD",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "529",
             "TORA [m] (C6)": "1550",
             "TODA [m](D6)": "1550",
@@ -8727,7 +8727,7 @@
         },
         {
             "ICAO": "LFLO",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "1093",
             "TORA [m] (C6)": "1450",
             "TODA [m](D6)": "1450",
@@ -8751,7 +8751,7 @@
         },
         {
             "ICAO": "LFLP",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "1485",
             "TORA [m] (C6)": "1530",
             "TODA [m](D6)": "1530",
@@ -8775,7 +8775,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "3050",
             "TODA [m](D6)": "3050",
@@ -8797,7 +8797,7 @@
         },
         {
             "ICAO": "LFLU",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "524",
             "TORA [m] (C6)": "2100",
             "TODA [m](D6)": "2100",
@@ -8841,7 +8841,7 @@
         },
         {
             "ICAO": "LFLV",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "817",
             "TORA [m] (C6)": "2200",
             "TODA [m](D6)": "2300",
@@ -8885,7 +8885,7 @@
         },
         {
             "ICAO": "LFLX",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "528",
             "TORA [m] (C6)": "3500",
             "TODA [m](D6)": "3500",
@@ -9051,7 +9051,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "2050",
             "TODA [m](D6)": "2150",
@@ -9309,7 +9309,7 @@
         },
         {
             "ICAO": "LFMU",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "52",
             "TORA [m] (C6)": "2000",
             "TODA [m](D6)": "2050",
@@ -9403,7 +9403,7 @@
         },
         {
             "ICAO": "LFOA",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "546",
             "TORA [m] (C6)": "3503",
             "TODA [m](D6)": "3503",
@@ -9448,7 +9448,7 @@
         },
         {
             "ICAO": "LFOE",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "448",
             "TORA [m] (C6)": "3001",
             "TODA [m](D6)": "3001",
@@ -9470,7 +9470,7 @@
         },
         {
             "ICAO": "LFOH",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "310",
             "TORA [m] (C6)": "2300",
             "TODA [m](D6)": "2300",
@@ -9492,7 +9492,7 @@
         },
         {
             "ICAO": "LFOJ",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "412",
             "TORA [m] (C6)": "2404",
             "TODA [m](D6)": "2404",
@@ -9540,7 +9540,7 @@
         },
         {
             "ICAO": "LFOP",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "498",
             "TORA [m] (C6)": "1700",
             "TODA [m](D6)": "1900",
@@ -9636,7 +9636,7 @@
         },
         {
             "ICAO": "LFOT",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "351",
             "TORA [m] (C6)": "2404",
             "TODA [m](D6)": "2404",
@@ -9660,7 +9660,7 @@
         },
         {
             "ICAO": "LFOU",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "427",
             "TORA [m] (C6)": "1380",
             "TODA [m](D6)": "1380",
@@ -9756,7 +9756,7 @@
         },
         {
             "ICAO": "LFOZ",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "390",
             "TORA [m] (C6)": "1600",
             "TODA [m](D6)": "1600",
@@ -9804,7 +9804,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "147",
             "TORA [m] (C6)": "2395",
             "TODA [m](D6)": "2395",
@@ -9826,7 +9826,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "2901",
             "TODA [m](D6)": "3051",
@@ -9936,7 +9936,7 @@
         },
         {
             "ICAO": "LFPM",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "298",
             "TORA [m] (C6)": "1300",
             "TODA [m](D6)": "1300",
@@ -10028,7 +10028,7 @@
         },
         {
             "ICAO": "LFPO",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "287",
             "TORA [m] (C6)": "2400",
             "TODA [m](D6)": "2400",
@@ -10050,7 +10050,7 @@
         },
         {
             "ICAO": "LFPO",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "288",
             "TORA [m] (C6)": "3650",
             "TODA [m](D6)": "3710",
@@ -10072,7 +10072,7 @@
         },
         {
             "ICAO": "LFPO",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "277",
             "TORA [m] (C6)": "3320",
             "TODA [m](D6)": "3320",
@@ -10094,7 +10094,7 @@
         },
         {
             "ICAO": "LFPT",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "274",
             "TORA [m] (C6)": "1518",
             "TODA [m](D6)": "1578",
@@ -10142,7 +10142,7 @@
         },
         {
             "ICAO": "LFPV",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "585",
             "TORA [m] (C6)": "1957",
             "TODA [m](D6)": "2067",
@@ -10164,7 +10164,7 @@
         },
         {
             "ICAO": "LFQA",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "308",
             "TORA [m] (C6)": "905",
             "TODA [m](D6)": "965",
@@ -10260,7 +10260,7 @@
         },
         {
             "ICAO": "LFQE",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "737",
             "TORA [m] (C6)": "1721",
             "TODA [m](D6)": "2000",
@@ -10332,7 +10332,7 @@
         },
         {
             "ICAO": "LFQM",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "1270",
             "TORA [m] (C6)": "1400",
             "TODA [m](D6)": "1400",
@@ -10356,7 +10356,7 @@
         },
         {
             "ICAO": "LFQP",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "995",
             "TORA [m] (C6)": "2202",
             "TODA [m](D6)": "2502",
@@ -10380,7 +10380,7 @@
         },
         {
             "ICAO": "LFQQ",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "1580",
             "TODA [m](D6)": "1580",
@@ -10402,7 +10402,7 @@
         },
         {
             "ICAO": "LFQQ",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "156",
             "TORA [m] (C6)": "2780",
             "TODA [m](D6)": "2780",
@@ -10424,7 +10424,7 @@
         },
         {
             "ICAO": "LFQT",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "60",
             "TORA [m] (C6)": "1840",
             "TODA [m](D6)": "1840",
@@ -10592,7 +10592,7 @@
         },
         {
             "ICAO": "LFRH",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "144",
             "TORA [m] (C6)": "1670",
             "TODA [m](D6)": "1885",
@@ -10614,7 +10614,7 @@
         },
         {
             "ICAO": "LFRH",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "134",
             "TORA [m] (C6)": "2403",
             "TODA [m](D6)": "2428",
@@ -10684,7 +10684,7 @@
         },
         {
             "ICAO": "LFRJ",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "329",
             "TORA [m] (C6)": "2700",
             "TODA [m](D6)": "2700",
@@ -10732,7 +10732,7 @@
         },
         {
             "ICAO": "LFRL",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "271",
             "TORA [m] (C6)": "1119",
             "TODA [m](D6)": "1119",
@@ -10756,7 +10756,7 @@
         },
         {
             "ICAO": "LFRM",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "1420",
             "TODA [m](D6)": "1420",
@@ -10851,7 +10851,7 @@
         },
         {
             "ICAO": "LFRQ",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "293",
             "TORA [m] (C6)": "2150",
             "TODA [m](D6)": "2150",
@@ -10875,7 +10875,7 @@
         },
         {
             "ICAO": "LFRS",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "73",
             "TORA [m] (C6)": "2853",
             "TODA [m](D6)": "2903",
@@ -10899,7 +10899,7 @@
         },
         {
             "ICAO": "LFRT",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "450",
             "TORA [m] (C6)": "2200",
             "TODA [m](D6)": "2200",
@@ -10921,7 +10921,7 @@
         },
         {
             "ICAO": "LFRU",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "249",
             "TORA [m] (C6)": "1617",
             "TODA [m](D6)": "1717",
@@ -10943,7 +10943,7 @@
         },
         {
             "ICAO": "LFRV",
-            "RWY": "4",
+            "RWY": "04",
             "RWY Elev [ft] (B6)": "429",
             "TORA [m] (C6)": "1530",
             "TODA [m](D6)": "1530",
@@ -10965,7 +10965,7 @@
         },
         {
             "ICAO": "LFRV",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "433",
             "TORA [m] (C6)": "995",
             "TODA [m](D6)": "995",
@@ -10987,7 +10987,7 @@
         },
         {
             "ICAO": "LFRZ",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "12",
             "TORA [m] (C6)": "2405",
             "TODA [m](D6)": "2405",
@@ -11009,7 +11009,7 @@
         },
         {
             "ICAO": "LFSB",
-            "RWY": "7",
+            "RWY": "07",
             "RWY Elev [ft] (B6)": "881",
             "TORA [m] (C6)": "1715",
             "TODA [m](D6)": "1715",
@@ -11053,7 +11053,7 @@
         },
         {
             "ICAO": "LFSD",
-            "RWY": "1",
+            "RWY": "01",
             "RWY Elev [ft] (B6)": "727",
             "TORA [m] (C6)": "1200",
             "TODA [m](D6)": "1200",
@@ -11097,7 +11097,7 @@
         },
         {
             "ICAO": "LFSG",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "1084",
             "TORA [m] (C6)": "2700",
             "TODA [m](D6)": "2700",
@@ -11167,7 +11167,7 @@
         },
         {
             "ICAO": "LFSM",
-            "RWY": "8",
+            "RWY": "08",
             "RWY Elev [ft] (B6)": "1030",
             "TORA [m] (C6)": "1700",
             "TODA [m](D6)": "1700",
@@ -11191,7 +11191,7 @@
         },
         {
             "ICAO": "LFSN",
-            "RWY": "3",
+            "RWY": "03",
             "RWY Elev [ft] (B6)": "700",
             "TORA [m] (C6)": "1600",
             "TODA [m](D6)": "1600",
@@ -11213,7 +11213,7 @@
         },
         {
             "ICAO": "LFSO",
-            "RWY": "2",
+            "RWY": "02",
             "RWY Elev [ft] (B6)": "1105",
             "TORA [m] (C6)": "2400",
             "TODA [m](D6)": "2457",
@@ -11237,7 +11237,7 @@
         },
         {
             "ICAO": "LFST",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "503",
             "TORA [m] (C6)": "2400",
             "TODA [m](D6)": "2695",
@@ -11283,7 +11283,7 @@
         },
         {
             "ICAO": "LFTH",
-            "RWY": "5",
+            "RWY": "05",
             "RWY Elev [ft] (B6)": "5",
             "TORA [m] (C6)": "2121",
             "TODA [m](D6)": "2121",
@@ -11355,7 +11355,7 @@
         },
         {
             "ICAO": "LFTZ",
-            "RWY": "6",
+            "RWY": "06",
             "RWY Elev [ft] (B6)": "63",
             "TORA [m] (C6)": "1071",
             "TODA [m](D6)": "1131",
@@ -11379,7 +11379,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "THR 06",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "2750",
@@ -11391,7 +11391,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "2623",
@@ -11403,7 +11403,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "2253",
@@ -11415,7 +11415,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "1447",
@@ -11427,7 +11427,7 @@
         },
         {
             "ICAO": "EEEI",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "65.8",
             "TORA [m] (C6)": "792",
@@ -11487,7 +11487,7 @@
         },
         {
             "ICAO": "EETN",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "DTHR 08",
             "RWY Elev [ft] (B6)": "130",
             "TORA [m] (C6)": "3240",
@@ -11500,7 +11500,7 @@
         },
         {
             "ICAO": "EETN",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "130",
             "TORA [m] (C6)": "3157",
@@ -11513,7 +11513,7 @@
         },
         {
             "ICAO": "EETN",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "130",
             "TORA [m] (C6)": "2749",
@@ -11526,7 +11526,7 @@
         },
         {
             "ICAO": "EETN",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY E",
             "RWY Elev [ft] (B6)": "130",
             "TORA [m] (C6)": "2315",
@@ -11565,7 +11565,7 @@
         },
         {
             "ICAO": "EFHA",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "479.3",
             "TORA [m] (C6)": "2433",
@@ -11577,7 +11577,7 @@
         },
         {
             "ICAO": "EFHA",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "G",
             "RWY Elev [ft] (B6)": "479.3",
             "TORA [m] (C6)": "2433",
@@ -11589,7 +11589,7 @@
         },
         {
             "ICAO": "EFHA",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "H",
             "RWY Elev [ft] (B6)": "479.3",
             "TORA [m] (C6)": "2574",
@@ -11625,7 +11625,7 @@
         },
         {
             "ICAO": "EFUT",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "329.1",
             "TORA [m] (C6)": "1091",
@@ -11637,7 +11637,7 @@
         },
         {
             "ICAO": "EFUT",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "329.1",
             "TORA [m] (C6)": "1396",
@@ -11649,7 +11649,7 @@
         },
         {
             "ICAO": "EFUT",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "329.1",
             "TORA [m] (C6)": "1514",
@@ -11673,7 +11673,7 @@
         },
         {
             "ICAO": "ENAL",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "D",
             "RWY Elev [ft] (B6)": "35.2",
             "TORA [m] (C6)": "1227",
@@ -11695,7 +11695,7 @@
         },
         {
             "ICAO": "ENBO",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "18.9",
             "TORA [m] (C6)": "1672",
@@ -11748,7 +11748,7 @@
         },
         {
             "ICAO": "ENCN",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "40.3",
             "TORA [m] (C6)": "1025",
@@ -11908,7 +11908,7 @@
         },
         {
             "ICAO": "ENKB",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "A",
             "RWY Elev [ft] (B6)": "180.3",
             "TORA [m] (C6)": "1059",
@@ -11934,7 +11934,7 @@
         },
         {
             "ICAO": "ENKR",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "B",
             "RWY Elev [ft] (B6)": "279",
             "TORA [m] (C6)": "1592",
@@ -11956,7 +11956,7 @@
         },
         {
             "ICAO": "ENML",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "C",
             "RWY Elev [ft] (B6)": "9.9",
             "TORA [m] (C6)": "1483",
@@ -12093,7 +12093,7 @@
         },
         {
             "ICAO": "ENVA",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "A2",
             "RWY Elev [ft] (B6)": "16.7",
             "TORA [m] (C6)": "2401",
@@ -12173,7 +12173,7 @@
         },
         {
             "ICAO": "ESCF",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY K",
             "RWY Elev [ft] (B6)": "250.7",
             "TORA [m] (C6)": "1367",
@@ -12221,7 +12221,7 @@
         },
         {
             "ICAO": "ESIA",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "TWY V1",
             "RWY Elev [ft] (B6)": "307",
             "TORA [m] (C6)": "1303",
@@ -12245,7 +12245,7 @@
         },
         {
             "ICAO": "ESOW",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "6",
             "TORA [m] (C6)": "2013",
@@ -12257,7 +12257,7 @@
         },
         {
             "ICAO": "ESOW",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "6",
             "TORA [m] (C6)": "1154",
@@ -12353,7 +12353,7 @@
         },
         {
             "ICAO": "GCTS",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "INT B2",
             "RWY Elev [ft] (B6)": "188",
             "TORA [m] (C6)": "3060",
@@ -12401,7 +12401,7 @@
         },
         {
             "ICAO": "LEAB",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "INT B",
             "RWY Elev [ft] (B6)": "2281",
             "TORA [m] (C6)": "1845",
@@ -12412,7 +12412,7 @@
         },
         {
             "ICAO": "LEAB",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "INT C",
             "RWY Elev [ft] (B6)": "2281",
             "TORA [m] (C6)": "1095",
@@ -12478,7 +12478,7 @@
         },
         {
             "ICAO": "LEAM",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "INT S2",
             "RWY Elev [ft] (B6)": "26",
             "TORA [m] (C6)": "2230",
@@ -12544,7 +12544,7 @@
         },
         {
             "ICAO": "LEBG",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT C",
             "RWY Elev [ft] (B6)": "2941",
             "TORA [m] (C6)": "822",
@@ -12720,7 +12720,7 @@
         },
         {
             "ICAO": "LEGE",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "INT E3",
             "RWY Elev [ft] (B6)": "403",
             "TORA [m] (C6)": "1711",
@@ -12753,7 +12753,7 @@
         },
         {
             "ICAO": "LEGT",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT CA3",
             "RWY Elev [ft] (B6)": "2032",
             "TORA [m] (C6)": "1567",
@@ -12786,7 +12786,7 @@
         },
         {
             "ICAO": "LEIB",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "INT E8",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "2415",
@@ -12797,7 +12797,7 @@
         },
         {
             "ICAO": "LEIB",
-            "RWY": "6",
+            "RWY": "06",
             "Intersection": "INT EH",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "1022",
@@ -12830,7 +12830,7 @@
         },
         {
             "ICAO": "LEJR",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "INT E-2",
             "RWY Elev [ft] (B6)": "68",
             "TORA [m] (C6)": "698",
@@ -12841,7 +12841,7 @@
         },
         {
             "ICAO": "LEJR",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "INT E-3",
             "RWY Elev [ft] (B6)": "68",
             "TORA [m] (C6)": "904",
@@ -12852,7 +12852,7 @@
         },
         {
             "ICAO": "LEJR",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "INT E-4",
             "RWY Elev [ft] (B6)": "68",
             "TORA [m] (C6)": "1302",
@@ -13094,7 +13094,7 @@
         },
         {
             "ICAO": "LEMO",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "INT B",
             "RWY Elev [ft] (B6)": "285",
             "TORA [m] (C6)": "2393",
@@ -13160,7 +13160,7 @@
         },
         {
             "ICAO": "LERS",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "INT A2",
             "RWY Elev [ft] (B6)": "230",
             "TORA [m] (C6)": "2157",
@@ -13215,7 +13215,7 @@
         },
         {
             "ICAO": "LESO",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT A",
             "RWY Elev [ft] (B6)": "10",
             "TORA [m] (C6)": "936",
@@ -13226,7 +13226,7 @@
         },
         {
             "ICAO": "LESO",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT B",
             "RWY Elev [ft] (B6)": "10",
             "TORA [m] (C6)": "791",
@@ -13237,7 +13237,7 @@
         },
         {
             "ICAO": "LESO",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT C",
             "RWY Elev [ft] (B6)": "10",
             "TORA [m] (C6)": "658",
@@ -13292,7 +13292,7 @@
         },
         {
             "ICAO": "LETO",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT C2,C8",
             "RWY Elev [ft] (B6)": "1976",
             "TORA [m] (C6)": "3198",
@@ -13303,7 +13303,7 @@
         },
         {
             "ICAO": "LETO",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "INT C3",
             "RWY Elev [ft] (B6)": "1976",
             "TORA [m] (C6)": "2605",
@@ -13556,7 +13556,7 @@
         },
         {
             "ICAO": "LFAQ",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "343",
             "TORA [m] (C6)": "1210",
@@ -13568,7 +13568,7 @@
         },
         {
             "ICAO": "LFAQ",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY E",
             "RWY Elev [ft] (B6)": "343",
             "TORA [m] (C6)": "790",
@@ -13580,7 +13580,7 @@
         },
         {
             "ICAO": "LFAQ",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY S",
             "RWY Elev [ft] (B6)": "343",
             "TORA [m] (C6)": "1210",
@@ -13639,7 +13639,7 @@
         },
         {
             "ICAO": "LFBD",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "1347",
@@ -13651,7 +13651,7 @@
         },
         {
             "ICAO": "LFBD",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "2091",
@@ -13663,7 +13663,7 @@
         },
         {
             "ICAO": "LFBD",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "2703",
@@ -13675,7 +13675,7 @@
         },
         {
             "ICAO": "LFBD",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY S4",
             "RWY Elev [ft] (B6)": "160",
             "TORA [m] (C6)": "1373",
@@ -13807,7 +13807,7 @@
         },
         {
             "ICAO": "LFBE",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "166",
             "TORA [m] (C6)": "2013",
@@ -13851,7 +13851,7 @@
         },
         {
             "ICAO": "LFBH",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "59",
             "TORA [m] (C6)": "1040",
@@ -13873,7 +13873,7 @@
         },
         {
             "ICAO": "LFBI",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "417",
             "TORA [m] (C6)": "1350",
@@ -13897,7 +13897,7 @@
         },
         {
             "ICAO": "LFBL",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "1273",
             "TORA [m] (C6)": "1258",
@@ -13908,7 +13908,7 @@
         },
         {
             "ICAO": "LFBL",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY S",
             "RWY Elev [ft] (B6)": "1273",
             "TORA [m] (C6)": "2207",
@@ -13930,7 +13930,7 @@
         },
         {
             "ICAO": "LFBN",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "144",
             "TORA [m] (C6)": "283",
@@ -14086,7 +14086,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "700",
@@ -14098,7 +14098,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "1300",
@@ -14110,7 +14110,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "2400",
@@ -14122,7 +14122,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "3000",
@@ -14134,7 +14134,7 @@
         },
         {
             "ICAO": "LFBT",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY T6",
             "RWY Elev [ft] (B6)": "1259",
             "TORA [m] (C6)": "1360",
@@ -14205,7 +14205,7 @@
         },
         {
             "ICAO": "LFBZ",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "241",
             "TORA [m] (C6)": "1790",
@@ -14216,7 +14216,7 @@
         },
         {
             "ICAO": "LFBZ",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY N1",
             "RWY Elev [ft] (B6)": "241",
             "TORA [m] (C6)": "1000",
@@ -14227,7 +14227,7 @@
         },
         {
             "ICAO": "LFBZ",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY P",
             "RWY Elev [ft] (B6)": "241",
             "TORA [m] (C6)": "1810",
@@ -14366,7 +14366,7 @@
         },
         {
             "ICAO": "LFGJ",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "639",
             "TORA [m] (C6)": "1788",
@@ -14377,7 +14377,7 @@
         },
         {
             "ICAO": "LFGJ",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "639",
             "TORA [m] (C6)": "1095",
@@ -14388,7 +14388,7 @@
         },
         {
             "ICAO": "LFGJ",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY J",
             "RWY Elev [ft] (B6)": "639",
             "TORA [m] (C6)": "561",
@@ -14435,7 +14435,7 @@
         },
         {
             "ICAO": "LFJL",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "858",
             "TORA [m] (C6)": "1820",
@@ -14624,7 +14624,7 @@
         },
         {
             "ICAO": "LFKF",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "40",
             "TORA [m] (C6)": "1277",
@@ -14635,7 +14635,7 @@
         },
         {
             "ICAO": "LFKF",
-            "RWY": "5",
+            "RWY": "05",
             "Intersection": "TWY K",
             "RWY Elev [ft] (B6)": "40",
             "TORA [m] (C6)": "981",
@@ -14668,7 +14668,7 @@
         },
         {
             "ICAO": "LFKJ",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "1104",
@@ -14679,7 +14679,7 @@
         },
         {
             "ICAO": "LFKJ",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY E",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "1399",
@@ -14690,7 +14690,7 @@
         },
         {
             "ICAO": "LFKJ",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY F",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "1100",
@@ -14701,7 +14701,7 @@
         },
         {
             "ICAO": "LFKJ",
-            "RWY": "2",
+            "RWY": "02",
             "Intersection": "TWY H",
             "RWY Elev [ft] (B6)": "15",
             "TORA [m] (C6)": "956",
@@ -14833,7 +14833,7 @@
         },
         {
             "ICAO": "LFLC",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY C3",
             "RWY Elev [ft] (B6)": "1089",
             "TORA [m] (C6)": "2109",
@@ -14845,7 +14845,7 @@
         },
         {
             "ICAO": "LFLC",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY C4",
             "RWY Elev [ft] (B6)": "1089",
             "TORA [m] (C6)": "2823",
@@ -14857,7 +14857,7 @@
         },
         {
             "ICAO": "LFLC",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY D3",
             "RWY Elev [ft] (B6)": "1089",
             "TORA [m] (C6)": "2105",
@@ -14869,7 +14869,7 @@
         },
         {
             "ICAO": "LFLC",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY D4",
             "RWY Elev [ft] (B6)": "1089",
             "TORA [m] (C6)": "2828",
@@ -15005,7 +15005,7 @@
         },
         {
             "ICAO": "LFLO",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "1093",
             "TORA [m] (C6)": "1097",
@@ -15017,7 +15017,7 @@
         },
         {
             "ICAO": "LFLO",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "1093",
             "TORA [m] (C6)": "744",
@@ -15041,7 +15041,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY N6",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "1200",
@@ -15052,7 +15052,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY N7",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "840",
@@ -15063,7 +15063,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY S2",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "2470",
@@ -15074,7 +15074,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY S3",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "1200",
@@ -15085,7 +15085,7 @@
         },
         {
             "ICAO": "LFLS",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY S4",
             "RWY Elev [ft] (B6)": "1224",
             "TORA [m] (C6)": "780",
@@ -15140,7 +15140,7 @@
         },
         {
             "ICAO": "LFLX",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "528",
             "TORA [m] (C6)": "966",
@@ -15152,7 +15152,7 @@
         },
         {
             "ICAO": "LFLX",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "528",
             "TORA [m] (C6)": "2180",
@@ -15164,7 +15164,7 @@
         },
         {
             "ICAO": "LFLX",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "528",
             "TORA [m] (C6)": "2780",
@@ -15176,7 +15176,7 @@
         },
         {
             "ICAO": "LFLX",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY F",
             "RWY Elev [ft] (B6)": "528",
             "TORA [m] (C6)": "2180",
@@ -15284,7 +15284,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "1250",
@@ -15295,7 +15295,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "1105",
@@ -15306,7 +15306,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "800",
@@ -15317,7 +15317,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY D",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "580",
@@ -15328,7 +15328,7 @@
         },
         {
             "ICAO": "LFMK",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY Z",
             "RWY Elev [ft] (B6)": "431",
             "TORA [m] (C6)": "1650",
@@ -15792,7 +15792,7 @@
         },
         {
             "ICAO": "LFMU",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "52",
             "TORA [m] (C6)": "1116",
@@ -15804,7 +15804,7 @@
         },
         {
             "ICAO": "LFMU",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "52",
             "TORA [m] (C6)": "742",
@@ -15816,7 +15816,7 @@
         },
         {
             "ICAO": "LFMU",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY P",
             "RWY Elev [ft] (B6)": "52",
             "TORA [m] (C6)": "1235",
@@ -15992,7 +15992,7 @@
         },
         {
             "ICAO": "LFOE",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY D/L",
             "RWY Elev [ft] (B6)": "448",
             "TORA [m] (C6)": "900",
@@ -16003,7 +16003,7 @@
         },
         {
             "ICAO": "LFOE",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY E",
             "RWY Elev [ft] (B6)": "448",
             "TORA [m] (C6)": "1400",
@@ -16014,7 +16014,7 @@
         },
         {
             "ICAO": "LFOE",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY F/K",
             "RWY Elev [ft] (B6)": "448",
             "TORA [m] (C6)": "1900",
@@ -16025,7 +16025,7 @@
         },
         {
             "ICAO": "LFOE",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY G",
             "RWY Elev [ft] (B6)": "448",
             "TORA [m] (C6)": "2700",
@@ -16128,7 +16128,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY C1",
             "RWY Elev [ft] (B6)": "147",
             "TORA [m] (C6)": "1875",
@@ -16139,7 +16139,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY C2",
             "RWY Elev [ft] (B6)": "147",
             "TORA [m] (C6)": "1176",
@@ -16172,7 +16172,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "TWY A1",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "2581",
@@ -16183,7 +16183,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY A1",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "1542",
@@ -16447,7 +16447,7 @@
         },
         {
             "ICAO": "LFPO",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "TWY W36",
             "RWY Elev [ft] (B6)": "277",
             "TORA [m] (C6)": "2782",
@@ -16480,7 +16480,7 @@
         },
         {
             "ICAO": "LFPT",
-            "RWY": "4",
+            "RWY": "04",
             "Intersection": "TWY A",
             "RWY Elev [ft] (B6)": "274",
             "TORA [m] (C6)": "856",
@@ -16576,7 +16576,7 @@
         },
         {
             "ICAO": "LFQE",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY C1 01",
             "RWY Elev [ft] (B6)": "737",
             "TORA [m] (C6)": "920",
@@ -16588,7 +16588,7 @@
         },
         {
             "ICAO": "LFQQ",
-            "RWY": "1",
+            "RWY": "01",
             "Intersection": "TWY P5",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "960",
@@ -16599,7 +16599,7 @@
         },
         {
             "ICAO": "LFQQ",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY T4",
             "RWY Elev [ft] (B6)": "156",
             "TORA [m] (C6)": "1810",
@@ -16610,7 +16610,7 @@
         },
         {
             "ICAO": "LFQQ",
-            "RWY": "8",
+            "RWY": "08",
             "Intersection": "TWY T5",
             "RWY Elev [ft] (B6)": "156",
             "TORA [m] (C6)": "2215",
@@ -16870,7 +16870,7 @@
         },
         {
             "ICAO": "LFRQ",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "293",
             "TORA [m] (C6)": "1238",
@@ -16882,7 +16882,7 @@
         },
         {
             "ICAO": "LFRQ",
-            "RWY": "9",
+            "RWY": "09",
             "Intersection": "TWY C",
             "RWY Elev [ft] (B6)": "293",
             "TORA [m] (C6)": "1420",
@@ -16918,7 +16918,7 @@
         },
         {
             "ICAO": "LFRS",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "73",
             "TORA [m] (C6)": "2001",
@@ -16942,7 +16942,7 @@
         },
         {
             "ICAO": "LFRZ",
-            "RWY": "7",
+            "RWY": "07",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "12",
             "TORA [m] (C6)": "1813",
@@ -17030,7 +17030,7 @@
         },
         {
             "ICAO": "LFSN",
-            "RWY": "3",
+            "RWY": "03",
             "Intersection": "TWY B",
             "RWY Elev [ft] (B6)": "700",
             "TORA [m] (C6)": "900",
@@ -17100,7 +17100,7 @@
         },
         {
             "ICAO": "LFPB",
-            "RWY": "9",
+            "RWY": "09",
             "RWY Elev [ft] (B6)": "148",
             "TORA [m] (C6)": "1847",
             "TODA [m](D6)": "1913",

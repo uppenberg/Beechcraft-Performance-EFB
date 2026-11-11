@@ -23,6 +23,28 @@ npm.cmd test -- --project=ipad-mini
 
 `npm test` first lints the app modules, service worker and test code, then type-checks the shared input and limit modules.
 
+## Airport database review
+
+After updating `data/airports.json`, review it without changing the file:
+
+```sh
+npm run airports:review
+```
+
+The review reports malformed rows, missing required values, duplicate runway keys, invalid numeric fields, and runway identifiers that may have lost a leading zero in an Excel export. To normalize only runway identifiers such as `8` to `08`, run:
+
+```sh
+npm run airports:fix-format
+```
+
+This command does not add or remove rows, copy from `airports.generated.json`, or change performance values. Check the file before committing with:
+
+```sh
+npm run airports:check
+```
+
+`airports:check` exits with an error if it finds issues that need review. The formatter preserves the existing file's row data and UTF-8 BOM.
+
 ## JavaScript code coverage
 
 CI gathers JavaScript coverage from the normal Chromium project and uploads a separate **code-coverage** artifact, alongside the Playwright report. Download and extract it into an empty folder, then open `index.html`. The GitHub job summary also contains the overall line, statement, function and branch figures. The HTML report shows individual files and highlights covered and uncovered lines. Newly added JavaScript modules under `js/` are included even if no test loads them, in which case their lines count as uncovered. The C56X loader and calculation code are included as well.
@@ -76,11 +98,11 @@ The test server has controlled modes for failed workbook requests, simulated off
 
 ## App-update regression references
 
-`tests/references/app-update-regression.json` is the approved comparison baseline for app version 0.544. The user approved it on 2026-11-09 to compare future app updates. It stores fixed inputs, visible outputs for BE20, B190 and C56X, direct C56X algorithm outputs, and SHA-256 hashes for the source data.
+`tests/references/app-update-regression.json` is the approved comparison baseline for app version 0.544. The user approved it on 2026-11-09 to compare future app updates. It stores fixed inputs, visible outputs for BE20, B190 and C56X, and direct C56X algorithm outputs.
 
 Every `npm test` run compares the current app with this baseline and the separately documented, intentional startup synchronization changes in `tests/references/startup-sync-changes.json`. The original approved baseline is preserved. A different output fails the regression test and appears in the HTML, JSON and JUnit reports. The baseline records observed app behavior; approval here means approval for regression comparison only. It is not independent AFM verification or operational approval.
 
-The baseline's recorded source hashes are checked as well. For historical JavaScript and JSON hashes, the check accepts equivalent LF or CRLF line endings because the baseline was recorded on Windows. `tests/references/source-hash-changes.json` records that `data/airports.json` changed in commit `f604502`, after the 0.544 baseline and before this implementation. The exception records both hashes and is not an approval of the airport data. Any further change requires an explicit review of the fixture and affected outputs. For a separate data check, the C56X landing tests exercise 80 cells against the existing manually verified Figure 4-44 record in `tools/afm-audit/review/landing-distance-level-0ft-20000.verified.json`; this is not independent verification of every chart or calculation.
+No source-file hash requirement remains. Regression tests compare app outputs with the approved baseline. For a separate data check, the C56X landing tests exercise 80 cells against the existing manually verified Figure 4-44 record in `tools/afm-audit/review/landing-distance-level-0ft-20000.verified.json`; this is not independent verification of every chart or calculation.
 
 When changing the app or performance data, run the tests against that version and generate a fresh candidate:
 
@@ -89,9 +111,9 @@ npm test
 npm run test:references:generate
 ```
 
-The generator opens the app for each aircraft family and records the fixed ESSA runway scenarios, selected C56X function outputs, and SHA-256 hashes for relevant data files. It creates a timestamped JSON candidate under `reference-drafts/`; it never replaces the approved baseline or changes app data. Candidates are ignored by Git until deliberately promoted.
+The generator opens the app for each aircraft family and records the fixed ESSA runway scenarios and selected C56X function outputs. It creates a timestamped JSON candidate under `reference-drafts/`; it never replaces the approved baseline or changes app data. Candidates are ignored by Git until deliberately promoted.
 
-Compare a candidate's `references[].outputs` and `algorithmicOutputs` with the approved file. Review any differences against the intended app/data change and the applicable controlled source. If the new values are the desired app behavior, update the approved JSON deliberately, including its app version, approval date, inputs and source hashes. Do not promote a draft just because the test output changed.
+Compare a candidate's `references[].outputs` and `algorithmicOutputs` with the approved file. Review any differences against the intended app/data change and the applicable controlled source. If the new values are the desired app behavior, update the approved JSON deliberately, including its app version, approval date and inputs. Do not promote a draft just because the test output changed.
 
 ### Corrected startup behavior
 

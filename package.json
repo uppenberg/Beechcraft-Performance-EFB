@@ -10,7 +10,10 @@
     "typecheck": "tsc --allowJs --checkJs --noEmit --strict --target es2020 --module esnext js/performance-inputs.js js/performance-limits.js",
     "test:report": "playwright show-report",
     "coverage:report": "node tests/support/coverage-report.js",
-    "test:references:generate": "node tests/generate-reference-draft.js"
+    "test:references:generate": "node tests/generate-reference-draft.js",
+    "airports:review": "node tools/review-airports-json.js",
+    "airports:fix-format": "node tools/review-airports-json.js --fix",
+    "airports:check": "node tools/review-airports-json.js --check"
   },
   "repository": {
     "type": "git",
