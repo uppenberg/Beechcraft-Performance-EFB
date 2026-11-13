@@ -1,8 +1,8 @@
 const path = require('node:path');
 const { createCoverageMap } = require('istanbul-lib-coverage');
-const { test, expect } = require('./support/coverage-test');
-const { convert } = require('./support/coverage-report');
-const { root, listFiles, relativeUrl } = require('./support/coverage-scope');
+const { test, expect } = require('@playwright/test');
+const { convert } = require('../support/coverage-report');
+const { root, listFiles, relativeUrl } = require('../support/coverage-scope');
 
 test('coverage scope includes new app modules and excludes other origins and data', () => {
   const origin = `http://127.0.0.1:${process.env.TEST_PORT || '4173'}`;

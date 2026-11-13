@@ -289,7 +289,13 @@ export async function init() {
     warningDialog?.addEventListener('cancel', cancelAircraftTypeChange);
 
     const versionElement = document.getElementById('app-version');
-    if (versionElement) versionElement.textContent = `v${window.APP_VERSION}`;
+    if (versionElement) {
+      const activeWorkerUrl = navigator.serviceWorker?.controller?.scriptURL;
+      const installedVersion = activeWorkerUrl
+        ? new URL(activeWorkerUrl).searchParams.get('v')
+        : null;
+      versionElement.textContent = `v${installedVersion || window.APP_VERSION}`;
+    }
 
     console.log("Startar PWA och laddar data...");
 

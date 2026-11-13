@@ -5,7 +5,9 @@
   "main": "sw.js",
   "scripts": {
     "pretest": "npm run lint && npm run typecheck",
-    "test": "playwright test",
+    "test": "npm run test:unit && playwright test",
+    "test:unit": "playwright test --config=playwright.node.config.js",
+    "test:e2e": "playwright test",
     "lint": "eslint js sw.js tests",
     "typecheck": "tsc --allowJs --checkJs --noEmit --strict --target es2020 --module esnext js/performance-inputs.js js/performance-limits.js",
     "test:report": "playwright show-report",

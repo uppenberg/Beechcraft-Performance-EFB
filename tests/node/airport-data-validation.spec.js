@@ -1,8 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { test, expect } = require('./support/coverage-test');
+const { test, expect } = require('@playwright/test');
 
-const AIRPORT_DATABASE_PATH = path.join(__dirname, '../data/airports.json');
+const AIRPORT_DATABASE_PATH = path.join(__dirname, '../../data/airports.json');
 const REQUIRED_FIELDS = [
   'ICAO',
   'RWY',

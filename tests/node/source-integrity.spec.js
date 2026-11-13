@@ -1,10 +1,10 @@
-const { test, expect } = require('./support/coverage-test');
+const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { execFileSync } = require('node:child_process');
 
-const root = path.resolve(__dirname, '..');
+const root = path.resolve(__dirname, '../..');
 const read = (file) => fs.readFileSync(path.join(root, file));
 const serviceWorkerSource = read('sw.js').toString('utf8');
 const assetListMatch = serviceWorkerSource.match(/const ASSETS = (\[[\s\S]*?\]);/);

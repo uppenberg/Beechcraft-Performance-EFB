@@ -40,28 +40,6 @@ test('version.js is the single release marker and does not block calculator star
   await expect(page.locator('#initialization-status')).toHaveCount(0);
 });
 
-test('limit decisions reject missing data and use unrounded boundaries', async ({ page }) => {
-  await page.goto('/');
-  const result = await page.evaluate(async () => {
-    const { finiteNumber, exceedsDistanceLimit, windLimitStatus } = await import('./js/performance-limits.js');
-    return {
-      invalid: [null, undefined, '', '#ERROR!', Infinity, {}, [], true].map(finiteNumber),
-      distance: [99.99, 100, 100.01].map((value) => exceedsDistanceLimit(value, 100)),
-      missing: exceedsDistanceLimit(100, ''),
-      wind: [
-        windLimitStatus(0, 25, 25),
-        windLimitStatus(0, 25.01, 25),
-        windLimitStatus(-10, 0, 25),
-        windLimitStatus(-10.01, 0, 25),
-      ],
-    };
-  });
-  expect(result.invalid).toEqual(Array(8).fill(null));
-  expect(result.distance).toEqual([false, false, true]);
-  expect(result.missing).toBeNull();
-  expect(result.wind).toEqual(['normal', 'red', 'amber', 'red']);
-});
-
 for (const registration of ['SE-LTL', 'SE-KVL', 'SE-MJU', 'SE-MHU', 'SE-MJV', 'SE-RIJ']) {
   test(`${registration}: untouched startup has a consistent engine and visible inputs`, async ({ page }) => {
     const errors = [];

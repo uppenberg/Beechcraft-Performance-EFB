@@ -4,6 +4,23 @@ The app starts through the native ES module entry point `js/app.js`; feature mod
 
 ## Run locally
 
+The suite has two execution layers. `tests/node/` contains direct module tests and
+data/source contract checks, run once in Node through Playwright's test runner.
+It starts no browser or HTTP server. The remaining specs are browser integration
+and end-to-end tests, including the existing AFM, workbook and PWA scenarios.
+
+```sh
+npm run test:unit
+npm run test:e2e
+```
+
+`npm test` runs lint, type checking, the Node suite, then the browser suite.
+To filter browser tests, use `npm run test:e2e -- --project=chromium`.
+Node reports are saved to `test-results-node/`; browser reports retain their
+existing paths. GitHub Actions runs static checks, Node tests and browser tests
+in independent jobs, so browser installation cannot block the fast checks.
+Browser tests remain serial because the PWA test server has shared mutable state.
+
 ```sh
 npm ci
 npx playwright install chromium webkit
@@ -46,6 +63,10 @@ npm run airports:check
 `airports:check` exits with an error if it finds issues that need review. The formatter preserves the existing file's row data and UTF-8 BOM.
 
 ## JavaScript code coverage
+
+Node test execution is not included in the Chromium coverage report. Moving
+direct logic checks to Node can reduce that report's percentage without reducing
+tested behavior. These reports must not be described as combined coverage.
 
 CI gathers JavaScript coverage from the normal Chromium project and uploads a separate **code-coverage** artifact, alongside the Playwright report. Download and extract it into an empty folder, then open `index.html`. The GitHub job summary also contains the overall line, statement, function and branch figures. The HTML report shows individual files and highlights covered and uncovered lines. Newly added JavaScript modules under `js/` are included even if no test loads them, in which case their lines count as uncovered. The C56X loader and calculation code are included as well.
 

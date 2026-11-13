@@ -5,6 +5,38 @@ on:
   pull_request:
 
 jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - name: Upload Node test report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: node-test-results
+          path: test-results-node/
+          retention-days: 14
+
   playwright:
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -17,7 +49,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
       - id: tests
-        run: npm test
+        run: npm run test:e2e
         env:
           EFB_COVERAGE: '1'
       - name: Generate code coverage report

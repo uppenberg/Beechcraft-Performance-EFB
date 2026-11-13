@@ -23,7 +23,7 @@ if (process.env.CI || process.env.EFB_RUN_WEBKIT === '1') {
 }
 projects.push({
   name: 'chromium',
-  testIgnore: ['**/ipad-mini.spec.js'],
+  testIgnore: ['**/ipad-mini.spec.js', '**/node/**'],
   use: {
     ...devices['Desktop Chrome'],
     ...(chromeChannel ? { channel: chromeChannel } : {}),
@@ -33,6 +33,7 @@ projects.push({
 module.exports = defineConfig({
   testDir: './tests',
   testMatch: ['**/*.spec.js'],
+  testIgnore: ['**/node/**'],
   globalSetup: require.resolve('./tests/support/coverage-setup'),
   fullyParallel: false,
   workers: 1,
