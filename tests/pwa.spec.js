@@ -83,14 +83,17 @@ test('service worker update can be detected, installed and activated', async ({ 
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
   await openSettings(page);
+  const oldVersion = await page.evaluate(() => window.APP_VERSION);
+  await expect(page.locator('#app-version')).toHaveText(`v${oldVersion}`);
 
-  await setServerMode(request, 'updated');
+  const { updateMarker } = await setServerMode(request, 'updated');
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
   await dismissUpdatePrompt(page);
   await openSettings(page);
-  await expect(page.locator('#app-version')).toContainText('test-release');
+  // Deferring the update keeps the installed release active and displayed.
+  await expect(page.locator('#app-version')).toHaveText(`v${oldVersion}`);
   await expect.poll(() => page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     return Boolean(registration.waiting);
@@ -108,6 +111,8 @@ test('service worker update can be detected, installed and activated', async ({ 
   await expect(page.locator('#global-registration')).toHaveValue('SE-LTL');
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
   await waitForOfflineReady(page);
+  await openSettings(page);
+  await expect(page.locator('#app-version')).toHaveText(`vtest-release-${updateMarker}`);
 });
 
 test('version.js selects a new cache while the old app shell remains active until update', async ({ page, request }) => {
