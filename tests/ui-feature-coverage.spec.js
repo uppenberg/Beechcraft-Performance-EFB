@@ -122,6 +122,7 @@ test('METAR runway suggestion can be applied to takeoff and landing', async ({ p
   await page.locator('#to-airport-icao').fill('EETN');
   await page.locator('#to-airport-rwy').selectOption('26');
   await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
+  await expect(page.locator('#to-runway-suggestion-row')).toBeVisible();
   await page.evaluate(() => {
     BeechcraftApp.airports.suggestRunwayFromMetar('METAR EETN 011230Z 08008KT 15/10 Q1013', 'to');
   });
@@ -143,6 +144,29 @@ test('METAR runway suggestion can be applied to takeoff and landing', async ({ p
   await expect(page.locator('#ldg-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
   await page.getByRole('button', { name: 'Use RWY 08', exact: true }).click();
   await expect(page.locator('#ldg-airport-rwy')).toHaveValue('08');
+});
+
+test('takeoff runway suggestion stays hidden when no runway availability check can pass', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  await page.locator('#to-airport-icao').fill('EETN');
+  await expect(page.locator('#to-airport-rwy option[value="08"]')).toHaveCount(1);
+
+  const rowHidden = await page.evaluate(() => {
+    const state = BeechcraftApp.state.AppState;
+    const workbook = state.hfInstance;
+    state.hfInstance = null;
+    try {
+      BeechcraftApp.airports.suggestRunwayFromMetar(
+        'METAR EETN 011230Z 08008KT 15/10 Q1013',
+        'to'
+      );
+      return document.getElementById('to-runway-suggestion-row').hidden;
+    } finally {
+      state.hfInstance = workbook;
+    }
+  });
+
+  expect(rowHidden).toBe(true);
 });
 
 test('custom-airport validation rejects invalid form values and duplicate runways update in place', async ({ page }) => {

@@ -205,7 +205,10 @@ export function updateRunwaySuggestion(prefix, message, suggestion = null) {
     const optionsContainer = document.getElementById(`${prefix}-runway-suggestion-options`);
     if (!row || !text || !optionsContainer) return;
 
-    row.hidden = !message;
+    // Take-off only presents a runway hint when at least one matching runway
+    // entry is usable with the current performance setup. Landing retains its
+    // status messages when no wind-based suggestion is available.
+    row.hidden = prefix === 'to' ? !suggestion : !message;
     text.textContent = message;
     optionsContainer.replaceChildren();
     if (!suggestion) return;
@@ -216,6 +219,12 @@ export function updateRunwaySuggestion(prefix, message, suggestion = null) {
     const displayRows = prefix === 'ldg'
       ? (landingRecord ? [landingRecord] : [])
       : runwayRows;
+    if (prefix === 'to' && !displayRows.some((airport) =>
+      evaluateTakeoffRunwayAvailability(airport).available
+    )) {
+      row.hidden = true;
+      return;
+    }
     const distances = [
       ['TORA', 'TORA [m] (C6)'],
       ['TODA', 'TODA [m](D6)'],

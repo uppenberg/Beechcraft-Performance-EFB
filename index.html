@@ -874,7 +874,7 @@
 
             <!-- Startbana / Take-off vy -->
             <div id="takeoff-runway-visualization" class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
-              <h3 id="takeoff-runway-visualization-title">Runway visualization</h3>
+              <h3 id="takeoff-runway-visualization-title">Runway Visualization</h3>
              <!-- <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div> -->
               
               <div class="runway-container">
@@ -915,7 +915,7 @@
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>4. Single value of V1 used (C38: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
+                    <span>4. Single value of V1 used: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
                     <span id="badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                 </div>
 
@@ -948,7 +948,7 @@
                         <span id="c56x-badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · RCC-adjusted dry <strong id="c56x-compare-rcc">-</strong></span>
+                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · WET/Contaminated <strong id="c56x-compare-rcc">-</strong></span>
                         <span id="c56x-badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                 </div>
@@ -1160,22 +1160,13 @@
 
             <!-- Resultatbox för Landing -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
-                <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
                 
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>LDA (C18):</span>
+                    <span>LDA:</span>
                     <strong id="res-ldg-lda" style="color: #fff;">-</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>H/T Vind (C21):</span>
-                    <strong id="res-ldg-hwtw" style="color: #fff;">-</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>Sidvind / Limit (C22 / G22):</span>
-                    <span><strong id="res-ldg-xw" style="color: #fff;">-</strong> / <span id="res-ldg-xwlimit">-</span></span>
-                </div>
                 <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>Missed Approach Climb (C31):</span>
+                    <span>Missed Approach Climb:</span>
                     <strong id="res-ldg-missed" style="color: #fff;">-</strong>
                 </div>
                 <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
