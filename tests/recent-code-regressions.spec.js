@@ -1,6 +1,8 @@
 const { test, expect } = require('./support/coverage-test');
 const { blockExternalRequests, chooseAirport, openApp, setServerMode } = require('./support/app-helpers');
 
+test.use({ serviceWorkers: 'block' });
+
 test.beforeEach(async ({ context, request }) => {
   await setServerMode(request, 'normal');
   await blockExternalRequests(context);

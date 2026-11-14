@@ -150,8 +150,8 @@ for (const registration of ['SE-LTL', 'SE-MHU', 'SE-RIJ']) {
       results.updateWindCheckCard(0, 25.4, 25);
       results.updateWindCheckCardLdg(-10.4, 0, 25);
       return ['to', 'ldg'].map((prefix) => ({
-        wind: document.getElementById(`res-${prefix}-hwtw`).textContent,
-        crosswind: document.getElementById(`res-${prefix}-xw`).textContent,
+        wind: document.getElementById(`res-${prefix}-hwtw${prefix === 'ldg' ? '-kpi' : ''}`).textContent,
+        crosswind: document.getElementById(`res-${prefix}-xw${prefix === 'ldg' ? '-kpi' : ''}`).textContent,
         color: document.getElementById(`card-wind-check${prefix === 'ldg' ? '-ldg' : ''}`).style.borderColor,
       }));
     });

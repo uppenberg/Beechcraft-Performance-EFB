@@ -536,8 +536,9 @@ function renderWindCheckCard(prefix, headwind, crosswind, crosswindLimit) {
         }
         return '-';
     };
+    const valueSuffix = prefix === 'ldg' ? '-kpi' : '';
     for (const [id, value] of [['hwtw', headwind], ['xw', crosswind], ['xwlimit', crosswindLimit]]) {
-        const element = document.getElementById(`res-${prefix}-${id}`);
+        const element = document.getElementById(`res-${prefix}-${id}${valueSuffix}`);
         if (element) {
             element.textContent = display(value);
             element.style.color = '#fff';
