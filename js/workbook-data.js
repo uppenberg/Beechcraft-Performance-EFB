@@ -263,9 +263,11 @@ export function populateAirportSelects() {
       : savedIntersection;
 
     const runwayRows = getRunwayRows(selection.icao, selection.runway);
-    if (!getAirportRows(selection.icao).length || !runwayRows.length) {
+    if (!getAirportRows(selection.icao).length || (selection.runway && !runwayRows.length)) {
       selection.icao = '';
       selection.runway = '';
+      selection.intersection = '';
+    } else if (!selection.runway) {
       selection.intersection = '';
     } else if (!runwayRows.some((airport) => !airport.Intersection) &&
         !runwayRows.some((airport) => airport.Intersection === selection.intersection)) {

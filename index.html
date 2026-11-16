@@ -234,6 +234,18 @@
             <button type="button" class="aircraft-change-confirm" data-action-click="confirmAircraftTypeChange">Yes, switch aircraft</button>
         </div>
     </dialog>
+    <dialog id="next-leg-dialog" class="aircraft-change-dialog next-leg-dialog" aria-labelledby="next-leg-title">
+        <h2 id="next-leg-title">Start next leg?</h2>
+        <p>Review the new leg before continuing:</p>
+        <dl id="next-leg-summary"></dl>
+        <p>Review both masses for the new flight, including fuel and load changes. The landing default is not a fuel-burn calculation.</p>
+        <p>Runway and intersection selections will be cleared. METARs will refresh on both pages. Other conditions and aircraft settings remain unchanged; review them before use. If a METAR is unavailable, weather inputs may retain previous values.</p>
+        <p id="next-leg-error" class="next-leg-error" role="alert" hidden></p>
+        <div class="aircraft-change-actions">
+            <button type="button" class="next-leg-cancel" data-action-click="cancelNextLeg">No</button>
+            <button type="button" id="next-leg-confirm" class="next-leg-confirm" data-action-click="confirmNextLeg">Yes, start next leg</button>
+        </div>
+    </dialog>
     <dialog id="app-update-dialog" class="app-update-dialog" aria-labelledby="app-update-title" aria-describedby="app-update-message">
         <h2 id="app-update-title">New update available</h2>
         <p id="app-update-message">New update available. Please install.</p>
@@ -480,6 +492,9 @@
 
                         <dt>Runway Condition Code (RWCC)</dt>
                         <dd>Same GRF code applied to the landing runway. A lower code significantly increases required landing distance.</dd>
+
+                        <dt>Start next leg</dt>
+                        <dd>Review and confirm a return leg: the current landing airport becomes the departure, the previous departure becomes the destination, landing mass carries forward to take-off, and landing mass resets to the aircraft default. Runways are cleared and both METARs refresh. Review masses, weather, runway conditions and configuration for the new flight; no fuel burn is calculated.</dd>
                     </dl>
 
                     <h4>Landing Result Cards</h4>
@@ -1123,6 +1138,7 @@
                                     </td>
                                 </tr>
                     </table>
+                    <button type="button" id="start-next-leg" class="start-next-leg" data-action-click="showNextLeg">Start next leg <span aria-hidden="true">→</span></button>
                 </div>
             </div>
 

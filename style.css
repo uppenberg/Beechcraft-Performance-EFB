@@ -668,6 +668,32 @@ input, select {
   border: 1px solid #ff7b72;
 }
 
+.start-next-leg {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  color: #b8efff;
+  background: #123745;
+  border: 1px solid #35a9c7;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.start-next-leg span { margin-left: 6px; }
+.next-leg-dialog { padding: 22px; border-color: #35a9c7; box-sizing: border-box; }
+.next-leg-dialog h2 { margin: 0 0 12px; color: #b8efff; }
+.next-leg-dialog p { line-height: 1.5; }
+.next-leg-dialog dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; }
+.next-leg-dialog dt { color: #8b949e; }
+.next-leg-dialog dd { margin: 0; color: #fff; font-weight: 600; overflow-wrap: anywhere; }
+.next-leg-dialog .aircraft-change-actions { padding: 12px 0 0; }
+.next-leg-cancel { color: #fff; background: #30363d; border: 1px solid #6e7681; }
+.next-leg-confirm { color: #fff; background: #12647a; border: 1px solid #35a9c7; }
+.next-leg-dialog button:disabled { opacity: 0.5; cursor: not-allowed; }
+.next-leg-error { color: #ff7b72; font-weight: 700; }
+
 .check-updates-button {
   box-sizing: border-box;
   width: 100%;

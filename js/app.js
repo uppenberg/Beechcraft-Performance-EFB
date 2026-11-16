@@ -8,6 +8,73 @@ import * as workbookEngine from './workbook-engine.js';
 import * as c56x from './c56x-ui.js';
 import * as results from './results-ui.js';
 
+let pendingNextLeg = null;
+
+function showNextLeg() {
+  const departure = state.AppState.airportSelection.to.icao;
+  const arrival = state.AppState.airportSelection.ldg.icao;
+  const mass = Number(document.getElementById('ldg-mass').value);
+  const registration = document.getElementById('global-registration').value;
+  const ranges = state.MASS_SLIDER_RANGES_BY_TYPE[state.AIRCRAFT_TYPE_BY_REGISTRATION[registration]];
+  if (!ranges) return;
+  const landingMass = ranges.landing.default;
+  pendingNextLeg = { departure: arrival, arrival: departure, mass, landingMass };
+
+  const summary = document.getElementById('next-leg-summary');
+  summary.replaceChildren();
+  for (const [label, value] of [
+    ['Departure', `${departure || 'Not selected'} → ${arrival || 'Not selected'}`],
+    ['Destination', `${arrival || 'Not selected'} → ${departure || 'Not selected'}`],
+    ['Take-off mass', `${document.getElementById('to-mass').value} → ${mass} lb (previous landing mass)`],
+    ['Landing mass', `${mass} → ${landingMass} lb (aircraft default)`],
+  ]) {
+    const term = document.createElement('dt');
+    const description = document.createElement('dd');
+    term.textContent = label;
+    description.textContent = value;
+    summary.append(term, description);
+  }
+
+  const error = document.getElementById('next-leg-error');
+  let message = '';
+  if (!airports.getAirportRows(departure).length || !airports.getAirportRows(arrival).length) {
+    message = 'Select valid departure and landing airports before starting the next leg.';
+  } else if (!Number.isFinite(mass) || mass < ranges.takeoff.min || mass > ranges.takeoff.max) {
+    message = `The previous landing mass is outside the take-off range (${ranges.takeoff.min}–${ranges.takeoff.max} lb). Set an applicable landing mass before continuing.`;
+  }
+  error.textContent = message;
+  error.hidden = !message;
+  document.getElementById('next-leg-confirm').disabled = Boolean(message);
+  document.getElementById('next-leg-dialog').showModal();
+}
+
+function cancelNextLeg() {
+  pendingNextLeg = null;
+  document.getElementById('next-leg-dialog').close();
+}
+
+function confirmNextLeg() {
+  if (!pendingNextLeg) return;
+  const next = pendingNextLeg;
+  pendingNextLeg = null;
+  document.getElementById('next-leg-dialog').close();
+  for (const [prefix, icao] of [['to', next.departure], ['ldg', next.arrival]]) {
+    if (state.AppState.airportSelection[prefix].icao === icao) {
+      airports.handleAirportRunwayChange('', prefix);
+      results.fetchMetarForAirport(prefix);
+    } else {
+      airports.handleAirportIcaoInput(icao, prefix);
+    }
+  }
+  const takeoffMass = document.getElementById('to-mass');
+  const landingMass = document.getElementById('ldg-mass');
+  takeoffMass.value = String(next.mass);
+  landingMass.value = String(next.landingMass);
+  takeoffMass.dispatchEvent(new Event('input', { bubbles: true }));
+  landingMass.dispatchEvent(new Event('input', { bubbles: true }));
+  airports.switchTab('takeoff');
+}
+
 window.BeechcraftApp = Object.freeze({
   metar: Object.freeze({ MetarWeather }),
   state,
@@ -21,6 +88,9 @@ window.BeechcraftApp = Object.freeze({
 });
 
 const uiActions = Object.freeze({
+  showNextLeg: () => showNextLeg(),
+  cancelNextLeg: () => cancelNextLeg(),
+  confirmNextLeg: () => confirmNextLeg(),
   handleRegistrationChange: (value) => aircraft.handleRegistrationChange(value),
   cancelAircraftTypeChange: () => aircraft.cancelAircraftTypeChange(),
   confirmAircraftTypeChange: () => aircraft.confirmAircraftTypeChange(),

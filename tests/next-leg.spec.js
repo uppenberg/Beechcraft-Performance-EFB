@@ -1,0 +1,104 @@
+﻿const { test, expect } = require('./support/coverage-test');
+const { openApp } = require('./support/app-helpers');
+
+test.use({ serviceWorkers: 'block' });
+
+for (const [registration, takeoffMass, landingMass, defaultLanding] of [
+  ['SE-LTL', '11800', '11100', '12500'],
+  ['SE-MHU', '15800', '15000', '16100'],
+  ['SE-RIJ', '19000', '17800', '18700'],
+]) {
+  test(`start next leg transfers inputs and refreshes METAR for ${registration}`, async ({ page, context }) => {
+    const requests = [];
+    await context.route('**/metar-proxy.uppenberg1.workers.dev/**', async (route) => {
+      const icao = new URL(route.request().url()).searchParams.get('icao');
+      requests.push(icao);
+      const now = new Date();
+      const stamp = [now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes()]
+        .map((value) => String(value).padStart(2, '0')).join('');
+      await route.fulfill({ status: 200, contentType: 'text/plain', body: `METAR ${icao} ${stamp}Z 02008KT 15/10 Q1013` });
+    });
+    await openApp(page, registration);
+    await page.locator('#to-airport-icao').fill('ESSA');
+    await page.locator('#to-airport-rwy').selectOption('01L');
+    await page.locator('#to-mass').fill(takeoffMass);
+    await expect(page.locator('#start-next-leg')).toBeHidden();
+    await page.locator('#landing-tab-button').click();
+    await page.locator('#ldg-airport-icao').fill('ESNU');
+    await page.locator('#ldg-airport-rwy').selectOption('14');
+    await page.locator('#ldg-mass').fill(landingMass);
+    await expect(page.locator('#ldg-metar-display')).toContainText('ESNU');
+    await page.locator('#start-next-leg').click();
+    const dialog = page.locator('#next-leg-dialog');
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText('ESSA → ESNU');
+    await expect(dialog).toContainText('ESNU → ESSA');
+    await expect(dialog).toContainText(`${takeoffMass} → ${landingMass}`);
+    await expect(dialog).toContainText(`${landingMass} → ${defaultLanding}`);
+    await dialog.getByRole('button', { name: 'No', exact: true }).click();
+    await expect(page.locator('#to-airport-icao')).toHaveValue('ESSA');
+    await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESNU');
+    await expect(page.locator('#ldg-mass')).toHaveValue(landingMass);
+    await page.locator('#start-next-leg').click();
+    requests.length = 0;
+    await page.locator('#next-leg-confirm').click();
+    await expect(page.locator('#page-takeoff')).toBeVisible();
+    await expect(page.locator('#to-airport-icao')).toHaveValue('ESNU');
+    await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESSA');
+    await expect(page.locator('#to-airport-rwy')).toHaveValue('');
+    await expect(page.locator('#ldg-airport-rwy')).toHaveValue('');
+    await expect(page.locator('#to-mass')).toHaveValue(landingMass);
+    await expect(page.locator('#ldg-mass')).toHaveValue(defaultLanding);
+    await expect.poll(() => requests.includes('ESNU') && requests.includes('ESSA')).toBeTruthy();
+    await expect(page.locator('#to-metar-display')).toContainText('ESNU');
+    await expect(page.locator('#ldg-metar-display')).toContainText('ESSA');
+    await page.reload();
+    await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
+    await page.evaluate(() => window.__testAppInitPromise);
+    await expect(page.locator('#to-airport-icao')).toHaveValue('ESNU');
+    await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESSA');
+    await expect(page.locator('#to-mass')).toHaveValue(landingMass);
+    await expect(page.locator('#ldg-mass')).toHaveValue(defaultLanding);
+  });
+}
+
+test('invalid or out-of-range carry-forward cannot start a leg', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  await page.locator('#landing-tab-button').click();
+  await page.locator('#start-next-leg').click();
+  await expect(page.locator('#next-leg-error')).toContainText('Select valid');
+  await expect(page.locator('#next-leg-confirm')).toBeDisabled();
+  await page.locator('#next-leg-dialog').getByRole('button', { name: 'No', exact: true }).click();
+  await page.locator('#ldg-airport-icao').fill('ESNU');
+  await page.locator('.tab-btn').first().click();
+  await page.locator('#to-airport-icao').fill('ESSA');
+  await page.locator('#landing-tab-button').click();
+  await page.locator('#ldg-mass').fill('9000');
+  await page.locator('#start-next-leg').click();
+  await expect(page.locator('#next-leg-error')).toContainText('outside the take-off range');
+  await expect(page.locator('#next-leg-confirm')).toBeDisabled();
+});
+
+test('same-airport leg clears both runways and refreshes both METARs', async ({ page, context }) => {
+  let requests = 0;
+  await context.route('**/metar-proxy.uppenberg1.workers.dev/**', async (route) => {
+    requests += 1;
+    const now = new Date();
+    const stamp = [now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes()]
+      .map((value) => String(value).padStart(2, '0')).join('');
+    await route.fulfill({ status: 200, body: `METAR ESSA ${stamp}Z 02008KT 15/10 Q1013` });
+  });
+  await openApp(page, 'SE-LTL');
+  await page.locator('#to-airport-icao').fill('ESSA');
+  await page.locator('#to-airport-rwy').selectOption('01L');
+  await page.locator('#landing-tab-button').click();
+  await page.locator('#ldg-airport-icao').fill('ESSA');
+  await page.locator('#ldg-airport-rwy').selectOption('19R');
+  await expect(page.locator('#ldg-metar-display')).toContainText('ESSA');
+  await page.locator('#start-next-leg').click();
+  const before = requests;
+  await page.locator('#next-leg-confirm').click();
+  await expect(page.locator('#to-airport-rwy')).toHaveValue('');
+  await expect(page.locator('#ldg-airport-rwy')).toHaveValue('');
+  await expect.poll(() => requests - before).toBeGreaterThanOrEqual(2);
+});
