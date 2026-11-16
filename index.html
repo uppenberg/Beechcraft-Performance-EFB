@@ -168,15 +168,12 @@
                 </svg>
             </a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
-            <select id="global-registration" disabled data-action-change="handleRegistrationChange:$value" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
+            <select id="global-registration" disabled data-action-change="handleRegistrationChange:$value" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 150px;">
             </select>
             <div class="settings-menu">
-                <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path>
-                        <path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"></path>
-                    </svg>
-                </button>
+                <button id="offline-error-indicator" class="offline-error-indicator" type="button" aria-label="Offline file problem" aria-expanded="false" aria-controls="offline-error-tooltip" hidden>!</button>
+                <div id="offline-error-tooltip" class="offline-error-tooltip" role="tooltip" hidden></div>
+                <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">⚙️</button>
                 <div id="settings-panel" class="settings-panel" hidden>
                     <h2>Settings</h2>
                     <section class="offline-readiness" aria-labelledby="offline-readiness-title">

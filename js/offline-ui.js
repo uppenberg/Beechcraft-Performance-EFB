@@ -6,6 +6,49 @@ import { CUSTOM_AIRPORT_ENABLED_KEY, isCustomAirportEnabled, loadAirportDatabase
 
 // Custom airports, settings, and service worker controls
 
+let activeSettingsTasks = 0;
+let offlineIndicatorStatus = { message: '', state: '' };
+let appUpdateAvailable = false;
+function setSettingsTaskActive(active) {
+  activeSettingsTasks = Math.max(0, activeSettingsTasks + (active ? 1 : -1));
+  document.getElementById('settings-toggle')?.classList.toggle('is-loading', activeSettingsTasks > 0);
+}
+
+function setOfflineErrorIndicator(message = '', state = '') {
+  offlineIndicatorStatus = { message, state };
+  renderOfflineIndicator();
+}
+
+function renderOfflineIndicator() {
+  const indicator = document.getElementById('offline-error-indicator');
+  const tooltip = document.getElementById('offline-error-tooltip');
+  if (!indicator || !tooltip) return;
+  const { message, state } = offlineIndicatorStatus;
+  const shownState = appUpdateAvailable ? 'update' : state;
+  const shownMessage = appUpdateAvailable
+    ? 'A new app version is ready to install. Open Settings and choose Check for updates and install.'
+    : message;
+  const hasStatus = Boolean(message);
+  indicator.hidden = !(appUpdateAvailable || hasStatus);
+  indicator.classList.toggle('is-warning', shownState === 'warning' || shownState === 'update');
+  indicator.classList.toggle('is-error', shownState === 'error');
+  indicator.classList.toggle('is-ready', shownState === 'ready');
+  tooltip.classList.toggle('is-warning', shownState === 'warning' || shownState === 'update');
+  tooltip.classList.toggle('is-error', shownState === 'error');
+  tooltip.classList.toggle('is-ready', shownState === 'ready');
+  indicator.textContent = shownState === 'ready' ? '✓' : shownState === 'update' ? '↑' : '!';
+  indicator.setAttribute('aria-label', shownState === 'update' ? 'App update available' : shownState === 'ready' ? 'Offline files ready' : shownState === 'warning' ? 'Offline files missing' : 'Offline file download problem');
+  tooltip.textContent = shownState === 'ready'
+    ? `${message} Offline files are ready for use.`
+    : shownMessage
+      ? `${shownState === 'update' ? '' : shownState === 'warning' ? 'Some offline files are missing. ' : 'Offline files could not be checked or downloaded. '}${shownMessage}`
+      : '';
+  if ((!hasStatus && !appUpdateAvailable) || shownState === 'ready') {
+    indicator.setAttribute('aria-expanded', 'false');
+    tooltip.hidden = true;
+  }
+}
+
 export function isLocalDevelopmentHost(location = window.location) {
   return ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname) &&
     location.port === '5500';
@@ -195,6 +238,22 @@ export function setupSettingsMenu() {
   setupCustomAirportUi();
   setupOfflineReadiness();
 
+  document.getElementById('offline-error-indicator')?.addEventListener('click', () => {
+    const indicator = document.getElementById('offline-error-indicator');
+    const tooltip = document.getElementById('offline-error-tooltip');
+    const open = indicator.getAttribute('aria-expanded') !== 'true';
+    indicator.setAttribute('aria-expanded', String(open));
+    tooltip.hidden = !open;
+  });
+  document.addEventListener('click', (event) => {
+    const indicator = document.getElementById('offline-error-indicator');
+    const tooltip = document.getElementById('offline-error-tooltip');
+    if (!tooltip?.hidden && !indicator?.contains(event.target) && !tooltip.contains(event.target)) {
+      tooltip.hidden = true;
+      indicator?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
   toggle.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!isOpen));
@@ -268,6 +327,7 @@ export function setOfflineDataStatus(message, state = '') {
   status.textContent = message;
   status.classList.toggle('is-ready', state === 'ready');
   status.classList.toggle('is-error', state === 'error');
+  setOfflineErrorIndicator(['ready', 'error', 'warning'].includes(state) ? message : '', state);
 }
 
 export async function waitForServiceWorkerReady(timeoutMs = 60000) {
@@ -385,6 +445,7 @@ export async function checkOfflineData({ retry = false, requestPersistence = fal
   const reloadButton = document.getElementById('offline-app-reload');
   if (button) button.disabled = true;
   if (reloadButton) reloadButton.hidden = true;
+  setSettingsTaskActive(true);
   setOfflineDataStatus(retry ? 'Checking and downloading missing files…' : 'Checking offline files…');
   try {
     if (requestPersistence) await updatePersistentStorageStatus(true);
@@ -409,13 +470,14 @@ export async function checkOfflineData({ retry = false, requestPersistence = fal
     } else {
       setOfflineDataStatus(
         `${result.missing.length} file(s) are missing. Connect to the internet and tap Check / download.`,
-        'error'
+        'warning'
       );
     }
   } catch (error) {
     setOfflineDataStatus(`${error.message} Connect to the internet and retry.`, 'error');
   } finally {
     if (button) button.disabled = false;
+    setSettingsTaskActive(false);
   }
 }
 
@@ -434,6 +496,8 @@ export function setUpdateAvailable(isAvailable) {
   const updateButton = document.getElementById('check-updates-button');
   if (!toggle || !updateButton) return;
 
+  appUpdateAvailable = isAvailable;
+  renderOfflineIndicator();
   toggle.classList.toggle('update-available', isAvailable);
   toggle.setAttribute('aria-label', isAvailable ? 'Open settings, update available' : 'Open settings');
   updateButton.textContent = isAvailable ? 'Update available — install' : 'Check for updates';
@@ -469,6 +533,7 @@ export async function registerAppServiceWorker() {
   }
 
   try {
+    setSettingsTaskActive(true);
     const workerUrl = `./sw.js?v=${encodeURIComponent(window.APP_VERSION)}`;
     AppState.appServiceWorkerRegistration = await navigator.serviceWorker.register(workerUrl, {
       updateViaCache: 'none'
@@ -514,6 +579,8 @@ export async function registerAppServiceWorker() {
         `Could not check offline files: ${offlineError.message}`,
         'error'
       ));
+  } finally {
+    setSettingsTaskActive(false);
   }
 }
 
@@ -565,6 +632,7 @@ export async function checkForAppUpdate() {
   }
 
   updateButton.disabled = true;
+  setSettingsTaskActive(true);
   setUpdateStatus('Checking for app updates…');
 
   try {
@@ -587,11 +655,13 @@ export async function checkForAppUpdate() {
       setUpdateAvailable(false);
       setUpdateStatus('The app is already up to date.');
       updateButton.disabled = false;
+      setSettingsTaskActive(false);
     }
   } catch (error) {
     console.error('Could not install the app update:', error);
     setUpdateStatus('The update failed. Check your connection and try again.');
     updateButton.disabled = false;
+    setSettingsTaskActive(false);
   }
 }
 

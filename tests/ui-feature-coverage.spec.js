@@ -82,6 +82,48 @@ test('settings, guide navigation, update notice and ForeFlight link work', async
   await expect(page.locator('.open-foreflight-button')).toHaveAttribute('href', 'foreflightmobile://');
 });
 
+test('offline and update indicators show the right icon, color, and tooltip', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const indicator = page.locator('#offline-error-indicator');
+  const tooltip = page.locator('#offline-error-tooltip');
+
+  await page.evaluate(() => BeechcraftApp.offline.setUpdateAvailable(false));
+  await page.evaluate(() => BeechcraftApp.offline.setOfflineDataStatus('All offline files are available.', 'ready'));
+  await expect(indicator).toBeVisible();
+  await expect(indicator).toHaveText('✓');
+  await expect(indicator).toHaveClass(/is-ready/);
+
+  await page.evaluate(() => BeechcraftApp.offline.setOfflineDataStatus('2 files are missing.', 'warning'));
+  await expect(indicator).toHaveText('!');
+  await expect(indicator).toHaveClass(/is-warning/);
+  await page.locator('#settings-toggle').click();
+  await indicator.click();
+  await expect(tooltip).toBeVisible();
+  await expect(tooltip).toContainText('Some offline files are missing');
+  await page.mouse.click(10, 10);
+  await expect(tooltip).toBeHidden();
+
+  await page.evaluate(() => BeechcraftApp.offline.setOfflineDataStatus('Download failed.', 'error'));
+  await expect(indicator).toHaveClass(/is-error/);
+  await indicator.click();
+  await expect(tooltip).toContainText('could not be checked or downloaded');
+
+  await page.evaluate(() => BeechcraftApp.offline.setOfflineDataStatus('All offline files are available.', 'ready'));
+  await page.evaluate(() => BeechcraftApp.offline.setUpdateAvailable(true));
+  await expect(page.locator('#app-update-dialog')).toBeVisible();
+  await page.locator('#app-update-later').click();
+  await expect(indicator).toBeVisible();
+  await expect(indicator).toHaveText('↑');
+  await expect(indicator).toHaveClass(/is-warning/);
+  await expect(indicator).not.toHaveClass(/is-ready/);
+  await indicator.click();
+  await expect(tooltip).toContainText('A new app version is ready to install');
+
+  await page.evaluate(() => BeechcraftApp.offline.setUpdateAvailable(false));
+  await expect(indicator).toHaveText('✓');
+  await expect(indicator).toHaveClass(/is-ready/);
+});
+
 test('ICAO autocomplete supports keyboard selection and runway intersections update the selected record', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   await stubCurrentMetar(page);
