@@ -22,11 +22,13 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
     await page.locator('#to-airport-icao').fill('ESSA');
     await page.locator('#to-airport-rwy').selectOption('01L');
     await page.locator('#to-mass').fill(takeoffMass);
+    await page.locator('#to-rwcc').selectOption('5');
     await expect(page.locator('#start-next-leg')).toBeHidden();
     await page.locator('#landing-tab-button').click();
     await page.locator('#ldg-airport-icao').fill('ESNU');
     await page.locator('#ldg-airport-rwy').selectOption('14');
     await page.locator('#ldg-mass').fill(landingMass);
+    await page.locator('#ldg-rwcc').selectOption('4');
     await expect(page.locator('#ldg-metar-display')).toContainText('ESNU');
     await page.locator('#start-next-leg').click();
     const dialog = page.locator('#next-leg-dialog');
@@ -35,10 +37,14 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
     await expect(dialog).toContainText('ESNU → ESSA');
     await expect(dialog).toContainText(`${takeoffMass} → ${landingMass}`);
     await expect(dialog).toContainText(`${landingMass} → ${defaultLanding}`);
+    await expect(dialog).toContainText('5 → 4 (previous landing RWCC)');
+    await expect(dialog).toContainText('4 → 5 (previous take-off RWCC)');
     await dialog.getByRole('button', { name: 'No', exact: true }).click();
     await expect(page.locator('#to-airport-icao')).toHaveValue('ESSA');
     await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESNU');
     await expect(page.locator('#ldg-mass')).toHaveValue(landingMass);
+    await expect(page.locator('#to-rwcc')).toHaveValue('5');
+    await expect(page.locator('#ldg-rwcc')).toHaveValue('4');
     await page.locator('#start-next-leg').click();
     requests.length = 0;
     await page.locator('#next-leg-confirm').click();
@@ -49,6 +55,20 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
     await expect(page.locator('#ldg-airport-rwy')).toHaveValue('');
     await expect(page.locator('#to-mass')).toHaveValue(landingMass);
     await expect(page.locator('#ldg-mass')).toHaveValue(defaultLanding);
+    await expect(page.locator('#to-rwcc')).toHaveValue('4');
+    await expect(page.locator('#ldg-rwcc')).toHaveValue('5');
+    if (registration !== 'SE-RIJ') {
+      const workbookRwcc = await page.evaluate(() => {
+        const app = window.BeechcraftApp;
+        return app.workbookEngine.getOutputVal('Take-off', app.state.CELL_MAPPING.takeoff.inputs.rwcc, false);
+      });
+      expect(Number(workbookRwcc)).toBe(4);
+      const landingWorkbookRwcc = await page.evaluate(() => {
+        const app = window.BeechcraftApp;
+        return app.workbookEngine.getOutputVal('Landing', app.state.CELL_MAPPING.landing.inputs.rwcc, false);
+      });
+      expect(Number(landingWorkbookRwcc)).toBe(5);
+    }
     await expect.poll(() => requests.includes('ESNU') && requests.includes('ESSA')).toBeTruthy();
     await expect(page.locator('#to-metar-display')).toContainText('ESNU');
     await expect(page.locator('#ldg-metar-display')).toContainText('ESSA');
@@ -59,6 +79,8 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
     await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESSA');
     await expect(page.locator('#to-mass')).toHaveValue(landingMass);
     await expect(page.locator('#ldg-mass')).toHaveValue(defaultLanding);
+    await expect(page.locator('#to-rwcc')).toHaveValue('4');
+    await expect(page.locator('#ldg-rwcc')).toHaveValue('5');
   });
 }
 

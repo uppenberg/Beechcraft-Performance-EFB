@@ -14,11 +14,13 @@ function showNextLeg() {
   const departure = state.AppState.airportSelection.to.icao;
   const arrival = state.AppState.airportSelection.ldg.icao;
   const mass = Number(document.getElementById('ldg-mass').value);
+  const takeoffRwcc = document.getElementById('to-rwcc').value;
+  const landingRwcc = document.getElementById('ldg-rwcc').value;
   const registration = document.getElementById('global-registration').value;
   const ranges = state.MASS_SLIDER_RANGES_BY_TYPE[state.AIRCRAFT_TYPE_BY_REGISTRATION[registration]];
   if (!ranges) return;
   const landingMass = ranges.landing.default;
-  pendingNextLeg = { departure: arrival, arrival: departure, mass, landingMass };
+  pendingNextLeg = { departure: arrival, arrival: departure, mass, landingMass, takeoffRwcc, landingRwcc };
 
   const summary = document.getElementById('next-leg-summary');
   summary.replaceChildren();
@@ -27,6 +29,8 @@ function showNextLeg() {
     ['Destination', `${arrival || 'Not selected'} → ${departure || 'Not selected'}`],
     ['Take-off mass', `${document.getElementById('to-mass').value} → ${mass} lb (previous landing mass)`],
     ['Landing mass', `${mass} → ${landingMass} lb (aircraft default)`],
+    ['Take-off RWCC', `${takeoffRwcc} → ${landingRwcc} (previous landing RWCC)`],
+    ['Landing RWCC', `${landingRwcc} → ${takeoffRwcc} (previous take-off RWCC)`],
   ]) {
     const term = document.createElement('dt');
     const description = document.createElement('dd');
@@ -68,10 +72,16 @@ function confirmNextLeg() {
   }
   const takeoffMass = document.getElementById('to-mass');
   const landingMass = document.getElementById('ldg-mass');
+  const takeoffRwcc = document.getElementById('to-rwcc');
+  const landingRwcc = document.getElementById('ldg-rwcc');
   takeoffMass.value = String(next.mass);
   landingMass.value = String(next.landingMass);
+  takeoffRwcc.value = next.landingRwcc;
+  landingRwcc.value = next.takeoffRwcc;
   takeoffMass.dispatchEvent(new Event('input', { bubbles: true }));
   landingMass.dispatchEvent(new Event('input', { bubbles: true }));
+  takeoffRwcc.dispatchEvent(new Event('change', { bubbles: true }));
+  landingRwcc.dispatchEvent(new Event('change', { bubbles: true }));
   airports.switchTab('takeoff');
 }
 
