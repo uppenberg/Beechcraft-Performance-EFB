@@ -142,6 +142,23 @@ test('precision decisions and displayed rounding agree at runway limits', async 
   expect(result.windBorder).toBe('rgb(248, 81, 73)');
 });
 
+test('C56X shows V1 limited to VR with a verification notice', async ({ page }) => {
+  await openApp(page, 'SE-RIJ');
+  await chooseAirport(page, 'to', 'ESNG', '12');
+  await fillWeather(page, 'to', { direction: '108', speed: '0', oat: '-5', qnh: '994' });
+  await page.locator('#to-anti-ice').selectOption('OFF');
+  await page.locator('#to-flaps').selectOption('7');
+  await page.locator('#to-rwcc').selectOption('6');
+  await page.locator('#to-mass').evaluate((element) => {
+    element.value = '19600';
+    element.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(page.locator('#res-to-v1')).toHaveText('107');
+  await expect(page.locator('#res-to-vr')).toHaveText('107');
+  await expect(page.locator('#c56x-v1-correction')).toContainText('V1 limited to VR');
+  await expect(page.locator('#c56x-badge-v1')).toHaveText('OK');
+});
+
 for (const registration of ['SE-LTL', 'SE-MHU', 'SE-RIJ']) {
   test(`${registration}: wind cards compare exact values and show rounded values`, async ({ page }) => {
     await openApp(page, registration);

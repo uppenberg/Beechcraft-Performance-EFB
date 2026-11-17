@@ -113,6 +113,47 @@ test('C56X takeoff matrix covers wind, weight, flaps, anti-ice, RCC, slope and f
   }
 });
 
+test('C56X V1 slope correction changes only at reached thresholds', async ({ page }) => {
+  await loadC56xPerformanceData(page);
+  const actual = await page.evaluate(() => {
+    const adjustments = {
+      uphill: { '0.5%': 'V1 + 1', '1.0%': 'V1 + 2', '1.5%': 'V1 + 3', '2.0%': 'V1 + 4' },
+      downhillNonShaded: { '-1%': 'V1 + 1', '-2%': 'V1 + 2' },
+      downhillShaded: { '-1%': 'V1 - 3', '-2%': 'V1 - 5' },
+    };
+    return {
+      ordinary: [-2.01, -2, -1.5, -1, -0.5, 0, 0.49, 0.5, 0.99, 1, 1.5, 2, 2.01]
+        .map((slope) => window.getC56xV1GradientAdjustment(adjustments, slope)),
+      shaded: [-0.5, -1, -1.5, -2]
+        .map((slope) => window.getC56xV1GradientAdjustment(adjustments, slope, true)),
+    };
+  });
+  expect(actual).toEqual({
+    ordinary: [null, 2, 1, 1, 0, 0, 0, 1, 1, 2, 3, 4, null],
+    shaded: [0, -3, -3, -5],
+  });
+});
+
+test('C56X limits corrected V1 to VR and records when verification is required', async ({ page }) => {
+  await loadC56xPerformanceData(page);
+  const actual = await page.evaluate(() => {
+    const base = {
+      pressureAltitudeFt: 1753.75, weightLb: 19600, oatC: -5, headwindKnots: 1.7143346014,
+      runwayConditionCode: '3', antiIce: 'OFF', flaps: 7,
+    };
+    return [0, -0.5, -1, -1.5].map((runwaySlopePercent) =>
+      getC56xTakeoffSpeeds({ ...base, runwaySlopePercent }));
+  });
+  expect(actual[1].v1CorrectionKnots).toBe(0);
+  expect(actual[1].v1).toBeCloseTo(actual[0].v1, 8);
+  for (const result of actual.slice(2)) {
+    expect(result.v1CorrectionKnots).toBe(1);
+    expect(result.v1).toBe(result.vr);
+    expect(result.v1LimitedToVr).toBe(true);
+  }
+  expect(actual[0].v1LimitedToVr).toBe(false);
+});
+
 test('C56X takeoff distance reacts consistently to mass, headwind, tailwind, RCC and runway slope', async ({ page }) => {
   await loadC56xPerformanceData(page);
   const outputs = await page.evaluate(({ takeoffBase }) => {

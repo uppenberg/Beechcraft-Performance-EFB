@@ -102,7 +102,7 @@ function getC56xV1GradientAdjustment(adjustments, slopePercent, shaded = false) 
             : null;
     };
 
-    // Linear interpolation between 0 (no adjustment) and the published steps.
+    // Apply a published correction only when its slope threshold is reached.
     const direction = slopePercent > 0 ? 'uphill' : 'downhill';
     const magnitude = Math.abs(slopePercent);
     const steps = direction === 'uphill' ? [0.5, 1, 1.5, 2] : [1, 2];
@@ -113,18 +113,8 @@ function getC56xV1GradientAdjustment(adjustments, slopePercent, shaded = false) 
             adjustments?.[`uphill${String(step).replace('.', '_')}pct`])
         : parseAdjustment(adjustments?.[downhillGroup]?.[`-${step}%`] ??
             adjustments?.[`${downhillGroup}_${step}pct`]);
-    let lowerSlope = 0;
-    let lowerValue = 0;
-    for (const step of steps) {
-        const upperValue = readStep(step);
-        if (upperValue === null) return null;
-        if (magnitude <= step) {
-            return lowerValue + (upperValue - lowerValue) * ((magnitude - lowerSlope) / (step - lowerSlope));
-        }
-        lowerSlope = step;
-        lowerValue = upperValue;
-    }
-    return null;
+    const reachedStep = steps.slice().reverse().find((step) => magnitude >= step);
+    return reachedStep === undefined ? 0 : readStep(reachedStep);
 }
 function applyC56xRunwayGradient(distanceFt, slopePercent, isWet, antiIce = 'ON', flaps = 7, shaded = false) {
     if (!Number.isFinite(distanceFt) || !Number.isFinite(slopePercent)) return null;
@@ -467,12 +457,14 @@ function getC56xTakeoffSpeeds({
             : v1Adjustments_Dry_Flaps15_AntiIceOn;
     const v1Adjustment = getC56xV1GradientAdjustment    (adjustments, runwaySlopePercent, v1Tracker.shaded);
     if (v1Adjustment === null) return null;
+    const correctedV1 = v1 + v1Adjustment;
     return {
-            shaded: v1Tracker.shaded,
-        v1: v1 + v1Adjustment,
+        shaded: v1Tracker.shaded,
+        v1: Math.min(correctedV1, vr),
         vr,
         v2,
         v1CorrectionKnots: v1Adjustment,
+        v1LimitedToVr: correctedV1 > vr,
     };
 }
 

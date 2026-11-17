@@ -4926,7 +4926,7 @@
       "ASDA [m](E6)": "3200",
       "LDA [m](F6)": "3200",
       "Slope [%](G6)": "0",
-      "RWYHDG [°](H6)": "5",
+      "RWYHDG [°](H6)": "185",
       "min climb gradient OEI(I6)": "3.3",
       "Engine out climb path": "Straight"
     },
@@ -4939,7 +4939,7 @@
       "ASDA [m](E6)": "3200",
       "LDA [m](F6)": "3200",
       "Slope [%](G6)": "0",
-      "RWYHDG [°](H6)": "185",
+      "RWYHDG [°](H6)": "005",
       "min climb gradient OEI(I6)": "3.3",
       "Engine out climb path": "Straight"
     },

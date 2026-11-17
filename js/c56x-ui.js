@@ -131,17 +131,13 @@ export function getC56xV1CorrectionLabel(slopePercent, correctionKnots) {
   if (Math.abs(slopePercent) < 0.000001) {
     return `V1 correction applied: ${correction} · level runway`;
   }
-  if (slopePercent > 0) {
-    const afmStep = [0.5, 1, 1.5, 2].find((step) => slopePercent <= step);
-    if (!afmStep) return 'V1 correction unavailable · slope exceeds published range';
-    return `V1 correction applied: ${correction} · ${displayedSlope}% uphill (AFM ${afmStep}% step)`;
-  }
-  const downhillSlope = Math.abs(slopePercent);
-  if (downhillSlope < 1) {
-    return `V1 correction applied: 0 kt · ${displayedSlope}% downhill (below 1%)`;
-  }
-  const afmStep = downhillSlope <= 1 ? 1 : 2;
-  return `V1 correction applied: ${correction} · ${displayedSlope}% downhill (SHADED ${afmStep}% step)`;
+  return `V1 correction applied: ${correction} · ${displayedSlope}% ${slopePercent > 0 ? 'uphill' : 'downhill'}`;
+}
+
+export function c56xV1WithinVr(speeds) {
+  return Number.isFinite(speeds?.v1) && Number.isFinite(speeds?.vr)
+    ? speeds.v1 <= speeds.vr
+    : null;
 }
 
 export function getC56xWetRunwayMassLimit({
@@ -463,12 +459,16 @@ export function updateC56xTakeoffFieldLength() {
       : 'Not available';
   }
   if (v1CorrectionElement) {
-    v1CorrectionElement.textContent = getC56xV1CorrectionLabel(
+    const correctionLabel = getC56xV1CorrectionLabel(
       runwaySlopePercent,
       speeds?.v1CorrectionKnots
     );
+    v1CorrectionElement.textContent = speeds?.v1LimitedToVr
+      ? `${correctionLabel} · V1 limited to VR`
+      : correctionLabel;
+    v1CorrectionElement.style.color = speeds?.v1LimitedToVr ? '#d29922' : '';
   }
-  setC56xChecklistBadge('c56x-badge-v1', Number.isFinite(speeds?.v1));
+  setC56xChecklistBadge('c56x-badge-v1', c56xV1WithinVr(speeds));
 
   const runwayLimitsM = [toraM, todaM, asdaM];
   if (runwayConditionCode !== '6') {
@@ -678,7 +678,7 @@ export function updateMaxTakeoffMass() {
                 antiIce,
                 turningClimb: climbPath.turning,
               });
-              if (Number.isFinite(speeds?.v1) &&
+              if (c56xV1WithinVr(speeds) === true &&
                   Number.isFinite(secondSegmentGradient) &&
                   secondSegmentGradient >= requiredGradient) {
                 maxMass = candidateMass;
