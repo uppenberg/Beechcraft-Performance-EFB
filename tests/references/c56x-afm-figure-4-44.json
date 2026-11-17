@@ -1,0 +1,37 @@
+{
+  "reviewStatus": "TRANSCRIBED_FROM_SUPPLIED_PDF_PENDING_USER_REVIEW",
+  "source": {
+    "file": "LD f35_zero.pdf",
+    "sha256": "9ad019f3cec5b37a72ee79ce36b5a3fa38bbfa4950df51c957e165ea95c8ff44",
+    "document": "56XFM-13, Model 560XL, U.S. Configuration AA",
+    "figure": "4-44",
+    "method": "Selected cells and speed headings read visually from the supplied PDF; expected values are not generated from app output. PDF is not bundled."
+  },
+  "conditions": {
+    "flapsDeg": 35,
+    "runwaySlopePercent": 0,
+    "landingGear": "DOWN",
+    "airspeed": "VREF at 50 feet",
+    "antiIce": "ON or OFF",
+    "speedbrakes": "Extend after touchdown",
+    "thrust": "IDLE",
+    "distance": "Actual landing distance in feet, before operational/runway factors",
+    "windConvention": "Positive = headwind; negative = tailwind",
+    "selection": "Exact altitude, mass, temperature, wind and slope table nodes; no between-node interpolation",
+    "limitation": "Some conditions may be brake-energy or climb limited. These cases do not verify allowable landing weight."
+  },
+  "cases": [
+    { "id": "AFM-01", "pdfPage": 1, "afmPage": "4-494", "pressureAltitudeFt": 0, "weightLb": 18700, "oatC": 15, "headwindKnots": 0, "distanceFt": 3180, "vref": 117, "vapp": 124 },
+    { "id": "AFM-02", "pdfPage": 1, "afmPage": "4-494", "pressureAltitudeFt": 0, "weightLb": 18000, "oatC": 0, "headwindKnots": -10, "distanceFt": 3520, "vref": 115, "vapp": 122 },
+    { "id": "AFM-03", "pdfPage": 1, "afmPage": "4-494", "pressureAltitudeFt": 0, "weightLb": 17000, "oatC": 30, "headwindKnots": 20, "distanceFt": 2770, "vref": 112, "vapp": 118 },
+    { "id": "AFM-04", "pdfPage": 2, "afmPage": "4-495", "pressureAltitudeFt": 0, "weightLb": 16500, "oatC": -25, "headwindKnots": 30, "distanceFt": 2170, "vref": 111, "vapp": 117 },
+    { "id": "AFM-05", "pdfPage": 2, "afmPage": "4-495", "pressureAltitudeFt": 0, "weightLb": 15000, "oatC": 15, "headwindKnots": 10, "distanceFt": 2560, "vref": 106, "vapp": 111 },
+    { "id": "AFM-06", "pdfPage": 2, "afmPage": "4-495", "pressureAltitudeFt": 0, "weightLb": 13000, "oatC": 54, "headwindKnots": 0, "distanceFt": 2690, "vref": 99, "vapp": 104 },
+    { "id": "AFM-07", "pdfPage": 7, "afmPage": "4-500", "pressureAltitudeFt": 3000, "weightLb": 18700, "oatC": 20, "headwindKnots": 0, "distanceFt": 3510, "vref": 117, "vapp": 124 },
+    { "id": "AFM-08", "pdfPage": 7, "afmPage": "4-500", "pressureAltitudeFt": 3000, "weightLb": 18000, "oatC": 15, "headwindKnots": -10, "distanceFt": 3940, "vref": 115, "vapp": 122 },
+    { "id": "AFM-09", "pdfPage": 7, "afmPage": "4-500", "pressureAltitudeFt": 3000, "weightLb": 17000, "oatC": 40, "headwindKnots": 30, "distanceFt": 2940, "vref": 112, "vapp": 118 },
+    { "id": "AFM-10", "pdfPage": 14, "afmPage": "4-507", "pressureAltitudeFt": 6000, "weightLb": 16500, "oatC": -35, "headwindKnots": 30, "distanceFt": 2560, "vref": 111, "vapp": 117 },
+    { "id": "AFM-11", "pdfPage": 14, "afmPage": "4-507", "pressureAltitudeFt": 6000, "weightLb": 15000, "oatC": 20, "headwindKnots": 10, "distanceFt": 3100, "vref": 106, "vapp": 111 },
+    { "id": "AFM-12", "pdfPage": 14, "afmPage": "4-507", "pressureAltitudeFt": 6000, "weightLb": 13000, "oatC": 42, "headwindKnots": 0, "distanceFt": 3110, "vref": 99, "vapp": 104 }
+  ]
+}

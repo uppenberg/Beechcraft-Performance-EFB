@@ -1,6 +1,11 @@
-// Increment the cache version for every published app release. Tested and working version of HyperFormula is 3.5.0, SheetJS (xlsx): v0.20.3
+// Bump version.js for every release. Keep this complete offline list in sync
+// with the files loaded by the app.
 importScripts('./version.js');
-const CACHE_NAME = `be20-efb-v${self.APP_VERSION}`;
+
+if (!self.APP_VERSION) throw new Error('The app release version is missing.');
+
+const CACHE_PREFIX = 'be20-efb-v';
+const CACHE_NAME = `${CACHE_PREFIX}${self.APP_VERSION}`;
 const ASSETS = [
   './index.html',
   './style.css',
@@ -8,7 +13,20 @@ const ASSETS = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
+  './js/release-check.js',
   './js/app.js',
+  './js/metar-weather.js',
+  './js/app-state.js',
+  './js/aircraft-ui.js',
+  './js/offline-ui.js',
+  './js/workbook-data.js',
+  './js/airport-ui.js',
+  './js/workbook-adapter.js',
+  './js/workbook-engine.js',
+  './js/c56x-ui.js',
+  './js/performance-inputs.js',
+  './js/performance-limits.js',
+  './js/results-ui.js',
   './data/c56x/index.js',
   './data/c56x/core.js',
   './data/c56x/takeoff-gradient-dry.js',
@@ -36,69 +54,162 @@ const ASSETS = [
   './data/se-mju.xlsx',
   './data/B190.xlsx',
 ];
+const SCOPE_URL = new URL(self.registration.scope);
+const assetUrls = new Map(ASSETS.map((asset) => {
+  const url = new URL(asset, SCOPE_URL);
+  return [url.pathname, { asset, url: url.href }];
+}));
+const indexUrl = new URL('./index.html', SCOPE_URL).href;
+let updateInitiatorClientId = null;
+
+function releaseRequest(url) {
+  const requestUrl = new URL(url);
+  requestUrl.searchParams.set('v', self.APP_VERSION);
+  return new Request(requestUrl.href, { cache: 'reload' });
+}
+
+async function downloadAsset(url) {
+  const response = await fetch(releaseRequest(url));
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response;
+}
+
+async function addAssetsAtomically(cache, entries) {
+  if (!entries.length) return [];
+  const requests = entries.map(({ url }) => releaseRequest(url));
+  let batchError = null;
+  try {
+    await cache.addAll(requests);
+  } catch (error) {
+    batchError = error;
+  }
+
+  return Promise.all(entries.map(async (entry, index) => {
+    const response = await cache.match(requests[index]);
+    if (!response?.ok) {
+      return { asset: entry.asset, reason: batchError?.message || 'Download failed.' };
+    }
+    try {
+      // Store assets under stable URLs for normal fetches and offline checks.
+      await cache.put(entry.url, response);
+      await cache.delete(requests[index]);
+      return null;
+    } catch (error) {
+      return { asset: entry.asset, reason: error.message || String(error) };
+    }
+  }));
+}
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) =>
-        cache.addAll(ASSETS.map((asset) => new Request(asset, { cache: 'reload' })))
-      )
-      .catch(async (error) => {
-        await caches.delete(CACHE_NAME);
-        throw error;
-      })
-  );
+  event.waitUntil((async () => {
+    const existingCaches = await caches.keys();
+    const cacheAlreadyExisted = existingCaches.includes(CACHE_NAME);
+    const cache = await caches.open(CACHE_NAME);
+    const missing = [];
+    for (const entry of assetUrls.values()) {
+      if (!await cache.match(entry.url)) missing.push(entry);
+    }
+    const failures = (await addAssetsAtomically(cache, missing)).filter(Boolean);
+    if (failures.length) {
+      // A failed new release must not leave a partial snapshot. Keep an
+      // existing same-version cache intact so offline repair can retry it.
+      if (!cacheAlreadyExisted) await caches.delete(CACHE_NAME);
+      throw new Error(`Could not install offline assets: ${failures.map(({ asset }) => asset).join(', ')}`);
+    }
+  })());
 });
 
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    Promise.all([
-      caches.keys().then((cacheNames) =>
-        Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName.startsWith('be20-efb-') && cacheName !== CACHE_NAME)
-            .map((cacheName) => caches.delete(cacheName))
-        )
-      ),
-      self.clients.claim()
-    ])
-  );
-});
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-
-  // Om anropet INTE går till vår egen server (t.ex. AllOrigins eller Aviation Weather),
-  // låt webbläsaren sköta det direkt utan att Service Workern lägger sig i.
-  if (url.origin !== location.origin) {
+  if (event.data?.type === 'SKIP_WAITING') {
+    updateInitiatorClientId = event.source?.id || null;
+    event.waitUntil(self.skipWaiting());
     return;
   }
+  if (!['CHECK_OFFLINE_DATA', 'RETRY_OFFLINE_DATA'].includes(event.data?.type)) return;
+  const port = event.ports?.[0];
+  if (!port) return;
+  event.waitUntil(ensureOfflineData(event.data.type === 'RETRY_OFFLINE_DATA')
+    .then((result) => port.postMessage(result))
+    .catch((error) => port.postMessage({
+      ready: false,
+      total: ASSETS.length,
+      missing: ASSETS,
+      error: error.message || String(error),
+    })));
+});
 
-  // För egna filer: kör cache- och offline-logik
-  event.respondWith(
-    (async () => {
-      const cachedResponse = await caches.match(event.request);
-      if (cachedResponse) return cachedResponse;
+async function ensureOfflineData(downloadMissing) {
+  const cache = await caches.open(CACHE_NAME);
+  const missing = [];
+  for (const { asset, url } of assetUrls.values()) {
+    const cached = await cache.match(url);
+    if (cached?.ok) continue;
+    missing.push(asset);
+  }
+  if (!downloadMissing || !missing.length) {
+    return { ready: missing.length === 0, total: ASSETS.length, missing, failed: [] };
+  }
+  const entries = missing.map((asset) => assetUrls.get(new URL(asset, SCOPE_URL).pathname));
+  const failed = (await addAssetsAtomically(cache, entries)).filter(Boolean);
+  return {
+    ready: failed.length === 0,
+    total: ASSETS.length,
+    missing: failed.map((entry) => entry.asset),
+    failed,
+  };
+}
 
-      try {
-        const response = await fetch(event.request);
-        if (event.request.mode === 'navigate' && !response.ok) {
-          const offlinePage = await caches.match('./index.html');
-          if (offlinePage) return offlinePage;
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    const oldCaches = (await caches.keys()).filter((name) =>
+      name.startsWith('be20-efb-') && name !== CACHE_NAME
+    );
+    await self.clients.claim();
+    if (oldCaches.length) {
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      for (const client of clients) {
+        if (client.url.startsWith(SCOPE_URL.href) && client.id !== updateInitiatorClientId) {
+          client.navigate(client.url).catch((error) => console.error('Could not reload app tab:', error));
         }
-        return response;
-      } catch (error) {
-        if (event.request.mode === 'navigate') {
-          const offlinePage = await caches.match('./index.html');
-          if (offlinePage) return offlinePage;
-        }
-        throw error;
       }
-    })()
-  );
+      await Promise.all(oldCaches.map((name) => caches.delete(name)));
+    }
+  })());
+});
+
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  if (url.origin !== SCOPE_URL.origin || event.request.method !== 'GET') return;
+  const inScope = url.pathname === SCOPE_URL.pathname || url.pathname === `${SCOPE_URL.pathname}index.html`;
+  const managedAsset = event.request.mode === 'navigate' && inScope
+    ? { asset: './index.html', url: indexUrl }
+    : assetUrls.get(url.pathname);
+  if (!managedAsset) return;
+
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(managedAsset.url);
+
+    // Always check the central release number online; fall back to the saved copy offline.
+    if (managedAsset.asset === './version.js') {
+      try {
+        return await downloadAsset(managedAsset.url);
+      } catch {
+        if (cached) return cached;
+        throw new Error('The app release version is unavailable.');
+      }
+    }
+
+    if (cached) return cached;
+    try {
+      const response = await downloadAsset(managedAsset.url);
+      await cache.put(managedAsset.url, response.clone());
+      return response;
+    } catch {
+      return new Response('Offline app file unavailable. Reconnect and retry the offline download.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+      });
+    }
+  })());
 });

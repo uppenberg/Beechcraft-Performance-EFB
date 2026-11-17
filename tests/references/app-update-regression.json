@@ -1,0 +1,189 @@
+{
+  "generatedAt": "2026-11-09T15:30:34.960Z",
+  "appVersion": "0.544",
+  "status": "APPROVED APP-UPDATE REGRESSION BASELINE — observed from app version 0.544; not independently AFM-verified.",
+  "references": [
+    {
+      "model": "BE20",
+      "registration": "SE-LTL",
+      "inputs": {
+        "airport": "ESSA",
+        "runway": "01L",
+        "windDirectionDeg": 20,
+        "windSpeedKnots": 8,
+        "takeoffOatC": 15,
+        "landingOatC": 15,
+        "qnhHpa": 1013,
+        "takeoffMassLb": 12000,
+        "landingMassLb": 12000,
+        "takeoffFlaps": "APP",
+        "landingFlaps": "DOWN",
+        "takeoffRwcc": "6",
+        "landingRwcc": "6",
+        "takeoffAntiIce": "OFF",
+        "landingAntiIce": null,
+        "takeoffReversers": null,
+        "landingReversers": null,
+        "takeoffDeiceFluid": null,
+        "takeoffTechnique": null
+      },
+      "outputs": {
+        "check-tor-val": "558",
+        "check-tod-val": "1484",
+        "check-asd-val": "1021",
+        "res-to-v1": "94",
+        "res-to-vr": "94",
+        "res-to-v2": "105",
+        "res-ldg-distup": "1841",
+        "res-ldg-distdown": "1083",
+        "res-ldg-vrefup": "119",
+        "res-ldg-vrefdown": "95"
+      }
+    },
+    {
+      "model": "B190",
+      "registration": "SE-MHU",
+      "inputs": {
+        "airport": "ESSA",
+        "runway": "01L",
+        "windDirectionDeg": 20,
+        "windSpeedKnots": 8,
+        "takeoffOatC": 15,
+        "landingOatC": 15,
+        "qnhHpa": 1013,
+        "takeoffMassLb": 15000,
+        "landingMassLb": 15000,
+        "takeoffFlaps": "TAKE",
+        "landingFlaps": "DOWN",
+        "takeoffRwcc": "6",
+        "landingRwcc": "6",
+        "takeoffAntiIce": "OFF",
+        "landingAntiIce": null,
+        "takeoffReversers": null,
+        "landingReversers": null,
+        "takeoffDeiceFluid": null,
+        "takeoffTechnique": "Static T/O power"
+      },
+      "outputs": {
+        "check-tor-val": "536",
+        "check-tod-val": "1277",
+        "check-asd-val": "1040",
+        "res-to-v1": "105",
+        "res-to-vr": "105",
+        "res-to-v2": "113",
+        "res-ldg-distup": "2112",
+        "res-ldg-distdown": "1371",
+        "res-ldg-vrefup": "125",
+        "res-ldg-vrefdown": "110"
+      }
+    },
+    {
+      "model": "C56X",
+      "registration": "SE-RIJ",
+      "inputs": {
+        "airport": "ESSA",
+        "runway": "01L",
+        "windDirectionDeg": 20,
+        "windSpeedKnots": 8,
+        "takeoffOatC": 0,
+        "landingOatC": 15,
+        "qnhHpa": 1013,
+        "takeoffMassLb": 17500,
+        "landingMassLb": 17000,
+        "takeoffFlaps": "15",
+        "landingFlaps": "35",
+        "takeoffRwcc": "6",
+        "landingRwcc": "6",
+        "takeoffAntiIce": "ON",
+        "landingAntiIce": "OFF",
+        "takeoffReversers": "AVAILABLE",
+        "landingReversers": "AVAILABLE",
+        "takeoffDeiceFluid": "NO",
+        "takeoffTechnique": null
+      },
+      "outputs": {
+        "c56x-tora-status": "974 m / 3,301 m",
+        "c56x-toda-status": "974 m / 3,301 m",
+        "c56x-asda-status": "974 m / 3,301 m",
+        "c56x-v1-check": "90 kt",
+        "res-ldg-afm-distance": "2,857 ft (871 m)",
+        "res-ldg-required-distance": "4,771 ft (1,455 m)",
+        "res-ldg-vref-vapp": "112 / 118 KIAS",
+        "res-ldg-max-weight": "18,700 lb"
+      },
+      "algorithmicInputs": {
+        "takeoff": {
+          "qnhHpa": 1013,
+          "fieldElevationFt": 98.6,
+          "oatC": 0,
+          "weightLb": 17500,
+          "windDirectionDeg": 20,
+          "windSpeedKnots": 8,
+          "runwayHeadingDeg": 2,
+          "runwaySlopePercent": 0.2,
+          "runwayConditionCode": "6",
+          "antiIce": "ON",
+          "flaps": 15,
+          "deiceFluidApplied": false
+        },
+        "landing": {
+          "qnhHpa": 1013,
+          "fieldElevationFt": 98.6,
+          "oatC": 15,
+          "weightLb": 17000,
+          "headwindKnots": 7.608452130361228,
+          "runwaySlopePercent": 0.2,
+          "runwayConditionCode": "6",
+          "antiIce": "OFF",
+          "reverserStatus": "AVAILABLE"
+        }
+      },
+      "algorithmicOutputs": {
+        "takeoff": {
+          "pressureAltitudeFt": 105.35,
+          "headwindKnots": 7.608452130361228,
+          "dryDistanceFt": 2754.6363616534977,
+          "dryRequiredDistanceFt": 3195.378179518057,
+          "rccAdjustedDryDistanceFt": 3195.378179518057,
+          "selectedDistanceFt": 3195.378179518057,
+          "dryShaded": false,
+          "takeoffFactor": 1.16,
+          "factorBreakdown": {
+            "surface": "dry",
+            "rccFactor": 1,
+            "performanceFactor": 1.16,
+            "deiceFluidFactor": 1,
+            "totalFactor": 1.16
+          }
+        },
+        "landing": {
+          "pressureAltitudeFt": 105.35,
+          "distanceFt": 2856.69276591422,
+          "factor": 1.67,
+          "requiredDistanceFt": 4770.676919076747,
+          "approachClimbGradient": 9.951337102198726,
+          "landingClimbGradient": 26.26033925564335,
+          "vref": 112,
+          "vapp": 118,
+          "maxLandingWeight": {
+            "figure443Lb": 18700,
+            "figure442Lb": null,
+            "figure442Missing": false,
+            "limitingLb": 18700
+          },
+          "isAboveMaxDesignLandingWeight": false
+        }
+      }
+    }
+  ],
+  "approval": {
+    "approvedAt": "2026-11-09",
+    "approvedBy": "User approval in Codex conversation",
+    "purpose": "Compare current and future app updates against the approved version 0.544 behavior.",
+    "scope": "Application regression comparison only; not approved AFM performance data or operational validation."
+  },
+  "captureNotes": [
+    "Reference cases dispatch an input event to set target mass, like moving the mass slider, before capturing outputs. They do not verify the untouched initial mass state.",
+    "BE20 and B190 startup defaults are captured without firing a change event for the displayed RWCC 6 control. Firing a change event with the same displayed value changes some workbook outputs (BE20 takeoff and B190 landing). This is a known initialization/synchronization behavior to review separately; the baseline records results with the initial RWCC state."
+  ]
+}

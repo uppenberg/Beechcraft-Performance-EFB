@@ -1,0 +1,45 @@
+{
+  "name": "beechcraft-performance-efb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "pretest": "npm run lint && npm run typecheck",
+    "test": "npm run test:unit && playwright test",
+    "test:unit": "playwright test --config=playwright.node.config.js",
+    "test:e2e": "playwright test",
+    "lint": "eslint js sw.js tests",
+    "typecheck": "tsc --allowJs --checkJs --noEmit --strict --target es2020 --module esnext js/performance-inputs.js js/performance-limits.js",
+    "test:report": "playwright show-report",
+    "coverage:report": "node tests/support/coverage-report.js",
+    "test:references:generate": "node tests/generate-reference-draft.js",
+    "airports:review": "node tools/review-airports-json.js",
+    "airports:fix-format": "node tools/review-airports-json.js --fix",
+    "airports:check": "node tools/review-airports-json.js --check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uppenberg/Beechcraft-Performance-EFB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/uppenberg/Beechcraft-Performance-EFB/issues"
+  },
+  "homepage": "https://github.com/uppenberg/Beechcraft-Performance-EFB#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "istanbul-lib-coverage": "^3.2.2",
+    "istanbul-lib-report": "^3.0.1",
+    "istanbul-reports": "^3.2.0",
+    "typescript": "^5.9.3",
+    "v8-to-istanbul": "^9.3.0"
+  },
+  "overrides": {
+    "minimatch": "11.0.1"
+  }
+}

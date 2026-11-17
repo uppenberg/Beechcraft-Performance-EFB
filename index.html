@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <script src="./version.js"></script>
+    <script src="./js/release-check.js"></script>
     <!-- Bundled locally so the calculator can start without network access. -->
     <script src="./data/lib/xlsx.full.min.js"></script>
     <script src="./data/lib/hyperformula.full.min.js"></script>
@@ -155,30 +156,33 @@
         <div class="global-reg" style="display: flex; align-items: center; gap: 6px;">
             <a class="open-foreflight-button" href="foreflightmobile://" aria-label="Open ForeFlight app">
                 <svg class="foreflight-mark" viewBox="0 0 32 32" aria-hidden="true">
-                    <polygon points="16,1 18.5,10.2 23.5,3.5 21,12.4 29.5,8 23.2,15 31,16 23.2,17 29.5,24 21,19.6 23.5,28.5 18.5,21.8 16,31 13.5,21.8 8.5,28.5 11,19.6 2.5,24 8.8,17 1,16 8.8,15 2.5,8 11,12.4 8.5,3.5 13.5,10.2"></polygon>
-                    <circle cx="16" cy="16" r="6.6" fill="#fff"></circle>
-                    <path d="M16 8.8c-1.1 0-1.9.9-1.9 2v4.6l-5 2.8v1.4l5-1.3v2.6l-1.5 1.2v1.2l3.4-1 3.4 1v-1.2l-1.5-1.2v-2.6l5 1.3v-1.4l-5-2.8v-4.6c0-1.1-.8-2-1.9-2Z"></path>
+                    <defs>
+                        <linearGradient id="foreflight-blue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#1688e8"></stop>
+                            <stop offset="1" stop-color="#0750a4"></stop>
+                        </linearGradient>
+                    </defs>
+                    <rect x="0" y="0" width="32" height="32" rx="7" fill="url(#foreflight-blue)"></rect>
+                    <path fill="#fff" d="M16 2.1 18.1 10l4.8-6.5-2.4 8.2 7.3-3.8-5.5 6.4 7.4 1.5-7.4 1.5 5.5 6.4-7.3-3.8 2.4 8.2-4.8-6.5-2.1 7.9-2.1-7.9-4.8 6.5 2.4-8.2-7.3 3.8 5.5-6.4-7.4-1.5 7.4-1.5-5.5-6.4 7.3 3.8-2.4-8.2 4.8 6.5z"></path>
+                    <path fill="url(#foreflight-blue)" d="M16 9.4c-.8 0-1.4.7-1.4 1.6v4.2l-5.4 3.1v1.5l5.4-1.5v3.1l-1.7 1.4v1.3l3.1-.9 3.1.9v-1.3l-1.7-1.4v-3.1l5.4 1.5v-1.5l-5.4-3.1V11c0-.9-.6-1.6-1.4-1.6Z"></path>
                 </svg>
-                <span>ForeFlight</span>
             </a>
             <label for="global-registration" style="font-size: 12px; color: #8b949e;">Aircraft Registration:</label>
-            <select id="global-registration" onchange="handleRegistrationChange(this.value)" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 175px;">
-                <option value="SE-LTL" selected>SE-LTL (BE20)</option>
-                <option value="SE-KVL">SE-KVL (BE20)</option>
-                <option value="SE-MJU">SE-MJU (BE20)</option>
-                <option value="SE-MHU">SE-MHU (B190)</option>
-                <option value="SE-MJV">SE-MJV (B190)</option>
-                <option value="SE-RIJ">SE-RIJ (C56X)</option>
+            <select id="global-registration" disabled data-action-change="handleRegistrationChange:$value" style="background: #161b22; color: #fff; border: 1px solid #30363d; padding: 6px 8px; border-radius: 4px; width: 150px;">
             </select>
             <div class="settings-menu">
-                <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path>
-                        <path d="m19.4 15 .1.1a1.8 1.8 0 0 1-2.5 2.5l-.1-.1a1.8 1.8 0 0 0-3 .9v.2a1.8 1.8 0 0 1-3.6 0v-.2a1.8 1.8 0 0 0-3-.9l-.1.1a1.8 1.8 0 0 1-2.5-2.5l.1-.1a1.8 1.8 0 0 0-.9-3h-.2a1.8 1.8 0 0 1 0-3.6h.2a1.8 1.8 0 0 0 .9-3l-.1-.1a1.8 1.8 0 0 1 2.5-2.5l.1.1a1.8 1.8 0 0 0 3-.9v-.2a1.8 1.8 0 0 1 3.6 0v.2a1.8 1.8 0 0 0 3 .9l.1-.1a1.8 1.8 0 0 1 2.5 2.5l-.1.1a1.8 1.8 0 0 0 .9 3h.2a1.8 1.8 0 0 1 0 3.6h-.2a1.8 1.8 0 0 0-.9 3Z"></path>
-                    </svg>
-                </button>
+                <button id="offline-error-indicator" class="offline-error-indicator" type="button" aria-label="Offline file problem" aria-expanded="false" aria-controls="offline-error-tooltip" hidden>!</button>
+                <div id="offline-error-tooltip" class="offline-error-tooltip" role="tooltip" hidden></div>
+                <button id="settings-toggle" class="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settings-panel">⚙️</button>
                 <div id="settings-panel" class="settings-panel" hidden>
                     <h2>Settings</h2>
+                    <section class="offline-readiness" aria-labelledby="offline-readiness-title">
+                        <h3 id="offline-readiness-title">Offline use</h3>
+                        <p id="offline-data-status" class="offline-data-status" role="status" aria-live="polite">Checking offline files…</p>
+                        <button id="offline-data-retry" class="check-updates-button" type="button">Check / download offline files</button>
+                        <button id="offline-app-reload" class="check-updates-button" type="button" hidden>Reload app to retry initialization</button>
+                        <p id="offline-storage-status" class="offline-storage-status" role="status" aria-live="polite"></p>
+                    </section>
                     <button id="check-updates-button" class="check-updates-button" type="button">Check for updates and install</button>
                     <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
                     <button id="open-help-button" class="check-updates-button" type="button" style="margin-top: 8px;">User Guide</button>
@@ -226,8 +230,20 @@
             <p id="aircraft-change-message">You are switching between two different aircraft types. Performance data and calculations are aircraft-specific. Are you absolutely sure you want to continue?</p>
         </div>
         <div class="aircraft-change-actions">
-            <button type="button" class="aircraft-change-cancel" onclick="cancelAircraftTypeChange()">Cancel</button>
-            <button type="button" class="aircraft-change-confirm" onclick="confirmAircraftTypeChange()">Yes, switch aircraft</button>
+            <button type="button" class="aircraft-change-cancel" data-action-click="cancelAircraftTypeChange">Cancel</button>
+            <button type="button" class="aircraft-change-confirm" data-action-click="confirmAircraftTypeChange">Yes, switch aircraft</button>
+        </div>
+    </dialog>
+    <dialog id="next-leg-dialog" class="aircraft-change-dialog next-leg-dialog" aria-labelledby="next-leg-title">
+        <h2 id="next-leg-title">Start next leg?</h2>
+        <p>Review the new leg before continuing:</p>
+        <dl id="next-leg-summary"></dl>
+        <p>Review both masses for the new flight, including fuel and load changes. The landing default is not a fuel-burn calculation.</p>
+        <p>Runway and intersection selections will be cleared. Review both carried-forward RWCC values for the selected runways and current conditions. METARs will refresh on both pages. Other conditions and aircraft settings remain unchanged; review them before use. If a METAR is unavailable, weather inputs may retain previous values.</p>
+        <p id="next-leg-error" class="next-leg-error" role="alert" hidden></p>
+        <div class="aircraft-change-actions">
+            <button type="button" class="next-leg-cancel" data-action-click="cancelNextLeg">No</button>
+            <button type="button" id="next-leg-confirm" class="next-leg-confirm" data-action-click="confirmNextLeg">Yes, start next leg</button>
         </div>
     </dialog>
     <dialog id="app-update-dialog" class="app-update-dialog" aria-labelledby="app-update-title" aria-describedby="app-update-message">
@@ -270,6 +286,12 @@
                     <h3>Overview</h3>
                     <p>The Jonair Performance EFB is a digital performance tool for <strong>King Air 200 (BE20)</strong>, <strong>Beechcraft 1900C (B190)</strong> and <strong>Cessna Citation 560XL (C56X)</strong>. All calculations are performed locally on the unit using the aircraft's verified performance engine — no data is sent to any server.</p>
                     <p>The app operates fully offline once installed as a PWA (Progressive Web App). Performance data is based on EASA Performance Class A regulations.</p>
+                    <div class="help-note help-note--warn">
+                        <strong>Before relying on offline calculations:</strong> Open Settings while online and use <em>Check / download offline files</em>. Wait until the status confirms the files are ready, then confirm the app can initialize and calculate. If prompted, use <em>Reload app to retry initialization</em>. METAR and update checks still need internet.
+                    </div>
+                    <div class="help-note help-note--warn">
+                        <strong>How to read results:</strong> When all displayed performance checks are complete and none is red, the app indicates that the selected aircraft and entered conditions meet its calculated performance limits. Make sure the correct aircraft is selected and all required results and inputs are present before relying on the indication.
+                    </div>
                     <p>Your last-used tab, form inputs, airport selections and most recently fetched METARs are saved locally and restored on your next visit.</p>
                     <div class="help-note help-note--info">
                         <strong>&#128225; Internet required for:</strong> Fetching live METAR data and checking for app updates. All performance calculations work without an internet connection.
@@ -293,6 +315,7 @@
                     <div class="help-note help-note--warn">
                         <strong>&#9888;&#65039; Type change warning:</strong> Switching aircraft types triggers a confirmation dialog. Performance data and limits are aircraft-specific. C56X RCC take-off distances use the dry field-length charts for Flaps 7/15 and anti-ice ON/OFF, then apply the selected RCC factor. Reversers are not credited in this calculation.
                     </div>
+                    <p>In the confirmation dialog, choose <strong>Cancel</strong> to keep the current aircraft and close the warning, or <strong>Yes, switch aircraft</strong> to load the selected registration's performance data. The app reloads after the switch; verify the registration shown in the header before using results.</p>
                     <p>Your last-used registration is saved locally and restored automatically on the next visit.</p>
                 </section>
 
@@ -366,7 +389,7 @@
                                 <li><span style="color:#d29922">Amber</span> — 35–60 minutes old (use with caution)</li>
                                 <li><span style="color:#f85149">Red</span> — unavailable or older than 60 minutes</li>
                             </ul>
-                            When a valid METAR loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. Press <strong>Update</strong> to manually re-fetch.
+                            When a valid METAR with wind in kt loads, Wind Direction, Wind Spd, OAT and QNH are filled automatically. If wind is reported in m/s, the weather fields are left unchanged; enter wind manually in kt. Press <strong>Update</strong> to manually re-fetch.
                         </dd>
 
                         <dt>Wind Direction (°)</dt>
@@ -418,13 +441,13 @@
                                                     <dd>Set to <strong>YES</strong> when Type II, III or IV anti-icing fluid has been applied. Per AFM, take-off field length on dry, wet and contaminated runways is multiplied by <strong>1.15</strong>; Flaps 7° is recommended. Type I fluid needs no correction — leave on NO.</dd>
 
                                                     <dt>Max take-off mass, current setup</dt>
-                                                    <dd>The card under the mass slider shows the highest mass (50 lb steps) that satisfies <em>all</em> take-off limits for the current airport, runway, weather, flaps, anti-ice, RWCC (and for C56X reversers and deice): TORA/TODA/ASDA, OEI climb gradient and speeds. It also shows the margin to the selected mass (green = selected mass OK, red = exceeds). It does not move the slider. "Not available" or "None" means no mass in range fits, or an input is missing.</dd>
+                                                    <dd>The card under the mass slider searches in 50 lb steps for the highest mass within the aircraft's available range that meets the calculated take-off limits for the current airport/runway, weather, flaps, anti-ice and RWCC; for C56X it also uses reverser and deice selections. It checks TORA/TODA/ASDA, OEI climb gradient and speeds. It shows the margin to the selected mass and does not move the slider. "Not available" or "None" is not an approval: it can mean no mass in range meets the limits or required input/performance data is missing. Check the inputs and individual result cards.</dd>
                                                 </dl>
 
                                                 <h4>Take-off Result Cards</h4>
                     <dl class="help-dl">
                         <dt>V1 / VR / V2</dt>
-                        <dd>Decision speed, rotation speed and take-off safety speed (KIAS). For C56X, V1 includes the runway-gradient correction; the next more conservative published slope step is used where applicable, and downhill uses the SHADED correction. Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
+                        <dd>Decision speed, rotation speed and take-off safety speed (KIAS). For C56X, V1 includes the correction for the last reached runway-slope threshold; intermediate slopes are not interpolated. If corrected V1 exceeds VR, V1 is limited to VR and a notice is shown. Use these values for the briefed conditions. Never depart with a different mass or configuration.</dd>
 
                         <dt>Takeoff distances</dt>
                         <dd><span style="color:#3fb950">Within limits</span> — all of TOR, TOD and ASD fit within the runway. <span style="color:#f85149">Exceeded</span> — at least one limit is breached. Take-off must not proceed. For C56X the text shows how the distance is built, e.g. <em>TKOF 1,633 m (1.11 perf × 1.11 RWCC × 1.00 fluid = 1.23) · Within limits</em>: dry-chart distance × performance factor × RWCC factor × deice-fluid factor.</dd>
@@ -456,7 +479,8 @@
                     <p>Calculates required landing distances under EASA CAT rules.</p>
 
                     <h4>Airport &amp; Weather Card</h4>
-                    <p>Identical fields to the Take-off tab, but for the destination airport and arrival conditions. The landing ICAO/runway are stored independently from the take-off values.</p>
+                    <p>Identical fields to the Take-off tab, but for the destination airport and arrival conditions. The landing airport, runway and weather are stored independently from the take-off values. METAR auto-fetch or pressing <strong>Update</strong> overwrites manually entered weather fields; re-enter any manual corrections afterwards.</p>
+                    <p>After a METAR is fetched, the runway suggestion may show runways ordered by headwind component. Select <strong>Use RWY</strong> to load a suggested runway, then verify it against the actual wind and operational conditions. It is a wind-based aid, not a substitute for runway selection by the pilot.</p>
 
                     <h4>Setup &amp; Mass Card</h4>
                     <dl class="help-dl">
@@ -468,6 +492,9 @@
 
                         <dt>Runway Condition Code (RWCC)</dt>
                         <dd>Same GRF code applied to the landing runway. A lower code significantly increases required landing distance.</dd>
+
+                        <dt>Start next leg</dt>
+                        <dd>Review and confirm a return leg: the current landing airport becomes the departure, the previous departure becomes the destination, landing mass carries forward to take-off, and landing mass resets to the aircraft default. RWCC values follow their respective airports to the other page. Runways are cleared and both METARs refresh. Review masses, weather, runway conditions and configuration for the new flight; no fuel burn is calculated.</dd>
                     </dl>
 
                     <h4>Landing Result Cards</h4>
@@ -533,14 +560,14 @@
                     <div class="help-note help-note--info">
                         The visualization is a schematic aid only. Always use the numerical values for operational decisions.
                     </div>
-                    <p>The graphic updates live: the bar and markers slide to their new position whenever airport, runway, weather or setup changes. The runway suggestion in the Airport &amp; Weather card (see Airport &amp; Weather, <em>Runway suggestion</em>) is based on the METAR headwind component per runway.</p>
+                    <p>The graphic updates live: the bar and markers slide to their new position whenever airport, runway, weather or setup changes. The runway suggestion in the Airport &amp; Weather card (see Airport &amp; Weather, <em>Runway suggestion</em>) is based on the METAR headwind component per runway and appears on both tabs.</p>
                 </section>
 
                 <section id="help-saved">
                     <h3>Saved Data</h3>
                     <p>The app stores your inputs on this device so they are there when you reopen it:</p>
                     <ul>
-                        <li><strong>Airport &amp; Weather</strong> and <strong>Setup &amp; Mass</strong> cards on <em>both</em> the Take-off and Landing tabs: airport, runway, intersection, wind, OAT, QNH, mass, flaps, anti-ice, RWCC, reversers and deice are saved separately per aircraft type.</li>
+                        <li><strong>Airport &amp; Weather</strong> and <strong>Setup &amp; Mass</strong> cards on <em>both</em> the Take-off and Landing tabs: airport, runway, intersection, wind, OAT, QNH, mass, flaps, anti-ice, RWCC, reversers and deice are saved separately for take-off and landing and per aircraft type. A new METAR fetch overwrites manually entered wind, OAT and QNH.</li>
                         <li>The last METAR for each airport is kept, and its age is recalculated on restore (so it turns amber/red as time passes).</li>
                         <li>Selected registration, active tab, and custom airports.</li>
                     </ul>
@@ -573,7 +600,7 @@
 
                 <section id="help-rwcc">
                     <h3>Runway Condition Code (GRF/RWCC)</h3>
-                    <p>The Global Reporting Format defines 6 runway condition codes. Obtain the current code from ATIS, SNOWTAM or ATC.</p>
+                    <p>The Global Reporting Format defines 6 runway condition codes. Obtain the current code from ATIS, SNOWTAM or ATC. A green result confirms only that the app's displayed checks pass for the entered code and other inputs; it does not replace verifying runway conditions and applicable operational requirements.</p>
                 </section>
 
                 <section id="help-eop">
@@ -621,12 +648,13 @@
 
     <!-- Fliknavigering -->
     <nav id="app-tabs" class="tabs" style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <button class="tab-btn active" onclick="switchTab('takeoff', event)" style="flex: 1; padding: 10px; background: #21262d; color: #fff; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Take-off</button>
-        <button id="landing-tab-button" class="tab-btn" onclick="switchTab('landing', event)" style="flex: 1; padding: 10px; background: #161b22; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Landing</button>
+        <button class="tab-btn active" data-action-click="switchTab:takeoff:$targetEvent" style="flex: 1; padding: 10px; background: #21262d; color: #fff; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Take-off</button>
+        <button id="landing-tab-button" class="tab-btn" data-action-click="switchTab:landing:$targetEvent" style="flex: 1; padding: 10px; background: #161b22; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; font-weight: 600; cursor: pointer;">Landing</button>
     </nav>
     <p id="airport-selection-error" role="alert" aria-live="assertive" hidden style="margin: 0 0 12px; padding: 8px 10px; color: #ff7b72; background: #3d1414; border: 1px solid #f85149; border-radius: 6px; font-size: 12px;"></p>
 
-    <main>
+    <p id="initialization-status" role="status">Loading performance data…</p>
+    <main hidden>
         <!-- TAKEOFF-FLIK -->
         <section id="page-takeoff" class="page active">
 
@@ -636,6 +664,12 @@
                 <div class="engine-out-box">
                                 <span class="engine-out-escape" id="row-to-escape"><strong id="res-to-escape" style="color: #fff;">-</strong></span>
                 </div>
+            </div>
+            <div id="to-oei-routing-warning" class="oei-warning-banner" role="alert" hidden>
+                <strong>Caution!</strong> Verify OEI Climb Gradient with SID or omnidirectional departure procedure.
+            </div>
+            <div id="to-anti-ice-oat-warning" class="oei-warning-banner" role="alert" hidden>
+                <strong>Performance caution!</strong> Set anti-ice to OFF; C56X performance data is unavailable above 10°C with anti-ice ON.
             </div>
 
             <!-- Topp-KPI Grid -->
@@ -689,7 +723,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="to-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'to')" onkeydown="handleAirportIcaoKeydown(event, 'to-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'to-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="to-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="to-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" data-action-input="handleAirportIcaoInput:$value:to" data-action-keydown="handleAirportIcaoKeydown:$event:to-airport-icao" data-action-focus="selectText:$element;showAirportIcaoSuggestions:$value:to-airport-icao" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <span class="custom-airport-badge" hidden>CUSTOM</span>
                                     <div class="icao-suggestions" id="to-icao-suggestions" role="listbox" hidden></div>
                                 </div>
@@ -698,7 +732,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="to-airport-rwy" onchange="handleAirportRunwayChange(this.value, 'to')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-airport-rwy" data-action-change="handleAirportRunwayChange:$value:to" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="">Enter an ICAO code first</option>
                                 </select>
                             </td>
@@ -706,7 +740,7 @@
                         <tr id="to-intersection-row" style="border-bottom: 1px solid #21262d;" hidden>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Intersection:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="to-airport-intersection" onchange="handleAirportIntersectionChange(this.value, 'to')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
+                                <select class="form-control" id="to-airport-intersection" data-action-change="handleAirportIntersectionChange:$value:to" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;"></select>
                             </td>
                         </tr>
                         <tr hidden style="border-bottom: 1px solid #21262d;">
@@ -725,10 +759,11 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForSelectedAirport('to')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button data-action-click="fetchMetarForSelectedAirport:to" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <!-- Ej editerbar textrad utan box med färgning enligt regel -->
                                 <span id="to-metar-display" class="metar-display-line">-</span>
+                                <span id="to-metar-weather-status" class="metar-weather-status" role="status" aria-live="polite" hidden></span>
                             </td>
                         </tr>
                         
@@ -736,28 +771,28 @@
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-wind-dir" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windDir', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-wind-dir" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windDir:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- Wind Speed (C7) -->
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-wind-spd" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'windSpeed', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" min="0" inputmode="decimal" class="form-control" id="to-wind-spd" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windSpeed:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- OAT (C8) -->
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-oat" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'oat', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-oat" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:oat:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- QNH (C9) -->
 <tr>
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-qnh" onfocus="this.select()" oninput="handleManualWeatherInput('takeoff', 'qnh', this)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="decimal" class="form-control" id="to-qnh" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:qnh:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
                     </table>
@@ -775,7 +810,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range mass-slider" id="to-mass" min="9200" max="12500" step="50" value="12500" oninput="handleTakeoffMass(this.value)">
+                                <input type="range" class="form-range mass-slider" id="to-mass" min="9200" max="12500" step="50" value="12500" data-action-input="handleTakeoffMass:$value">
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
@@ -790,7 +825,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-flaps" onchange="handleTakeoffFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-flaps" data-action-change="handleTakeoffFlaps:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="UP">Flaps Up</option>
                                     <option value="APP">Approach</option>
                                 </select>
@@ -799,7 +834,7 @@
                         <tr id="to-anti-ice-row" style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Engine Anti-Ice</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-anti-ice" onchange="handleTakeoffAntiIce(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-anti-ice" data-action-change="handleTakeoffAntiIce:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="OFF" selected>OFF</option>
                                     <option value="ON">ON</option>
                                 </select>
@@ -808,7 +843,7 @@
                         <tr id="to-reversers-row" hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Reversers</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-reversers" onchange="handleTakeoffReversers(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-reversers" data-action-change="handleTakeoffReversers:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="AVAILABLE" selected>Available</option>
                                     <option value="INOP">INOP</option>
                                 </select>
@@ -817,7 +852,7 @@
                         <tr id="to-rwcc-row" style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-rwcc" onchange="handleTakeoffRwcc(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-rwcc" data-action-change="handleTakeoffRwcc:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -830,7 +865,7 @@
                         <tr id="to-deice-row" hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Type II/III/IV Deice Fluid applied</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-deice" onchange="handleTakeoffDeice(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-deice" data-action-change="handleTakeoffDeice" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="NO" selected>NO</option>
                                     <option value="YES">YES</option>
                                 </select>
@@ -839,7 +874,7 @@
                         <tr id="to-technique-row" hidden style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Take-off technique</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="to-technique" onchange="updateEngineCellVal('takeoff', 'technique', this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="to-technique" data-action-change="updateEngineCellVal:takeoff:technique:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="Static T/O power">Static T/O power</option>
                                     <option value="Rolling take off">Rolling take off</option>
                                 </select>
@@ -851,7 +886,7 @@
 
             <!-- Startbana / Take-off vy -->
             <div id="takeoff-runway-visualization" class="card" style="width: 100%; box-sizing: border-box; margin-bottom: 16px;">
-              <h3 id="takeoff-runway-visualization-title">Runway visualization</h3>
+              <h3 id="takeoff-runway-visualization-title">Runway Visualization</h3>
              <!-- <div id="tora-label" style="font-size: 12px; color: #8b949e; margin-bottom: 5px;">TORA: - m</div> -->
               
               <div class="runway-container">
@@ -892,7 +927,7 @@
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>4. Single value of V1 used (C38: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
+                    <span>4. Single value of V1 used: <strong id="check-v1-val" style="color: #fff;">-</strong>):</span>
                     <span id="badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                 </div>
 
@@ -921,11 +956,11 @@
                         <span id="c56x-badge-asda" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                        <span>4. Single value of V1 used (<strong id="c56x-v1-check" style="color: #fff;">-</strong>): <span id="c56x-v1-correction">V1 correction applied: -</span></span>
+                        <span>4. V1 / VR check (<strong id="c56x-v1-check" style="color: #fff;">-</strong>): <span id="c56x-v1-correction">V1 correction applied: -</span></span>
                         <span id="c56x-badge-v1" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · RCC-adjusted dry <strong id="c56x-compare-rcc">-</strong></span>
+                        <span id="c56x-wet-mass-limit-label">5. Wet/Contam runway mass limit check: Dry <strong id="c56x-compare-dry">-</strong> · WET/Contaminated <strong id="c56x-compare-rcc">-</strong></span>
                         <span id="c56x-badge-mass-limit" style="font-weight: 600; padding: 2px 6px; border-radius: 4px; background: rgba(46, 160, 67, 0.15); color: #3fb950;">OK</span>
                     </div>
                 </div>
@@ -978,6 +1013,9 @@
                 Landing mass is above the maximum design landing weight of 18,700 lb. These figures are provided only for an emergency that requires landing above 18,700 lb. Do not plan a normal landing at this weight; refer to the Abnormal/Emergency procedures.
             </div>
             <div id="ldg-max-weight-warning" class="ldg-warning-banner" role="alert" hidden></div>
+            <div id="ldg-anti-ice-oat-warning" class="oei-warning-banner" role="alert" hidden>
+                <strong>Performance caution!</strong> Set anti-ice to OFF; C56X performance data is unavailable above 10°C with anti-ice ON.
+            </div>
 
             
             <!-- Inmatningskorten för Landing -->
@@ -992,7 +1030,7 @@
                             <td class="col-label" style="width: 35%; padding: 8px 0; color: #c9d1d9; font-size: 12px;">ICAO:</td>
                             <td style="padding: 8px 0;">
                                 <div class="icao-autocomplete">
-                                    <input class="form-control" id="ldg-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" oninput="handleAirportIcaoInput(this.value, 'ldg')" onkeydown="handleAirportIcaoKeydown(event, 'ldg-airport-icao')" onfocus="this.select(); showAirportIcaoSuggestions(this.value, 'ldg-airport-icao')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                    <input class="form-control" id="ldg-airport-icao" type="text" inputmode="text" autocapitalize="characters" spellcheck="false" maxlength="4" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="ldg-icao-suggestions" aria-expanded="false" aria-label="Search airport by ICAO code" data-action-input="handleAirportIcaoInput:$value:ldg" data-action-keydown="handleAirportIcaoKeydown:$event:ldg-airport-icao" data-action-focus="selectText:$element;showAirportIcaoSuggestions:$value:ldg-airport-icao" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <span class="custom-airport-badge" hidden>CUSTOM</span>
                                     <div class="icao-suggestions" id="ldg-icao-suggestions" role="listbox" hidden></div>
                                 </div>
@@ -1001,7 +1039,7 @@
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">RWY:</td>
                             <td style="padding: 8px 0;">
-                                <select class="form-control" id="ldg-airport-rwy" onchange="handleLandingAirportRunwayChange(this.value, 'ldg')" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-airport-rwy" data-action-change="handleLandingAirportRunwayChange:$value:ldg" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="">Enter an ICAO code first</option>
                                 </select>
                             </td>
@@ -1018,27 +1056,28 @@
                             <td colspan="2" style="padding: 8px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
                                     <span style="color: #c9d1d9; font-size: 12px;">METAR:</span>
-                                    <button onclick="fetchMetarForSelectedAirport('ldg')" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
+                                    <button data-action-click="fetchMetarForSelectedAirport:ldg" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 3px 8px; border-radius: 4px; font-size: 11px; cursor: pointer;">Update</button>
                                 </div>
                                 <span id="ldg-metar-display" class="metar-display-line">-</span>
+                                <span id="ldg-metar-weather-status" class="metar-weather-status" role="status" aria-live="polite" hidden></span>
                             </td>
                         </tr>
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-dir" oninput="handleManualWeatherInput('landing', 'windDir', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-dir" data-action-input="handleManualWeatherInput:landing:windDir:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-spd" oninput="handleManualWeatherInput('landing', 'windSpeed', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" min="0" inputmode="decimal" class="form-control" id="ldg-wind-spd" data-action-input="handleManualWeatherInput:landing:windSpeed:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-oat" oninput="handleManualWeatherInput('landing', 'oat', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-oat" data-action-input="handleManualWeatherInput:landing:oat:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-qnh" oninput="handleManualWeatherInput('landing', 'qnh', this)" onfocus="this.select()" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-qnh" data-action-input="handleManualWeatherInput:landing:qnh:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                     </table>
                 </div>
@@ -1055,13 +1094,13 @@
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td colspan="2" style="padding: 0 0 10px;">
-                                <input type="range" class="form-range mass-slider" id="ldg-mass" min="9000" max="12500" step="50" value="12500" oninput="handleLandingMass(this.value)">
+                                <input type="range" class="form-range mass-slider" id="ldg-mass" min="9000" max="12500" step="50" value="12500" data-action-input="handleLandingMass:$value">
                             </td>
                         </tr>
                         <tr id="ldg-flaps-row" style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Flaps setting</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="ldg-flaps" onchange="handleLandingFlaps(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-flaps" data-action-change="handleLandingFlaps" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="UP">UP</option>
                                     <option value="DOWN" selected>DOWN</option>
                                 </select>
@@ -1070,7 +1109,7 @@
                         <tr id="ldg-anti-ice-row" style="border-bottom: 1px solid #21262d;" hidden>
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Anti-ice</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="ldg-anti-ice" onchange="handleLandingAntiIce(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-anti-ice" data-action-change="handleLandingAntiIce" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="OFF" selected>OFF</option>
                                     <option value="ON">ON</option>
                                 </select>
@@ -1079,7 +1118,7 @@
                         <tr id="ldg-reversers-row" style="border-bottom: 1px solid #21262d;" hidden>
                             <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Reversers</td>
                             <td style="padding: 10px 0;">
-                                <select class="form-control" id="ldg-reversers" onchange="handleLandingReversers(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
+                                <select class="form-control" id="ldg-reversers" data-action-change="handleLandingReversers" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px;">
                                     <option value="AVAILABLE" selected>Available</option>
                                     <option value="INOP">INOP</option>
                                 </select>
@@ -1088,7 +1127,7 @@
                                 <tr style="border-bottom: 1px solid #21262d;">
                                     <td class="col-label" style="padding: 10px 0; color: #c9d1d9; font-size: 12px;">Runway Condition Code</td>
                                     <td style="padding: 10px 0;">
-                                        <select class="form-control" id="ldg-rwcc" onchange="handleLandingRwcc(this.value)" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
+                                        <select class="form-control" id="ldg-rwcc" data-action-change="handleLandingRwcc:$value" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; cursor: pointer;">
                                             <option value="6" selected>6</option>
                                             <option value="5">5</option>
                                             <option value="4">4</option>
@@ -1099,6 +1138,7 @@
                                     </td>
                                 </tr>
                     </table>
+                    <button type="button" id="start-next-leg" class="start-next-leg" data-action-click="showNextLeg">Start next leg <span aria-hidden="true">→</span></button>
                 </div>
             </div>
 
@@ -1133,22 +1173,13 @@
 
             <!-- Resultatbox för Landing -->
             <div style="background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 12px; font-size: 12px; color: #c9d1d9; display: flex; flex-direction: column; gap: 8px;">
-                <div style="font-weight: 600; color: #fff; margin-bottom: 4px; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Beräknat Resultat</div>
                 
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>LDA (C18):</span>
+                    <span>LDA:</span>
                     <strong id="res-ldg-lda" style="color: #fff;">-</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>H/T Vind (C21):</span>
-                    <strong id="res-ldg-hwtw" style="color: #fff;">-</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>Sidvind / Limit (C22 / G22):</span>
-                    <span><strong id="res-ldg-xw" style="color: #fff;">-</strong> / <span id="res-ldg-xwlimit">-</span></span>
-                </div>
                 <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
-                    <span>Missed Approach Climb (C31):</span>
+                    <span>Missed Approach Climb:</span>
                     <strong id="res-ldg-missed" style="color: #fff;">-</strong>
                 </div>
                 <div class="ldg-excel-only" style="display: flex; justify-content: space-between; border-bottom: 1px solid #21262d; padding-bottom: 6px;">
@@ -1187,6 +1218,6 @@
         </section>
     </main>
 
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
