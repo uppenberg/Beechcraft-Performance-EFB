@@ -139,7 +139,13 @@ for (const aircraft of aircraftCases) {
   });
 }
 
-test('emergency return shows alternate and partial-configuration warnings against LDA', async ({ page }) => {
+test('emergency return shows alternate and partial-configuration warnings against LDA', {
+  annotation: [
+    { type: 'catalog-input', description: 'BE20 nödreturkort med två beräknade klaffdistanser och en given tillgänglig landningsdistans.' },
+    { type: 'catalog-pass', description: 'När ingen distans ryms är kortet amber och visar Use takeoff alternate. När en av två ryms är kortet amber och visar Only 1/2 settings within LDA.' },
+    { type: 'catalog-purpose', description: 'Verifierar tydliga varningar för ingen eller partiell nödreturskapacitet mot LDA.' },
+  ],
+}, async ({ page }) => {
   await openApp(page, 'SE-LTL');
   const status = page.locator('#emergency-return-status');
   const card = page.locator('#card-emergency-return');
