@@ -462,7 +462,7 @@
                         <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red indicates that the crosswind limit is exceeded, tailwind exceeds 10 kt, or the displayed METAR reports wind or gusts above 45 kt. <span style="color:#d29922">Amber</span> indicates tailwind of 10 kt or less. Check the resulting distances.</dd>
 
                         <dt>EMG RETURN — VREF / LD</dt>
-                        <dd>Reference speeds and landing distances for a return to the departure runway. “Within LDA” means the calculated landing distance fits the available landing distance for that runway direction, including after an intersection take-off. BE20 and B190 show flaps UP and DOWN. C56X shows flaps 35°. Assess other landing limits using the applicable emergency procedure.</dd>
+                        <dd>Reference speeds and landing distances for a return to the departure runway. “Within LDA” means the calculated landing distance fits the available landing distance for that runway direction, including after an intersection take-off. Green means every shown flap setting fits. Amber means some or none fit. The amber message identifies whether only some settings fit or a take-off alternate is needed. BE20 and B190 show flaps UP and DOWN. C56X shows flaps 35°. Assess other landing limits using the applicable emergency procedure.</dd>
                     </dl>
 
                     <h4>EASA Class A Checklist</h4>
@@ -706,10 +706,10 @@
 
                 <!-- Emergency Return KPI-kort -->
                 <div id="card-emergency-return" class="runway-exceedance-card" style="padding: 10px;">
-                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">EMG RETURN — VREF / LD</div>
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">EMG RETURN - VREF/LD</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff; display: flex; flex-direction: column; gap: 2px;">
                         <div id="emergency-return-up-row"><span id="emergency-return-up-label">UP</span>: <span id="res-to-emup-vref">-</span> / <span id="res-to-emup-dist">--</span> m</div>
-                        <div id="emergency-return-down-row"><span id="emergency-return-down-label">DOWN</span>: <span id="res-to-emdown-vref">-</span> / <span id="res-to-emdown-dist">--</span> m</div>
+                        <div id="emergency-return-down-row"><span id="emergency-return-down-label">DN</span>: <span id="res-to-emdown-vref">-</span> / <span id="res-to-emdown-dist">--</span> m</div>
                     </div>
                     <div id="emergency-return-status" class="runway-exceedance-status" style="margin-top: 4px;">Return check unavailable</div>
                 </div>

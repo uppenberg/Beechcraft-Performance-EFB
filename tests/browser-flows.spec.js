@@ -94,6 +94,10 @@ for (const aircraft of aircraftCases) {
     const status = page.locator('#emergency-return-status');
     const returnCard = page.locator('#card-emergency-return');
     await expect(status).toContainText('Within LDA');
+    await expect(returnCard).toHaveClass(/is-within-limits/);
+    if (aircraft.model !== 'C56X') {
+      await expect(page.locator('#emergency-return-down-label')).toHaveText('DN');
+    }
     const fullRunwayResult = await returnCard.innerText();
     // WH has a different departure slope and no LDA. Landing uses the 22R threshold.
     await page.locator('#to-airport-intersection').selectOption('WH');
@@ -134,6 +138,30 @@ for (const aircraft of aircraftCases) {
     await expect(page.locator('#ldg-wind-dir')).toHaveValue('360');
   });
 }
+
+test('emergency return shows alternate and partial-configuration warnings against LDA', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const status = page.locator('#emergency-return-status');
+  const card = page.locator('#card-emergency-return');
+
+  await page.evaluate(() => {
+    BeechcraftApp.results.updateEmergencyReturnCard([
+      { label: 'UP', vref: 90, distance: 1200 },
+      { label: 'DOWN', vref: 90, distance: 1400 },
+    ], 1000);
+  });
+  await expect(status).toHaveText('Use takeoff alternate');
+  await expect(card).toHaveClass(/is-warning/);
+
+  await page.evaluate(() => {
+    BeechcraftApp.results.updateEmergencyReturnCard([
+      { label: 'UP', vref: 90, distance: 900 },
+      { label: 'DOWN', vref: 90, distance: 1400 },
+    ], 1000);
+  });
+  await expect(status).toHaveText('Only 1/2 settings within LDA');
+  await expect(card).toHaveClass(/is-warning/);
+});
 
 for (const aircraft of aircraftCases) {
   test(`${aircraft.model}: startup, takeoff/landing calculation and runway limits`, async ({ page }) => {

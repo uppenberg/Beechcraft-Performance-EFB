@@ -83,10 +83,12 @@ test('C56X takeoff and landing use each table minimum below its temperature rang
   for (const field of ['v1', 'vr', 'v2']) expect(result.takeoffSpeedsAtFloor?.[field]).toBeGreaterThan(0);
   expect(result.takeoffBelowFloor).toEqual(result.takeoffAtFloor);
   expect(result.takeoffSpeedsBelowFloor).toEqual(result.takeoffSpeedsAtFloor);
-  expect(result.landingWeightAtFloor.maxLandingWeight.figure443Lb).not.toBeNull();
+  expect(Number.isFinite(result.landingWeightAtFloor.maxLandingWeight.figure443Lb)).toBe(true);
+  expect(result.landingWeightAtFloor.maxLandingWeight.figure443Lb).toBeGreaterThan(0);
   expect(result.landingWeightBelowFloor.maxLandingWeight.figure443Lb)
     .toBe(result.landingWeightAtFloor.maxLandingWeight.figure443Lb);
-  expect(result.landingAtFloor.distanceFt).not.toBeNull();
+  expect(Number.isFinite(result.landingAtFloor.distanceFt)).toBe(true);
+  expect(result.landingAtFloor.distanceFt).toBeGreaterThan(0);
   expect(result.landingAtFloor.vref).toBeGreaterThan(0);
   expect(result.landingAtFloor.vapp).toBeGreaterThan(0);
   expect(result.landingBelowFloor.distanceFt).toBe(result.landingAtFloor.distanceFt);

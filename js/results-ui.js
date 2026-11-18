@@ -127,14 +127,15 @@ export function updateEmergencyReturnCard(options, landingDistanceAvailable) {
   let message = 'Return check unavailable';
   if (complete && withinCount === results.length) {
     state = 'is-within-limits';
-    message = `Within LDA (${withinCount}/${results.length} settings)`;
+    message = `Within LDA (${withinCount}/${results.length})`;
   } else if (complete && withinCount === 0) {
-    state = 'is-exceeded';
+    state = 'is-warning';
     message = 'Use takeoff alternate';
   } else if (complete) {
+    state = 'is-warning';
     message = `Only ${withinCount}/${results.length} settings within LDA`;
   }
-  card.classList.remove('is-within-limits', 'is-exceeded', 'is-missing-data');
+  card.classList.remove('is-within-limits', 'is-exceeded', 'is-missing-data', 'is-warning');
   card.classList.add(state);
   status.textContent = message;
 }

@@ -402,7 +402,7 @@ function updateWorkbookEmergencyReturn() {
   // Read them at the landing threshold, then restore the selected departure intersection.
   const readOptions = () => [
     { label: 'UP', vref: getOutputVal(sheetName, outputs.emUpVref, false), distance: getOutputVal(sheetName, outputs.emUpDist, false) },
-    { label: 'DOWN', vref: getOutputVal(sheetName, outputs.emDownVref, false), distance: getOutputVal(sheetName, outputs.emDownDist, false) },
+    { label: 'DN', vref: getOutputVal(sheetName, outputs.emDownVref, false), distance: getOutputVal(sheetName, outputs.emDownDist, false) },
   ];
   try {
     const options = withWorkbookCellValues(AppState.hfInstance.getSheetId(sheetName), runwayInputs, readOptions);
