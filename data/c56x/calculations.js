@@ -26,6 +26,18 @@ function interpolateC56xTakeoffAxis(points, target, getCoordinate, getValue) {
     return null;
 }
 
+function interpolateC56xTemperatureAxis(points, oatC, getValue, getTemperature = (row) => row.temp) {
+    if (!Number.isFinite(oatC) || !Array.isArray(points) || points.length === 0) return null;
+    const minimumTemperature = Math.min(...points.map(getTemperature));
+    if (!Number.isFinite(minimumTemperature)) return null;
+    return interpolateC56xTakeoffAxis(
+        points,
+        Math.max(oatC, minimumTemperature),
+        getTemperature,
+        getValue
+    );
+}
+
 // A wind cell is shaded in the AFM when it is stored under `<key>_shaded` instead of `<key>`.
 // Reading a shaded cell marks the tracker, so callers know the result depends on shaded data.
 function readC56xWindCell(temperatureRow, key, tracker) {
@@ -50,10 +62,9 @@ function interpolateC56xTakeoffTableDistance(rows, weightLb, oatC, headwindKnots
         (sample) => sample.knots,
         (sample) => readC56xWindCell(temperatureRow, sample.key, tracker)?.dist
     );
-    const interpolateTemperature = (weightRow) => interpolateC56xTakeoffAxis(
+    const interpolateTemperature = (weightRow) => interpolateC56xTemperatureAxis(
         weightRow.data,
         oatC,
-        (row) => row.temp,
         interpolateWind
     );
     return interpolateC56xTakeoffAxis(
@@ -422,10 +433,9 @@ function getC56xTakeoffSpeeds({
             rows,
             weightLb,
             (row) => row.weight,
-            (weightRow) => interpolateC56xTakeoffAxis(
+            (weightRow) => interpolateC56xTemperatureAxis(
                 weightRow.data,
                 oatC,
-                (row) => row.temp,
                 (temperatureRow) => valueKey === 'v1'
                     ? interpolateC56xTakeoffAxis(
                         windSamples,
@@ -527,10 +537,9 @@ function getC56xSecondSegmentClimbGradient({
             altitudeTable.rows,
             adjustedWeightLb,
             (row) => row.weight,
-            (weightRow) => interpolateC56xTakeoffAxis(
+            (weightRow) => interpolateC56xTemperatureAxis(
                 weightRow.temperatures,
                 oatC,
-                (row) => row.temp,
                 (temperatureRow) => interpolateC56xTakeoffAxis(
                     windSamples,
                     headwindKnots,

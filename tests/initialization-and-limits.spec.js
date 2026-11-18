@@ -244,3 +244,23 @@ test('C56X compares actual takeoff and landing distances before rounding their d
   expect(landing.exceeded.status).toContain('Exceeds LDA');
   expect(landing.within.marker).toBe(String(Math.ceil(landing.raw)));
 });
+
+test('C56X maximum takeoff mass recovers after clearing and restoring QNH', async ({ page }) => {
+  await openApp(page, 'SE-RIJ');
+  await chooseAirport(page, 'to', 'ESSA', '01L');
+  await fillWeather(page, 'to', { speed: '0', oat: '0', qnh: '1013.25' });
+  const mass = page.locator('#max-to-mass-val');
+  const margin = page.locator('#max-to-mass-margin');
+  const card = page.locator('#max-to-mass-card');
+  await expect(mass).toHaveText(/[\d,]+ lbs$/);
+  const originalMass = await mass.textContent();
+  const originalMargin = await margin.textContent();
+  await page.locator('#to-qnh').fill('');
+  await expect(card).toHaveClass(/is-missing-data/);
+  await expect(mass).toContainText('Required data missing');
+  await expect(margin).toBeEmpty();
+  await page.locator('#to-qnh').fill('1013.25');
+  await expect(mass).toHaveText(originalMass);
+  await expect(margin).toHaveText(originalMargin);
+  await expect(card).not.toHaveClass(/is-missing-data/);
+});

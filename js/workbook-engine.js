@@ -261,14 +261,19 @@ export function updateC56xLanding() {
   renderLandingChart(requiredDistanceM, requiredDistanceM, ldaM);
 }
 
-export function handleTakeoffMass(val) {
-  const span = document.getElementById('to-mass-val');
-  if (span) span.innerText = val;
-  updateEngineCellVal('takeoff', 'mass', Number(val));
+function updateTakeoffInput(field, value) {
   if (isC56xSelected()) {
     updateMaxTakeoffMass();
     updateC56xTakeoffFieldLength();
+    return;
   }
+  updateEngineCellVal('takeoff', field, value);
+}
+
+export function handleTakeoffMass(val) {
+  const span = document.getElementById('to-mass-val');
+  if (span) span.innerText = val;
+  updateTakeoffInput('mass', Number(val));
 }
 
 export function handleLandingMass(val) {
@@ -280,19 +285,11 @@ export function handleLandingMass(val) {
 }
 
 export function handleTakeoffFlaps(val) {
-  updateEngineCellVal('takeoff', 'flaps', val);
-  if (isC56xSelected()) {
-    updateMaxTakeoffMass();
-    updateC56xTakeoffFieldLength();
-  }
+  updateTakeoffInput('flaps', val);
 }
 
 export function handleTakeoffAntiIce(val) {
-  updateEngineCellVal('takeoff', 'antiIce', val);
-  if (isC56xSelected()) {
-    updateMaxTakeoffMass();
-    updateC56xTakeoffFieldLength();
-  }
+  updateTakeoffInput('antiIce', val);
 }
 
 export function handleTakeoffReversers(val) {
@@ -314,12 +311,7 @@ export function handleTakeoffDeice() {
 }
 
 export function handleTakeoffRwcc(val) {
-  updateEngineCellVal('takeoff', 'rwcc', val);
-  if (typeof refreshOutputs === 'function') refreshOutputs();
-  if (isC56xSelected()) {
-    updateMaxTakeoffMass();
-    updateC56xTakeoffFieldLength();
-  }
+  updateTakeoffInput('rwcc', val);
 }
 
 export function handleLandingFlaps() { refreshOutputs(); }

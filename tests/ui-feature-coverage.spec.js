@@ -433,3 +433,47 @@ for (const item of [
     })) await expect(page.locator(`#${id}`), `${item.registration}: ${id}`).toHaveValue(value);
   });
 }
+
+test('imported horizontal INDEX recalculates when its source cell changes', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const values = await page.evaluate(() => {
+    const rows = BeechcraftApp.workbookData.worksheetToHyperFormulaData({
+      '!ref': 'A1:D1', A1: { v: 10 }, B1: { v: 20 }, C1: { v: 30 },
+      D1: { f: 'INDEX(A1:C1,2)' },
+    });
+    const engine = HyperFormula.buildFromArray(rows, { licenseKey: 'gpl-v3' });
+    const resultCell = { sheet: 0, row: 0, col: 3 };
+    try {
+      const before = engine.getCellValue(resultCell);
+      engine.setCellContents({ sheet: 0, row: 0, col: 1 }, [[25]]);
+      return [before, engine.getCellValue(resultCell)];
+    } finally {
+      engine.destroy();
+    }
+  });
+  expect(values).toEqual([20, 25]);
+});
+
+test('runway charts clear stale distances and restore markers when data returns', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const states = await page.evaluate(() => {
+    const { renderTakeoffChart, renderC56xTakeoffChart, renderLandingChart } = BeechcraftApp.results;
+    const state = (id, bar) => {
+      const marker = document.getElementById(id);
+      return [marker.hidden, marker.getAttribute('data-val'), document.getElementById(bar).style.width];
+    };
+    const scenarios = [
+      { draw: (d, r) => renderTakeoffChart(d, null, null, r, r, r), marker: 'tor-marker', bar: 'takeoff-used-runway' },
+      { draw: (d, r) => renderC56xTakeoffChart(d, r, null, null), marker: 'tor-marker', bar: 'takeoff-used-runway' },
+      { draw: (d, r) => renderLandingChart(d, d, r), marker: 'ldg-dist-down-marker', bar: 'landing-used-runway' },
+    ];
+    document.getElementById('ldg-flaps').value = 'DOWN';
+    return scenarios.map(({ draw, marker, bar }) => [[500, 1000], [null, 1000], [500, null], [0, 1000], [500, 1000]].map(([d, r]) => {
+      draw(d, r);
+      return state(marker, bar);
+    }));
+  });
+  for (const result of states) {
+    expect(result).toEqual([[false, '500', '50%'], [true, null, '0%'], [true, null, '0%'], [false, '0', '0%'], [false, '500', '50%']]);
+  }
+});

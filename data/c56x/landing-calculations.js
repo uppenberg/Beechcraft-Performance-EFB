@@ -22,10 +22,9 @@ function interpolateC56xLandingChart(altitudeTables, pressureAltitudeFt, weightL
             altitudeTable.weights,
             weightLb,
             (weightRow) => weightRow.weight,
-            (weightRow) => interpolateC56xTakeoffAxis(
+            (weightRow) => interpolateC56xTemperatureAxis(
                 weightRow.data,
                 oatC,
-                (row) => row.temp,
                 (temperatureRow) => interpolateC56xTakeoffAxis(
                     C56X_LANDING_WIND_SAMPLES,
                     windKnots,
@@ -130,10 +129,9 @@ function getC56xFigure443MaxLandingWeight({
         figure.altitudeTables,
         pressureAltitudeFt,
         (table) => table.altitudeFt,
-        (altitudeTable) => interpolateC56xTakeoffAxis(
+        (altitudeTable) => interpolateC56xTemperatureAxis(
             altitudeTable.rows,
             oatC,
-            (row) => row.temperatureC,
             (row) => interpolateC56xTakeoffAxis(
                 C56X_LANDING_WIND_SAMPLES,
                 windKnots,
@@ -149,7 +147,8 @@ function getC56xFigure443MaxLandingWeight({
                         return columnIndex < 0 ? null : row.maximumLandingWeightLbByColumn[columnIndex];
                     }
                 )
-            )
+            ),
+            (row) => row.temperatureC
         )
     );
     return weight === null ? null : Math.floor(weight);
@@ -160,10 +159,9 @@ function getC56xFigure442MaxLandingWeight({ pressureAltitudeFt, oatC }) {
         c56xFigure442LandingWeight.altitudeTables,
         pressureAltitudeFt,
         (table) => table.altitudeFt,
-        (altitudeTable) => interpolateC56xTakeoffAxis(
+        (altitudeTable) => interpolateC56xTemperatureAxis(
             altitudeTable.rows,
             oatC,
-            (row) => row.temp,
             (row) => row.maxLandingWeightLb
         )
     );
