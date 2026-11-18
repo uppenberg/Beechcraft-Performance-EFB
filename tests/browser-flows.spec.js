@@ -82,6 +82,55 @@ test('takeoff runway availability checks restore serialized workbook input cells
 });
 
 for (const aircraft of aircraftCases) {
+  test(`${aircraft.model}: emergency return uses full-runway LDA and validates wind direction`, async ({ page }) => {
+    await openApp(page, aircraft.registration);
+    await chooseAirport(page, 'to', 'EFHK', '22R');
+    await fillWeather(page, 'to', { direction: '220', speed: '8', oat: '10', qnh: '1013' });
+    const status = page.locator('#emergency-return-status');
+    const returnCard = page.locator('#card-emergency-return');
+    await expect(status).toContainText('Within LDA');
+    const fullRunwayResult = await returnCard.innerText();
+    // WH has a different departure slope and no LDA. Landing uses the 22R threshold.
+    await page.locator('#to-airport-intersection').selectOption('WH');
+    await expect(returnCard).toHaveText(fullRunwayResult, { useInnerText: true });
+    if (aircraft.model !== 'C56X') {
+      const slope = await page.evaluate(() => BeechcraftApp.workbookEngine.getOutputVal('Take-off', 'C17', false));
+      expect(slope).toBe(-0.45);
+    }
+
+    for (const [id, value] of [['wind-spd', '8'], ['oat', '0'], ['qnh', '1013']]) {
+      const field = page.locator(`#to-${id}`);
+      await field.fill('');
+      await expect(status).toHaveText('Return check unavailable');
+      await field.fill(value);
+      await expect(status).toContainText('Within LDA');
+    }
+
+    const direction = page.locator('#to-wind-dir');
+    for (const invalid of ['-1', '361']) {
+      await direction.fill(invalid);
+      await expect(direction).toHaveValue('');
+      await expect(status).toHaveText('Return check unavailable');
+      if (aircraft.model === 'C56X') await expect(page.locator('#res-to-v1')).toHaveText('-');
+    }
+    await page.locator('#to-wind-spd').fill('0');
+    await expect(status).toHaveText('Return check unavailable');
+    for (const boundary of ['0', '360']) {
+      await direction.fill(boundary);
+      await expect(status).toContainText('Within LDA');
+    }
+    await page.locator('#landing-tab-button').click();
+    await chooseAirport(page, 'ldg', 'ESSA', '01L');
+    await fillWeather(page, 'ldg', { direction: '0', speed: '0', oat: '0', qnh: '1013' });
+    await page.locator('#ldg-wind-dir').fill('361');
+    await expect(page.locator('#ldg-wind-dir')).toHaveValue('');
+    if (aircraft.model === 'C56X') await expect(page.locator('#res-ldg-afm-distance')).toHaveText('-');
+    await page.locator('#ldg-wind-dir').fill('360');
+    await expect(page.locator('#ldg-wind-dir')).toHaveValue('360');
+  });
+}
+
+for (const aircraft of aircraftCases) {
   test(`${aircraft.model}: startup, takeoff/landing calculation and runway limits`, async ({ page }) => {
     const reference = regressionReferences[aircraft.model];
     const inputs = reference.inputs;

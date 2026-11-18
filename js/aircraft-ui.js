@@ -328,7 +328,6 @@ export async function init() {
       const c56xPerformance = document.getElementById('c56x-takeoff-performance');
       if (c56xPerformance) c56xPerformance.hidden = false;
       [
-        'card-emergency-return',
         'takeoff-performance-heading',
         'takeoff-performance-checklist',
       ].forEach((id) => {

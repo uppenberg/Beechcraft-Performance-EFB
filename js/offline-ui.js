@@ -26,7 +26,7 @@ function renderOfflineIndicator() {
   const { message, state } = offlineIndicatorStatus;
   const shownState = appUpdateAvailable ? 'update' : state;
   const shownMessage = appUpdateAvailable
-    ? 'A new app version is ready to install. Open Settings and choose Check for updates and install.'
+    ? 'A new app version is ready to install. Open Settings and choose Install app update.'
     : message;
   const hasStatus = Boolean(message);
   indicator.hidden = !(appUpdateAvailable || hasStatus);
@@ -305,10 +305,13 @@ export function setupSettingsMenu() {
     });
   });
 
-  updateButton.addEventListener('click', checkForAppUpdate);
+  updateButton.addEventListener('click', () => {
+    if (appUpdateAvailable) installPendingAppUpdate();
+    else checkForAppUpdate();
+  });
   installUpdateButton?.addEventListener('click', () => {
     updateDialog?.close();
-    checkForAppUpdate();
+    installPendingAppUpdate();
   });
   laterUpdateButton?.addEventListener('click', () => updateDialog?.close());
   updateDialog?.addEventListener('cancel', () => {
@@ -494,17 +497,22 @@ export function setupOfflineReadiness() {
 export function setUpdateAvailable(isAvailable) {
   const toggle = document.getElementById('settings-toggle');
   const updateButton = document.getElementById('check-updates-button');
+  const updateSection = document.getElementById('app-update-section');
+  const updateBadge = document.getElementById('app-update-badge');
   if (!toggle || !updateButton) return;
 
+  const newlyAvailable = isAvailable && !appUpdateAvailable;
   appUpdateAvailable = isAvailable;
   renderOfflineIndicator();
   toggle.classList.toggle('update-available', isAvailable);
   toggle.setAttribute('aria-label', isAvailable ? 'Open settings, update available' : 'Open settings');
-  updateButton.textContent = isAvailable ? 'Update available — install' : 'Check for updates';
+  updateSection?.classList.toggle('is-update-available', isAvailable);
+  if (updateBadge) updateBadge.hidden = !isAvailable;
+  updateButton.textContent = isAvailable ? 'Install app update' : 'Check for app updates';
   if (isAvailable) {
-    setUpdateStatus('A new app version is ready to install.');
+    setUpdateStatus('A new app version is ready. Installing it will reload the app.');
     const updateDialog = document.getElementById('app-update-dialog');
-    if (updateDialog && !updateDialog.open) updateDialog.showModal();
+    if (newlyAvailable && updateDialog && !updateDialog.open) updateDialog.showModal();
   }
 }
 
@@ -619,12 +627,27 @@ export function activateAppUpdate(worker) {
   worker.postMessage({ type: 'SKIP_WAITING' });
 }
 
+function installPendingAppUpdate() {
+  const worker = AppState.appServiceWorkerRegistration?.waiting;
+  if (worker) activateAppUpdate(worker);
+  else checkForAppUpdate();
+}
+
+async function getPublishedWorkerUrl() {
+  const response = await fetch('./version.js', { cache: 'no-store' });
+  if (!response.ok) throw new Error('Could not fetch the app release version.');
+  const marker = await response.text();
+  const version = marker.match(/\bself\.APP_VERSION\s*=\s*(['"])([^'"\s]+)\1/)?.[2];
+  if (!version) throw new Error('The app release version is missing.');
+  return new URL(`./sw.js?v=${encodeURIComponent(version)}`, document.baseURI).href;
+}
+
 export async function checkForAppUpdate() {
   if (isLocalDevelopmentHost()) {
     setUpdateStatus('App updates are disabled while using Live Server.');
     return;
   }
-  const registration = AppState.appServiceWorkerRegistration;
+  let registration = AppState.appServiceWorkerRegistration;
   const updateButton = document.getElementById('check-updates-button');
   if (!registration || !updateButton) {
     setUpdateStatus('App updates are not available until the app is connected securely.');
@@ -636,31 +659,27 @@ export async function checkForAppUpdate() {
   setUpdateStatus('Checking for app updates…');
 
   try {
-    if (registration.waiting) {
-      activateAppUpdate(registration.waiting);
-      return;
+    if (!registration.waiting) {
+      const workerBeingInstalled = registration.installing;
+      // A manual check can discover a release newer than this document. Register
+      // the same versioned URL that the new document will use after activation.
+      const publishedUrl = await getPublishedWorkerUrl();
+      if (registration.active?.scriptURL === publishedUrl) {
+        await registration.update();
+      } else {
+        registration = await navigator.serviceWorker.register(publishedUrl, { updateViaCache: 'none' });
+        AppState.appServiceWorkerRegistration = registration;
+      }
+      const installingWorker = registration.installing || workerBeingInstalled;
+      if (!registration.waiting && installingWorker) await waitForServiceWorkerInstall(installingWorker);
     }
-
-    const workerBeingInstalled = registration.installing;
-    await registration.update();
-    const installingWorker = registration.installing || workerBeingInstalled;
-    if (!registration.waiting && installingWorker) {
-      await waitForServiceWorkerInstall(installingWorker);
-    }
-
-    if (registration.waiting) {
-      setUpdateAvailable(true);
-      activateAppUpdate(registration.waiting);
-    } else {
-      setUpdateAvailable(false);
-      setUpdateStatus('The app is already up to date.');
-      updateButton.disabled = false;
-      setSettingsTaskActive(false);
-    }
+    setUpdateAvailable(Boolean(registration.waiting));
+    if (!registration.waiting) setUpdateStatus('The app is already up to date.');
   } catch (error) {
-    console.error('Could not install the app update:', error);
-    setUpdateStatus('The update failed. Check your connection and try again.');
-    updateButton.disabled = false;
+    console.error('Could not check for app updates:', error);
+    setUpdateStatus('The update check failed. Check your connection and try again.');
+  } finally {
+    updateButton.disabled = AppState.reloadAfterServiceWorkerChange;
     setSettingsTaskActive(false);
   }
 }

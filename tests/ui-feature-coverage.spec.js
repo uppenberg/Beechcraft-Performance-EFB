@@ -160,6 +160,12 @@ test('ICAO autocomplete supports keyboard selection and runway intersections upd
 
 test('METAR runway suggestion can be applied to takeoff and landing', async ({ page }) => {
   await openApp(page, 'SE-RIJ');
+  await page.locator('#to-mass').evaluate((input) => {
+    input.value = '17500';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await page.locator('#to-flaps').selectOption('15');
+  await page.locator('#to-anti-ice').selectOption('OFF');
   await stubCurrentMetar(page);
   await page.locator('#to-airport-icao').fill('EETN');
   await page.locator('#to-airport-rwy').selectOption('26');
@@ -171,6 +177,16 @@ test('METAR runway suggestion can be applied to takeoff and landing', async ({ p
   await expect(page.locator('#to-runway-suggestion-text')).toContainText('METAR suggests RWY 08');
   const takeoffSuggestion = page.locator('#to-runway-suggestion-options .runway-suggestion-button')
     .filter({ hasText: 'Use RWY 08, full runway' });
+  await expect(takeoffSuggestion).toBeEnabled();
+  await fillWeather(page, 'to', { direction: '160', speed: '32', oat: '15', qnh: '1013' });
+  await expect(page.locator('#to-runway-suggestion-row')).toBeHidden();
+  await page.locator('#to-wind-dir').fill('170');
+  await page.locator('#to-wind-spd').fill('25');
+  await expect(takeoffSuggestion).toBeEnabled();
+  await page.locator('#to-wind-spd').fill('25.01');
+  await expect(page.locator('#to-runway-suggestion-row')).toBeHidden();
+  await page.locator('#to-wind-dir').fill('080');
+  await page.locator('#to-wind-spd').fill('8');
   await expect(takeoffSuggestion).toBeEnabled();
   await takeoffSuggestion.click();
   await expect(page.locator('#to-airport-rwy')).toHaveValue('08');

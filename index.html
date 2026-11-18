@@ -183,8 +183,11 @@
                         <button id="offline-app-reload" class="check-updates-button" type="button" hidden>Reload app to retry initialization</button>
                         <p id="offline-storage-status" class="offline-storage-status" role="status" aria-live="polite"></p>
                     </section>
-                    <button id="check-updates-button" class="check-updates-button" type="button">Check for updates and install</button>
-                    <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
+                    <section id="app-update-section" class="app-update-section" aria-labelledby="app-update-title-settings">
+                        <h3 id="app-update-title-settings">App update <span id="app-update-badge" class="app-update-badge" hidden>UPDATE READY</span></h3>
+                        <p id="update-status" class="update-status" role="status" aria-live="polite">Updates are checked when the app starts.</p>
+                        <button id="check-updates-button" class="check-updates-button" type="button">Check for app updates</button>
+                    </section>
                     <button id="open-help-button" class="check-updates-button" type="button" style="margin-top: 8px;">User Guide</button>
                     <label class="custom-airport-toggle" for="custom-airport-checkbox">
                         <input type="checkbox" id="custom-airport-checkbox">
@@ -202,13 +205,13 @@
             <div class="custom-airport-grid">
                 <label>ICAO<input id="ca-icao" maxlength="4" autocapitalize="characters" required pattern="[A-Za-z0-9]{4}"></label>
                 <label>RWY<input id="ca-rwy" maxlength="4" autocapitalize="characters" required></label>
-                <label>RWY Elev [ft]<input id="ca-elev" type="number" step="any" inputmode="decimal" required></label>
-                <label>TORA [m]<input id="ca-tora" type="number" step="any" min="0" inputmode="decimal" required></label>
-                <label>TODA [m]<input id="ca-toda" type="number" step="any" min="0" inputmode="decimal" required></label>
-                <label>ASDA [m]<input id="ca-asda" type="number" step="any" min="0" inputmode="decimal" required></label>
-                <label>LDA [m]<input id="ca-lda" type="number" step="any" min="0" inputmode="decimal" required></label>
+                <label>RWY Elev [ft]<input id="ca-elev" type="number" step="any" inputmode="numeric" required></label>
+                <label>TORA [m]<input id="ca-tora" type="number" step="any" min="0" inputmode="numeric" required></label>
+                <label>TODA [m]<input id="ca-toda" type="number" step="any" min="0" inputmode="numeric" required></label>
+                <label>ASDA [m]<input id="ca-asda" type="number" step="any" min="0" inputmode="numeric" required></label>
+                <label>LDA [m]<input id="ca-lda" type="number" step="any" min="0" inputmode="numeric" required></label>
                 <label>Slope [%]<input id="ca-slope" type="number" step="any" inputmode="decimal" required></label>
-                <label>RWY HDG [°]<input id="ca-hdg" type="number" step="any" min="0" max="360" inputmode="decimal" required></label>
+                <label>RWY HDG [°]<input id="ca-hdg" type="number" step="any" min="0" max="360" inputmode="numeric" required></label>
                 <label>Min climb gradient OEI [%]<input id="ca-grad" type="number" step="any" min="0" inputmode="decimal" required></label>
             </div>
             <label class="custom-airport-check"><input type="checkbox" id="ca-turning"><span>Engine out climb path: Turning (unchecked = Straight)</span></label>
@@ -247,11 +250,11 @@
         </div>
     </dialog>
     <dialog id="app-update-dialog" class="app-update-dialog" aria-labelledby="app-update-title" aria-describedby="app-update-message">
-        <h2 id="app-update-title">New update available</h2>
-        <p id="app-update-message">New update available. Please install.</p>
+        <h2 id="app-update-title">New app version ready</h2>
+        <p id="app-update-message">Install the update now? The app will reload to finish installing.</p>
         <div class="app-update-actions">
             <button id="app-update-later" class="app-update-later" type="button">Later</button>
-            <button id="app-update-install" class="app-update-install" type="button">Install update</button>
+            <button id="app-update-install" class="app-update-install" type="button">Install and reload</button>
         </div>
     </dialog>
 
@@ -324,7 +327,7 @@
                     <p>Open <strong>Settings</strong> with the gear icon in the header.</p>
 
                     <ul>
-                        <li><strong>Check for updates and install</strong> — checks for a new app version. Updates are also checked when the app starts.</li>
+                        <li><strong>Check for app updates</strong> — checks for a new app version. If one is ready, the APP UPDATE section is highlighted. Updates are also checked when the app starts.</li>
                         <li><strong>User Guide</strong> — opens this guide.</li>
                         <li><strong>Custom Airport</strong> — a checkbox that replaces the built-in airport database with your own runways.</li>
                     </ul>
@@ -377,7 +380,7 @@
                         <dd>Select the intended take-off runway from the dropdown. Only runways with performance data for the selected airport are shown.</dd>
 
                         <dt>Runway suggestion</dt>
-                        <dd>After a METAR is fetched, an amber message can appear below the runway fields: <em>"METAR suggests RWY xx (n kt headwind). Verify before use."</em> The runway with the largest headwind component is suggested. Each option lists the available distances and a <strong>Use RWY</strong> button that selects the runway (and intersection) for you. For take-off, an option that does not fit the current setup is marked <em>unavailable</em> with the reasons and the button is disabled. No suggestion is given when the wind is calm, variable (VRB), no runway has a headwind, or two runways have almost the same headwind — select the runway manually. The suggestion is only a hint based on the METAR wind; it never replaces the pilot's own runway decision.</dd>
+                        <dd>After a METAR is fetched, an amber message can appear below the runway fields: <em>"METAR suggests RWY xx (n kt headwind). Verify before use."</em> The runway with the largest headwind component is suggested. Each option lists the available distances and a <strong>Use RWY</strong> button that selects the runway (and intersection) for you. For take-off, only runway and intersection options that fit the current setup are shown. No suggestion is given when the wind is calm, variable (VRB), no runway has a headwind, or two runways have almost the same headwind — select the runway manually. The suggestion is only a hint based on the METAR wind; it never replaces the pilot's own runway decision.</dd>
 
                         <dt>Intersection</dt>
                         <dd>Appears only when the runway has a defined intersection departure point. Selecting an intersection uses the reduced TORA/TODA/ASDA for that intersection.</dd>
@@ -456,10 +459,10 @@
                         <dd>Calculated OEI climb gradient vs. minimum required (from obstacle / SID data in the airport database). For C56X, the AFM correction for turning climb up to 15° bank is applied only for turning climbs (airport column Engine out climb path = Turning, or missing, shown in amber): take-off mass is multiplied by 1.035 at or below 19,323 lbs; above that, 1.2 percentage points are subtracted from the gradient. Straight-out departures use the chart value unchanged. The card shows which climb path was used. If actual &lt; required, the card turns red — take-off cannot legally proceed. The "Req" field is taken from the airport database (min climb gradient OEI).</dd>
 
                         <dt>WIND | XW (XWLimit)</dt>
-                        <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red = crosswind limit exceeded or tailwind above 10 kt. <span style="color:#d29922">Amber</span> = tailwind of 10 kt or less (card turns amber) — allowed but increases distances, so check the result carefully. Any tailwind always increases distances.</dd>
+                        <dd>Headwind (+) / tailwind (−), crosswind, and crosswind limit. Red indicates that the crosswind limit is exceeded, tailwind exceeds 10 kt, or the displayed METAR reports wind or gusts above 45 kt. <span style="color:#d29922">Amber</span> indicates tailwind of 10 kt or less. Check the resulting distances.</dd>
 
                         <dt>EMG RETURN — VREF / LD</dt>
-                        <dd>Reference speeds and distances for an emergency return landing on the departure runway. UP = flaps up, DOWN = flaps down. Use to verify an emergency return is feasible given the available LDA.</dd>
+                        <dd>Reference speeds and landing distances for a return to the departure runway. “Within LDA” means the calculated landing distance fits the available landing distance for that runway direction, including after an intersection take-off. BE20 and B190 show flaps UP and DOWN. C56X shows flaps 35°. Assess other landing limits using the applicable emergency procedure.</dd>
                     </dl>
 
                     <h4>EASA Class A Checklist</h4>
@@ -592,7 +595,7 @@
                     </ul>
 
                     <h4>Updates</h4>
-                    <p>Use Settings &#x2192; <strong>Check for updates and install</strong> (internet needed). After installing, close and re-launch the app. Your saved inputs and custom airports are kept.</p>
+                    <p>Use Settings &#x2192; <strong>Check for app updates</strong> (internet needed). The app reloads automatically to finish installing. Your saved inputs and custom airports are kept.</p>
                     <div class="help-note help-note--info">
                         If the app looks outdated or fails to start offline, open it once with internet and run the update check.
                     </div>
@@ -634,7 +637,7 @@
                         <dd>You are switching between BE20 and B190. Confirm only if intentional. The entire workbook is replaced and all previously calculated values change.</dd>
 
                         <dt>App shows old data after an update</dt>
-                        <dd>Settings &#x2192; Check for updates &#x2192; Install update. On iOS, close and re-launch the app after updating.</dd>
+                        <dd>Settings &#x2192; APP UPDATE &#x2192; Install app update. On iOS, allow the app to reload automatically after updating.</dd>
                     </dl>
                 </section>
 
@@ -675,7 +678,7 @@
             <!-- Topp-KPI Grid -->
             <div id="takeoff-kpi-grid" class="responsive-top-grid">
                 <!-- V1, VR, V2 -->
-                <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                <div id="takeoff-speeds-card" class="runway-exceedance-card" style="padding: 10px;">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">V1 / VR / V2</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-to-v1">-</span>/<span id="res-to-vr">-</span>/<span id="res-to-v2">-</span></div>
                 </div>
@@ -702,12 +705,13 @@
 </div>
 
                 <!-- Emergency Return KPI-kort -->
-                <div id="card-emergency-return" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                <div id="card-emergency-return" class="runway-exceedance-card" style="padding: 10px;">
                     <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">EMG RETURN — VREF / LD</div>
                     <div style="font-size: 14px; font-weight: 700; color: #fff; display: flex; flex-direction: column; gap: 2px;">
-                        <div>UP: <span id="res-to-emup-vref">-</span> / <span id="res-to-emup-dist">--</span> m</div>
-                        <div>DOWN: <span id="res-to-emdown-vref">-</span> / <span id="res-to-emdown-dist">--</span> m</div>
+                        <div id="emergency-return-up-row"><span id="emergency-return-up-label">UP</span>: <span id="res-to-emup-vref">-</span> / <span id="res-to-emup-dist">--</span> m</div>
+                        <div id="emergency-return-down-row"><span id="emergency-return-down-label">DOWN</span>: <span id="res-to-emdown-vref">-</span> / <span id="res-to-emdown-dist">--</span> m</div>
                     </div>
+                    <div id="emergency-return-status" class="runway-exceedance-status" style="margin-top: 4px;">Return check unavailable</div>
                 </div>
             </div>
                 
@@ -771,14 +775,14 @@
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-wind-dir" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windDir:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" required min="0" max="360" step="any" inputmode="numeric" class="form-control" id="to-wind-dir" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windDir:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- Wind Speed (C7) -->
 <tr style="border-bottom: 1px solid #21262d;">
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
     <td style="padding: 8px 0;">
-        <input type="number" min="0" inputmode="decimal" class="form-control" id="to-wind-spd" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windSpeed:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" min="0" inputmode="numeric" class="form-control" id="to-wind-spd" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:windSpeed:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
 <!-- OAT (C8) -->
@@ -792,7 +796,7 @@
 <tr>
     <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
     <td style="padding: 8px 0;">
-        <input type="number" inputmode="decimal" class="form-control" id="to-qnh" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:qnh:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
+        <input type="number" inputmode="numeric" class="form-control" id="to-qnh" data-action-focus="selectText:$element" data-action-input="handleManualWeatherInput:takeoff:qnh:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;">
     </td>
 </tr>
                     </table>
@@ -970,14 +974,7 @@
         <!-- LANDNINGS-FLIK -->
         <section id="page-landing" class="page" style="display: none;">
             <div class="responsive-top-grid landing-top-kpis">
-                <!-- WIND / XW & HW/TW (Landing) -->
-                <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
-                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
-                    <div style="font-size: 12px; font-weight: 700; color: #fff;">
-                        <span id="res-ldg-hwtw-kpi">-</span> | <span id="res-ldg-xw-kpi">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit-kpi">-</span>)</span>
-                    </div>
-                </div>
-                <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
+                <div id="card-landing-vref" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center;">
                     <div id="res-ldg-vref-label" style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">VREF / FLAPS DOWN</div>
                     <div id="res-ldg-vref-value" style="font-size: 14px; font-weight: 700; color: #fff;"><span id="res-ldg-vref">-</span></div>
                     <div id="ldg-c56x-speeds" hidden style="font-size: 14px; font-weight: 700; color: #fff; line-height: 1.5;">
@@ -1004,6 +1001,13 @@
                             <span id="ldg-landing-climb">-- %</span>
                             <span style="font-size: 8px; color: #8b949e;">min 3.2%</span>
                         </div>
+                    </div>
+                </div>
+                <!-- WIND / XW & HW/TW (Landing) -->
+                <div id="card-wind-check-ldg" style="background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px; text-align: center; transition: background 0.3s ease, border-color 0.3s ease;">
+                    <div style="font-size: 10px; color: #8b949e; text-transform: uppercase; margin-bottom: 4px;">WIND | XW (XWLimit)</div>
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">
+                        <span id="res-ldg-hwtw-kpi">-</span> | <span id="res-ldg-xw-kpi">-</span> <span style="font-size: 10px; color: #8b949e;">(<span id="res-ldg-xwlimit-kpi">-</span>)</span>
                     </div>
                 </div>
             </div>
@@ -1065,11 +1069,11 @@
                         
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Direction:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-wind-dir" data-action-input="handleManualWeatherInput:landing:windDir:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" required min="0" max="360" step="any" inputmode="numeric" class="form-control" id="ldg-wind-dir" data-action-input="handleManualWeatherInput:landing:windDir:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">Wind Spd:</td>
-                            <td style="padding: 8px 0;"><input type="number" min="0" inputmode="decimal" class="form-control" id="ldg-wind-spd" data-action-input="handleManualWeatherInput:landing:windSpeed:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" min="0" inputmode="numeric" class="form-control" id="ldg-wind-spd" data-action-input="handleManualWeatherInput:landing:windSpeed:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                         <tr style="border-bottom: 1px solid #21262d;">
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">OAT °C:</td>
@@ -1077,7 +1081,7 @@
                         </tr>
                         <tr>
                             <td class="col-label" style="padding: 8px 0; color: #c9d1d9; font-size: 12px;">QNH:</td>
-                            <td style="padding: 8px 0;"><input type="number" inputmode="decimal" class="form-control" id="ldg-qnh" data-action-input="handleManualWeatherInput:landing:qnh:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
+                            <td style="padding: 8px 0;"><input type="number" inputmode="numeric" class="form-control" id="ldg-qnh" data-action-input="handleManualWeatherInput:landing:qnh:$element" data-action-focus="selectText:$element" style="width: 100%; background: #0d1117; color: #fff; border: 1px solid #30363d; padding: 8px; border-radius: 4px; transition: all 0.2s;"></td>
                         </tr>
                     </table>
                 </div>

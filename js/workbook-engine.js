@@ -1,11 +1,11 @@
-import { parseCellRef, setWorkbookCellValues, getOutputVal, getTakeoffOutput } from './workbook-adapter.js';
+import { parseCellRef, setWorkbookCellValues, withWorkbookCellValues, getOutputVal, getTakeoffOutput } from './workbook-adapter.js';
 export { colLetterToIndex, parseCellRef, setWorkbookCellValues, getOutputVal, getTakeoffOutput } from './workbook-adapter.js';
 import { updateLandingOverweightWarning } from './aircraft-ui.js';
-import { airportCellValue, getSelectedAirportRecord, scheduleTakeoffSuggestionRefresh, updateClimbPathLabel } from './airport-ui.js';
-import { AppState, CELL_MAPPING, isC56xSelected } from './app-state.js';
+import { airportCellValue, getEmergencyReturnRunway, getSelectedAirportRecord, scheduleTakeoffSuggestionRefresh, updateClimbPathLabel } from './airport-ui.js';
+import { AIRCRAFT_TYPE_BY_REGISTRATION, AIRPORT_LOOKUP_CELLS_BY_PAGE, AppState, CELL_MAPPING, isC56xSelected } from './app-state.js';
 import { renderEngineOutCard, scheduleMaxTakeoffMassUpdate, updateC56xAntiIceOatWarning, updateC56xEngineOutCard, updateC56xTakeoffFieldLength, updateMaxTakeoffMass } from './c56x-ui.js';
-import { checkContaminationLogic, exceedsDistanceLimit, renderLandingChart, renderTakeoffChart, safeSetText, safeSetValue, updateBadgeStatus, updateClimbCheckCard, updateRunwayExceedanceCard, updateWindCheckCard, updateWindCheckCardLdg } from './results-ui.js';
-import { readPerformanceInputs } from './performance-inputs.js';
+import { checkContaminationLogic, exceedsDistanceLimit, renderLandingChart, renderTakeoffChart, safeSetText, safeSetValue, updateBadgeStatus, updateClimbCheckCard, updateEmergencyReturnCard, updateLandingVrefCard, updateRunwayExceedanceCard, updateTakeoffSpeedCard, updateWindCheckCard, updateWindCheckCardLdg } from './results-ui.js';
+import { getRunwayWindComponents, hasRequiredTakeoffInputs, isValidWindDirection, readPerformanceInputs } from './performance-inputs.js';
 
 
 // Workbook cell access and shared calculation outputs
@@ -59,8 +59,8 @@ export function updateMissedClimbCard(value) {
 
   valueElement.textContent = `${climbGradient.toFixed(1)} %`;
   const isBelowMinimum = climbGradient < 2.5;
-  card.style.background = isBelowMinimum ? '#3d1414' : '#0d1117';
-  card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
+  card.style.background = isBelowMinimum ? '#3d1414' : 'rgba(46, 160, 67, 0.12)';
+  card.style.borderColor = isBelowMinimum ? '#f85149' : 'rgba(46, 160, 67, 0.5)';
 }
 
 export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
@@ -72,10 +72,12 @@ export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
     { id: 'ldg-landing-climb', resultId: 'res-ldg-landing-climb', value: landingGradient, minimum: C56X_MIN_LANDING_CLIMB_GRADIENT_PERCENT },
   ];
   let isBelowMinimum = false;
+  let allAvailable = true;
   rows.forEach(({ id, resultId, value, minimum }) => {
     const available = Number.isFinite(value);
     const below = available && value < minimum;
     isBelowMinimum = isBelowMinimum || below;
+    allAvailable = allAvailable && available;
     const text = available ? `${value.toFixed(1)} %` : '-- %';
     [id, resultId].forEach((elementId) => {
       const element = document.getElementById(elementId);
@@ -84,8 +86,10 @@ export function updateC56xLandingClimbCard(approachGradient, landingGradient) {
       element.style.color = below ? '#ff7b72' : '#fff';
     });
   });
-  card.style.background = isBelowMinimum ? '#3d1414' : '#0d1117';
-  card.style.borderColor = isBelowMinimum ? '#f85149' : '#30363d';
+  card.style.background = isBelowMinimum ? '#3d1414'
+    : allAvailable ? 'rgba(46, 160, 67, 0.12)' : '#0d1117';
+  card.style.borderColor = isBelowMinimum ? '#f85149'
+    : allAvailable ? 'rgba(46, 160, 67, 0.5)' : '#30363d';
 }
 
 export function updateC56xLanding() {
@@ -117,21 +121,7 @@ export function updateC56xLanding() {
   const ldaM = airportCellValue(airport?.['LDA [m](F6)']);
   const qnhHpa = readNumber(inputs.qnh);
   const oatC = readNumber(inputs.oat);
-  const windSpeedKnots = readNumber(inputs.windSpeed);
-  const windDirectionDeg = readNumber(inputs.windDir);
-
-  const windInputsValid = Number.isFinite(runwayHeadingDeg) &&
-    Number.isFinite(windSpeedKnots) && windSpeedKnots >= 0 &&
-    (windSpeedKnots === 0 || Number.isFinite(windDirectionDeg));
-  const windAngleRadians = windInputsValid
-    ? (((windDirectionDeg - runwayHeadingDeg + 540) % 360) - 180) * Math.PI / 180
-    : null;
-  const headwindKnots = windInputsValid
-    ? (windSpeedKnots === 0 ? 0 : windSpeedKnots * Math.cos(windAngleRadians))
-    : null;
-  const crosswindKnots = windInputsValid
-    ? (windSpeedKnots === 0 ? 0 : Math.abs(windSpeedKnots * Math.sin(windAngleRadians)))
-    : null;
+  const { headwindKnots, crosswindKnots } = getRunwayWindComponents(inputs, runwayHeadingDeg);
   const crosswindLimitKnots = maxXwindByRCC.find(
     (entry) => entry.code === runwayConditionCode
   )?.max_XW ?? null;
@@ -156,6 +146,7 @@ export function updateC56xLanding() {
     }
     ['res-ldg-afm-distance', 'res-ldg-required-distance', 'res-ldg-max-weight',
       'res-ldg-vref', 'res-ldg-c56x-vref', 'res-ldg-c56x-vapp', 'res-ldg-vref-vapp'].forEach((id) => setText(id, '-'));
+    updateLandingVrefCard(null, null);
     setText('res-ldg-factor', '-');
     if (maxWeightWarning) maxWeightWarning.hidden = true;
     updateC56xLandingClimbCard(null, null);
@@ -167,7 +158,7 @@ export function updateC56xLanding() {
     return;
   }
   if (![fieldElevationFt, runwaySlopePercent, qnhHpa, oatC, weightLb].every(Number.isFinite) ||
-      qnhHpa <= 0 || !windInputsValid) {
+      qnhHpa <= 0 || headwindKnots === null) {
     setUnavailable('Enter QNH, OAT, wind and mass; runway needs elevation, heading and slope');
     return;
   }
@@ -230,6 +221,7 @@ export function updateC56xLanding() {
   setText('res-ldg-vref-vapp', vref === '-' || vapp === '-'
     ? 'Outside AFM speed data'
     : `${vref} / ${vapp} KIAS`);
+  updateLandingVrefCard(performance.vref, performance.vapp);
   setText('res-ldg-factor', Number.isFinite(performance.factor) ? `x${Number(performance.factor.toFixed(2))}` : '-');
 
   if (performance.distanceFt === null || performance.requiredDistanceFt === null) {
@@ -339,6 +331,10 @@ export function handleWeatherOverride(sheetType, paramOverrideKey, val) {
 
 // Ny funktion för manuell väderinmatning med amber-styling
 export function handleManualWeatherInput(sheetType, paramKey, inputElement) {
+    if (paramKey === 'windDir' && inputElement.value && !isValidWindDirection(inputElement.value)) {
+      if (document.activeElement === inputElement) inputElement.reportValidity();
+      inputElement.value = '';
+    }
     const val = inputElement.value;
 
     if (paramKey === 'windSpeed') {
@@ -379,6 +375,42 @@ export function handleManualWeatherInput(sheetType, paramKey, inputElement) {
       updateC56xTakeoffFieldLength();
     }
     if (sheetType === 'landing' && isC56xSelected()) updateC56xLanding();
+}
+
+function updateWorkbookEmergencyReturn() {
+  const runway = getEmergencyReturnRunway();
+  const { takeoff, registration } = readPerformanceInputs(document);
+  if (!runway || !hasRequiredTakeoffInputs(takeoff) ||
+      (AIRCRAFT_TYPE_BY_REGISTRATION[registration] === 'B190' && !takeoff.technique)) {
+    updateEmergencyReturnCard([], null);
+    return;
+  }
+
+  const { sheetName, outputs } = CELL_MAPPING.takeoff;
+  const { to } = AIRPORT_LOOKUP_CELLS_BY_PAGE;
+  const runwayInputs = new Map();
+  for (const field of ['RWY Elev [ft] (B6)', 'RWYHDG [°](H6)', 'Slope [%](G6)']) {
+    const value = airportCellValue(runway[field]);
+    if (!Number.isFinite(value)) {
+      updateEmergencyReturnCard([], null);
+      return;
+    }
+    if (value !== getOutputVal(sheetName, to[field], false)) runwayInputs.set(to[field], value);
+  }
+
+  // The emergency-return formulas reference the takeoff sheet's runway cells.
+  // Read them at the landing threshold, then restore the selected departure intersection.
+  const readOptions = () => [
+    { label: 'UP', vref: getOutputVal(sheetName, outputs.emUpVref, false), distance: getOutputVal(sheetName, outputs.emUpDist, false) },
+    { label: 'DOWN', vref: getOutputVal(sheetName, outputs.emDownVref, false), distance: getOutputVal(sheetName, outputs.emDownDist, false) },
+  ];
+  try {
+    const options = withWorkbookCellValues(AppState.hfInstance.getSheetId(sheetName), runwayInputs, readOptions);
+    updateEmergencyReturnCard(options, airportCellValue(runway['LDA [m](F6)']));
+  } catch (error) {
+    console.error('Could not calculate emergency return on the departure runway:', error);
+    updateEmergencyReturnCard([], null);
+  }
 }
 
 export function refreshOutputs() {
@@ -459,16 +491,18 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
   safeSetText('res-to-v1', getTakeoffOutput('v1'));
   safeSetText('res-to-vr', getTakeoffOutput('vr'));
   safeSetText('res-to-v2', getTakeoffOutput('v2'));
+  updateTakeoffSpeedCard(
+    getTakeoffOutput('v1', false),
+    getTakeoffOutput('vr', false),
+    getTakeoffOutput('v2', false)
+  );
   safeSetText('res-to-tod', getTakeoffOutput('tod'));
   safeSetText('res-to-asd', getTakeoffOutput('asd'));
   safeSetText('res-to-tora', getOutputVal(to.sheetName, to.outputs.tora));
   safeSetText('res-to-asda', getOutputVal(to.sheetName, to.outputs.asda));
   safeSetText('res-to-tor', getTakeoffOutput('tor'));
   safeSetText('res-to-g19', getOutputVal(to.sheetName, to.outputs.req_climb_grad_to));
-  safeSetText('res-to-emup-vref', getOutputVal(to.sheetName, to.outputs.emUpVref));
-  safeSetText('res-to-emup-dist', getOutputVal(to.sheetName, to.outputs.emUpDist));
-  safeSetText('res-to-emdown-vref', getOutputVal(to.sheetName, to.outputs.emDownVref));
-  safeSetText('res-to-emdown-dist', getOutputVal(to.sheetName, to.outputs.emDownDist));
+  updateWorkbookEmergencyReturn();
   safeSetText('res-to-escape', getOutputVal(to.sheetName, to.outputs.escapeRoute));
 
   // Climb OEI vs Req med 1 decimal och röd varning om req > oei
@@ -504,6 +538,7 @@ updateWindCheckCard(hwTwValue, xwValue, xwLimitValue);
     ? getOutputVal(ldg.sheetName, ldg.outputs.vrefUp)
     : getOutputVal(ldg.sheetName, ldg.outputs.vrefDown);
   safeSetText('res-ldg-vref', landingVref);
+  updateLandingVrefCard(landingVref);
   safeSetText('res-ldg-vref-label', `VREF / FLAPS ${landingFlaps}`);
   safeSetText('res-ldg-vrefup', getOutputVal(ldg.sheetName, ldg.outputs.vrefUp));
   safeSetText('res-ldg-distup', getOutputVal(ldg.sheetName, ldg.outputs.ldgDistUp));

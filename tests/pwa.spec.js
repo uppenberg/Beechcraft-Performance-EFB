@@ -87,9 +87,7 @@ test('service worker update can be detected, installed and activated', async ({ 
   await expect(page.locator('#app-version')).toHaveText(`v${oldVersion}`);
 
   const { updateMarker } = await setServerMode(request, 'updated');
-  await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await page.getByRole('button', { name: 'Check for app updates' }).click();
   await dismissUpdatePrompt(page);
   await openSettings(page);
   // Deferring the update keeps the installed release active and displayed.
@@ -98,13 +96,9 @@ test('service worker update can be detected, installed and activated', async ({ 
     const registration = await navigator.serviceWorker.getRegistration();
     return Boolean(registration.waiting);
   }), { timeout: 30_000 }).toBe(true);
-  const activate = page.evaluate(async () => {
-    const registration = await navigator.serviceWorker.getRegistration();
-    BeechcraftApp.offline.activateAppUpdate(registration.waiting);
-  });
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 45_000 }),
-    activate,
+    page.getByRole('button', { name: 'Install app update' }).click(),
   ]);
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
@@ -124,8 +118,7 @@ test('version.js selects a new cache while the old app shell remains active unti
   await page.reload();
   await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
   await page.evaluate(() => window.__testAppInitPromise);
-  await dismissUpdatePrompt(page);
-  await openSettings(page);
+  await expect(page.locator('#app-update-dialog')).toBeVisible({ timeout: 30_000 });
   expect(await page.evaluate(() => ({
     version: window.APP_VERSION,
     html: document.querySelector('meta[name="test-release"]')?.content || null,
@@ -140,10 +133,7 @@ test('version.js selects a new cache while the old app shell remains active unti
   }), { timeout: 30_000 }).toBe(true);
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 45_000 }),
-    page.evaluate(async () => {
-      const registration = await navigator.serviceWorker.getRegistration();
-      BeechcraftApp.offline.activateAppUpdate(registration.waiting);
-    }),
+    page.locator('#app-update-install').click(),
   ]);
   await expect.poll(() => page.evaluate(() => ({
     version: window.APP_VERSION,

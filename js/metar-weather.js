@@ -57,6 +57,9 @@ const METAR_WEATHER = (() => {
       gust: groups.gust ? Number(groups.gust) : null,
       unit,
       speedKnots,
+      gustKnots: groups.gust
+        ? Number(groups.gust) * (unit === 'MPS' ? METERS_PER_SECOND_TO_KNOTS : 1)
+        : null,
     };
   }
 

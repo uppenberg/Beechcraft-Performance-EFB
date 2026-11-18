@@ -1,3 +1,33 @@
+/** @param {string} value */
+export function isValidWindDirection(value) {
+  const degrees = Number(value);
+  return value.trim() !== '' && Number.isFinite(degrees) && degrees >= 0 && degrees <= 360;
+}
+
+/** @param {{windDir: string, windSpeed: string}} inputs */
+function hasValidWind(inputs) {
+  return isValidWindDirection(inputs.windDir) && inputs.windSpeed.trim() !== '' &&
+    Number.isFinite(Number(inputs.windSpeed)) && Number(inputs.windSpeed) >= 0;
+}
+
+/** @param {{windDir: string, windSpeed: string}} inputs @param {number} runwayHeadingDeg */
+export function getRunwayWindComponents(inputs, runwayHeadingDeg) {
+  if (!hasValidWind(inputs) || !Number.isFinite(runwayHeadingDeg)) {
+    return { headwindKnots: null, crosswindKnots: null };
+  }
+  const angle = (((Number(inputs.windDir) - runwayHeadingDeg + 540) % 360) - 180) * Math.PI / 180;
+  const speed = Number(inputs.windSpeed);
+  return { headwindKnots: speed * Math.cos(angle), crosswindKnots: Math.abs(speed * Math.sin(angle)) };
+}
+
+/** @param {ReturnType<typeof readPerformanceInputs>['takeoff']} inputs */
+export function hasRequiredTakeoffInputs(inputs) {
+  return hasValidWind(inputs) && inputs.oat.trim() !== '' && Number.isFinite(Number(inputs.oat)) &&
+    Number.isFinite(Number(inputs.qnh)) && Number(inputs.qnh) > 0 &&
+    Number.isFinite(Number(inputs.mass)) && Number(inputs.mass) > 0 &&
+    inputs.flaps !== '' && inputs.antiIce !== '' && inputs.rwcc !== '';
+}
+
 // The same form snapshot is passed to either performance engine. Keeping raw
 // input strings preserves the difference between an empty field and zero.
 /** @param {Document} root */
