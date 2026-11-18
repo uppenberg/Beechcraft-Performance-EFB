@@ -4,7 +4,9 @@
   "description": "",
   "main": "sw.js",
   "scripts": {
-    "pretest": "npm run lint && npm run typecheck",
+    "pretest": "npm run catalog:update && npm run lint && npm run typecheck",
+    "catalog:update": "node tools/test-catalog/sync.js",
+    "catalog:check": "node tools/test-catalog/sync.js --check",
     "test": "npm run test:unit && playwright test",
     "test:unit": "playwright test --config=playwright.node.config.js",
     "test:e2e": "playwright test",
@@ -31,11 +33,13 @@
   "homepage": "https://github.com/uppenberg/Beechcraft-Performance-EFB#readme",
   "devDependencies": {
     "@playwright/test": "^1.65.0",
+    "@xmldom/xmldom": "0.9.12",
     "eslint": "^10.14.0",
     "globals": "^17.14.0",
     "istanbul-lib-coverage": "^3.2.2",
     "istanbul-lib-report": "^3.0.1",
     "istanbul-reports": "^3.2.0",
+    "jszip": "3.10.2",
     "typescript": "^5.9.3",
     "v8-to-istanbul": "^9.3.0"
   },

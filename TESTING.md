@@ -14,7 +14,7 @@ npm run test:unit
 npm run test:e2e
 ```
 
-`npm test` runs lint, type checking, the Node suite, then the browser suite.
+`npm test` syncs the Excel test catalog and runs lint, type checking, the Node suite, then the browser suite.
 To filter browser tests, use `npm run test:e2e -- --project=chromium`.
 Node reports are saved to `test-results-node/`; browser reports retain their
 existing paths. GitHub Actions runs static checks, Node tests and browser tests
@@ -169,3 +169,36 @@ No generated release manifest or commit hook is used. The service worker install
 ## Limits
 
 These are software regression and browser compatibility tests, not approved aircraft performance data, flight-planning approval, or operational validation. WebKit testing is useful for browser-engine compatibility but does not reproduce an iPad, iOS PWA installation, storage eviction, or every iOS release. METAR is intentionally online-only; external METAR services are blocked in the automated suite.
+
+## Maintaining the editable test catalog
+
+The versioned [Excel catalog](outputs/testkatalog-20261118/Testkatalog-EFB.xlsx) is updated in place.
+Run `npm run catalog:update` after adding, moving or removing tests. This also runs before
+`npm test`. Local discovery needs the npm dependencies and does not launch a browser.
+Commit the updated workbook with the test change. CI publishes the synced workbook as
+the **Testkatalog-EFB** artifact and fails if the committed catalog is stale or incomplete.
+Use `npm run catalog:check` for a read-only check.
+
+New Playwright cases, including parameterized cases and Node specs, are discovered from
+both Playwright configs. To populate a new row, add static Playwright annotations to the test:
+
+```js
+test('my test', { annotation: [
+  { type: 'catalog-input', description: 'De konkreta testvärdena och förutsättningarna.' },
+  { type: 'catalog-pass', description: 'Det observerbara utfallet som måste uppfyllas.' },
+  { type: 'catalog-purpose', description: 'Felet som testet ska upptäcka.' },
+] }, async ({ page }) => { /* test */ });
+```
+
+Alternatively, sync once and fill in columns C–E in Excel. The synchronizer maintains
+ID, name, execution environment and source. It keeps existing descriptions and change
+proposals, including rows with your own `NY-` IDs. Removed cases and reference rows move
+to **Utgångna**. To retain an existing ID across a file or title rename, add a
+`catalog-id` annotation with the old ID before syncing. Each expanded test needs a unique ID.
+The `catalog-engine` annotation links a case to its numeric outputs in `engine-regression.json`.
+
+For checks outside Playwright (CLI, import audits, physical device checks), add or remove
+the record in [controls.json](tools/test-catalog/controls.json) in the same change.
+Use a stable ID, a real source path, and input, pass condition and purpose. Those three
+descriptions seed new Excel rows. Make subsequent editorial changes in the workbook.
+Close the workbook in Excel before syncing locally.

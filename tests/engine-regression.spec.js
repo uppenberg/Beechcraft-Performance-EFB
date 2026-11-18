@@ -20,7 +20,9 @@ for (const [registration, massLb, flaps] of [
   ['SE-LTL', 11500, 'APP'], ['SE-KVL', 11500, 'APP'], ['SE-MJU', 11500, 'APP'],
   ['SE-MHU', 15000, 'TAKE'],
 ]) {
-  test(`${registration} workbook matches pre-update engine results`, async ({ page }) => {
+  test(`${registration} workbook matches pre-update engine results`, {
+    annotation: { type: 'catalog-engine', description: registration },
+  }, async ({ page }) => {
     await openApp(page, registration);
     for (const phase of ['to', 'ldg']) {
       if (phase === 'ldg') await page.locator('#landing-tab-button').click();
@@ -49,7 +51,9 @@ for (const [registration, massLb, flaps] of [
   });
 }
 
-test('C56X matches pre-update engine results', async ({ page }) => {
+test('C56X matches pre-update engine results', {
+  annotation: { type: 'catalog-engine', description: 'C56X' },
+}, async ({ page }) => {
   await loadC56xPerformanceData(page);
   const actual = await page.evaluate(() => {
     const inputs = {

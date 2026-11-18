@@ -1,0 +1,272 @@
+[
+  {
+    "id": "QA-08",
+    "title": "Excel-katalogens aktualitet",
+    "input": "Arbetskopians testlistor för Node och webbläsare, kontrollregistret, motorreferenserna och den sparade Excel-filen.",
+    "pass": "npm run catalog:check returnerar 0 när filen motsvarar inventeringen och varje aktivt fall har indata, godkäntvillkor och syfte. CI kräver även att den incheckade filen motsvarar den synkade.",
+    "purpose": "Upptäcker tillagda eller borttagna tester och ofullständiga beskrivningar innan katalogen godtas.",
+    "environment": "CI · push/PR",
+    "source": "tools/test-catalog/sync.js"
+  },
+  {
+    "id": "QA-01",
+    "title": "ESLint",
+    "input": "js/, sw.js och tests/ med eslint.config.js.",
+    "pass": "npm run lint avslutas med kod 0. Bl.a. odefinierade namn, oanvända variabler och maxdjup 3 i app-/SW-kod kontrolleras.",
+    "purpose": "Hittar kodfel utan att starta appen.",
+    "environment": "CI · push/PR",
+    "source": "eslint.config.js"
+  },
+  {
+    "id": "QA-02",
+    "title": "Strikt typkontroll av beräkningsindata och gränser",
+    "input": "js/performance-inputs.js och js/performance-limits.js med --allowJs --checkJs --noEmit --strict.",
+    "pass": "npm run typecheck avslutas utan TypeScript-fel för de angivna filerna.",
+    "purpose": "Fångar typ- och nullfel vid beräkningens gränssnitt.",
+    "environment": "CI · push/PR",
+    "source": "package.json"
+  },
+  {
+    "id": "QA-03",
+    "title": "Flygplatsdatabas, granskningsrapport",
+    "input": "npm run airports:review på data/airports.json.",
+    "pass": "Texten Result: PASS kräver noll formatändringar och noll övriga fynd. REVIEW REQUIRED ger normalt inte felkod i review-läget.",
+    "purpose": "Hittar bland annat dubbletter, ogiltiga tal och bortfallna inledande nollor.",
+    "environment": "Vid dataändring",
+    "source": "tools/review-airports-json.js"
+  },
+  {
+    "id": "QA-04",
+    "title": "Flygplatsdatabas, blockerande kontroll",
+    "input": "npm run airports:check på samma databas.",
+    "pass": "Kod 0 och PASS om samtliga kontroller uppfylls. Olösta fynd eller formatändringar ger kod 1.",
+    "purpose": "Gör datagranskningen användbar som maskinell spärr.",
+    "environment": "Före commit av flygplatsdata",
+    "source": "tools/review-airports-json.js"
+  },
+  {
+    "id": "QA-05",
+    "title": "Omkontroll efter banformatering",
+    "input": "npm run airports:fix-format normaliserar ban-ID och läser om resultatet.",
+    "pass": "Verktyget rapporterar kvarstående fynd efter korrigering. Övriga olösta fynd i fix-läge ger kod 1. Kommandot kan skriva till databasen.",
+    "purpose": "Fångar datafel som en formatkorrigering inte löser.",
+    "environment": "Vid uttrycklig formatering",
+    "source": "tools/review-airports-json.js"
+  },
+  {
+    "id": "QA-06",
+    "title": "Framställ täckningsrapport",
+    "input": "npm run coverage:report efter Chromium-körning med EFB_COVERAGE=1.",
+    "pass": "Läsbara, matchande mätdata krävs för att rapporten ska skapas. Inget minsta procenttal är ett passvillkor. Ofullständighet kan rapporteras som varning.",
+    "purpose": "Visar vilka appmoduler och grenar som har exekverats.",
+    "environment": "CI · rapportsteg",
+    "source": "tests/support/coverage-report.js"
+  },
+  {
+    "id": "QA-07",
+    "title": "Skapa referensutkast",
+    "input": "npm run test:references:generate med tre modellscenarier i Chromium.",
+    "pass": "Tekniskt klart när alla modeller fångats och ett daterat utkast sparats i reference-drafts/. Ett utkast behöver separat granskning före godkännande.",
+    "purpose": "Ger ett jämförbart underlag för föreslagna ändringar av referensvärden.",
+    "environment": "Vid avsiktlig baslinjegranskning",
+    "source": "tests/generate-reference-draft.js"
+  },
+  {
+    "id": "AFM-Q01",
+    "title": "Rimlighet i avlästa starttabeller",
+    "input": "check.js med batchfil. Varje temperaturrad har 13 heltal.",
+    "pass": "Granska utskriften för radformat, temperaturordning, avtagande sträcka med motvind, tiotalsupplösning och fartordning. Varningar i sig ger ingen felkod.",
+    "purpose": "Hittar misstänkta OCR- eller avskrivningsfel före vidare granskning.",
+    "environment": "Fristående · rapport",
+    "source": "tools/afm-audit/check.js"
+  },
+  {
+    "id": "AFM-Q02",
+    "title": "Jämför starttabell med avläst batch",
+    "input": "compare.js --profile PROFIL batch.txt. Tabellblock, vikter och temperaturrader.",
+    "pass": "Inga olösta skillnader, saknade vikter eller rader vid granskning av rapporten. Skillnader rapporteras utan automatisk felkod.",
+    "purpose": "Lokaliserar en ändrad cell före beslut om rättning.",
+    "environment": "Fristående · rapport",
+    "source": "tools/afm-audit/compare.js"
+  },
+  {
+    "id": "AFM-Q03",
+    "title": "Jämför gradient mot JSON-referens",
+    "input": "compare-gradient.js FIL.js KONSTANT referens.json.",
+    "pass": "Noll skillnader i jämförda gradientceller. Skillnader sätter exitkod 1 och saknade argument ger kod 2.",
+    "purpose": "Upptäcker avvikelser mellan kod och extraherad referens.",
+    "environment": "Fristående · blockerande",
+    "source": "tools/afm-audit/compare-gradient.js"
+  },
+  {
+    "id": "AFM-Q04",
+    "title": "Gradienternas ordning",
+    "input": "check-gradient-monotonic.js med tabell i JS eller JSON.",
+    "pass": "Granska antal plausibility issues för saknade celler och avvikelser i vind-, vikt- och temperaturordning. Fynd räknas men stoppar inte automatiskt körningen.",
+    "purpose": "Pekar ut orimliga hopp i gradientdata.",
+    "environment": "Fristående · rapport",
+    "source": "tools/afm-audit/check-gradient-monotonic.js"
+  },
+  {
+    "id": "AFM-Q05",
+    "title": "Jämför OCR-kolumner med starttabell",
+    "input": "analyze.js --profile PROFIL --crops KATALOG, OCR-rader och kodens tabell.",
+    "pass": "analysis.txt listar jämförda rader och avvikelser. Granskaren kontrollerar täckning och avvikande celler mot PDF.",
+    "purpose": "Minskar antalet celler som behöver sökas fram manuellt.",
+    "environment": "Fristående · rapport",
+    "source": "tools/afm-audit/analyze.js"
+  },
+  {
+    "id": "AFM-Q06",
+    "title": "Avläsning av gradienttabeller mot kod",
+    "input": "read_gradient_tables.py med tabellbilder, siffermallar och koddata.",
+    "pass": "Rapporterar kolumnskillnader och olästa rader per tabell. Dessa kräver visuell avstämning.",
+    "purpose": "Fångar läsfel och ofullständig avläsning som en ren sifferjämförelse kan missa.",
+    "environment": "Fristående · rapport",
+    "source": "tools/afm-audit/read_gradient_tables.py"
+  },
+  {
+    "id": "AFM-Q07",
+    "title": "Validera import av landningsdistans",
+    "input": "import_landing_distance.py, profilerade sidor och OCR-paneler för plan bana samt två nedförslut.",
+    "pass": "Matchande paneltäckning och entydiga rader. Giltig temperaturordning, fallande distans med motvind, tiotalsupplösning och nedförsdistans minst som på plan bana. Fel kan avbryta importen.",
+    "purpose": "Stoppar motsägande distansdata innan nya tabeller skrivs.",
+    "environment": "Vid import · blockerande",
+    "source": "tools/afm-audit/import_landing_distance.py"
+  },
+  {
+    "id": "AFM-Q08",
+    "title": "Validera import av viktgräns, figur 4-43",
+    "input": "OCR-kandidat, profil, förväntade höjder, rader, viktkolumner och manuella korrigeringar.",
+    "pass": "Figur, täckning, radantal och OCR-lägen ska stämma. Varje rad har 20 vikter. Korrigeringsnycklar ska matcha. Ordningsbrott i viktdata ger fel.",
+    "purpose": "Förhindrar att en feljusterad kolumn eller osäker OCR-rad blir en viktgräns.",
+    "environment": "Vid import · blockerande",
+    "source": "tools/afm-audit/import_landing_weight_443.py"
+  },
+  {
+    "id": "AFM-Q09",
+    "title": "Oklara gradientceller efter avläsning",
+    "input": "read_gradient.py med PDF, profil och eventuella visuella korrigeringar.",
+    "pass": "Kvarvarande granskningsposter skrivs till .todo och ger kod 2. Omatchade korrigeringar avvisas. Kod 2 kan accepteras i omgivande flöde.",
+    "purpose": "Synliggör celler som fortfarande kräver mänsklig kontroll.",
+    "environment": "Vid extraktion · granskningskö",
+    "source": "tools/afm-audit/read_gradient.py"
+  },
+  {
+    "id": "AFM-Q10",
+    "title": "Validera OCR-rutnät innan JS skrivs",
+    "input": "build_grid_js.py med rutnäts-JSON, viktgrupper och korrigeringar.",
+    "pass": "Antalet blad måste kunna fördelas på viktgrupperna. Registrerade problem stoppar skrivning av resultatet.",
+    "purpose": "Skyddar mot att ofullständiga blad förskjuter vikter eller kolumner.",
+    "environment": "Vid tabellbygge",
+    "source": "tools/afm-audit/build_grid_js.py"
+  },
+  {
+    "id": "AFM-Q11",
+    "title": "Syntaxkontroll efter import, klaff 15",
+    "input": "run_gross_climb_f15.sh, genererade JS-tabeller för anti-ice ON/OFF.",
+    "pass": "node --check ska lyckas före kopiering. Avläsarens kod upp till 2 accepteras och monotonicitetsfynd visas separat.",
+    "purpose": "Förhindrar att en syntaktiskt trasig gradientfil ersätter appens data.",
+    "environment": "Vid återimport",
+    "source": "tools/afm-audit/run_gross_climb_f15.sh"
+  },
+  {
+    "id": "AFM-Q12",
+    "title": "Syntaxkontroll efter import, klaff 35",
+    "input": "run_landing_gross_climb_f35.sh, genererade JS-tabeller för anti-ice OFF/ON.",
+    "pass": "node --check ska lyckas innan varje fil kopieras. Monotonicitetsrapporten körs efteråt.",
+    "purpose": "Fångar trasig genererad JavaScript för landningsgradienter.",
+    "environment": "Vid återimport",
+    "source": "tools/afm-audit/run_landing_gross_climb_f35.sh"
+  },
+  {
+    "id": "AFM-Q13",
+    "title": "Visuell kontroll av OCR-avvikelser",
+    "input": "Renderad sida från rätt PDF, tabell, kolumn, enhet och markerad OCR-cell.",
+    "pass": "Granskaren bekräftar cellens värde och plats i källbilden innan dataändring. Oläsliga celler förblir öppna.",
+    "purpose": "Skiljer avvikande OCR-tolkning från ett faktiskt fel i kodens tabell.",
+    "environment": "Manuell · datagranskning",
+    "source": "tools/afm-audit/README.md"
+  },
+  {
+    "id": "DEV-01",
+    "title": "Installera från Safari",
+    "input": "Safari, aktuell release och dokumenterad iPadOS-version.",
+    "pass": "Föreslaget observationsvillkor: appen går att installera och starta från hemskärmen.",
+    "purpose": "Verifierar den faktiska installationsvägen på målenheten.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-02",
+    "title": "Kallstart av installerad app offline",
+    "input": "Installerad app med färdig offlinecache. Stäng appen, stäng av nätet och öppna igen.",
+    "pass": "Föreslaget observationsvillkor: installerad app öppnas och vald beräkning går att använda offline.",
+    "purpose": "Verifierar att iPadOS behåller data över en riktig omstart.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-03",
+    "title": "Uppdatering av installerad app",
+    "input": "Äldre installerad release och tillgänglig ny release online.",
+    "pass": "Föreslaget observationsvillkor: uppdateringen installeras och den installerade appen startar om med förväntad version.",
+    "purpose": "Prövar iPadOS/PWA-livscykeln på riktig hårdvara.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-04",
+    "title": "Rotation och återgång till stående",
+    "input": "Visa start-/landningsvyn, rotera och återgå till stående.",
+    "pass": "Föreslaget observationsvillkor: när enheten återgår till stående är val och kontroller användbara.",
+    "purpose": "Fångar orienteringsproblem utanför den emulerade stående vyn.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-05",
+    "title": "Skärmtangentbord och inmatning",
+    "input": "Öppna flygplatsfält och numeriska fält i båda faserna.",
+    "pass": "Föreslaget observationsvillkor: avsedda värden kan matas in och bekräftas med det inbyggda tangentbordet.",
+    "purpose": "Prövar iPadOS egna tangentbord och fokusbeteende.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-06",
+    "title": "VoiceOver",
+    "input": "Aktivera VoiceOver. Navigera till reglage och beräkningsresultat.",
+    "pass": "Föreslaget observationsvillkor: relevanta namn, värden och funktioner går att nå och förstå.",
+    "purpose": "Emulerad touch verifierar inte verklig uppläsning och navigering.",
+    "environment": "Fysisk iPad mini A17 Pro",
+    "source": "TESTING.md:98"
+  },
+  {
+    "id": "DEV-07",
+    "title": "Öppna ForeFlight",
+    "input": "ForeFlight installerat. Aktivera appens ForeFlight-länk.",
+    "pass": "Föreslaget observationsvillkor: rätt externa app öppnas. Webbläsartestet kontrollerar endast URI.",
+    "purpose": "Kontrollerar överlämningen från EFB till en annan app.",
+    "environment": "Fysisk enhet",
+    "source": "TESTING.md:104"
+  },
+  {
+    "id": "AFM-Q14",
+    "title": "OCR-kvalitet för landningsdistans",
+    "input": "read_landing_distance.py med PDF, profil och siffermallar.",
+    "pass": "Rapporten visar antal celler över granskningsgränsen. Poster i reviewRequired ger kod 2 och kräver granskning.",
+    "purpose": "Fångar osäkra avläsningar före import av distanstabeller.",
+    "environment": "Vid extraktion · granskningskö",
+    "source": "tools/afm-audit/read_landing_distance.py"
+  },
+  {
+    "id": "AFM-Q15",
+    "title": "OCR-kvalitet för viktgräns, figur 4-43",
+    "input": "read_landing_weight_443.py för valda tryckhöjder och PDF.",
+    "pass": "Rapporterar väntat radantal, hela viktrader och avvikelser mellan OCR-lägen. Utskriften är granskningsunderlag utan eget automatiskt godkännande.",
+    "purpose": "Visar om kandidaterna är tillräckligt kompletta för importkontrollen.",
+    "environment": "Vid extraktion · rapport",
+    "source": "tools/afm-audit/read_landing_weight_443.py"
+  }
+]
