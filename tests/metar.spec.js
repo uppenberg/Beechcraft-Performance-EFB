@@ -40,7 +40,7 @@ test('MPS METAR leaves takeoff and landing weather fields unchanged', async ({ p
   await fillWeather(page, 'ldg', { direction: '180', speed: '6', oat: '4', qnh: '1008' });
   await stubMetar(page, '02010MPS');
 
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await chooseAirport(page, 'to', 'ESSA', '01L');
   await page.locator('#landing-tab-button').click();
   await chooseAirport(page, 'ldg', 'ESSA', '01L');
@@ -74,7 +74,7 @@ test('KT METAR continues to fill available takeoff and landing weather fields', 
   await fillWeather(page, 'ldg', { direction: '180', speed: '6', oat: '4', qnh: '1008' });
   await stubMetar(page, '02008KT');
 
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await chooseAirport(page, 'to', 'ESSA', '01L');
   await page.locator('#landing-tab-button').click();
   await chooseAirport(page, 'ldg', 'ESSA', '01L');

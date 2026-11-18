@@ -1,0 +1,70 @@
+{
+  "sourceCommit": "c8b7a34",
+  "description": "Observed engine outputs before UI commit 4033feb. Software regression reference for the scenarios in engine-regression.spec.js.",
+  "SE-LTL": {
+    "tor": 540.96224171,
+    "tod": 1341.4452729,
+    "asd": 954.29939825,
+    "v1": 94,
+    "vr": 94,
+    "v2": 104,
+    "climbGrad": 4.6366755964,
+    "vrefUp": 116,
+    "vrefDown": 92.5,
+    "ldgDistUp": 2022.173721,
+    "ldgDistDown": 1189.5139535,
+    "missedClimb": 5.6270560644
+  },
+  "SE-KVL": {
+    "tor": 538.18164837,
+    "tod": 1341.4452729,
+    "asd": 954.29939825,
+    "v1": 94,
+    "vr": 94,
+    "v2": 104,
+    "climbGrad": 4.6366755964,
+    "vrefUp": 128,
+    "vrefDown": 100.5,
+    "ldgDistUp": 1232.7454242,
+    "ldgDistDown": 951.17819882,
+    "missedClimb": 5.9245563816
+  },
+  "SE-MJU": {
+    "tor": 544.53393485,
+    "tod": 1211.7558001,
+    "asd": 955.73944843,
+    "v1": 94,
+    "vr": 94,
+    "v2": 104,
+    "climbGrad": 4.8413860937,
+    "vrefUp": 128,
+    "vrefDown": 100.5,
+    "ldgDistUp": 1407.9747642,
+    "ldgDistDown": 1085.9637546,
+    "missedClimb": 5.1699210328
+  },
+  "SE-MHU": {
+    "tor": 725.23371611,
+    "tod": 1515.2298658,
+    "asd": 1235.8084084,
+    "v1": 104.5,
+    "vr": 104.5,
+    "v2": 113,
+    "climbGrad": 3.8885915736,
+    "vrefUp": 125.33333333,
+    "vrefDown": 109.85714286,
+    "ldgDistUp": 2111.4778646,
+    "ldgDistDown": 1370.2070239,
+    "missedClimb": 4.0270996229
+  },
+  "C56X": {
+    "selectedDistanceFt": 3415.401753392142,
+    "v1": 93.05395606652469,
+    "vr": 99,
+    "v2": 115,
+    "climbGradient": 9.96070979625606,
+    "landingDistanceFt": 6005.364370443576,
+    "vref": 111,
+    "vapp": 117
+  }
+}

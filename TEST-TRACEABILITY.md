@@ -154,7 +154,7 @@ Varje krav-ID är avsett att behållas även om testfiler flyttas. Testreferense
 
 | ID / Prio | Krav, källa och risk | Scenario och förväntat utfall | Testkoppling / täckning | Föreslagen nivå |
 | --- | --- | --- | --- | --- |
-| OFF-01 / P0 | G Offline readiness; K sw asset list. | Alla filer för aktuell release installeras, inte bara HTML. Importer och C56X-loaderfiler ingår i offline-listan. | PWA-01, SRC-02; B | Kt + E |
+| OFF-01 / P0 | G Offline readiness; K sw asset list. | Alla filer för aktuell release installeras, inte bara HTML. Importer och C56X-loaderfiler ingår i offline-listan. | PWA-01/03, SRC-02; B | Kt + E |
 | OFF-02 / P0 | G retry; K offline status. | Workbook-download misslyckas → ej ready; retry efter återanslutning hämtar data och initiering fungerar. | PWA-02; B | E |
 | OFF-03 / P0 | G offline calculations. | Installerad app startar offline och återansluter för update check. Utöka med varje unik workbook, båda faser, custom-data och väder manuellt. | PWA-03; D: full motor-/fasmatris saknas | E/Enhet |
 | OFF-04 / P0 | K version.js/release-cache; H 7d723e7/cdf6a3f. | Ny release upptäcks/installas/aktiveras; gammalt shell aktivt tills bytet; version marker blockerar inte kalkylatorstart. | PWA-04/05, INIT-02; B | E |
@@ -344,7 +344,7 @@ Katalogen nedan återger testdeklarationer i den granskade arbetskopian. `${...}
 | --- | --- | --- |
 | PWA-01 | offline asset installation downloads the complete current release | OFF-01 |
 | PWA-02 | failed workbook download reports failure, enables retry and recovers after reconnecting | OFF-02, OFF-10 |
-| PWA-03 | installed app starts offline and reconnects for update checks | OFF-03 |
+| PWA-03 | installed app starts offline and reconnects for update checks | OFF-01, OFF-03 |
 | PWA-04 | service worker update can be detected, installed and activated | OFF-04 |
 | PWA-05 | version.js selects a new cache while the old app shell remains active until update | APT-12, OFF-04 |
 | PWA-06 | a forced update moves other open tabs to the same versioned release | OFF-05 |
@@ -378,9 +378,9 @@ Katalogen nedan återger testdeklarationer i den granskade arbetskopian. `${...}
 | Test-ID | Exakt deklarerad titel | Krav som hänvisar hit |
 | --- | --- | --- |
 | SRC-01 | offline asset checkout attributes preserve identical bytes across platforms | APT-12, QA-04 |
-| SRC-02 | all app module imports and C56X loader files are included in the offline asset list | APT-12, OFF-01, QA-04 |
+| SRC-02 | app modules and their imports are included in the offline asset list | APT-12, OFF-01, QA-04 |
 
-### ACTION – [ui-contract.spec.js](tests/node/ui-contract.spec.js)
+### ACTION – [ui-contract.spec.js](tests/ui-contract.spec.js)
 
 | Test-ID | Exakt deklarerad titel | Krav som hänvisar hit |
 | --- | --- | --- |

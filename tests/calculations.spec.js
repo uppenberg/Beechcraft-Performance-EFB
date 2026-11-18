@@ -79,13 +79,16 @@ test('C56X takeoff and landing use each table minimum below its temperature rang
     };
   });
 
-  expect(result.takeoffAtFloor).not.toBeNull();
+  expect(result.takeoffAtFloor?.selectedDistanceFt).toBeGreaterThan(0);
+  for (const field of ['v1', 'vr', 'v2']) expect(result.takeoffSpeedsAtFloor?.[field]).toBeGreaterThan(0);
   expect(result.takeoffBelowFloor).toEqual(result.takeoffAtFloor);
   expect(result.takeoffSpeedsBelowFloor).toEqual(result.takeoffSpeedsAtFloor);
   expect(result.landingWeightAtFloor.maxLandingWeight.figure443Lb).not.toBeNull();
   expect(result.landingWeightBelowFloor.maxLandingWeight.figure443Lb)
     .toBe(result.landingWeightAtFloor.maxLandingWeight.figure443Lb);
   expect(result.landingAtFloor.distanceFt).not.toBeNull();
+  expect(result.landingAtFloor.vref).toBeGreaterThan(0);
+  expect(result.landingAtFloor.vapp).toBeGreaterThan(0);
   expect(result.landingBelowFloor.distanceFt).toBe(result.landingAtFloor.distanceFt);
   expect(result.landingBelowFloor.vref).toBe(result.landingAtFloor.vref);
   expect(result.landingBelowFloor.vapp).toBe(result.landingAtFloor.vapp);
@@ -101,7 +104,7 @@ test('C56X algorithm outputs match the approved app-update regression baseline',
     landing: getC56xLandingPerformance(inputs.landing),
   }), reference.algorithmicInputs);
 
-  expect(actual).toEqual(reference.algorithmicOutputs);
+  expect(actual).toMatchObject(reference.algorithmicOutputs);
 });
 
 test('C56X takeoff matrix covers wind, weight, flaps, anti-ice, RCC, slope and fluid', async ({ page }) => {

@@ -119,6 +119,14 @@ The test server has controlled modes for failed workbook requests, simulated off
 
 ## App-update regression references
 
+`tests/engine-regression.spec.js` compares unrounded takeoff and landing results with
+`tests/references/engine-regression.json`, captured from commit `c8b7a34` before the UI changes in `4033feb`.
+The four workbook cases enter fixed conditions at EFHK 22R through the app and read speeds,
+distances and climb gradients from the selected workbook. Both B190 registrations use the same
+workbook. A separate C56X case calls the calculators with fixed conditions and compares eight
+numeric outputs. Run these five cases with `npx playwright test tests/engine-regression.spec.js --project=chromium`.
+The comparison allows floating-point differences below 0.0000005 in each output's native unit.
+
 `tests/references/app-update-regression.json` is the approved comparison baseline for app version 0.544. The user approved it on 2026-11-09 to compare future app updates. It stores fixed inputs, visible outputs for BE20, B190 and C56X, and direct C56X algorithm outputs.
 
 Every `npm test` run compares the current app with this baseline and the separately documented, intentional startup synchronization changes in `tests/references/startup-sync-changes.json`. The original approved baseline is preserved. A different output fails the regression test and appears in the HTML, JSON and JUnit reports. The baseline records observed app behavior; approval here means approval for regression comparison only. It is not independent AFM verification or operational approval.

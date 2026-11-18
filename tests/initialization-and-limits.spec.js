@@ -1,5 +1,5 @@
 ﻿const { test, expect } = require('./support/coverage-test');
-const { openApp, blockExternalRequests, chooseAirport, fillWeather, setServerMode } = require('./support/app-helpers');
+const { openApp, waitForAppInitialization, blockExternalRequests, chooseAirport, fillWeather, setServerMode } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });
 
@@ -98,8 +98,7 @@ for (const [registration, mass] of [['SE-LTL', '11500'], ['SE-MHU', '15000'], ['
     }, mass);
     await page.locator('#to-rwcc').selectOption('4');
     await page.reload();
-    await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-    await page.evaluate(() => window.__testAppInitPromise);
+    await waitForAppInitialization(page);
     await expect(page.locator('main')).toBeVisible();
     await expect(page.locator('#to-mass')).toHaveValue(mass);
     await expect(page.locator('#to-rwcc')).toHaveValue('4');

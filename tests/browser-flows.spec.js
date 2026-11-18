@@ -10,6 +10,7 @@ const {
   chooseAirport,
   fillWeather,
   openApp,
+  waitForAppInitialization,
   setServerMode,
 } = require('./support/app-helpers');
 
@@ -28,6 +29,7 @@ async function setSlider(page, id, value) {
 
 async function readFiniteOutput(page, id) {
   const text = (await page.locator(`#${id}`).textContent()).trim();
+  expect(text, `${id} should contain a value`).not.toBe('');
   const value = Number(text.replaceAll(',', '').replace(/\s/g, ''));
   expect(Number.isFinite(value), `${id} should be numeric, got "${text}"`).toBeTruthy();
   return value;
@@ -50,11 +52,10 @@ test('UI actions are externalized and delegated without inline event handlers', 
 test('takeoff runway availability checks restore serialized workbook input cells', async ({ page }) => {
   await openApp(page, 'SE-LTL');
   await chooseAirport(page, 'to', 'ESSA', '01L');
+  await fillWeather(page, 'to', { direction: '020', speed: '8', oat: '15', qnh: '1013' });
 
   const result = await page.evaluate(() => {
-    const candidate = BeechcraftApp.airports.getAirportRows('ESSA')
-      .find((airport) => airport.RWY !== '01L');
-    if (!candidate) throw new Error('Expected a second ESSA runway for the restoration check.');
+    const candidate = BeechcraftApp.airports.getSelectedAirportRecord('to');
 
     const config = BeechcraftApp.state.CELL_MAPPING.takeoff;
     const sheet = BeechcraftApp.state.AppState.hfInstance.getSheetId(config.sheetName);
@@ -69,15 +70,19 @@ test('takeoff runway availability checks restore serialized workbook input cells
     const before = addresses.map((address) =>
       BeechcraftApp.state.AppState.hfInstance.getCellSerialized(address) ?? null
     );
-    const availability = BeechcraftApp.airports.evaluateTakeoffRunwayAvailability(candidate);
+    const evaluate = BeechcraftApp.airports.evaluateTakeoffRunwayAvailability;
+    const full = evaluate(candidate);
+    const short = evaluate({ ...candidate, 'TORA [m] (C6)': 1 });
     const after = addresses.map((address) =>
       BeechcraftApp.state.AppState.hfInstance.getCellSerialized(address) ?? null
     );
 
-    return { availability, before, after };
+    return { full, short, before, after };
   });
 
-  expect(result.availability).toHaveProperty('available');
+  expect(result.full).toEqual({ available: true, reasons: [] });
+  expect(result.short.available).toBe(false);
+  expect(result.short.reasons).toContain('TOR exceeds TORA');
   expect(result.after).toEqual(result.before);
 });
 
@@ -229,7 +234,7 @@ for (const aircraft of [
     await openApp(page, aircraft.registration);
     await chooseAirport(page, 'to', 'ESSA', '01L');
     await fillWeather(page, 'to', { direction: '020', speed: '8', oat: '15', qnh: '1013' });
-    if (aircraft.model === 'B190') await page.locator('#to-technique').selectOption({ index: 0 });
+    if (aircraft.model === 'B190') await page.locator('#to-technique').selectOption('Static T/O power');
     await page.locator('#to-flaps').selectOption(aircraft.flaps[0]);
     await page.locator('#to-anti-ice').selectOption('OFF');
     await page.locator('#to-rwcc').selectOption('6');
@@ -313,7 +318,7 @@ for (const aircraft of [
       element.dispatchEvent(new Event('input', { bubbles: true }));
     }, aircraft.mass);
     await page.locator('#to-flaps').selectOption(aircraft.takeoffFlaps);
-    if (aircraft.model === 'B190') await page.locator('#to-technique').selectOption({ index: 0 });
+    if (aircraft.model === 'B190') await page.locator('#to-technique').selectOption('Static T/O power');
     await expect(page.locator('#takeoff-exceedance-status')).toContainText('Exceeded');
 
     await page.evaluate(() => BeechcraftApp.airports.switchTab('landing'));
@@ -344,8 +349,7 @@ test('BE20 takeoff and landing inputs and selected airport persist through reloa
   await page.locator('#ldg-rwcc').selectOption('4');
 
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect(page.locator('#page-landing')).toBeVisible();
   await expect(page.locator('#to-airport-icao')).toHaveValue('ESSA');
   await expect(page.locator('#to-airport-rwy')).toHaveValue('01L');
@@ -431,8 +435,7 @@ test('custom airports can be created, selected, reused after reload, edited and 
   await expect(page.locator('#landing-exceedance-status')).toContainText('Exceeds LDA');
 
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect(page.locator('#global-registration')).toHaveValue('SE-RIJ');
   await page.locator('#settings-toggle').click();
   await expect(page.locator('#custom-airport-checkbox')).toBeChecked();

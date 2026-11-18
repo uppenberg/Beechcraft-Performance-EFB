@@ -97,7 +97,7 @@ window.BeechcraftApp = Object.freeze({
   results,
 });
 
-const uiActions = Object.freeze({
+export const uiActions = Object.freeze({
   showNextLeg: () => showNextLeg(),
   cancelNextLeg: () => cancelNextLeg(),
   confirmNextLeg: () => confirmNextLeg(),

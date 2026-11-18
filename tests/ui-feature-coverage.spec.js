@@ -1,5 +1,5 @@
 const { test, expect } = require('./support/coverage-test');
-const { blockExternalRequests, chooseAirport, fillWeather, openApp, setServerMode } = require('./support/app-helpers');
+const { blockExternalRequests, chooseAirport, fillWeather, openApp, waitForAppInitialization, setServerMode } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });
 
@@ -431,8 +431,7 @@ for (const item of [
     await page.locator('#ldg-oat').fill('9');
     await page.locator('#ldg-qnh').fill('1009');
     await page.reload();
-    await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-    await page.evaluate(() => window.__testAppInitPromise);
+    await waitForAppInitialization(page);
 
     await expect(page.locator('#global-registration')).toHaveValue(item.registration);
     await expect(page.locator('#page-landing')).toBeVisible();
