@@ -40,10 +40,16 @@ test('MPS METAR leaves takeoff and landing weather fields unchanged', async ({ p
   await fillWeather(page, 'ldg', { direction: '180', speed: '6', oat: '4', qnh: '1008' });
   await stubMetar(page, '02010MPS');
 
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await chooseAirport(page, 'to', 'ESSA', '01L');
   await page.locator('#landing-tab-button').click();
   await chooseAirport(page, 'ldg', 'ESSA', '01L');
+
+  await stubMetar(page, '02004G25MPS');
+  for (const [prefix, card] of [['to', '#card-wind-check'], ['ldg', '#card-wind-check-ldg']]) {
+    await page.evaluate((phase) => BeechcraftApp.results.fetchMetarForAirport(phase), prefix);
+    await expect(page.locator(card)).toHaveCSS('border-color', 'rgb(248, 81, 73)');
+  }
 
   await expect(page.locator('#to-wind-dir')).toHaveValue('90');
   await expect(page.locator('#to-wind-spd')).toHaveValue('7');
@@ -68,7 +74,7 @@ test('KT METAR continues to fill available takeoff and landing weather fields', 
   await fillWeather(page, 'ldg', { direction: '180', speed: '6', oat: '4', qnh: '1008' });
   await stubMetar(page, '02008KT');
 
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await chooseAirport(page, 'to', 'ESSA', '01L');
   await page.locator('#landing-tab-button').click();
   await chooseAirport(page, 'ldg', 'ESSA', '01L');
@@ -79,6 +85,18 @@ test('KT METAR continues to fill available takeoff and landing weather fields', 
     await expect(page.locator(`#${prefix}-oat`)).toHaveValue('15');
     await expect(page.locator(`#${prefix}-qnh`)).toHaveValue('1013');
     await expect(page.locator(`#${prefix}-metar-weather-status`)).toBeHidden();
+  }
+});
+
+test('a METAR direction outside 0–360 cannot populate either wind field', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  for (const prefix of ['to', 'ldg']) {
+    const direction = page.locator(`#${prefix}-wind-dir`);
+    const previous = await direction.inputValue();
+    const applied = await page.evaluate((phase) =>
+      BeechcraftApp.results.populateWeatherFromMetar('METAR ESSA 011230Z 36108KT 15/10 Q1013', phase), prefix);
+    expect(applied).toBe(false);
+    await expect(direction).toHaveValue(previous);
   }
 });
 
@@ -100,6 +118,7 @@ test('shared METAR parser normalizes wind once and keeps MPS out of calculator v
       gust: 15,
       unit: 'MPS',
       speedKnots: 19.4384,
+      gustKnots: 15 * 1.94384,
     },
     values: {},
   });
@@ -111,6 +130,7 @@ test('shared METAR parser normalizes wind once and keeps MPS out of calculator v
       gust: 14,
       unit: 'KT',
       speedKnots: 8,
+      gustKnots: 14,
     },
     values: { windDir: 340, windSpeed: 8, oat: -1, qnh: 1013 },
   });
@@ -120,6 +140,7 @@ test('shared METAR parser normalizes wind once and keeps MPS out of calculator v
     gust: null,
     unit: 'KT',
     speedKnots: 3,
+    gustKnots: null,
   });
   expect(parsed.invalid).toEqual({ windUnit: null, wind: null, values: {} });
   expect(parsed.calm).toMatchObject({

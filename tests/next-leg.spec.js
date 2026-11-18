@@ -1,5 +1,5 @@
 ﻿const { test, expect } = require('./support/coverage-test');
-const { openApp } = require('./support/app-helpers');
+const { openApp, waitForAppInitialization } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });
 
@@ -73,8 +73,7 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
     await expect(page.locator('#to-metar-display')).toContainText('ESNU');
     await expect(page.locator('#ldg-metar-display')).toContainText('ESSA');
     await page.reload();
-    await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-    await page.evaluate(() => window.__testAppInitPromise);
+    await waitForAppInitialization(page);
     await expect(page.locator('#to-airport-icao')).toHaveValue('ESNU');
     await expect(page.locator('#ldg-airport-icao')).toHaveValue('ESSA');
     await expect(page.locator('#to-mass')).toHaveValue(landingMass);
@@ -92,7 +91,7 @@ test('invalid or out-of-range carry-forward cannot start a leg', async ({ page }
   await expect(page.locator('#next-leg-confirm')).toBeDisabled();
   await page.locator('#next-leg-dialog').getByRole('button', { name: 'No', exact: true }).click();
   await page.locator('#ldg-airport-icao').fill('ESNU');
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await page.locator('#to-airport-icao').fill('ESSA');
   await page.locator('#landing-tab-button').click();
   await page.locator('#ldg-mass').fill('9000');

@@ -1,5 +1,5 @@
 const { test, expect } = require('./support/coverage-test');
-const { blockExternalRequests, openApp, setServerMode } = require('./support/app-helpers');
+const { blockExternalRequests, openApp, waitForAppInitialization, setServerMode } = require('./support/app-helpers');
 
 test.beforeEach(async ({ browserName, context, request }) => {
   test.skip(browserName !== 'chromium', 'Service-worker lifecycle checks run in Chromium; WebKit covers app UI and calculation compatibility.');
@@ -60,14 +60,25 @@ test('failed workbook download reports failure, enables retry and recovers after
 });
 
 test('installed app starts offline and reconnects for update checks', async ({ page, context }) => {
+  const loadedScripts = new Set();
+  page.on('request', request => {
+    if (request.resourceType() === 'script') loadedScripts.add(request.url());
+  });
   await openApp(page, 'SE-RIJ');
   await waitForOfflineReady(page);
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
+  const appScripts = [...loadedScripts].filter(url => new URL(url).origin === new URL(page.url()).origin);
+  expect(appScripts.length).toBeGreaterThan(0);
+  const uncached = await page.evaluate(async urls => {
+    const missing = [];
+    for (const url of urls) if (!(await caches.match(url))?.ok) missing.push(url);
+    return missing;
+  }, appScripts);
+  expect(uncached).toEqual([]);
 
   await context.setOffline(true);
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect(page.locator('#global-registration')).toHaveValue('SE-RIJ');
   await expect(page.locator('#c56x-takeoff-performance')).toBeVisible();
   await expect(page.locator('#c56x-tora-status')).toContainText('Not available');
@@ -87,9 +98,7 @@ test('service worker update can be detected, installed and activated', async ({ 
   await expect(page.locator('#app-version')).toHaveText(`v${oldVersion}`);
 
   const { updateMarker } = await setServerMode(request, 'updated');
-  await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await page.getByRole('button', { name: 'Check for app updates' }).click();
   await dismissUpdatePrompt(page);
   await openSettings(page);
   // Deferring the update keeps the installed release active and displayed.
@@ -98,16 +107,11 @@ test('service worker update can be detected, installed and activated', async ({ 
     const registration = await navigator.serviceWorker.getRegistration();
     return Boolean(registration.waiting);
   }), { timeout: 30_000 }).toBe(true);
-  const activate = page.evaluate(async () => {
-    const registration = await navigator.serviceWorker.getRegistration();
-    BeechcraftApp.offline.activateAppUpdate(registration.waiting);
-  });
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 45_000 }),
-    activate,
+    page.getByRole('button', { name: 'Install app update' }).click(),
   ]);
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect(page.locator('#global-registration')).toHaveValue('SE-LTL');
   await expect.poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
   await waitForOfflineReady(page);
@@ -122,10 +126,8 @@ test('version.js selects a new cache while the old app shell remains active unti
   const oldVersion = await page.evaluate(() => window.APP_VERSION);
   const { updateMarker } = await setServerMode(request, 'updated');
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
-  await dismissUpdatePrompt(page);
-  await openSettings(page);
+  await waitForAppInitialization(page);
+  await expect(page.locator('#app-update-dialog')).toBeVisible({ timeout: 30_000 });
   expect(await page.evaluate(() => ({
     version: window.APP_VERSION,
     html: document.querySelector('meta[name="test-release"]')?.content || null,
@@ -140,10 +142,7 @@ test('version.js selects a new cache while the old app shell remains active unti
   }), { timeout: 30_000 }).toBe(true);
   await Promise.all([
     page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 45_000 }),
-    page.evaluate(async () => {
-      const registration = await navigator.serviceWorker.getRegistration();
-      BeechcraftApp.offline.activateAppUpdate(registration.waiting);
-    }),
+    page.locator('#app-update-install').click(),
   ]);
   await expect.poll(() => page.evaluate(() => ({
     version: window.APP_VERSION,
@@ -161,8 +160,7 @@ test('a forced update moves other open tabs to the same versioned release', asyn
   await expect(second.locator('main')).toBeVisible();
   const { updateMarker } = await setServerMode(request, 'updated');
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect.poll(() => page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     await registration.update();
@@ -209,8 +207,7 @@ test('a failed update retains the previously usable offline snapshot', async ({ 
   expect(installationState).toBe('redundant');
   await context.setOffline(true);
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   expect(await page.evaluate(() => window.APP_VERSION)).toBe(oldVersion);
   await expect(page.locator('main')).toBeVisible();
   await waitForOfflineReady(page);

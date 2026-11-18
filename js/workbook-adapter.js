@@ -30,6 +30,21 @@ export function setWorkbookCellValues(sheetId, updates) {
   });
 }
 
+// Keep temporary runway inputs local to a synchronous workbook calculation.
+export function withWorkbookCellValues(sheetId, valuesByRef, calculate) {
+  const updates = Array.from(valuesByRef, ([ref, value]) => ({ position: parseCellRef(ref), value }));
+  const originals = updates.map(({ position }) => ({
+    position,
+    value: AppState.hfInstance.getCellSerialized({ sheet: sheetId, ...position }) ?? null,
+  }));
+  try {
+    setWorkbookCellValues(sheetId, updates);
+    return calculate();
+  } finally {
+    setWorkbookCellValues(sheetId, originals);
+  }
+}
+
 export function getOutputVal(sheetName, cellRef, roundNumber = true) {
   if (!AppState.hfInstance) return '-';
   if (!cellRef) return '-';

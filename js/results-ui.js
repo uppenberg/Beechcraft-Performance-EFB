@@ -69,6 +69,77 @@ export function safeSetText(elementId, text) {
   if (el) el.innerText = text;
 }
 
+export function updateTakeoffSpeedCard(v1, vr, v2) {
+  const card = document.getElementById('takeoff-speeds-card');
+  if (!card) return;
+  const speeds = [v1, vr, v2].map(finiteNumber);
+  const [decision, rotation, safety] = speeds;
+  const available = speeds.every((value) => value !== null);
+  const ordered = available && decision <= rotation && rotation <= safety;
+  card.classList.toggle('is-within-limits', ordered);
+  card.classList.toggle('is-exceeded', !ordered);
+}
+
+export function updateLandingVrefCard(vref, vapp) {
+  const card = document.getElementById('card-landing-vref');
+  if (!card) return;
+  const values = vapp === undefined ? [vref] : [vref, vapp];
+  const available = values.every((value) => finiteNumber(value) !== null);
+  card.style.background = available ? 'rgba(46, 160, 67, 0.12)' : '#3d1414';
+  card.style.borderColor = available ? 'rgba(46, 160, 67, 0.5)' : '#f85149';
+}
+
+export function updateEmergencyReturnCard(options, landingDistanceAvailable) {
+  const card = document.getElementById('card-emergency-return');
+  const status = document.getElementById('emergency-return-status');
+  if (!card || !status) return;
+
+  const rows = [
+    { row: 'emergency-return-up-row', label: 'emergency-return-up-label', vref: 'res-to-emup-vref', distance: 'res-to-emup-dist' },
+    { row: 'emergency-return-down-row', label: 'emergency-return-down-label', vref: 'res-to-emdown-vref', distance: 'res-to-emdown-dist' },
+  ];
+  rows.forEach((elements, index) => {
+    const option = options[index];
+    const row = document.getElementById(elements.row);
+    if (row) row.hidden = !option;
+    if (!option) return;
+    const label = document.getElementById(elements.label);
+    const vref = document.getElementById(elements.vref);
+    const distance = document.getElementById(elements.distance);
+    const vrefValue = finiteNumber(option.vref);
+    const distanceValue = finiteNumber(option.distance);
+    if (label) label.textContent = option.label;
+    if (vref) vref.textContent = vrefValue === null ? '-' : String(Math.round(vrefValue));
+    if (distance) distance.textContent = distanceValue === null ? '--' : String(Math.ceil(distanceValue));
+  });
+
+  const lda = finiteNumber(landingDistanceAvailable);
+  const results = options.map((option) => {
+    const distance = finiteNumber(option?.distance);
+    const vref = finiteNumber(option?.vref);
+    return distance !== null && vref !== null && lda !== null && lda > 0
+      ? distance <= lda
+      : null;
+  });
+  const complete = results.length > 0 && results.every((result) => result !== null);
+  const withinCount = results.filter((result) => result === true).length;
+  let state = 'is-missing-data';
+  let message = 'Return check unavailable';
+  if (complete && withinCount === results.length) {
+    state = 'is-within-limits';
+    message = `Within LDA (${withinCount}/${results.length})`;
+  } else if (complete && withinCount === 0) {
+    state = 'is-warning';
+    message = 'Use takeoff alternate';
+  } else if (complete) {
+    state = 'is-warning';
+    message = `Only ${withinCount}/${results.length} settings within LDA`;
+  }
+  card.classList.remove('is-within-limits', 'is-exceeded', 'is-missing-data', 'is-warning');
+  card.classList.add(state);
+  status.textContent = message;
+}
+
 export function safeSetValue(elementId, value) {
   const el = document.getElementById(elementId);
   if (el) el.value = (value !== '-' && value !== null && value !== undefined) ? value : '';
@@ -206,11 +277,10 @@ export async function fetchMetarForAirport(prefix, populateWeather = true) {
       displaySpan.style.color = metarAgeColor(validatedMetar.ageMinutes);
     }
     saveMetar(prefix, icaoCode, validatedMetar);
+    const weatherApplied = populateWeather && populateWeatherFromMetar(validatedMetar.text, prefix);
+    if (!weatherApplied) refreshOutputs();
+    if (populateWeather) persistFormState();
     suggestRunwayFromMetar(validatedMetar.text, prefix);
-    if (populateWeather) {
-      populateWeatherFromMetar(validatedMetar.text, prefix);
-      persistFormState();
-    }
   } catch (error) {
     console.error("Fel vid hämtning av METAR:", error);
     if (AppState.airportSelection[prefix].icao !== icaoCode) return;
@@ -237,6 +307,10 @@ export function populateWeatherFromMetar(metarText, prefix) {
   if (!metarText || metarText.includes('INGEN METAR') || metarText.includes('OFFLINE')) return false;
 
   const parsed = MetarWeather.parse(metarText);
+  if (parsed.wind?.directionDegrees > 360) {
+    setMetarWeatherStatus(prefix, 'Invalid METAR wind direction. Enter wind between 0° and 360°.');
+    return false;
+  }
   if (parsed.windUnit === 'MPS') {
     setMetarWeatherStatus(
       prefix,
@@ -437,8 +511,8 @@ export function updateClimbCheckCard(actualValue, reqValue) {
         cardContainer.style.background = "#3d1414";
         cardContainer.style.borderColor = "#f85149";
     } else {
-        cardContainer.style.background = "#0d1117";
-        cardContainer.style.borderColor = "#30363d";
+        cardContainer.style.background = "rgba(46, 160, 67, 0.12)";
+        cardContainer.style.borderColor = "rgba(46, 160, 67, 0.5)";
     }
 }
 
@@ -463,9 +537,28 @@ function renderWindCheckCard(prefix, headwind, crosswind, crosswindLimit) {
             element.style.color = '#fff';
         }
     }
-    const state = windLimitStatus(headwind, crosswind, crosswindLimit);
-    card.style.background = state === 'red' ? '#3d1414' : state === 'amber' ? '#3b2e0c' : '#0d1117';
-    card.style.borderColor = state === 'red' ? '#f85149' : state === 'amber' ? '#d29922' : '#30363d';
+    let state = windLimitStatus(headwind, crosswind, crosswindLimit);
+    const metarText = document.getElementById(`${prefix}-metar-display`)?.textContent || '';
+    const metarWind = MetarWeather.parse(metarText).wind;
+    const metarWindKnots = metarWind
+        ? Math.max(metarWind.speedKnots, metarWind.gustKnots ?? metarWind.speedKnots)
+        : null;
+    if (metarWindKnots !== null && metarWindKnots > 45) {
+        state = 'red';
+    } else if (state === 'normal') {
+        const hw = finiteNumber(headwind);
+        const xw = finiteNumber(crosswind);
+        const limit = finiteNumber(crosswindLimit);
+        if (hw !== null && hw > 0 && xw !== null && limit !== null && xw <= limit) {
+            state = 'green';
+        }
+    }
+    card.style.background = state === 'red' ? '#3d1414'
+        : state === 'amber' ? '#3b2e0c'
+            : state === 'green' ? 'rgba(46, 160, 67, 0.12)' : '#0d1117';
+    card.style.borderColor = state === 'red' ? '#f85149'
+        : state === 'amber' ? '#d29922'
+            : state === 'green' ? 'rgba(46, 160, 67, 0.5)' : '#30363d';
 }
 
 export function updateWindCheckCard(headwind, crosswind, crosswindLimit) {

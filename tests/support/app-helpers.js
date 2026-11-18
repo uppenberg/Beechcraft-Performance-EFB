@@ -16,6 +16,10 @@ async function blockExternalRequests(context) {
   });
 }
 
+async function waitForAppInitialization(page) {
+  await expect(page.locator('#global-registration')).toBeEnabled({ timeout: 30_000 });
+}
+
 async function openApp(page, registration = 'SE-LTL') {
   const storageSessionId = randomUUID();
   await page.addInitScript(({ initialRegistration, storageSessionId }) => {
@@ -25,28 +29,10 @@ async function openApp(page, registration = 'SE-LTL') {
       localStorage.setItem('selected_reg', initialRegistration);
       sessionStorage.setItem('__testStorageSessionId', storageSessionId);
     }
-    const nativeAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function (type, listener, options) {
-      if (this === document && type === 'DOMContentLoaded' && listener?.name === 'init') {
-        const observedInit = function (event) {
-          window.__testAppInitPromise = Promise.resolve(listener.call(this, event))
-            .then(() => true, (error) => {
-              window.__testAppInitError = String(error?.stack || error);
-              return false;
-            });
-          return window.__testAppInitPromise;
-        };
-        return nativeAddEventListener.call(this, type, observedInit, options);
-      }
-      return nativeAddEventListener.call(this, type, listener, options);
-    };
   }, { initialRegistration: registration, storageSessionId });
   await page.goto('/');
   await expect(page.locator('#global-registration')).toHaveValue(registration);
-  await page.waitForFunction(() => {
-    return Boolean(window.__testAppInitPromise);
-  }, null, { timeout: 30_000 });
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
 }
 
 async function chooseAirport(page, prefix, icao, runway) {
@@ -78,6 +64,7 @@ async function loadC56xPerformanceData(page) {
 }
 
 module.exports = {
+  waitForAppInitialization,
   blockExternalRequests,
   chooseAirport,
   fillWeather,

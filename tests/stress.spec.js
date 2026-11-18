@@ -4,6 +4,7 @@ test.use({ serviceWorkers: 'block' });
 const {
   blockExternalRequests,
   openApp,
+  waitForAppInitialization,
   setServerMode,
 } = require('./support/app-helpers');
 
@@ -25,8 +26,7 @@ test('malformed saved inputs and METAR do not prevent startup or later input', a
     localStorage.setItem(BeechcraftApp.state.getPersistedFormStateKey(), '{ definitely not JSON');
   });
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
 
   await expect(page.locator('#airport-selection-error')).not.toContainText('Could not initialize');
   await expect(page.locator('#to-airport-icao')).toHaveValue('ESSA');
@@ -58,14 +58,14 @@ test('rapid tab changes and malformed/extreme numeric input leave the calculator
     }
   });
 
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await page.locator('#to-wind-dir').fill('20');
   await page.locator('#to-wind-spd').fill('8');
   await page.locator('#to-oat').fill('15');
   await page.locator('#to-qnh').fill('1013');
   await page.locator('#landing-tab-button').click();
   await expect(page.locator('#page-landing')).toBeVisible();
-  await page.locator('.tab-btn').first().click();
+  await page.getByRole('button', { name: 'Take-off', exact: true }).click();
   await expect(page.locator('#page-takeoff')).toBeVisible();
   await expect(page.locator('#to-wind-spd')).toHaveValue('8');
   expect(pageErrors).toEqual([]);
@@ -89,8 +89,7 @@ test('a corrupt workbook shows a recoverable initialization error and reload suc
 
   await page.unroute('**/data/se-ltl.xlsx');
   await page.reload();
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise));
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   await expect.poll(() => page.evaluate(() => BeechcraftApp.state.AppState.appInitializationFailed))
     .toBeFalsy();
   await expect(page.locator('#airport-selection-error')).not.toContainText('Could not initialize');

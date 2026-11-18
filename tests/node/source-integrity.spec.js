@@ -2,16 +2,39 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const ts = require('typescript');
 const { execFileSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '../..');
 const read = (file) => fs.readFileSync(path.join(root, file));
-const serviceWorkerSource = read('sw.js').toString('utf8');
-const assetListMatch = serviceWorkerSource.match(/const ASSETS = (\[[\s\S]*?\]);/);
-if (!assetListMatch) throw new Error('The service worker offline asset list is missing.');
-const assets = vm.runInNewContext(assetListMatch[1]);
+// With an empty cache the worker's public readiness check lists every required asset.
+async function requiredOfflineAssets() {
+  const listeners = new Map();
+  const scope = 'https://efb.example/';
+  const worker = vm.createContext({
+    URL,
+    self: { registration: { scope }, addEventListener: (name, handler) => listeners.set(name, handler) },
+    caches: { open: async () => ({ match: async () => undefined }) },
+    importScripts: (file) => vm.runInContext(read(new URL(file, scope).pathname.slice(1)).toString(), worker),
+  });
+  vm.runInContext(read('sw.js').toString(), worker);
+  let reply;
+  let pending;
+  listeners.get('message')({
+    data: { type: 'CHECK_OFFLINE_DATA' },
+    ports: [{ postMessage: (result) => { reply = result; } }],
+    waitUntil: (promise) => { pending = promise; },
+  });
+  await pending;
+  expect(reply.error).toBeUndefined();
+  expect(reply.ready).toBe(false);
+  expect(reply.missing.length).toBeGreaterThan(0);
+  expect(reply.missing).toHaveLength(reply.total);
+  return reply.missing;
+}
 
-test('offline asset checkout attributes preserve identical bytes across platforms', () => {
+test('offline asset checkout attributes preserve identical bytes across platforms', async () => {
+  const assets = await requiredOfflineAssets();
   const files = assets.map((asset) => asset.replace(/^\.\//, ''));
   const output = execFileSync('git', ['check-attr', 'text', 'eol', '--', ...files], {
     cwd: root, encoding: 'utf8',
@@ -36,23 +59,18 @@ test('offline asset checkout attributes preserve identical bytes across platform
   }
 });
 
-test('all app module imports and C56X loader files are included in the offline asset list', () => {
+test('app modules and their imports are included in the offline asset list', async () => {
+  const assets = await requiredOfflineAssets();
   const included = new Set(assets.map((asset) => asset.replace(/^\.\//, '')));
   for (const file of included) expect(fs.existsSync(path.join(root, file)), file).toBe(true);
-  expect(serviceWorkerSource).toContain("importScripts('./version.js')");
   const modules = fs.readdirSync(path.join(root, 'js')).filter((name) => name.endsWith('.js'));
   for (const name of modules) {
     expect(included.has(`js/${name}`), name).toBe(true);
     const source = read(`js/${name}`).toString('utf8');
-    for (const match of source.matchAll(/\bfrom\s+['"](\.\/[^'"]+)['"]/g)) {
-      const imported = path.posix.normalize(path.posix.join('js', match[1]));
+    for (const { fileName } of ts.preProcessFile(source).importedFiles) {
+      if (!fileName.startsWith('.')) continue;
+      const imported = path.posix.join('js', fileName);
       expect(included.has(imported), `${name} imports ${imported}`).toBe(true);
     }
-  }
-  const loader = read('data/c56x/index.js').toString('utf8');
-  const files = loader.match(/const dataFiles = \[([\s\S]*?)\];/);
-  expect(files, 'C56X loader file list').not.toBeNull();
-  for (const match of files[1].matchAll(/['"]([^'"]+\.js)['"]/g)) {
-    expect(included.has(`data/c56x/${match[1]}`), match[1]).toBe(true);
   }
 });

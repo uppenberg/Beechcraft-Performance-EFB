@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('@playwright/test');
+const { waitForAppInitialization } = require('./support/app-helpers');
 const { createTestServer } = require('./support/server');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -21,8 +22,7 @@ async function startServer() {
 }
 
 async function waitForInit(page) {
-  await page.waitForFunction(() => Boolean(window.__testAppInitPromise), null, { timeout: 30_000 });
-  await page.evaluate(() => window.__testAppInitPromise);
+  await waitForAppInitialization(page);
   const errorText = await page.locator('#airport-selection-error').textContent();
   if (errorText.includes('Could not initialize')) throw new Error(errorText);
 }
@@ -36,21 +36,6 @@ async function captureModel(browser, baseURL, aircraft) {
   const page = await context.newPage();
   await page.addInitScript((registration) => {
     localStorage.setItem('selected_reg', registration);
-    const nativeAddEventListener = EventTarget.prototype.addEventListener;
-    EventTarget.prototype.addEventListener = function (type, listener, options) {
-      if (this === document && type === 'DOMContentLoaded' && listener?.name === 'init') {
-        const observedInit = function (event) {
-          window.__testAppInitPromise = Promise.resolve(listener.call(this, event))
-            .then(() => true, (error) => {
-              window.__testAppInitError = String(error?.stack || error);
-              return false;
-            });
-          return window.__testAppInitPromise;
-        };
-        return nativeAddEventListener.call(this, type, observedInit, options);
-      }
-      return nativeAddEventListener.call(this, type, listener, options);
-    };
   }, aircraft.registration);
   await page.goto(baseURL);
   await waitForInit(page);
