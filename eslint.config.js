@@ -21,6 +21,7 @@ const performanceGlobals = Object.fromEntries([
 ].map((name) => [name, 'readonly']));
 
 module.exports = [
+  { files: ['js/**/*.js', 'sw.js'], rules: { 'max-depth': ['error', 3] } },
   { files: ['js/*.js'], languageOptions: { sourceType: 'module', globals: { ...globals.browser, ...performanceGlobals } }, rules },
   { files: ['js/performance-limits.js'], languageOptions: { sourceType: 'module' }, rules },
   { files: ['js/performance-inputs.js'], languageOptions: { sourceType: 'module' }, rules },

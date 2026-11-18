@@ -341,28 +341,11 @@ export function normalizeHorizontalIndexCalls(formula) {
     const isIndexCall = formula.slice(index, index + 5).toUpperCase() === 'INDEX'
       && !isFormulaIdentifierCharacter(formula[index - 1]);
 
-    if (isIndexCall) {
-      let openParen = index + 5;
-      while (/\s/.test(formula[openParen] || '')) openParen += 1;
-
-      if (formula[openParen] === '(') {
-        const closeParen = findMatchingFormulaParen(formula, openParen);
-
-        if (closeParen !== -1) {
-          const originalArguments = formula.slice(openParen + 1, closeParen);
-          const normalizedArguments = normalizeHorizontalIndexCalls(originalArguments);
-          const args = splitFormulaArguments(normalizedArguments);
-          const rewrittenArguments = args.length === 2 && isSingleRowRange(args[0])
-            ? `${args[0]},1,${args[1]}`
-            : normalizedArguments;
-
-          result += formula.slice(index, openParen + 1);
-          result += rewrittenArguments;
-          result += ')';
-          index = closeParen + 1;
-          continue;
-        }
-      }
+    const call = isIndexCall ? readHorizontalIndexCall(formula, index) : null;
+    if (call) {
+      result += call.text;
+      index = call.end;
+      continue;
     }
 
     result += char;
@@ -370,6 +353,22 @@ export function normalizeHorizontalIndexCalls(formula) {
   }
 
   return result;
+}
+
+function readHorizontalIndexCall(formula, index) {
+  let openParen = index + 5;
+  while (/\s/.test(formula[openParen] || '')) openParen += 1;
+  if (formula[openParen] !== '(') return null;
+
+  const closeParen = findMatchingFormulaParen(formula, openParen);
+  if (closeParen === -1) return null;
+
+  const normalized = normalizeHorizontalIndexCalls(formula.slice(openParen + 1, closeParen));
+  const args = splitFormulaArguments(normalized);
+  const rewritten = args.length === 2 && isSingleRowRange(args[0])
+    ? `${args[0]},1,${args[1]}`
+    : normalized;
+  return { text: formula.slice(index, openParen + 1) + rewritten + ')', end: closeParen + 1 };
 }
 
 export function findFormulaQuoteEnd(formula, start, quote) {

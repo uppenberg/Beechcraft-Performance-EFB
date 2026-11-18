@@ -51,6 +51,46 @@ test('C56X landing calculations match manually verified Figure 4-44 cells', asyn
   expect(actual).toEqual(verifiedLandingTable.rows.map((row) => row.distancesFt));
 });
 
+test('C56X takeoff and landing use each table minimum below its temperature range', async ({ page }) => {
+  await loadC56xPerformanceData(page);
+  const result = await page.evaluate(() => {
+    const takeoffInputs = (oatC) => ({
+      qnhHpa: 1013.25, fieldElevationFt: 0, oatC, weightLb: 20_000,
+      windDirectionDeg: 90, windSpeedKnots: 0, runwayHeadingDeg: 90,
+      runwaySlopePercent: 0, runwayConditionCode: '6', reverserStatus: 'AVAILABLE',
+      antiIce: 'OFF', flaps: 7, deiceFluidApplied: false,
+    });
+    const takeoff = (oatC) => getC56xTakeoffFieldLengths(takeoffInputs(oatC));
+    const takeoffSpeeds = (oatC) => getC56xTakeoffSpeeds({
+      pressureAltitudeFt: 0, weightLb: 20_000, oatC, headwindKnots: 0,
+      runwayConditionCode: '6', runwaySlopePercent: 0, reverserStatus: 'AVAILABLE',
+      antiIce: 'OFF', flaps: 7,
+    });
+    const landing = (oatC) => getC56xLandingPerformance({
+      qnhHpa: 1013.25, fieldElevationFt: 0, oatC, weightLb: 20_000,
+      headwindKnots: 0, runwaySlopePercent: 0, runwayConditionCode: '6',
+      antiIce: 'OFF', reverserStatus: 'AVAILABLE',
+    });
+    return {
+      takeoffAtFloor: takeoff(-25), takeoffBelowFloor: takeoff(-26),
+      takeoffSpeedsAtFloor: takeoffSpeeds(-25), takeoffSpeedsBelowFloor: takeoffSpeeds(-26),
+      landingWeightAtFloor: landing(-25), landingWeightBelowFloor: landing(-26),
+      landingAtFloor: landing(-30), landingBelowFloor: landing(-31),
+    };
+  });
+
+  expect(result.takeoffAtFloor).not.toBeNull();
+  expect(result.takeoffBelowFloor).toEqual(result.takeoffAtFloor);
+  expect(result.takeoffSpeedsBelowFloor).toEqual(result.takeoffSpeedsAtFloor);
+  expect(result.landingWeightAtFloor.maxLandingWeight.figure443Lb).not.toBeNull();
+  expect(result.landingWeightBelowFloor.maxLandingWeight.figure443Lb)
+    .toBe(result.landingWeightAtFloor.maxLandingWeight.figure443Lb);
+  expect(result.landingAtFloor.distanceFt).not.toBeNull();
+  expect(result.landingBelowFloor.distanceFt).toBe(result.landingAtFloor.distanceFt);
+  expect(result.landingBelowFloor.vref).toBe(result.landingAtFloor.vref);
+  expect(result.landingBelowFloor.vapp).toBe(result.landingAtFloor.vapp);
+});
+
 test('C56X algorithm outputs match the approved app-update regression baseline', async ({ page }) => {
   const reference = appUpdateBaseline.references.find((entry) => entry.model === 'C56X');
   expect(appUpdateBaseline.status).toContain('APPROVED APP-UPDATE REGRESSION BASELINE');

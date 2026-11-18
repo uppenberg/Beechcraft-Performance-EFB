@@ -689,13 +689,12 @@ function getC56xMaxWeightAtTemperature(altitudeRow, oatC) {
         throw new Error(`Invalid C56X temperature range at pressure altitude ${altitudeRow.altitude} ft.`);
     }
 
-    const minimumTemperature = Number(rangeMatch[1]);
     const maxWeightTemperature = Number(rangeMatch[2]);
     const points = [
         { temp: maxWeightTemperature, maxWeight: rangeEntry.maxWeight },
         ...temperatureEntries.map(({ temp, maxWeight }) => ({ temp, maxWeight }))
     ];
-    if (oatC < minimumTemperature || oatC > points[points.length - 1].temp) return null;
+    if (oatC > points[points.length - 1].temp) return null;
     if (oatC <= points[0].temp) return points[0].maxWeight;
 
     const upperIndex = points.findIndex((point) => point.temp >= oatC);

@@ -427,10 +427,9 @@ export function showAirportIcaoSuggestions(value, inputId) {
   const matches = [];
   if (query && !getAirportRows(query).length) {
     for (const icao of codes) {
-      if (icao.startsWith(query)) {
-        matches.push(icao);
-        if (matches.length === 8) break;
-      }
+      if (!icao.startsWith(query)) continue;
+      matches.push(icao);
+      if (matches.length === 8) break;
     }
   }
 

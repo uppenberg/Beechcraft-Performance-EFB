@@ -345,157 +345,76 @@ export function getRunwayMaxRatio(runwayStrip) {
     return 1 + Math.max(margin - 4, 0) / runwayStrip.clientWidth;
 }
 
+function chartDistance(value) {
+    const distance = finiteNumber(value);
+    return distance !== null && distance >= 0 ? distance : null;
+}
+
+function drawRunwayMarker(id, strip, distance, reference, maxRatio, round = Math.round) {
+    const marker = document.getElementById(id);
+    const drawable = strip && distance !== null && reference > 0;
+    const ratio = drawable ? Math.min(distance / reference, maxRatio) : 0;
+    if (marker) {
+        marker.hidden = !drawable;
+        marker.style.left = drawable ? `${strip.offsetLeft + ratio * strip.clientWidth}px` : '';
+        if (drawable) marker.dataset.val = String(round(distance));
+        else delete marker.dataset.val;
+    }
+    return ratio;
+}
+
+function drawUsedRunway(id, ratio, exceeded) {
+    const bar = document.getElementById(id);
+    if (!bar) return;
+    bar.style.width = `${ratio * 100}%`;
+    bar.classList.toggle('is-exceeded', exceeded);
+}
+
 export function renderC56xTakeoffChart(takeoffDistanceM, toraM, todaM, asdaM) {
-    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
-    const usedRunway = document.getElementById('takeoff-used-runway');
-    const tkofMarker = document.getElementById('tor-marker');
-    const otherMarkers = ['tod-marker', 'asd-marker']
-        .map((id) => document.getElementById(id))
-        .filter(Boolean);
-    if (tkofMarker) {
-        tkofMarker.dataset.label = 'TKOF';
-        tkofMarker.hidden = !Number.isFinite(takeoffDistanceM);
-    }
-    otherMarkers.forEach((marker) => {
-        marker.hidden = true;
-    });
-
-    const limits = [toraM, todaM, asdaM].filter((value) =>
-        Number.isFinite(value) && value > 0
-    );
-    const referenceDistanceM = Number.isFinite(toraM) && toraM > 0
-        ? toraM
-        : limits.length ? Math.max(...limits) : 0;
-    const hasTakeoffDistance = Number.isFinite(takeoffDistanceM) && takeoffDistanceM >= 0;
-    const exceeded = hasTakeoffDistance && limits.some((limit) => takeoffDistanceM > limit);
-    if (usedRunway) {
-        usedRunway.classList.toggle('is-exceeded', exceeded);
-        usedRunway.style.width = '0%';
-    }
-    if (!runwayStrip || referenceDistanceM <= 0 || !hasTakeoffDistance) return;
-
-    const ratio = Math.min(
-        Math.max(takeoffDistanceM / referenceDistanceM, 0),
-        getRunwayMaxRatio(runwayStrip)
-    );
-    if (tkofMarker) {
-        tkofMarker.style.left =
-            `${runwayStrip.offsetLeft + ratio * runwayStrip.clientWidth}px`;
-        tkofMarker.dataset.val = String(Math.ceil(takeoffDistanceM));
-    }
-    if (usedRunway) usedRunway.style.width = `${ratio * 100}%`;
+    const strip = document.querySelector('#page-takeoff .runway-strip');
+    const limits = [toraM, todaM, asdaM].filter((v) => Number.isFinite(v) && v > 0);
+    const reference = Number.isFinite(toraM) && toraM > 0 ? toraM : Math.max(0, ...limits);
+    const distance = chartDistance(takeoffDistanceM);
+    const marker = document.getElementById('tor-marker');
+    if (marker) marker.dataset.label = 'TKOF';
+    const ratio = drawRunwayMarker('tor-marker', strip, distance, reference, getRunwayMaxRatio(strip), Math.ceil);
+    for (const id of ['tod-marker', 'asd-marker']) drawRunwayMarker(id, strip, null, reference, 1);
+    drawUsedRunway('takeoff-used-runway', ratio, distance !== null && limits.some((v) => distance > v));
 }
 
 export function renderTakeoffChart(tor, tod, asd, tora, toda, asda) {
-    const exceeded = [
-        exceedsDistanceLimit(tor, tora),
-        exceedsDistanceLimit(tod, toda),
-        exceedsDistanceLimit(asd, asda),
-    ].some((result) => result === true);
-    const usedRunway = document.getElementById('takeoff-used-runway');
-    if (usedRunway) usedRunway.classList.toggle('is-exceeded', exceeded);
-
-    const toraNum = parseFloat(tora) || 0;
-    const availableDistances = [tora, toda, asda]
-        .map((value) => parseFloat(value) || 0)
-        .filter((value) => value > 0);
-    const referenceDistance = Math.max(...availableDistances);
-    if (toraNum <= 0 || referenceDistance <= 0) return;
-
-    const runwayStrip = document.querySelector('#page-takeoff .runway-strip');
-    const getRatio = (val) => {
-        const num = parseFloat(val) || 0;
-        return Math.min(Math.max(num / referenceDistance, 0), 1);
-    };
-    const maxDistance = Math.max(
-        parseFloat(tor) || 0,
-        parseFloat(tod) || 0,
-        parseFloat(asd) || 0
-    );
-    const usedRatio = getRatio(maxDistance);
-
-    [
-        ['tor', tor],
-        ['tod', tod],
-        ['asd', asd]
-    ].forEach(([id, value]) => {
-        const marker = document.getElementById(`${id}-marker`);
-        if (marker) {
-            const markerRatio = getRatio(value);
-            marker.style.left = `${runwayStrip ? runwayStrip.offsetLeft + markerRatio * runwayStrip.clientWidth : 0}px`;
-            marker.setAttribute('data-val', Math.round(parseFloat(value) || 0));
-        }
-    });
-
-    if (runwayStrip && usedRunway) {
-        usedRunway.style.width = `${usedRatio * 100}%`;
+    const strip = document.querySelector('#page-takeoff .runway-strip');
+    const toraM = chartDistance(tora);
+    const reference = toraM > 0 ? Math.max(toraM, chartDistance(toda), chartDistance(asda)) : 0;
+    const checks = [['tor', tor, tora], ['tod', tod, toda], ['asd', asd, asda]];
+    const marker = document.getElementById('tor-marker');
+    if (marker) marker.dataset.label = 'TOR';
+    let usedRatio = 0;
+    let exceeded = false;
+    for (const [id, actual, limit] of checks) {
+        const distance = chartDistance(actual);
+        const ratio = drawRunwayMarker(`${id}-marker`, strip, distance, reference, 1);
+        usedRatio = Math.max(usedRatio, ratio);
+        if (reference > 0 && distance !== null && exceedsDistanceLimit(distance, limit) === true) exceeded = true;
     }
-
-    const toraLabel = document.getElementById('tora-label');
-    if (toraLabel) {
-        toraLabel.textContent = `TORA: ${Math.round(toraNum)} m`;
-    }
+    drawUsedRunway('takeoff-used-runway', usedRatio, exceeded);
+    const label = document.getElementById('tora-label');
+    if (label) label.textContent = `TORA: ${toraM > 0 ? Math.round(toraM) : '-'} m`;
 }
 
 export function renderLandingChart(ldgDistUp, ldgDistDown, lda) {
-    // Hämta vald flaps-setting (UP eller DOWN)
-    const flapsSelect = document.getElementById('ldg-flaps');
-    const currentFlaps = flapsSelect ? flapsSelect.value : 'DOWN';
-
-    const markerUp = document.getElementById('ldg-dist-marker');
-    const markerDown = document.getElementById('ldg-dist-down-marker');
-    const runwayStrip = document.querySelector('#page-landing .runway-strip');
-    const usedRunway = document.getElementById('landing-used-runway');
-    const activeDistance = currentFlaps === 'UP' ? ldgDistUp : ldgDistDown;
-    const ldaNum = parseFloat(lda) || 0;
-    if (usedRunway) {
-        usedRunway.classList.toggle(
-            'is-exceeded',
-            exceedsDistanceLimit(activeDistance, lda) === true
-        );
-    }
-    if (ldaNum <= 0) return;
-
-    const activeMarker = currentFlaps === 'UP' ? markerUp : markerDown;
-    const distanceRatio = Math.min(
-        Math.max((parseFloat(activeDistance) || 0) / ldaNum, 0),
-        getRunwayMaxRatio(runwayStrip)
-    );
-
-    if (activeMarker) {
-        const markerLeft = runwayStrip
-            ? runwayStrip.offsetLeft + distanceRatio * runwayStrip.clientWidth
-            : 0;
-        activeMarker.style.left = `${markerLeft}px`;
-        const distance = parseFloat(activeDistance) || 0;
-        activeMarker.setAttribute('data-val', isC56xSelected() ? Math.ceil(distance) : Math.round(distance));
-    }
-
-    if (runwayStrip && usedRunway) {
-        usedRunway.style.width = `${distanceRatio * 100}%`;
-    }
-
-    // Visa eller dölj markörer beroende på vald flaps-inställning
-    if (currentFlaps === 'UP') {
-        if (markerUp) {
-            markerUp.style.display = 'block';
-        }
-        if (markerDown) {
-            markerDown.style.display = 'none';
-        }
-    } else {
-        if (markerDown) {
-            markerDown.style.display = 'block';
-        }
-        if (markerUp) {
-            markerUp.style.display = 'none';
-        }
-    }
-
-    const ldaLabel = document.getElementById('lda-label');
-    if (ldaLabel) {
-        ldaLabel.textContent = `LDA: ${Math.round(ldaNum)} m`;
-    }
+    const strip = document.querySelector('#page-landing .runway-strip');
+    const up = document.getElementById('ldg-flaps')?.value === 'UP';
+    const distance = chartDistance(up ? ldgDistUp : ldgDistDown);
+    const reference = chartDistance(lda);
+    const maxRatio = getRunwayMaxRatio(strip);
+    const round = isC56xSelected() ? Math.ceil : Math.round;
+    const upRatio = drawRunwayMarker('ldg-dist-marker', strip, up ? distance : null, reference, maxRatio, round);
+    const downRatio = drawRunwayMarker('ldg-dist-down-marker', strip, up ? null : distance, reference, maxRatio, round);
+    drawUsedRunway('landing-used-runway', Math.max(upRatio, downRatio),
+        reference > 0 && distance !== null && distance > reference);
+    const label = document.getElementById('lda-label');
+    if (label) label.textContent = `LDA: ${reference > 0 ? Math.round(reference) : '-'} m`;
 }
 
 export function updateClimbCheckCard(actualValue, reqValue) {
