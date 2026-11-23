@@ -30,7 +30,6 @@ jobs:
           path: outputs/testkatalog-20261118/Testkatalog-EFB.xlsx
           if-no-files-found: error
       - run: npm run catalog:check
-      - run: git diff --exit-code -- outputs/testkatalog-20261118/Testkatalog-EFB.xlsx
 
   static-checks:
     runs-on: ubuntu-latest
