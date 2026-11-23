@@ -1,6 +1,6 @@
 {
   "sourceCommit": "c8b7a34",
-  "description": "Observed engine outputs before UI commit 4033feb. Software regression reference for the scenarios in engine-regression.spec.js.",
+  "description": "Observed engine outputs before UI commit 4033feb, with SE-KVL landing distances updated after its LDF change on 2026-11-23. Software regression reference for the scenarios in engine-regression.spec.js.",
   "SE-LTL": {
     "tor": 540.96224171,
     "tod": 1341.4452729,
@@ -25,8 +25,8 @@
     "climbGrad": 4.6366755964,
     "vrefUp": 128,
     "vrefDown": 100.5,
-    "ldgDistUp": 1232.7454242,
-    "ldgDistDown": 951.17819882,
+    "ldgDistUp": 1400.8470729,
+    "ldgDistDown": 1080.8843168,
     "missedClimb": 5.9245563816
   },
   "SE-MJU": {

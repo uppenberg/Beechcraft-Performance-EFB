@@ -120,7 +120,8 @@ The test server has controlled modes for failed workbook requests, simulated off
 ## App-update regression references
 
 `tests/engine-regression.spec.js` compares unrounded takeoff and landing results with
-`tests/references/engine-regression.json`, captured from commit `c8b7a34` before the UI changes in `4033feb`.
+`tests/references/engine-regression.json`, captured from commit `c8b7a34` before the UI changes in `4033feb`,
+except for the SE-KVL landing distances updated on 2026-11-23 following its LDF change.
 The four workbook cases enter fixed conditions at EFHK 22R through the app and read speeds,
 distances and climb gradients from the selected workbook. Both B190 registrations use the same
 workbook. A separate C56X case calls the calculators with fixed conditions and compares eight
