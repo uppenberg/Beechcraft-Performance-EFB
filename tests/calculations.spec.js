@@ -298,8 +298,15 @@ test('C56X landing factors, wind, mass and runway-limit boundaries are internall
   expect(outputs.downhill.distanceFt).toBeGreaterThan(outputs.level.distanceFt);
 
   const runwayLengthsM = outputs.rcc6.requiredDistanceFt * 0.3048;
-  expect(runwayLengthsM - 0.1).toBeLessThan(runwayLengthsM);
-  expect(runwayLengthsM + 0.1).toBeGreaterThan(runwayLengthsM);
+  const limitResults = await page.evaluate((limit) => {
+    const exceeds = BeechcraftApp.results.exceedsDistanceLimit;
+    return {
+      below: exceeds(limit - 0.1, limit),
+      equal: exceeds(limit, limit),
+      above: exceeds(limit + 0.1, limit),
+    };
+  }, runwayLengthsM);
+  expect(limitResults).toEqual({ below: false, equal: false, above: true });
 });
 
 test('runway-limit comparison passes at equality and fails just above the limit', async ({ page }) => {

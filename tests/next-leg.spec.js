@@ -1,5 +1,5 @@
 ﻿const { test, expect } = require('./support/coverage-test');
-const { openApp, waitForAppInitialization } = require('./support/app-helpers');
+const { openApp, stubMetarRequests, waitForAppInitialization } = require('./support/app-helpers');
 
 test.use({ serviceWorkers: 'block' });
 
@@ -10,14 +10,7 @@ for (const [registration, takeoffMass, landingMass, defaultLanding] of [
 ]) {
   test(`start next leg transfers inputs and refreshes METAR for ${registration}`, async ({ page, context }) => {
     const requests = [];
-    await context.route('**/metar-proxy.uppenberg1.workers.dev/**', async (route) => {
-      const icao = new URL(route.request().url()).searchParams.get('icao');
-      requests.push(icao);
-      const now = new Date();
-      const stamp = [now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes()]
-        .map((value) => String(value).padStart(2, '0')).join('');
-      await route.fulfill({ status: 200, contentType: 'text/plain', body: `METAR ${icao} ${stamp}Z 02008KT 15/10 Q1013` });
-    });
+    await stubMetarRequests(context, (icao) => requests.push(icao));
     await openApp(page, registration);
     await page.locator('#to-airport-icao').fill('ESSA');
     await page.locator('#to-airport-rwy').selectOption('01L');
@@ -101,14 +94,8 @@ test('invalid or out-of-range carry-forward cannot start a leg', async ({ page }
 });
 
 test('same-airport leg clears both runways and refreshes both METARs', async ({ page, context }) => {
-  let requests = 0;
-  await context.route('**/metar-proxy.uppenberg1.workers.dev/**', async (route) => {
-    requests += 1;
-    const now = new Date();
-    const stamp = [now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes()]
-      .map((value) => String(value).padStart(2, '0')).join('');
-    await route.fulfill({ status: 200, body: `METAR ESSA ${stamp}Z 02008KT 15/10 Q1013` });
-  });
+  const requests = [];
+  await stubMetarRequests(context, (icao) => requests.push(icao));
   await openApp(page, 'SE-LTL');
   await page.locator('#to-airport-icao').fill('ESSA');
   await page.locator('#to-airport-rwy').selectOption('01L');
@@ -117,9 +104,9 @@ test('same-airport leg clears both runways and refreshes both METARs', async ({ 
   await page.locator('#ldg-airport-rwy').selectOption('19R');
   await expect(page.locator('#ldg-metar-display')).toContainText('ESSA');
   await page.locator('#start-next-leg').click();
-  const before = requests;
+  const before = requests.length;
   await page.locator('#next-leg-confirm').click();
   await expect(page.locator('#to-airport-rwy')).toHaveValue('');
   await expect(page.locator('#ldg-airport-rwy')).toHaveValue('');
-  await expect.poll(() => requests - before).toBeGreaterThanOrEqual(2);
+  await expect.poll(() => requests.slice(before)).toEqual(['ESSA', 'ESSA']);
 });

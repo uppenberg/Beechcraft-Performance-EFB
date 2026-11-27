@@ -19,6 +19,16 @@ function makeCurrentMetar(wind) {
   return `METAR ESSA ${observationTime}Z ${wind} 15/10 Q1013`;
 }
 
+function makeTafmetarReport(icao, minutesAgo, wind) {
+  const observedAt = new Date(Date.now() - minutesAgo * 60_000);
+  const observationTime = [
+    String(observedAt.getUTCDate()).padStart(2, '0'),
+    String(observedAt.getUTCHours()).padStart(2, '0'),
+    String(observedAt.getUTCMinutes()).padStart(2, '0'),
+  ].join('');
+  return `${icao} ${observationTime}Z ${wind} 15/10 Q1013=`;
+}
+
 async function stubMetar(page, wind) {
   const report = makeCurrentMetar(wind);
   await page.route('**/api/reports/metar**', (route) => route.fulfill({
@@ -178,6 +188,97 @@ test('METAR validation rejects station mismatch, stale observations and invalid 
   expect(result.mismatch).toContain('does not match ESSA');
   expect(result.stale).toContain('too old');
   expect(result.invalidTime).toContain('invalid observation time');
+});
+
+test('latest MET Norway report selects the freshest valid report for the requested station', async ({ page }) => {
+  await openApp(page, 'SE-LTL');
+  const older = makeTafmetarReport('ESSA', 45, '01003KT');
+  const latest = makeTafmetarReport('ESSA', 6, '33008KT');
+  const otherStation = makeTafmetarReport('EFHK', 2, '09012KT');
+  const result = await page.evaluate(({ reports, staleReport }) => {
+    const validateLatest = BeechcraftApp.results.validateLatestMetar;
+    const capture = (operation) => {
+      try { operation(); return null; } catch (error) { return error.message; }
+    };
+    return {
+      latest: validateLatest(reports, 'ESSA'),
+      staleError: capture(() => validateLatest(staleReport, 'ESSA')),
+    };
+  }, {
+    reports: `${older}\n${otherStation}\n${latest}`,
+    staleReport: makeTafmetarReport('ESSA', 70, '02008KT'),
+  });
+
+  expect(result.latest.text).toContain('33008KT');
+  expect(result.latest.text).not.toContain('01003KT');
+  expect(result.latest.text).not.toContain('09012KT');
+  expect(result.latest.ageMinutes).toBeLessThan(10);
+  expect(result.staleError).toContain('too old');
+});
+
+test('MET Norway is tried first and its newest report is used without fallback', async ({ page }) => {
+  const requests = [];
+  await page.route('https://api.met.no/**', (route) => {
+    requests.push('MET Norway');
+    return route.fulfill({
+      status: 200,
+      contentType: 'text/plain',
+      body: [
+        makeTafmetarReport('ESSA', 40, '01003KT'),
+        makeTafmetarReport('ESSA', 5, '33008KT'),
+      ].join('\n'),
+    });
+  });
+  await page.route('**/metar-proxy.uppenberg1.workers.dev/**', (route) => {
+    requests.push('Cloudflare Worker');
+    return route.fulfill({ status: 200, body: makeCurrentMetar('02008KT') });
+  });
+  await page.route('**/api/reports/metar**', (route) => {
+    requests.push('Netlify Proxy');
+    return route.fulfill({ status: 200, body: makeCurrentMetar('02008KT') });
+  });
+  await openApp(page, 'SE-LTL');
+  requests.length = 0;
+
+  await page.evaluate(async () => {
+    BeechcraftApp.state.AppState.airportSelection.to.icao = 'ESSA';
+    await BeechcraftApp.results.fetchMetarForAirport('to');
+  });
+
+  await expect(page.locator('#to-metar-display')).toContainText('33008KT');
+  expect(requests[0]).toBe('MET Norway');
+  expect(requests).not.toContain('Cloudflare Worker');
+  expect(requests).not.toContain('Netlify Proxy');
+});
+
+test('stale MET Norway data and an invalid Worker report fall through to Netlify', async ({ page }) => {
+  const requests = [];
+  await page.route('https://api.met.no/**', (route) => {
+    requests.push('MET Norway');
+    return route.fulfill({
+      status: 200,
+      contentType: 'text/plain',
+      body: makeTafmetarReport('ESSA', 70, '01003KT'),
+    });
+  });
+  await page.route('**/metar-proxy.uppenberg1.workers.dev/**', (route) => {
+    requests.push('Cloudflare Worker');
+    return route.fulfill({ status: 200, body: makeCurrentMetar('02008KT').replace('ESSA', 'EFHK') });
+  });
+  await page.route('**/api/reports/metar**', (route) => {
+    requests.push('Netlify Proxy');
+    return route.fulfill({ status: 200, body: makeCurrentMetar('09008KT') });
+  });
+  await openApp(page, 'SE-LTL');
+  requests.length = 0;
+
+  await page.evaluate(async () => {
+    BeechcraftApp.state.AppState.airportSelection.to.icao = 'ESSA';
+    await BeechcraftApp.results.fetchMetarForAirport('to');
+  });
+
+  await expect(page.locator('#to-metar-display')).toContainText('09008KT');
+  expect(requests).toEqual(['MET Norway', 'Cloudflare Worker', 'Netlify Proxy']);
 });
 
 test('runway suggestions handle variable, calm, pure crosswind and reciprocal runway wind', async ({ page }) => {

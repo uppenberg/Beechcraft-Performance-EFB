@@ -16,6 +16,34 @@ async function blockExternalRequests(context) {
   });
 }
 
+function makeCurrentMetar(icao) {
+  const now = new Date();
+  const observationTime = [
+    String(now.getUTCDate()).padStart(2, '0'),
+    String(now.getUTCHours()).padStart(2, '0'),
+    String(now.getUTCMinutes()).padStart(2, '0'),
+  ].join('');
+  return `METAR ${icao} ${observationTime}Z 02008KT 15/10 Q1013`;
+}
+
+async function stubMetarRequests(context, onRequest = () => {}) {
+  // Keep airport-flow tests independent of which METAR provider wins failover.
+  await context.route('**/*', async (route) => {
+    const url = new URL(route.request().url());
+    const isMetarEndpoint = /metar/i.test(`${url.hostname}${url.pathname}`);
+    const icao = url.searchParams.get('icao') || url.searchParams.get('ids');
+    if (!isMetarEndpoint || !/^[A-Z0-9]{4}$/i.test(icao || '')) {
+      return route.continue();
+    }
+    onRequest(icao.toUpperCase());
+    return route.fulfill({
+      status: 200,
+      contentType: 'text/plain',
+      body: makeCurrentMetar(icao.toUpperCase()),
+    });
+  });
+}
+
 async function waitForAppInitialization(page) {
   await expect(page.locator('#global-registration')).toBeEnabled({ timeout: 30_000 });
 }
@@ -66,6 +94,7 @@ async function loadC56xPerformanceData(page) {
 module.exports = {
   waitForAppInitialization,
   blockExternalRequests,
+  stubMetarRequests,
   chooseAirport,
   fillWeather,
   loadC56xPerformanceData,

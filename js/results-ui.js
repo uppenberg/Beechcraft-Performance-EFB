@@ -209,6 +209,35 @@ export function validateMetar(metarText, expectedIcao) {
   };
 }
 
+export function validateLatestMetar(metarText, expectedIcao) {
+  const stationReports = metarText
+    .split(/\r?\n/)
+    .map(line => line.trim().replace(/=+$/, '').trim())
+    .filter(Boolean)
+    .filter(report => {
+      const stationMatch = report.match(/^(?:(?:METAR|SPECI)\s+)?([A-Z]{4})\b/i);
+      return stationMatch?.[1].toUpperCase() === expectedIcao;
+    });
+  if (stationReports.length === 0) {
+    throw new Error(`No METAR report found for ${expectedIcao}`);
+  }
+
+  let latestMetar;
+  let lastError;
+  for (const report of stationReports) {
+    try {
+      const validatedMetar = validateMetar(report, expectedIcao);
+      if (!latestMetar || validatedMetar.ageMinutes < latestMetar.ageMinutes) {
+        latestMetar = validatedMetar;
+      }
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  if (!latestMetar) throw lastError;
+  return latestMetar;
+}
+
 export function setMetarWeatherStatus(prefix, message) {
   const status = document.getElementById(`${prefix}-metar-weather-status`);
   if (!status) return;
@@ -242,10 +271,12 @@ export async function fetchMetarForAirport(prefix, populateWeather = true) {
       displaySpan.style.color = "#8b949e";
     }
 
+    const metNorwayUrl = `https://api.met.no/weatherapi/tafmetar/1.0/metar.txt?icao=${encodeURIComponent(icaoCode)}`;
     const noaaUrl = `/api/reports/metar?ids=${encodeURIComponent(icaoCode)}&format=raw`;
     const workerUrl = `https://metar-proxy.uppenberg1.workers.dev/?icao=${encodeURIComponent(icaoCode)}`;
 
     const metarSources = [
+      { url: metNorwayUrl, name: 'MET Norway', multipleReports: true },
       { url: workerUrl, name: 'Cloudflare Worker' },
       { url: noaaUrl, name: 'Netlify Proxy' },
     ];
@@ -255,7 +286,10 @@ export async function fetchMetarForAirport(prefix, populateWeather = true) {
 
     for (const source of metarSources) {
       try {
-        validatedMetar = validateMetar(await fetchMetarText(source.url, source.name), icaoCode);
+        const metarText = await fetchMetarText(source.url, source.name);
+        validatedMetar = source.multipleReports
+          ? validateLatestMetar(metarText, icaoCode)
+          : validateMetar(metarText, icaoCode);
         sourceName = source.name;
         break;
       } catch (sourceError) {
