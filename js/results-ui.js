@@ -543,7 +543,9 @@ function renderWindCheckCard(prefix, headwind, crosswind, crosswindLimit) {
     const metarWindKnots = metarWind
         ? Math.max(metarWind.speedKnots, metarWind.gustKnots ?? metarWind.speedKnots)
         : null;
-    if (metarWindKnots !== null && metarWindKnots > 45) {
+    const enteredWindKnots = finiteNumber(document.getElementById(`${prefix}-wind-spd`)?.value);
+    if ((metarWindKnots !== null && metarWindKnots > 45) ||
+        (enteredWindKnots !== null && enteredWindKnots > 45)) {
         state = 'red';
     } else if (state === 'normal') {
         const hw = finiteNumber(headwind);
